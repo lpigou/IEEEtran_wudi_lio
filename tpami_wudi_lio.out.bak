@@ -1,0 +1,23 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Experiments and Analysis}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Chalearn LAP Dataset \046 Evaluation Metrics}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Model Architecture: Deep Dynamic Neural Networks}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{ES-HMM: Simultaneous Segmentation and Recognition}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.4}{Experimental Setups}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.5}{Skeleton Module \046 DBN training}{section.2}% 7
+\BOOKMARK [3][-]{subsubsection.2.5.1}{Gaussian Bernoulli Restricted Boltzmann machines}{subsection.2.5}% 8
+\BOOKMARK [2][-]{subsection.2.6}{Depth 3D Module}{section.2}% 9
+\BOOKMARK [3][-]{subsubsection.2.6.1}{Preprocessing \046 Normalizing: shifting, scaling and resizing.}{subsection.2.6}% 10
+\BOOKMARK [3][-]{subsubsection.2.6.2}{3DCNN Architecture \046 Details of Learning.}{subsection.2.6}% 11
+\BOOKMARK [3][-]{subsubsection.2.6.3}{Looking into the networks–-visualization of filter banks.}{subsection.2.6}% 12
+\BOOKMARK [2][-]{subsection.2.7}{Post-Processing}{section.2}% 13
+\BOOKMARK [2][-]{subsection.2.8}{Score Fusion}{section.2}% 14
+\BOOKMARK [2][-]{subsection.2.9}{Computational complexity}{section.2}% 15
+\BOOKMARK [1][-]{section.3}{Conclusion and Discussion}{}% 16
+\BOOKMARK [1][-]{section*.13}{Appendix A: Proof of the First Zonklar Equation}{}% 17
+\BOOKMARK [1][-]{section*.14}{Appendix B}{}% 18
+\BOOKMARK [1][-]{section*.16}{References}{}% 19
+\BOOKMARK [1][-]{IEEEbiography.0}{Biographies}{}% 20
+\BOOKMARK [2][-]{IEEEbiography.1}{Michael Shell}{IEEEbiography.0}% 21
+\BOOKMARK [2][-]{IEEEbiography.2}{John Doe}{IEEEbiography.0}% 22
+\BOOKMARK [2][-]{IEEEbiography.3}{Jane Doe}{IEEEbiography.0}% 23
