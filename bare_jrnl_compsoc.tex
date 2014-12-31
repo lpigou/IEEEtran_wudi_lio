@@ -385,7 +385,8 @@ The first layer contains 32 maps of $5\times5$ kernel followed by local contrast
 The first 650 batches are used for training and the remaining 50 files for validation.
 During training, dropout \cite{hinton2012improving} is used as main regularization approach to reduce overfitting. Nesterov’s accelerated gradient descent (NAG) \cite{sutskever2013importance} with a fixed momentum-coefficient of 0.9 and mini-batches of size 64 are also used.
 The learning rate is initialized at 0.003 with a 5\% decrease after each epoch. The weights of the CNNs are randomly initialized with a normal distribution with $\mu = 0$ and $\sigma = 0.04$.
-The frame-based classification error ran for 40 epochs is $39.062$ as validation error is shown in Fig. \ref{error rate}. Comparing with the skeleton module frame based error rate in Fig~\ref{sk_error_rate} , it can be seen that skeleton module has lower frame based error rate. ????????????????????? Explaination??????
+The frame-based classification error ran for 40 epochs is $39.062$ as validation error is shown in Fig. \ref{error rate}. Comparing with the skeleton module frame based error rate in Fig~\ref{sk_error_rate} , it can be seen that skeleton module has lower frame based error rate. 
+%????????????????????? Explaination??????
 
 \begin{figure}[t]
   \centering
@@ -546,7 +547,8 @@ Interestingly, the best performing $\alpha$ is close to 0.5. Thus indicating tha
 
 The individual module result and the fusion result are shown in Tab. \ref{Table_score_fusion}. Note that the skeleton module generally performs better than the depth module, one reason could be that the skeleton joints learnt from~\cite{shotton2011real} lie in success of utilizing huge and highly varied training data: from both realistic and synthetic depth images, a total number of 1 million images were used to train the deep randomized decision forest classifier in order to avoid overfitting. Hence skeleton data are more robust.
 
-From the frame based prediction, we also evaluate the gesture token classification rate using the commonly-used PASCAL overlap criterion: if the gesture is predicted correctly with more than 50\% overlap with the ground truth label, then the prediction is counted as a true positive. The results of two individual module and the score fused module are shown in Tab.~\ref{Prediction} and the confusion matrices are shown in Fig. ~\ref{confusion_matrix}. ???????????? Explain here????????????
+From the frame based prediction, we also evaluate the gesture token classification rate using the commonly-used PASCAL overlap criterion: if the gesture is predicted correctly with more than 50\% overlap with the ground truth label, then the prediction is counted as a true positive. The results of two individual module and the score fused module are shown in Tab.~\ref{Prediction} and the confusion matrices are shown in Fig.~\ref{confusion_matrix}. 
+While many of the gestures in this dataset could be mainly differentiated by examining the positions and motions of large joints such as the elbows and wrists,  some gestures differ primarily  in hand pose, \emph{e.g.}, Fig. \ref{hand_differ}. From the confusion matrices in Fig.~\ref{confusion_matrix} we can observe the complimentary information between the skeleton input and the depth \& RGB input.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  \begin{table}[t]
@@ -575,16 +577,16 @@ From the frame based prediction, we also evaluate the gesture token classificati
         \begin{tabular}{|cc||*{2}{c|}}\hline
             %\backslashbox{Module}{Evaluation Set}
              & &  \makebox[3em]{Validation}&\makebox[3em]{Test}       \\\hline\hline
-            \multirow{2}{*}{skeleton}       &{\small ACC}              &     &  \\
-                                            &  {\small UnRate}                     &     &  \\\hline\hline
-            \multirow{2}{*}{depth \& RGB}    &{\small ACC }              &      & 0.7581  \\
-                                            &  {\small UnRate}                     &      & 0.1976 \\\hline\hline
-            \multirow{2}{*}{score fusion}   &{\small ACC }              &      & 0.8642\\
-                                            &  {\small UnRate}                     &      & 0.0485 \\\hline
+            \multirow{2}{*}{skeleton}       &{\small ACC}                & 0.8633     & 0.8360\\
+                                            &  {\small UnRate}           & 0.0230     & 0.0412 \\\hline\hline
+            \multirow{2}{*}{depth \& RGB}    &{\small ACC }              & 0.7871     & 0.7581  \\
+                                            &  {\small UnRate}           & 0.1612     & 0.1976 \\\hline\hline
+            \multirow{2}{*}{score fusion}   &{\small ACC }               & 0.8791     & 0.8642\\
+                                            &  {\small UnRate}           & 0.0302     & 0.0485 \\\hline
         \end{tabular}
 
     \caption{
-    Prediction. Acc: Classification accuracy, UnRate: Undetected Rate
+    Gesture classification accuracy and undetected rate: if prediction overlaps with the ground truth more than 50\%, it's counted as true positive. Acc: classification accuracy, UnRate: undetected Rate.
           }
           \label{Prediction}
 \end{table}
@@ -593,32 +595,46 @@ From the frame based prediction, we also evaluate the gesture token classificati
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
         \centering
-        \begin{subfigure}[c]{.4\textwidth}
-                \includegraphics[width=\textwidth]{images/cm/cm_cnn}
+        \begin{subfigure}[c]{.36\textwidth} 
+                \includegraphics[width=\textwidth]{images/cm/cm_sk}
                 \caption{skeletal input prediction result.}
                 \label{sk_cm}
         \end{subfigure}%
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
 
-        \begin{subfigure}[c]{0.4\textwidth}
+        \begin{subfigure}[c]{0.36\textwidth}
                 \includegraphics[width=\textwidth]{images/cm/cm_cnn}
-                \caption{depth \&RGB input prediction result.}
+                \caption{depth \& RGB input prediction result.}
                 \label{cnn_cm}
         \end{subfigure}
 
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[c]{0.4\textwidth}
+        \begin{subfigure}[c]{0.36\textwidth}
                 \includegraphics[width=\textwidth]{images/cm/cm_combination}
                 \caption{score fusion prediction result.}
                 \label{fusion_cm}
         \end{subfigure}
 
-  \caption{Confusion Matrix of skeletal input, depth \& RGB input and score fusion result.
+  \caption{Confusion Matrix of skeletal input, depth \& RGB input and score fusion result. Generally skeleton module has higher classification rate. Some gestures, \emph{e.g.} ``OK" and "Non ce ne piu" differ primarily in hand poses. Hence they are easier to be differentiated using depth \& RGB module (middle confusion matrix) than the skeleton module (top confusion matrix).
   }\label{confusion_matrix}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+        \centering
+        \begin{subfigure}[c]{.188\textwidth}
+                \includegraphics[width=\textwidth]{images/ok}
+                \caption{G11 ``OK"}
+        \end{subfigure}%
+        \
+        \begin{subfigure}[c]{0.19\textwidth}
+                \includegraphics[width=\textwidth]{images/noncenepiu}
+                \caption{G15 ``Non ce ne piu"}
+        \end{subfigure}
+  \caption{Examples of gestures that differ primarily in hand pose but not the arm motions.
+  }\label{hand_differ}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Related Works}
 This paper served as the progressive works of~\cite{wu2014deep} and ~\cite{lio2014deep}.
@@ -752,26 +768,26 @@ The authors would like to thank Sander Dieleman for his guidance in building, tr
 % or if you just want to reserve a space for a photo:
 
 
-\begin{IEEEbiography}{Di Wu}
-Biography text here.
-\end{IEEEbiography}
-
-% if you will not have a photo at all:
-\begin{IEEEbiography}{Lionel Pigou}
-Biography text here.
-\end{IEEEbiography}
-
-\begin{IEEEbiography}{Ling Shao}
-Biography text here.
-\end{IEEEbiography}
-
-\begin{IEEEbiography}{Pieter-Jan Kindermans}
-Biography text here.
-\end{IEEEbiography}
-
-\begin{IEEEbiography}{Joni Dambre}
-Biography text here.
-\end{IEEEbiography}
+%\begin{IEEEbiography}{Di Wu}
+%Biography text here.
+%\end{IEEEbiography}
+%
+%% if you will not have a photo at all:
+%\begin{IEEEbiography}{Lionel Pigou}
+%Biography text here.
+%\end{IEEEbiography}
+%
+%\begin{IEEEbiography}{Ling Shao}
+%Biography text here.
+%\end{IEEEbiography}
+%
+%\begin{IEEEbiography}{Pieter-Jan Kindermans}
+%Biography text here.
+%\end{IEEEbiography}
+%
+%\begin{IEEEbiography}{Joni Dambre}
+%Biography text here.
+%\end{IEEEbiography}
 
 % insert where needed to balance the two columns on the last page with
 % biographies
