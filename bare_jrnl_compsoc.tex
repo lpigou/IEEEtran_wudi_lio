@@ -51,8 +51,8 @@ Segmentation and Recognition}
 \begin{abstract}
 This paper describes a novel method called Deep Dynamic Neural Networks\emph{(DDNN)} for the dynamic multimodal gesture recognition.
 A generalised semi-supervised hierarchical dynamic framework is proposed for simultaneous gesture segmentation and recognition taking skeleton, depth and RGB images as input modules.
-Unlike traditionally constructing complex handcrafted features, all inputs modules are learnt by deep neural networks: the skeletal module is modeled by Deep Belief Networks\emph{(DBN)}; the depth and RGB module are modeled by 3D Convolutional Neural Networks \emph{(3DCNN)} to extract high level spatio-temporal features.
-Then the learned representations are used for estimating emission probabilities of the Hidden Markov Models to infer an action sequence.
+Unlike traditionally constructing complex handcrafted features, all inputs modules are learnt by deep neural networks: the skeletal module is modelled by Deep Belief Networks\emph{(DBN)}; the depth and RGB module are modelled by 3D Convolutional Neural Networks \emph{(3DCNN)} to extract high level spatio-temporal features.
+Then the learned representations are used for estimating emission probabilities of the hidden Markov models to infer an action sequence.
 The framework can be easily extended by including an ergodic state to segment and recognise video sequences by a frame-to-frame mechanism, making online segmentation and recognition possible.
 This purely data-driven approach achieves \textbf{\emph{0.81}} score in this gesture spotting challenge. The performance is on par with a variety of the state-of-the-art hand-tuned-feature approaches and other learning-based methods, opening the doors for using deep learning techniques to explore time series multimodal data.
 
@@ -71,7 +71,7 @@ Deep learning, 3D convolutional neural networks, sign language, segmentation and
 \IEEEPARstart{I}{n} recent years, human action recognition has drawn increasing attention of researchers, primarily due to its potential in areas such as video surveillance, robotics, human-computer interaction, user interface design, and multimedia video retrieval.
 
 Previous works on video-based motion recognition focused on adapting handcrafted features and low-level hand-designed features. For example, ~\cite{liuli,xiantong,diwu2} have been heavily employed with great success. These methods usually have two stages: an optional feature detection stage followed by a feature description stage. Well-known feature detection methods (``interest point detectors") are Harris3D~\cite{laptev2005space}, Cuboids~\cite{dollar2005behavior} and Hessian3D~\cite{hession3d}. For descriptors, popular methods are Cuboids~\cite{scovanner20073}, HOG/HOF~\cite{laptev2005space}, HOG3D~\cite{klaser:inria-00514853} and Extended SURF~\cite{hession3d}.
-In recent work of Wang \textit{et al.}~\cite{wang2013dense}, dense trajectories with improved motion-based descriptors epitomized the pinnacle of handcrafted features and achieved state-of-the-art results on a variety of ``in the wild" datasets.
+In recent work of Wang \textit{et al.}~\cite{wang2013dense}, dense trajectories with improved motion-based descriptors epitomised the pinnacle of handcrafted features and achieved state-of-the-art results on a variety of ``in the wild" datasets.
 Based on the current trends, challenges and interests within the action recognition community, it is to be expected that many successes will follow. However the very high-dimensional dense-trajectory features usually require the use of advanced dimensionality reduction methods to make them computationally feasible.
 
 Furthermore, as discussed in the evaluation paper of Wang \emph{et al.}~\cite{wang2009evaluation}, there is no universally best hand engineered feature and the best performing method is dataset dependent. This clearly indicates that learning a dataset specific feature extractor, as is done in this work, can be highly beneficial.
@@ -81,7 +81,7 @@ Even though hand-crafted features have dominated image recognition in previous y
 
 The recent resurgence of neural networks invoked by Hinton and others~\cite{hinton2006fast}, deep neural architectures serve as an effective solution for extracting high level features from data.
 Deep artificial neural networks (including the family of recurrent neural networks) have won numerous contests in pattern recognition and representation learning. Schmidhuber~\cite{schmidhuber2014deep} compiled a historical survey compactly summarising relevant works with more than 850 entries of credited works.
-Such models have been successfully applied to a plethora of different domains: the GPU-based cuda-convnet~\cite{krizhevsky2012imagenet} classifies 1.2 million high-resolution images into 1000 different classes; multi-column Deep Neural Networks~\cite{ciresan2012multi} achieve near-human performance on the handwritten digits and traffic signs recognition benchmarks; 3D Convolutional Neural Networks~\cite{3dcnn,ji20133d} recognize human actions in surveillance videos; Deep Belief Networks combining with Hidden Markov Models~\cite{mohamed2012acoustic,diwucvpr14} for acoustic and skeletal joints modeling outperform the decade-dominating paradigm of Gaussian Mixture Models+Hidden Markov Models. More recently, Baidu research proposed a DeepSpeech system~\cite{hannun2014deepspeech} that combines a well-optimized RNN training system, achieving the best error rate on the noisy speech dataset. In these fields, deep architectures have shown great capacity to discover and extract higher level relevant features.
+Such models have been successfully applied to a plethora of different domains: the GPU-based cuda-convnet~\cite{krizhevsky2012imagenet} classifies 1.2 million high-resolution images into 1000 different classes; multi-column Deep Neural Networks~\cite{ciresan2012multi} achieve near-human performance on the handwritten digits and traffic signs recognition benchmarks; 3D Convolutional Neural Networks~\cite{3dcnn,ji20133d} recognise human actions in surveillance videos; Deep Belief Networks combining with hidden Markov models~\cite{mohamed2012acoustic,diwucvpr14} for acoustic and skeletal joints modelling outperform the decade-dominating paradigm of Gaussian Mixture Models+Hidden Markov Models. More recently, Baidu research proposed a DeepSpeech system~\cite{hannun2014deepspeech} that combines a well-optimised RNN training system, achieving the best error rate on the noisy speech dataset. In these fields, deep architectures have shown great capacity to discover and extract higher level relevant features.
 
 However, direct and unconstrained learning of complex problems remains difficult, since (i) the amount of required training data increases steeply with the complexity of the prediction model and (ii) training highly complex models with very general learning algorithms is extremely difficult. It is therefore common practice to restrain the complexity of the model and this is generally done by operating on small patches to reduce the input dimension and diversity~\cite{baccouche2005spatio}, or by training the model in an unsupervised manner~\cite{le2011learning}, or by forcing the model parameters to be identical for different input locations (as in convolutional neural networks~\cite{krizhevsky2012imagenet,ciresan2012multi,3dcnn}).
 
@@ -92,13 +92,13 @@ It may seem that the task of action recognition based on 3D joint positions is t
 %Furthermore, to  achieve continuous action recognition, the sequence need to be segmented into contiguous action segments; such segmentation is as important as recognition itself and is often neglected in action recognition research.
 Furthermore, while the segmentation of the actions is as important as the recognition, it is an often neglected aspect of action recognition research.
 
-in this paper we aim to address these issues by proposing a data driven system, focusing on analysis of acyclic video sequence labeling problems, \emph{i.e.}, video sequences are non-repetitive as opposed to longer repetitive activities, \textit{e.g.}, jogging, walking and running.
+in this paper we aim to address these issues by proposing a data driven system, focusing on analysis of acyclic video sequence labelling problems, \emph{i.e.}, video sequences are non-repetitive as opposed to longer repetitive activities, \textit{e.g.}, jogging, walking and running.
 
 The key contributions of this work can be summarised as follows:
 \begin{itemize}
-\item We proposed a hierarchial dynamic framework that first extracts high level skeletal joint features and then used the learned representation for estimating emission probability to infer action sequences.
+\item We proposed a hierarchical dynamic framework that first extracts high level skeletal joint features and then used the learned representation for estimating emission probability to infer action sequences.
 \item We develop a 3D dynamic convolutional neural network architecture based on the convolution feature extractors for multiple channels inputs, \emph{e.g.}, depth, grayscaled RGB with hand and body part as input. The proposed framework labels a video sequence in a frame-to-frame mechanism, rendering it possible for online segmentation and recognition for both RGB and depth images.
-\item We proposed a late fusion strategy for this dynamic hidden markov model, showing that multiple channel fusion outperforms individual module by a large margin.
+\item We proposed a late fusion strategy for this dynamic hidden Markov model, showing that multiple channel fusion outperforms individual module by a large margin.
 
 \end{itemize}
 
@@ -111,7 +111,7 @@ This results in an integrated model, where the amount of prior knowledge and eng
 \subsection{Deep Dynamic Neural Networks}
  The proposed Deep Dynamic Neural Networks\emph{(DDNN)} can be seen as an extension to~\cite{diwucvpr14}, in that instead of only using the Restricted Boltzmann Machines to model human motion, various connectivity layers, \emph{e.g.}, fully connected layers, convolutional layers, \emph{etc}., are stacked together to learn higher level features justified by a variational bound~\cite{hinton2006fast} from different input modules.
 
-A continuous-observation HMM with discrete hidden states is adopted for modelling higher level temporal relationships. At each time step $t$, we have one observed random variable $X_t$. Additionally we have an unobserved variable $H_t$ taking values of a finite set  $\mathcal{H}=(\bigcup _{a \in \mathcal{A}} \mathcal{H}_a)$,where $\mathcal{H}_a$ is a set of states associated with an individual action $\textbf{\emph{a}}$ by force-alignment. The intuition motivating this construction is that an action is composed of a sequence of poses where the relative duration of each pose may vary. This variance is captured by allowing flexible forward transitions within the chain. With this definitions, the full probabilistic model is now specified as a Hidden Markov Model:
+A continuous-observation HMM with discrete hidden states is adopted for modelling higher level temporal relationships. At each time step $t$, we have one observed random variable $X_t$. Additionally we have an unobserved variable $H_t$ taking values of a finite set  $\mathcal{H}=(\bigcup _{a \in \mathcal{A}} \mathcal{H}_a)$,where $\mathcal{H}_a$ is a set of states associated with an individual action $\textbf{\emph{a}}$ by force-alignment. The intuition motivating this construction is that an action is composed of a sequence of poses where the relative duration of each pose may vary. This variance is captured by allowing flexible forward transitions within the chain. With this definitions, the full probabilistic model is now specified as a hidden Markov model:
 \begin{equation}
 p(H_{1:T},X_{1:T}) = p(H_1)p(X_1 | H_1) \prod^{T}_{t=2} p(X_t | H_t ) p(H_t | H_{t-1}),
 \label{HMM_GM_1}
@@ -126,7 +126,7 @@ The graphical representation of a per-action model is shown as Fig.~\ref{GM}.
   \includegraphics[width=0.3\textwidth]{images/GraphicalModel.png}\\
   \caption{Per-action model: a forward-linked chain. Inputs (skeletal features, or depth \& RGB image features) are first passed through Deep Neural Nets (Deep Belief Networks for skeletal modality or 3D Convolutional Neural Networks for depth \& RGB modality) to extract high level features. The outputs are the emission probabilities of the hidden states.}\label{GM}
 \end{figure}
-\subsection{Ergodic States Hidden Markov Model}
+\subsection{Ergodic states hidden Markov model}
 \begin{figure}[t]
   \centering
   % Requires \usepackage{graphicx}
@@ -135,18 +135,18 @@ The graphical representation of a per-action model is shown as Fig.~\ref{GM}.
     State diagram of the \emph{ES-HMM} model for low-latency action segmentation and recognition. An ergodic states (ES) shows the resting position between action sequence. Each node represents a single frame and each row represents a single action model. The arrows indicate possible transitions between states.}
     \label{HMM_ES}
 \end{figure}
-The aforementioned framework can be easily adapted for simultaneous action segmentation and recognition by adding an ergodic state (\emph{$\mathcal{ES}$}) which resembles the silence state for speech recognition. Hence, the hidden variable $H_t$ can take on an extra value within the finite set, which becomes $\mathcal{H}=(\bigcup _{a \in \mathcal{A}} \mathcal{H}_a) \bigcup \mathcal{ES}$, where $\mathcal{ES}$ is the ergodic state as the resting position between actions. We refer the model as Ergodic States Hidden Markov Model (\emph{ES-HMM}) for simultaneously gesture segmentation and recognition.
+The aforementioned framework can be easily adapted for simultaneous action segmentation and recognition by adding an ergodic state (\emph{$\mathcal{ES}$}) which resembles the silence state for speech recognition. Hence, the hidden variable $H_t$ can take on an extra value within the finite set, which becomes $\mathcal{H}=(\bigcup _{a \in \mathcal{A}} \mathcal{H}_a) \bigcup \mathcal{ES}$, where $\mathcal{ES}$ is the ergodic state as the resting position between actions. We refer the model as ergodic states hidden Markov model (\emph{ES-HMM}) for simultaneously gesture segmentation and recognition.
 
 Since our goal is to capture the variation in speed of the performed gestures, we set the transitions matrix $ \mathbf{p(H_t | H_{t-1})}$  in the following way as shown in Fig.~\ref{HMM_ES} : when being in a particular node $n$ in time $t$, moving to time $t + 1$, we can either stay in the same node (slower performance), move to node $n + 1$ (the same speed of performance), or move to node $n+2$ (faster performance). From the $\mathcal{ES}$ we can move to the first three nodes of any gesture class, and from the last three nodes of any gesture class we can move to the $\mathcal{ES}$.
 
-The \emph{ES-HMM} framework differs from the Firing Hidden Markov Model of~\cite{nowozin2012action} in that we strictly follow the temporal independent assumption, forbidding inter-states transverse, preconditioned that a non-repetitive sequence would maintain its unique states throughout its performing cycle.
+The \emph{ES-HMM} framework differs from the firing hidden Markov model of~\cite{nowozin2012action} in that we strictly follow the temporal independent assumption, forbidding inter-states transverse, preconditioned that a non-repetitive sequence would maintain its unique states throughout its performing cycle.
 
 
 The emission probability of the trained model is represented as a matrix of size $N_{\mathcal{TC}} \times N_{\mathcal{F}}$ where $N_{\mathcal{F}}$ is the number of frames in a test sequence and output target class $N_{\mathcal{TC}}=N_{\mathcal{A}} \times N_{\mathcal{H}_a}+1$ where $N_{\mathcal{A}}$ is the number of action class and $N_{\mathcal{H}_a}$ is the number of states associated to an individual action $a$ and one $\mathcal{ES}$ state (\emph{c.f.}, Fig. \ref{Sample0700_comparison}: x-axis as $N_{\mathcal{F}}$ and y-axis as $N_{\mathcal{TC}} $ with $\mathcal{ES}$ as the bottom y-axis 101).
 
 
 Once we have the trained model, we can use the normal online or offline smoothing, inferring the conditional distributions $p(H_t | X_t)$  of every node (frame) of the test video.
-Because the graph for the Hidden Markov Model is a directed tree, this problem can be solved exactly and efficiently using the max-sum algorithm. The number of possible paths through the lattice grows exponentially with the length of the chain. The Viterbi algorithm searches this space of paths efficiently to find the most probable path with a computational cost that grows only linearly with the length of the chain~\cite{bishop2006pattern}.
+Because the graph for the hidden Markov model is a directed tree, this problem can be solved exactly and efficiently using the max-sum algorithm. The number of possible paths through the lattice grows exponentially with the length of the chain. The Viterbi algorithm searches this space of paths efficiently to find the most probable path with a computational cost that grows only linearly with the length of the chain~\cite{bishop2006pattern}.
 We can infer the action presence in a new sequence by Viterbi decoding as:
  \begin{equation}
     V_{t,\mathcal{H}}= \log P(H_t | X_t)+  \log(\max_{\mathcal{H} \in \mathcal{H}_a}( V_{t-1,\mathcal{H}}))
@@ -180,7 +180,7 @@ The overall algorithm for training and testing are presented in Algorithm \ref{M
     \SetAlgoVlined
     \eIf{$m$ is $1$}{
         Preprocess skeletal data $ \mathbf{X^1}$ as in Eq.\ref{sk_features_1} \ref{sk_features_2} \ref{sk_features_3}.\;
-        Normalize(zero mean, unit variance per dimension) the above features and feed to to Eq.\ref{GRBMenergy}. \;
+        Normalise(zero mean, unit variance per dimension) the above features and feed to to Eq.\ref{GRBMenergy}. \;
         Pre-train the networks using \emph{Contrastive Divergence}. \;
         Supervised fine-tuning of the Deep Belief Networks using $ \mathbf{Y}$ by standard mini-batch \emph{SGD} backpropagation.\;
     }{
@@ -192,10 +192,10 @@ The overall algorithm for training and testing are presented in Algorithm \ref{M
 \KwResult{\;
         $\mathbf{GDBN}$ - a gaussian bernoulli visible layer Deep \;
                 \hspace{1cm} Belief Network to generate the emission \;
-                \hspace{1cm} probabilities for hidden markov model.\;
+                \hspace{1cm} probabilities for hidden Markov model.\;
         $\mathbf{3DCNN}$ - a 3D Deep Convolutional Neural \;
                     \hspace{1cm}Networks to generate the emission probabilities\;
-                    \hspace{1cm} for hidden markov model.\;
+                    \hspace{1cm} for hidden Markov model.\;
         $\mathbf{p(H_1)}$ - prior probability for $ \mathbf{Y}$ by accumulating and \;
                 \hspace{1cm} normalizing labels.\;
         $ \mathbf{p(H_t | H_{t-1})}$ - transition probability for $ \mathbf{Y}$,  enforcing\;
@@ -216,10 +216,10 @@ The overall algorithm for training and testing are presented in Algorithm \ref{M
          $\mathbf{X^2=\{x^2_i\}_{i \in [1 \ldots t]}}$ - raw input(depth) feature sequence\; \hspace{1cm}in the form of $M \times M \times T$. \;
          $\mathbf{GDBN}$ - trained gaussian bernoulli visible layer  \;
                 \hspace{1cm} Deep Belief Network to  generate the emission\;
-                 \hspace{1cm} probabilities for hidden markov model.\;
+                 \hspace{1cm} probabilities for hidden Markov model.\;
          $\mathbf{3DCNN}$ - trained  3D Deep Convolutional Neural\;
                     \hspace{1cm} Networks to generate the emission\;
-                    \hspace{1cm} probabilities for hidden markov model.\;
+                    \hspace{1cm} probabilities for hidden Markov model.\;
         $\mathbf{p(H_1)}$ - prior probability for $ \mathbf{Y}$.\;
         $ \mathbf{p(H_t | H_{t-1})}$ - transition probability for $ \mathbf{Y}.$
             }
@@ -250,7 +250,7 @@ The overall algorithm for training and testing are presented in Algorithm \ref{M
 
 
 \section{Model Implementation}
- In all our experiments the number of states associated to an individual action $N_{\mathcal{H}_a} $ is chosen as 5 for modeling the states of an action class, therefore $N_{\mathcal{TC}}= 20 \times 5 + 1 = 101$. The labels for each cuboid $\textbf{Y}$ are specified as follows: 
+ In all our experiments the number of states associated to an individual action $N_{\mathcal{H}_a} $ is chosen as 5 for modelling the states of an action class, therefore $N_{\mathcal{TC}}= 20 \times 5 + 1 = 101$. The labels for each cuboid $\textbf{Y}$ are specified as follows: 
  \begin{flushleft}
 \textbf{\emph{Hidden states}($\mathcal{H}_a$): } Force alignment is used to extract the hidden states, \emph{i.e.}, if a gesture token is 100 frames, the first 10 frames are assigned as hidden state $\textbf{\emph{1}}$ and the 10-20 frames are assigned as hidden state $\textbf{\emph{2}}$ and so on and so forth.
 
@@ -310,7 +310,7 @@ The conditional distributions needed for inference and generation are given by:
 \begin{equation}
     P(v_{i=1}|\textbf{h})=\mathscr{N}(v_i|\mu_i,\sigma_i^2).
 \end{equation}
-where $\mu_i=b_i+\sigma_i^2 \sum_j W_{ij} h_j$ and $\mathscr{N}$ is normal distribution. In general, we normalize the data (mean substraction and standard deviation division) in the preprocessing phase. Hence, in practice, instead of learning $\sigma_i^2$, one would typically use a fixed, predetermined unit value $\textbf{\emph{1}}$ for $\sigma_i^2$.
+where $\mu_i=b_i+\sigma_i^2 \sum_j W_{ij} h_j$ and $\mathscr{N}$ is normal distribution. In general, we normalise the data (mean substraction and standard deviation division) in the preprocessing phase. Hence, in practice, instead of learning $\sigma_i^2$, one would typically use a fixed, predetermined unit value $\textbf{\emph{1}}$ for $\sigma_i^2$.
 
 For high level skeleton feature extraction, the network architectures is $[N_{\mathcal{X}},2000,2000,1000,N_{\mathcal{TC}}]$,
  where $N_{\mathcal{X}} = 891$ is the observation domain dimension; $N_{\mathcal{TC}}$ is the output target class.
@@ -321,7 +321,7 @@ For high level skeleton feature extraction, the network architectures is $[N_{\m
 The feed forward networks are pre-trained with a fixed recipe using stochastic gradient decent with a mini-batch size of 200 training cases. Unsupervised initializations tend to avoid local minima and increase the network’s performance stability and we have run 100 epochs for unsupervised pre-training. For Gaussian-binary RBMs, learning rate is fixed at 0.001 while for binary-binary RBMs as 0.01 (note in generally training \emph{GRBM} requires smaller learning rate). For fine-tuning, the learning rate starts at 1 with 0.99999 mini-batch scaling. Maximum number of fine-tuning epoch is 500 with early stopping strategy and during the experiments, early stopping occurs around 440 epoch.
 Optimization complete with best validation score (the frame based prediction error rate) of $16.5\%$, with test performance $16.15\%$. The frame based validation error rate is shown as Fig~\ref{sk_error_rate} .
 
-Though we believe further carefully choosing network architecture would lead to more competitive results, in order not to ``creeping overfitting", as algorithms over time become too adapted to the dataset, essentially memorizing all its idiosyncrasies, and losing ability to generalize~\cite{torralba2011unbiased}, we would like to treat the model as the aforementioned more generic approach.
+Though we believe further carefully choosing network architecture would lead to more competitive results, in order not to ``creeping overfitting", as algorithms over time become too adapted to the dataset, essentially memorizing all its idiosyncrasies, and losing ability to generalise~\cite{torralba2011unbiased}, we would like to treat the model as the aforementioned more generic approach.
 Since a completely new approach will initially have a hard time competing against established, carefully fine-tuned methods.
 %More fundamentally, it may be that the right way to treat dataset performance numbers is not as a competition for the top place.
 %This way, fundamentally new approaches will not be forced to compete for top performance right away, but will have a chance to develop and mature.
@@ -369,7 +369,7 @@ v^{xyz}_{ij} =  max( 0,  ( b_{ij} + \sum_m \sum_{p=0}^{P_i - 1} \sum_{q=0}^{Q_i 
 \label{ReLU}
 \end{equation}
 
-The 3DCNN architecture is depicted as Fig.~\ref{3dcnn_architecture} : the 4 types ~\ref{3dcnn input} of input contextual frames are stacked as size $64\times64\times4$. The depth images are normalized with $N_{var}$ and the grayscale images are normalized with $N_{std}$ as in \ref{normalization1},\ref{normalization2} because the median of depth images is irrelevant to the gesture subclass but the grayscale images is.
+The 3DCNN architecture is depicted as Fig.~\ref{3dcnn_architecture} : the 4 types ~\ref{3dcnn input} of input contextual frames are stacked as size $64\times64\times4$. The depth images are normalised with $N_{var}$ and the grayscale images are normalised with $N_{std}$ as in \ref{normalization1},\ref{normalization2} because the median of depth images is irrelevant to the gesture subclass but the grayscale images is.
 \begin{align}
 N_{var} &= (x -\emph{\textbf{mean}}(x)) / (\textbf{\emph{var}}(x))^{1/2}  \label{normalization1}\\
 N_{std} &= x / (\textbf{\emph{var}}(x))^{1/2}
@@ -384,7 +384,7 @@ The first layer contains 32 maps of $5\times5$ kernel followed by local contrast
 \subsubsection{Details of Learning}
 The first 650 batches are used for training and the remaining 50 files for validation.
 During training, dropout \cite{hinton2012improving} is used as main regularization approach to reduce overfitting. Nesterov’s accelerated gradient descent (NAG) \cite{sutskever2013importance} with a fixed momentum-coefficient of 0.9 and mini-batches of size 64 are also used.
-The learning rate is initialized at 0.003 with a 5\% decrease after each epoch. The weights of the CNNs are randomly initialized with a normal distribution with $\mu = 0$ and $\sigma = 0.04$.
+The learning rate is initialised at 0.003 with a 5\% decrease after each epoch. The weights of the CNNs are randomly initialised with a normal distribution with $\mu = 0$ and $\sigma = 0.04$.
 The frame-based classification error ran for 40 epochs is $39.062$ as validation error is shown in Fig. \ref{error rate}. Comparing with the skeleton module frame based error rate in Fig~\ref{sk_error_rate} , it can be seen that skeleton module has lower frame based error rate. 
 %????????????????????? Explaination??????
 
@@ -524,7 +524,7 @@ The weight filters of the first \emph{conv1} layer are depicted in Fig. ~\ref{3d
 %        \caption{{\footnotesize Illustration of normalization scheme 1: template matching.}}\label{Normalization scheme 1: template matching}
 %\end{figure}
 \subsection{Post-Processing}
-The predicted token less than 20 frames are discarded as noisy tokens. Note that there are many noisy gesture tokens predicted by viterbi decoding. One way to sift through the noisy tokens is to discard the token path log probability small than certain threshold. However, because the metric of this challenge: \emph{Jaccard index} strongly penalizes false negatives, experiments show that it's better to have more false positives than to miss true positives. Effective ways to detect false positives should be an interesting aspect of future works.
+The predicted token less than 20 frames are discarded as noisy tokens. Note that there are many noisy gesture tokens predicted by viterbi decoding. One way to sift through the noisy tokens is to discard the token path log probability small than certain threshold. However, because the metric of this challenge: \emph{Jaccard index} strongly penalises false negatives, experiments show that it's better to have more false positives than to miss true positives. Effective ways to detect false positives should be an interesting aspect of future works.
 
 
 \subsection{Score Fusion}
@@ -545,7 +545,7 @@ To fuse the dual model prediction, the strategy shown as Fig \ref{fusion} is ado
 where $\mathbf{S^1}$ and $\mathbf{S^2}$ are the score probability matrix as in Algo. \ref{MMDDN_test}, corresponding to the skeletal input and depth \& RGB input, and $\alpha$ is the coefficient controls the score balance obtained by cross validation.
 Interestingly, the best performing $\alpha$ is close to 0.5. Thus indicating that both approaches perform comparably.
 
-The individual module result and the fusion result are shown in Tab. \ref{Table_score_fusion}. Note that the skeleton module generally performs better than the depth module, one reason could be that the skeleton joints learnt from~\cite{shotton2011real} lie in success of utilizing huge and highly varied training data: from both realistic and synthetic depth images, a total number of 1 million images were used to train the deep randomized decision forest classifier in order to avoid overfitting. Hence skeleton data are more robust.
+The individual module result and the fusion result are shown in Tab. \ref{Table_score_fusion}. Note that the skeleton module generally performs better than the depth module, one reason could be that the skeleton joints learnt from~\cite{shotton2011real} lie in success of utilizing huge and highly varied training data: from both realistic and synthetic depth images, a total number of 1 million images were used to train the deep randomised decision forest classifier in order to avoid overfitting. Hence skeleton data are more robust.
 
 From the frame based prediction, we also evaluate the gesture token classification rate using the commonly-used PASCAL overlap criterion: if the gesture is predicted correctly with more than 50\% overlap with the ground truth label, then the prediction is counted as a true positive. The results of two individual module and the score fused module are shown in Tab.~\ref{Prediction} and the confusion matrices are shown in Fig.~\ref{confusion_matrix}. 
 While many of the gestures in this dataset could be mainly differentiated by examining the positions and motions of large joints such as the elbows and wrists,  some gestures differ primarily  in hand pose, \emph{e.g.}, Fig. \ref{hand_differ}. From the confusion matrices in Fig.~\ref{confusion_matrix} we can observe the complimentary information between the skeleton input and the depth \& RGB input.
@@ -645,7 +645,7 @@ In the same challenge, ~\cite{neverova2014multi} present a multi-scale and multi
 
 Some of the top winning methods in this challenges requires a set of complicated handcrafted features for either skeletal input, depth \& RGB input, or both.
 \emph{E.g.},~\cite{neverova2014multi} formulated a pose descriptor, consiting of 7 logical subsets.
-~\cite{Monnier2014multi} proposed four types of features for skeleton features: normalized joint positions; joint quaternion angles; Euclidean distances between specific joints; and directed distances between pairs of joints, based on the features proposed by Yao \emph{et al.}~\cite{yao2011does} and a histogram of oriented gradients (HOG) descriptor for hand features.
+~\cite{Monnier2014multi} proposed four types of features for skeleton features: normalised joint positions; joint quaternion angles; Euclidean distances between specific joints; and directed distances between pairs of joints, based on the features proposed by Yao \emph{et al.}~\cite{yao2011does} and a histogram of oriented gradients (HOG) descriptor for hand features.
 In~\cite{Peng2014multi}, the state-of-the-art dense trajectory handcrafted features are adopted for the RGB module. 
 Multiple networks averaging works better than an single individual network  and it can be seen from the experiments in ~\cite{wu2014deep} that larger net  will generally perform better than smaller net, averaging multi-column nets almost will certainly further improve the performance~\cite{ciresan2012multi}.
 
@@ -719,14 +719,14 @@ where $A$ is the ground truth gesture label and $B$ is the predicted gesture lab
 \end{figure*}
 
 \subsection{Computational complexity}
-Though learning the Deep Neural Networks using stochastic gradient descent is computationally intensive, once the model finishes training, with a low inference cost, our framework can perform real-time video sequence labeling.
+Though learning the Deep Neural Networks using stochastic gradient descent is computationally intensive, once the model finishes training, with a low inference cost, our framework can perform real-time video sequence labelling.
 Specifically, a single feed forward neural network incurs trivial computational time ($\mathcal{O}(T)$) and is fast because it requires only matrix products and convolution operations. The complexity of Viterbi algorithm is $\mathcal{O} (T* |S|^2)$ with number of frames $T$ and state number $|S|$.
 
 \section{Conclusion and Discussion}
 
 Hand-engineered, task-specific features are often less adaptive and time-consuming to design. This difficulty is more pronounced with multimodal data as the features have to relate multiple data sources.
-In this paper, we presented a novel Deep Dynamic Neural Networks(DDNN) framework that utilizes Deep Belief Networks and 3D Convolutional Neural Networks for learning contextual frame-level representations and modeling emission probabilities for Markov Field.
- The heterogeneous inputs from skeletal joints, RGB and depth images require different feature learning methods and the late fusion scheme is adopted at the score level. The experimental results on bi-modal time series data show that the multimodal DDNN framework can learn a good model of the joint space of multiple sensory inputs, and is consistently as good as/better than the unimodal input, opening the door for exploring the complementary representation among multimodal inputs. It also suggests that learning features directly from data is a very important research direction and with more and more data and flops-free  computational power, the learning-based methods are not only more generalizable to many domains, but also are powerful in combining with other well-studied probabilistic graphical models for modeling and reasoning dynamic sequences.
+In this paper, we presented a novel Deep Dynamic Neural Networks(DDNN) framework that utilises Deep Belief Networks and 3D Convolutional Neural Networks for learning contextual frame-level representations and modelling emission probabilities for Markov Field.
+ The heterogeneous inputs from skeletal joints, RGB and depth images require different feature learning methods and the late fusion scheme is adopted at the score level. The experimental results on bi-modal time series data show that the multimodal DDNN framework can learn a good model of the joint space of multiple sensory inputs, and is consistently as good as/better than the unimodal input, opening the door for exploring the complementary representation among multimodal inputs. It also suggests that learning features directly from data is a very important research direction and with more and more data and flops-free  computational power, the learning-based methods are not only more generalizable to many domains, but also are powerful in combining with other well-studied probabilistic graphical models for modelling and reasoning dynamic sequences.
 Future works include learning the share representation amongst the heterogeneous inputs at the penultimate layer and backpropagating the gradient in the share space in a unified representation.
 
 
