@@ -31,7 +31,7 @@ Segmentation and Recognition}
         Lionel~Pigou,
         Ling~Shao,
         %Jean-Marc Odobez,
-        Pieter-Jan Kindermans,       
+        Pieter-Jan Kindermans,
         and~Joni Dambre
 %\IEEEcompsocitemizethanks{\IEEEcompsocthanksitem M. Shell is with the Department
 %of Electrical and Computer Engineering, Georgia Institute of Technology, Atlanta,
@@ -72,7 +72,7 @@ Deep learning, convolutional neural networks, deep belief networks, hidden Marko
 
 \IEEEPARstart{I}{n} recent years, human action recognition has drawn increasing attention of researchers, primarily due to its potential in areas such as video surveillance, robotics, human-computer interaction, user interface design, and multimedia video retrieval.
 
-Previous works on video-based motion recognition focused on adapting handcrafted features.% and low-level hand-designed features. 
+Previous works on video-based motion recognition focused on adapting handcrafted features.% and low-level hand-designed features.
 For example,~\cite{liuli,xiantong,diwu2} have been heavily employed with great success. These methods usually have two stages: an optional feature detection stage followed by a feature description stage. Well-known feature detection methods (``interest point detectors") are Harris3D~\cite{laptev2005space}, Cuboids~\cite{dollar2005behavior} and Hessian3D~\cite{hession3d}. For descriptors, popular methods are Cuboids~\cite{scovanner20073}, HOG/HOF~\cite{laptev2005space}, HOG3D~\cite{klaser:inria-00514853} and Extended SURF~\cite{hession3d}.
 In recent work of Wang \textit{et al.}~\cite{wang2013dense}, dense trajectories with improved motion based descriptors epitomised the pinnacle of handcrafted features and achieved state-of-the-art results on a variety of ``in the wild" data sets.
 Based on the current trends, challenges and interests within the action recognition community, it is to be expected that many successes will follow. However, the very high-dimensional and dense trajectory features usually require the use of advanced dimensionality reduction methods to make them computationally feasible.
@@ -250,7 +250,7 @@ The overall algorithm for training and testing are presented in Algorithm \ref{M
 
 \section{Model Implementation}
 \subsection{Hidden Markov Model}
- In all our experiments the number of states associated to an individual gesture $N_{\mathcal{H}_a} $ is chosen as 5 for modelling the states of a gesture class, therefore $N_{\mathcal{TC}}= 20 \times 5 + 1 = 101$. The labels for each cuboid $\textbf{Y}$ are specified as follows: 
+ In all our experiments the number of states associated to an individual gesture $N_{\mathcal{H}_a} $ is chosen as 5 for modelling the states of a gesture class, therefore $N_{\mathcal{TC}}= 20 \times 5 + 1 = 101$. The labels for each cuboid $\textbf{Y}$ are specified as follows:
  \begin{flushleft}
 \textbf{\emph{Hidden states} ($\mathcal{H}_a$): } Force alignment is used to extract the hidden states, \emph{i.e.} if a gesture token is 100 frames, the first 10 frames are assigned as hidden state $\textbf{\emph{1}}$, the following 10 frames are assigned as hidden state $\textbf{\emph{2}}$, and so forth.
 
@@ -385,7 +385,7 @@ The first layer consists of 32 feature maps produced by $5\times5$ convolutional
 % The first 650 batches are used for training and the remaining 50 files for validation.
 During training, dropout \cite{hinton2012improving} is used as main regularisation approach to reduce overfitting. Nesterov’s accelerated gradient descent (NAG) \cite{sutskever2013importance} with a fixed momentum-coefficient of 0.9 and mini-batches of size 64 are also used.
 The learning rate is initialised at 0.003 with a 5\% decrease after each epoch. The weights of the 3DCNNs are randomly initialised with a normal distribution with $\mu = 0$ and $\sigma = 0.04$.
-The frame based validation error rate is $39.06\%$ after 40 epochs as shown in Fig. \ref{error rate}. Compared with the skeleton module (Fig.~\ref{sk_error_rate}), the 3DCNN has a notable higher frame based error rate. 
+The frame based validation error rate is $39.06\%$ after 40 epochs as shown in Fig. \ref{error rate}. Compared with the skeleton module (Fig.~\ref{sk_error_rate}), the 3DCNN has a notable higher frame based error rate.
 %????????????????????? Explaination??????
 
 \begin{figure}[t]
@@ -432,7 +432,7 @@ The convolutional filter weights of the first layer are depicted in Fig.~\ref{3d
         \label{shift-resize_image}
         \end{subfigure}
 
-        \caption{Visualisation of the $5\times5$ filters in the first layer for the different input channels. 
+        \caption{Visualisation of the $5\times5$ filters in the first layer for the different input channels.
         % Itcan be seen that the hand filters are smoother than the body part filters because hand input are smoother than the body part input.
         }\label{3dcnn_filters}
 \end{figure}
@@ -546,11 +546,77 @@ To fuse the dual model prediction, the strategy shown in Fig.~\ref{fusion} is ad
 where $\mathbf{S^1}$ and $\mathbf{S^2}$ are the score probability matrices as in Algo.~\ref{MMDDN_test}, corresponding to the skeletal input and RGBD input, and $\alpha$ is the coefficient that controls the score balance obtained by cross validation.
 Interestingly, the best performing $\alpha$ is close to $0.5$, thus indicating that both approaches perform comparably.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Related Works}
+This paper served as the progressive work of~\cite{wu2014deep} and~\cite{lio2014deep}.
+
+%To highlight the difference between our previous works of ~\cite{wu2014deep}, ~\cite{lio2014deep}.
+Ji \emph{et al.}\cite{ji20133d} proposed using 3D convolutional neural network for automated recognition of human actions in surveillance videos. Their model extracts features from both the spatial and the temporal dimensions by performing 3D convolutions, thereby capturing the motion information encoded in multiple adjacent frames. To further boost the performance, they proposed regularising the outputs with high-level features and combining the predictions of a variety of different models.
+
+For the ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge,~\cite{neverova2014multi} presents a multi-scale and multimodal deep network for gesture detection and localisation. Key to their technique is a training strategy that exploits i) careful initialisation of individual modalities and ii) gradual fusion of modalities from strongest to weakest cross-modality structure. One major difference between our proposed method and theirs is the treatment of the time factor at a very early stage of the deep network to cope with gestures performed at different speeds.
+
+Some of the top winning methods in the ChaLearn LAP gesture spotting challenge require a set of complicated handcrafted features for either skeletal input, RGBD input, or both.
+\emph{E.g.}~\cite{neverova2014multi} formulated a pose descriptor, consiting of 7 logical subsets.
+~\cite{Monnier2014multi} proposed four types of features for skeleton features: normalised joint positions; joint quaternion angles; Euclidean distances between specific joints; and directed distances between pairs of joints, based on the features proposed by Yao \emph{et al.}~\cite{yao2011does} and a histogram of oriented gradients (HOG) descriptor for hand features.
+In~\cite{Peng2014multi}, the state-of-the-art dense trajectory handcrafted features are adopted for the RGB module.
+Multiple network averaging works better than a single individual network  and it can be seen from the experiments in~\cite{wu2014deep} that larger nets  will generally perform better than smaller nets. Averaging multi-column nets almost will certainly further improve the performance~\cite{ciresan2012multi}.
+
+
+
+\section{Experiments and Analysis}
+\subsection{Chalearn LAP Data Set \& Evaluation Metrics} \label{sec:chalearn}
+The data set\footnote{\href{http://gesture.chalearn.org/homewebsourcereferrals}{http://gesture.chalearn.org/homewebsourcereferrals}} used in this work is provided by the ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge. The development set consists of 700 videosequences and 240 sequences are used for testing. The testing sequences however are not segmented a priori and the gestures must be detected within a continuous data stream. In total, there are more than $14\,000$ performed gestures.
+% This dataset  is on ``multiple instance, user independent learning and continuous gesture spotting"~\cite{ICMI} of gestures.
+% In the 3 track, there are more than 14,000 gestures.
+
+For the input sequences, there are three modalities provided, \emph{i.e.} skeleton, RGB and depth images (with user segmentation). In the following experiments, the first 650 videosequences are used for training, 50 for validation and the other 240 for testing where each sequence contains around 10 to 20 gestures with some noisy non-meaningful vocabulary tokens.
+
+The evaluation of this data set is performed using the Jaccard index, which computes the overlap between the ground truth and the predictions on a frame-by-frame basis:
+\begin{equation}
+J(A, B) = \frac{A \bigcap B}{A \bigcup B}
+\end{equation}
+where $A$ is the ground truth gesture label and $B$ is the predicted gesture label.
+
+
+
+
+\begin{figure*}[t]
+        \centering
+        \begin{subfigure}[c]{.8\textwidth}
+                \includegraphics[width=\textwidth]{images/path/Sample0700_sk}
+                \caption{Sample \#700 skeleton input path.}
+                \label{Sample0700_sk}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+
+        \begin{subfigure}[c]{0.8\textwidth}
+                \includegraphics[width=\textwidth]{images/path/Sample0700_cnn}
+                \caption{Sample \#700 depth and RGB input path.}
+                \label{Sample0700_cnn}
+        \end{subfigure}
+
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[c]{0.8\textwidth}
+                \includegraphics[width=\textwidth]{images/path/Sample0700_combined}
+                \caption{Sample \#700 combined input path.}
+                \label{Sample0700_combined}
+        \end{subfigure}
+
+  \caption{Viterbi decoding of the two modules and their fusion of sample sequence \#700. Top to bottom: skeleton, RGBD, multimodal fusion with x-axis representing the time and y-axis representing the hidden states of all the classes with the ergodic state at the bottom. Red lines are the ground truth labels, cyan lines represent the viterbi shortest path and yellow lines are the predicted labels. There are some complementary information of the two modules and generally the skeletal module outperforms the depth module. The fusion of the two could exploit the uncertainty, \emph{e.g.} around frame 200 the skeleton can help with the false negative predictions given by the 3DCNN module. Around frame 1450, the 3DCNN module can help suppress the false positive prediction given by skeleton module.
+  }\label{Sample0700_comparison}
+\end{figure*}
+
+\subsection{Post-processing}
+The predicted tokens that happen to be less than 20 frames are discarded as noisy tokens. Note that there are many noisy gesture tokens predicted by viterbi decoding. One way to sift through the noisy tokens is to discard the token path log probability smaller than a certain threshold. However, because we use the Jaccard index as evaluation score, it strongly penalises false negatives. Experiments show that it's better to have more false positives than to miss true positives. Effective ways to detect false positives should be an interesting aspect of future works.
+
 The individual module results and the fusion results are shown in Tab. \ref{Table_score_fusion}. Note that the skeleton module generally performs better than the depth module, one reason could be that the skeleton joints learnt from~\cite{shotton2011real} lie in success of utilising huge and highly varied training data: from both realistic and synthetic depth images, a total number of 1 million images were used to train the deep randomised decision forest classifier in order to avoid overfitting. Hence, skeleton data is more robust.
 
-From the frame based prediction, we also evaluate the gesture token classification rate using the commonly-used PASCAL overlap criterion: if the gesture is predicted correctly with more than 50\% overlap with the ground truth label, then the prediction is counted as a true positive. The results of the two individual modules and the score of the fused module are shown in Tab.~\ref{Prediction}, and from the confusion matrices in Fig.~\ref{confusion_matrix} we can observe the complimentary information between the skeleton input and the RGBD input. 
-% with the confusion matrices shown in Fig.~\ref{confusion_matrix}. 
-While many of the gestures in this data set could be mainly differentiated by examining the positions and motions of large joints such as the elbows and wrists,  some gestures differ primarily  in hand pose, \emph{e.g.} Fig. \ref{hand_differ}.
+From the frame based prediction, we also evaluate the gesture token classification rate using the commonly-used PASCAL overlap criterion: if the gesture is predicted correctly with more than 50\% overlap with the ground truth label, then the prediction is counted as a true positive. The results of the two individual modules and the score of the fused module are shown in Tab.~\ref{Prediction}, and from the confusion matrices in Fig.~\ref{confusion_matrix} we can observe the complimentary information between the skeleton input and the RGBD input.
+% with the confusion matrices shown in Fig.~\ref{confusion_matrix}.
+While many of the gestures in this data set could be mainly differentiated by examining the positions and motions of large joints such as the elbows and wrists,  some gestures differ primarily  in hand pose, \emph{e.g.} Fig. \ref{hand_differ}. 
 % From the confusion matrices in Fig.~\ref{confusion_matrix} we can observe the complimentary information between the skeleton input and the depth \& RGB input.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -598,7 +664,7 @@ While many of the gestures in this data set could be mainly differentiated by ex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
         \centering
-        \begin{subfigure}[c]{.36\textwidth} 
+        \begin{subfigure}[c]{.36\textwidth}
                 \includegraphics[width=\textwidth]{images/cm/cm_sk}
                 \caption{Skeletal input prediction result.}
                 \label{sk_cm}
@@ -620,8 +686,8 @@ While many of the gestures in this data set could be mainly differentiated by ex
                 \label{fusion_cm}
         \end{subfigure}
 
-  \caption{Confusion Matrix for the skeletal input, RGBD input and multimodal fusion result. 
-  % Generally, the skeleton module has higher classification rate. 
+  \caption{Confusion Matrix for the skeletal input, RGBD input and multimodal fusion result.
+  % Generally, the skeleton module has higher classification rate.
   Some gestures, \emph{e.g.} ``OK" and ``Non ce ne piu" differ primarily in hand poses. Hence, they are easier to be differentiated using the RGBD module than the skeleton module.
   }\label{confusion_matrix}
 \end{figure}
@@ -644,39 +710,8 @@ While many of the gestures in this data set could be mainly differentiated by ex
   \caption{Examples of gestures that differ primarily in hand pose but not the arm motions.
   }\label{hand_differ}
 \end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Related Works}
-This paper served as the progressive work of~\cite{wu2014deep} and~\cite{lio2014deep}.
 
-%To highlight the difference between our previous works of ~\cite{wu2014deep}, ~\cite{lio2014deep}.
-Ji \emph{et al.}\cite{ji20133d} proposed using 3D convolutional neural network for automated recognition of human actions in surveillance videos. Their model extracts features from both the spatial and the temporal dimensions by performing 3D convolutions, thereby capturing the motion information encoded in multiple adjacent frames. To further boost the performance, they proposed regularising the outputs with high-level features and combining the predictions of a variety of different models.
-
-For the ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge,~\cite{neverova2014multi} presents a multi-scale and multimodal deep network for gesture detection and localisation. Key to their technique is a training strategy that exploits i) careful initialisation of individual modalities and ii) gradual fusion of modalities from strongest to weakest cross-modality structure. One major difference between our proposed method and theirs is the treatment of the time factor at a very early stage of the deep network to cope with gestures performed at different speeds.
-
-Some of the top winning methods in the ChaLearn LAP gesture spotting challenge require a set of complicated handcrafted features for either skeletal input, RGBD input, or both.
-\emph{E.g.}~\cite{neverova2014multi} formulated a pose descriptor, consiting of 7 logical subsets.
-~\cite{Monnier2014multi} proposed four types of features for skeleton features: normalised joint positions; joint quaternion angles; Euclidean distances between specific joints; and directed distances between pairs of joints, based on the features proposed by Yao \emph{et al.}~\cite{yao2011does} and a histogram of oriented gradients (HOG) descriptor for hand features.
-In~\cite{Peng2014multi}, the state-of-the-art dense trajectory handcrafted features are adopted for the RGB module. 
-Multiple network averaging works better than a single individual network  and it can be seen from the experiments in~\cite{wu2014deep} that larger nets  will generally perform better than smaller nets. Averaging multi-column nets almost will certainly further improve the performance~\cite{ciresan2012multi}.
-
-
-
-\section{Experiments and Analysis}
-\subsection{Chalearn LAP Data Set \& Evaluation Metrics} \label{sec:chalearn}
-The data set\footnote{\href{http://gesture.chalearn.org/homewebsourcereferrals}{http://gesture.chalearn.org/homewebsourcereferrals}} used in this work is provided by the ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge. The development set consists of 700 videosequences and 240 sequences are used for testing. The testing sequences however are not segmented a priori and the gestures must be detected within a continuous data stream. In total, there are more than $14\,000$ performed gestures.
-% This dataset  is on ``multiple instance, user independent learning and continuous gesture spotting"~\cite{ICMI} of gestures. 
-% In the 3 track, there are more than 14,000 gestures.
-
-For the input sequences, there are three modalities provided, \emph{i.e.} skeleton, RGB and depth images (with user segmentation). In the following experiments, the first 650 videosequences are used for training, 50 for validation and the other 240 for testing where each sequence contains around 10 to 20 gestures with some noisy non-meaningful vocabulary tokens.
-
-The evaluation of this data set is performed using the Jaccard index, which computes the overlap between the ground truth and the predictions on a frame-by-frame basis:
-\begin{equation}
-J(A, B) = \frac{A \bigcap B}{A \bigcup B}
-\end{equation}
-where $A$ is the ground truth gesture label and $B$ is the predicted gesture label.
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  \begin{table}[t]
    \centering
         \begin{tabular}{|l||*{3}{c|}}\hline
@@ -686,8 +721,8 @@ where $A$ is the ground truth gesture label and $B$ is the predicted gesture lab
             {~\cite{neverova2014multi}} Deep Learning (Step 2)                  &  0.6938     & 0.7862      & \textbf{0.8500}\\\hline
             {~\cite{Monnier2014multi}} 4 Set Skeletal \& HOG                   &  0.7420     & -           & 0.8220 \\\hline
             {~\cite{Chang2014multi}}    Handcrafted                            &  \textbf{0.7948}     & -           & 0.8268\\\hline
-            {~\cite{Peng2014multi}}    Dense Trajectory                         &  -          & \textbf{0.7919}      & -\\\hline 
-            {~\cite{lio2014deep}}      CNN                                      &  -          & 0.7888      & -\\\hline 
+            {~\cite{Peng2014multi}}    Dense Trajectory                         &  -          & \textbf{0.7919}      & -\\\hline
+            {~\cite{lio2014deep}}      CNN                                      &  -          & 0.7888      & -\\\hline
             {~\cite{wu2014deep}}    Deep Learning                               &  0.7468     & 0.6371      & 0.8045\\\hline \hline
             \textbf{\emph{DDNN}} (this work)                                    &  0.7792    & 0.7168  & 0.8091\\\hline
         \end{tabular}
@@ -696,42 +731,6 @@ where $A$ is the ground truth gesture label and $B$ is the predicted gesture lab
           }
           \label{Table_baseline}
 \end{table}
-
-
-
-
-
-\begin{figure*}[t]
-        \centering
-        \begin{subfigure}[c]{.8\textwidth}
-                \includegraphics[width=\textwidth]{images/path/Sample0700_sk}
-                \caption{Sample \#700 skeleton input path.}
-                \label{Sample0700_sk}
-        \end{subfigure}%
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-
-        \begin{subfigure}[c]{0.8\textwidth}
-                \includegraphics[width=\textwidth]{images/path/Sample0700_cnn}
-                \caption{Sample \#700 depth and RGB input path.}
-                \label{Sample0700_cnn}
-        \end{subfigure}
-
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[c]{0.8\textwidth}
-                \includegraphics[width=\textwidth]{images/path/Sample0700_combined}
-                \caption{Sample \#700 combined input path.}
-                \label{Sample0700_combined}
-        \end{subfigure}
-
-  \caption{Viterbi decoding of the two modules and their fusion of sample sequence \#700. Top to bottom: skeleton, RGBD, multimodal fusion with x-axis representing the time and y-axis representing the hidden states of all the classes with the ergodic state at the bottom. Red lines are the ground truth labels, cyan lines represent the viterbi shortest path and yellow lines are the predicted labels. There are some complementary information of the two modules and generally the skeletal module outperforms the depth module. The fusion of the two could exploit the uncertainty, \emph{e.g.} around frame 200 the skeleton can help with the false negative predictions given by the 3DCNN module. Around frame 1450, the 3DCNN module can help suppress the false positive prediction given by skeleton module.
-  }\label{Sample0700_comparison}
-\end{figure*}
-
-\subsection{Post-processing}
-The predicted tokens that happen to be less than 20 frames are discarded as noisy tokens. Note that there are many noisy gesture tokens predicted by viterbi decoding. One way to sift through the noisy tokens is to discard the token path log probability smaller than a certain threshold. However, because we use the Jaccard index as evaluation score, it strongly penalises false negatives. Experiments show that it's better to have more false positives than to miss true positives. Effective ways to detect false positives should be an interesting aspect of future works.
-
 \subsection{Computational Complexity}
 Although training the deep neural network using stochastic gradient descent is computationally intensive, once the model finishes training, our framework can perform real-time video sequence labelling with a low inference cost.
 Specifically, a single feed forward neural network incurs linear computational time ($\mathcal{O}(T)$) and is efficient because it requires only matrix products and convolution operations. The complexity of the Viterbi algorithm is $\mathcal{O} (T* |S|^2)$ with $T$ the number of frames and $|S|$ the number of states.
