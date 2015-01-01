@@ -385,7 +385,7 @@ The first layer consists of 32 feature maps produced by $5\times5$ convolutional
 % The first 650 batches are used for training and the remaining 50 files for validation.
 During training, dropout \cite{hinton2012improving} is used as main regularisation approach to reduce overfitting. Nesterov’s accelerated gradient descent (NAG) \cite{sutskever2013importance} with a fixed momentum-coefficient of 0.9 and mini-batches of size 64 are also used.
 The learning rate is initialised at 0.003 with a 5\% decrease after each epoch. The weights of the 3DCNNs are randomly initialised with a normal distribution with $\mu = 0$ and $\sigma = 0.04$.
-The frame based validation error rate is $39.06\%$ after 40 epochs as shown in Fig. \ref{error rate}. Compared with the skeleton module (Fig.~\ref{sk_error_rate}), the 3DCNN has a notable higher frame based error rate.
+The frame based validation error rate is $39.06\%$ after 40 epochs as shown in Fig. \ref{error rate}. Compared with the skeleton module (16.5\% validation error rate), the 3DCNN has a notable higher frame based error rate.
 %????????????????????? Explaination??????
 
 \begin{figure}[t]
@@ -579,7 +579,7 @@ The evaluation of this data set is performed using the Jaccard index, which comp
 \begin{equation}
 J(A, B) = \frac{A \bigcap B}{A \bigcup B}
 \end{equation}
-where $A$ is the ground truth gesture label and $B$ is the predicted gesture label.
+where $A$ is the ground truth gesture label and $B$ is the predicted gesture label. 
 
 
 
@@ -613,7 +613,9 @@ where $A$ is the ground truth gesture label and $B$ is the predicted gesture lab
 \end{figure*}
 
 \subsection{Post-processing}
-The predicted tokens that happen to be less than 20 frames are discarded as noisy tokens. Note that there are many noisy gesture tokens predicted by viterbi decoding. One way to sift through the noisy tokens is to discard the token path log probability smaller than a certain threshold. However, because we use the Jaccard index as evaluation score, it strongly penalises false negatives. Experiments show that it's better to have more false positives than to miss true positives. Effective ways to detect false positives should be an interesting aspect of future works.
+The predicted tokens that happen to be less than 20 frames are discarded as noisy tokens. Note that there are many noisy gesture tokens predicted by viterbi decoding. One way to sift through the noisy tokens is to discard the token path log probability smaller than a certain threshold. However, because we use the Jaccard index as evaluation score, it strongly penalises false negatives. Experiments show that it's better to have more false positives than to miss true positives. Effective ways to detect false positives should be an interesting aspect of future work.
+
+\subsection{Results}
 
 The individual module results and the fusion results are shown in Tab. \ref{Table_score_fusion}. Note that the skeleton module generally performs better than the depth module, one reason could be that the skeleton joints learnt from~\cite{shotton2011real} lie in success of utilising huge and highly varied training data: from both realistic and synthetic depth images, a total number of 1 million images were used to train the deep randomised decision forest classifier in order to avoid overfitting. Hence, skeleton data is more robust.
 
@@ -734,6 +736,7 @@ While many of the gestures in this data set could be mainly differentiated by ex
           }
           \label{Table_baseline}
 \end{table}
+
 \subsection{Computational Complexity}
 Although training the deep neural network using stochastic gradient descent is computationally intensive, once the model finishes training, our framework can perform real-time video sequence labelling with a low inference cost.
 Specifically, a single feed forward neural network incurs linear computational time ($\mathcal{O}(T)$) and is efficient because it requires only matrix products and convolution operations. The complexity of the Viterbi algorithm is $\mathcal{O} (T* |S|^2)$ with $T$ the number of frames and $|S|$ the number of states.
