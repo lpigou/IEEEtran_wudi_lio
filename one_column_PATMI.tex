@@ -433,7 +433,7 @@ where $\mu_i=b_i+\sigma_i^2 \sum_j W_{ij} h_j$ and $\mathscr{N}$ is the normal d
 \begin{figure}[t]
   \centering
   % Requires \usepackage{graphicx}
-  \includegraphics[width=0.3\textwidth]{images/DBN}\\
+  \includegraphics[width=0.25\textwidth]{images/DBN}\\
   \caption{
     Deep Belief Network using skeleton input \skfeature{} to predict emission probability \emissionprob{}.}
     \label{DBN}
@@ -470,11 +470,15 @@ The performance of the skeleton module is shown in Tab.~\ref{Table_score_fusion}
 
 \subsection{RGB \& Depth 3D Module}
 \subsubsection{Preprocessing}\label{3d_preproc}
-Working directly with raw input Kinect recorded data frames, which are $640 \times 480$ pixel images, can be computationally demanding. DeepMind technology~\cite{mnih2013playing} presented the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using deep reinforcement learning.
 
-Our first step in the preprocessing stage is cropping the highest hand and the upper body using the given joint information. We determined that the highest hand is the most interesting. If both hands are used, they perform the same (mirrored) movement. If one hand is used, it is always the highest one. If the left hand is used, the videos are mirrored. This way, the model only needs to learn one side.
+Although DeepMind technology~\cite{mnih2013playing} presented the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using deep reinforcement learning, working directly with raw input Kinect recorded data frames, which are $640 \times 480$ pixel images, can be computationally demanding. 
+Therefore, our first step in the preprocessing stage consists of cropping the highest hand and the upper body using the given joint information. In the Chalearn dataset, we determined that the highest hand is the most interesting. When both hands are used, they normally perform the same (mirrored) movement, and when one hand is used, it is always the highest one which is relevant.
+Furthermore, to be invariant to handiness, we train the model with the right hand view. That is, when the left hand is actually the performing hand, the video was mirrored.
 
-The preprocessing results in four video samples (body and hand with grayscale and depth) of resolution $4\times64\times64$ (4 frames of size $64\times64$). Furthermore, the noise in the depth maps is reduced by thresholding, background removal using the user index, and median filtering. The outcome is shown in Fig.~\ref{3dcnn input}.
+
+The preprocessing results in four video samples (body and hand with grayscale and depth) of resolution $64\times64$. Furthermore, the noise in the depth maps is reduced by thresholding, background removal using the user index, and median filtering. 
+The depth images are normalised with mean substraction for each image because the median of depth images are irrelevant to the gesture subclass. And both RGB and depth images are normalised by dividing the standard deviation of each image.
+The outcome is illustrated in Fig.~\ref{3dcnn input}.
 \begin{figure}[t]
   \centering
   % Requires \usepackage{graphicx}
@@ -493,22 +497,18 @@ The preprocessing results in four video samples (body and hand with grayscale an
   \caption{An illustration of the architecture of the 3DCNN architecture. The 3rd dimension of the input is time with 4 frames stacked together. The depth and RGB data are stacked (concatenated) together at Input. Hand and body part output are concatenated at H7.}\label{3dcnn_architecture}
 \end{figure*}
 
-The 3D convolution is achieved by convolving a 3D kernel to the cuboid formed by stacking multiple contiguous frames together. We follow the nomenclature as in~\cite{ji20133d}.
+This deep neural network architecture consists of a series of layers composed of either convolution, pooling or, in the last layer, fully connected layers.
+The 3D convolution itself is achieved by convolving a 3D kernel to the cuboid formed by stacking multiple contiguous frames together. We follow the nomenclature as in~\cite{ji20133d}.
  However, instead of using $tanh$ units as in~\cite{ji20133d},  Rectified Linear Units (\emph{ReLUs})~\cite{krizhevsky2012imagenet} were used in order to speed up training.
- Formally, the value of a unit at position $(x, y, z)$ ($z$ here corresponds the time-axis) in the $j$-th feature map in the $i$-th layer, denoted as $v^{xyz}_{ij}$, is given by:
+ Formally, the value of a unit at position $(x, y, z)$ ($z$ here corresponds to the time-axis) in the $j$-th feature map in the $i$-th layer, denoted as $v^{xyz}_{ij}$, is given by:
 \begin{equation}
 v^{xyz}_{ij} =  max( 0,  ( b_{ij} + \sum_m \sum_{p=0}^{P_i - 1} \sum_{q=0}^{Q_i -1 } \sum_{r=0}^{R_i -1} w^{pqr}_{ijm} v^{(x+p)(y+q)(t+r)}_{(i-1)m} ))
 \label{ReLU}
 \end{equation}
 
-The 3DCNN architecture is depicted in Fig.~\ref{3dcnn_architecture} : the 4 types~(Fig.~\ref{3dcnn input}) of input contextual frames are stacked as size $64\times64\times4$. The depth images are normalised with $N_{var}$ and the grayscale images are normalised with $N_{std}$ as in Eq. \ref{normalization1},\ref{normalization2} because the median of depth images are irrelevant to the gesture subclass.
-\begin{align}
-N_{var} &= (x -\emph{\textbf{mean}}(x)) / (\textbf{\emph{var}}(x))^{1/2}  \label{normalization1}\\
-N_{std} &= x / (\textbf{\emph{var}}(x))^{1/2}
-\label{normalization2}
-\end{align}
-
-The first layer consists of 32 feature maps produced by $5\times5$ convolutional kernels followed by local contrast normalisation (LCN)~\cite{jarrett2009best} and 3D max pooling with strides $(2,2,2)$, then the grayscale channel and depth channel are concatenated. The second layer has 64 feature maps with $5\times5$ kernels followed by LCN and 3D max pooling with strides $(2,2,2)$. The third layer is composed of 64 feature maps with $4\times4$ kernels followed by 3D max pooling with strides $(1,2,2)$. All convolutional layer outputs are flattened with the body channel and hand channel concatenated, and fed into one fully connected layer of size $1024$. The output layer $N_{\mathcal{TC}}$ is of size $ 101 = 5\times20+1$ (number of hidden states for each class $\times$ number of classes plus one ergodic state).
+The complete 3DCNN architecture is depicted in Fig.~\ref{3dcnn_architecture} : 4 types~(Fig.~\ref{3dcnn input}) of input contextual frames are stacked as size $64\times64\times4$. 
+The first layer consists of 32 feature maps produced by $5\times5$ spatial convolutional kernels followed by local contrast normalisation (LCN)~\cite{jarrett2009best} and 3D max pooling with strides $(2,2,2)$, then the grayscale channel and depth channel are concatenated. The second layer has 64 feature maps with $5\times5$ kernels followed by LCN and 3D max pooling with strides $(2,2,2)$. The third layer is composed of 64 feature maps with $4\times4$ kernels followed by 3D max pooling with strides $(1,2,2)$. All convolutional layer outputs are flattened with the body channel and hand channel concatenated, and fed into one fully connected layer of size $1024$. The output layer has \numberhiddenstates{} values, the number of states in the HMM.
+ is of size $ 101 = 5\times20+1$ (number of hidden states for each class $\times$ number of classes plus one ergodic state).
 
 
 
