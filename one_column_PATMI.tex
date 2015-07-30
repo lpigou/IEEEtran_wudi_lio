@@ -378,7 +378,7 @@ Note that feature extraction process resembles the computation of \emph{Mel Freq
 %\item The third point worth noting is that some actors performed gestures using left hand as a dominant hand whereas some using right hand which worth investigating the effect of this in the future. However, those tokens are treated indiscriminately.  Hence, the feature fed into \emph{GRBM} are almost raw, un-preprocessed.
 %\end{itemize}
 
-\subsection{Modeling \randomvariableSK{} using Deep Belief Networks}
+\subsubsection{Modeling \randomvariableSK{} using Deep Belief Networks}
 
 Once we have the skeleton input feature \skfeature{} which served as the input \randomvariableSK{} for DBN in Fig.~\ref{GM}. The emission probability \emissionprob{} can be generated using a Deep Belief Networks. We briefly introduce the building elements of the network and a more detailed introduction can be found at~\cite{salakhutdinov2009learning}:
   
@@ -787,7 +787,7 @@ While many of the gestures in this data set could be mainly differentiated by ex
  \begin{table}[t]
    \centering
         \begin{tabular}{|l||*{2}{c|}}\hline
-            \backslashbox{Module}{Evaluation Set}
+            {Module}
             &\makebox[5em]{Validation}&\makebox[5em]{Test}
             \\\hline\hline
             {\small Skeleton -- DBDN }            &  0.78266    & 0.77920 \\\hline
@@ -817,8 +817,8 @@ While many of the gestures in this data set could be mainly differentiated by ex
                                             &  {\small UnRate}           & 0.1612     & 0.1976 \\\hline\hline
             \multirow{2}{*}{Multimodal Late Fusion}   &{\small Acc }               & 0.8791     & 0.8642\\
                                             &  {\small UnRate}           & 0.0302     & 0.0485 \\\hline
-%            \multirow{2}{*}{Multimodal Early Fusion}   &{\small Acc }    & 0.8650     & 0.8545\\
-%                                            &  {\small UnRate}           & 0.0423     & 0.0568 \\\hline
+           \multirow{2}{*}{Multimodal Early Fusion}   &{\small Acc }    & 0.8650     & 0.8545\\
+                                            &  {\small UnRate}           & 0.0623     & 0.0768 \\\hline
         \end{tabular}
 
     \caption{
