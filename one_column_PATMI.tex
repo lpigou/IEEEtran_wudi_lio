@@ -380,12 +380,12 @@ Note that feature extraction process resembles the computation of \emph{Mel Freq
 \subsubsection{Modeling \randomvariableSK{} using Deep Belief Networks}
 
 Once we have the skeleton input feature \skfeature{} which served as the input \randomvariableSK{} for DBN in Fig.~\ref{GM}. The emission probability \emissionprob{} can be generated using a Deep Belief Networks. We briefly introduce the building elements of the network and a more detailed introduction can be found at~\cite{salakhutdinov2009learning}:
-  
+
 
 Boltzmann Machines (BMs) are a special structure of Markov Random Field (MRF), \emph{i.e.} the energy function is linear in term of its corresponding free parameters.
 To empower the expressiveness of the model so as to encode complex distributions, the hidden variables are introduced to enhance the modelling capability of the Boltzmann Machines
 
-Restricted Boltzmann Machines (RBMs) is a subtype of BMs in that there is no connections between visible to visible or hidden to hidden variables. RBM, as a special type of Markov random field with a two-layer structure, has the visible binary stochastic units $v\in \{0,1\}^D$ connected to the hidden binary stochastic units $h\in \{0,1\}^F$. 
+Restricted Boltzmann Machines (RBMs) is a subtype of BMs in that there is no connections between visible to visible or hidden to hidden variables. RBM, as a special type of Markov random field with a two-layer structure, has the visible binary stochastic units $v\in \{0,1\}^D$ connected to the hidden binary stochastic units $h\in \{0,1\}^F$.
 
 The energy of the state $\{v,h\}$is:
 \begin{eqnarray}
@@ -470,12 +470,12 @@ The performance of the skeleton module is shown in Tab.~\ref{Table_score_fusion}
 \subsection{RGB \& Depth 3D Module}
 \subsubsection{Preprocessing}\label{3d_preproc}
 
-Although DeepMind technology~\cite{mnih2013playing} presented the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using deep reinforcement learning, working directly with raw input Kinect recorded data frames, which are $640 \times 480$ pixel images, can be computationally demanding. 
+Although DeepMind technology~\cite{mnih2013playing} presented the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using deep reinforcement learning, working directly with raw input Kinect recorded data frames, which are $640 \times 480$ pixel images, can be computationally demanding.
 Therefore, our first step in the preprocessing stage consists of cropping the highest hand and the upper body using the given joint information. In the Chalearn dataset, we determined that the highest hand is the most interesting. When both hands are used, they normally perform the same (mirrored) movement, and when one hand is used, it is always the highest one which is relevant.
 Furthermore, to be invariant to handiness, we train the model with the right hand view. That is, when the left hand is actually the performing hand, the video was mirrored.
 
 
-The preprocessing results in four video samples (body and hand with grayscale and depth) of resolution $64\times64$. Furthermore, the noise in the depth maps is reduced by thresholding, background removal using the user index, and median filtering. 
+The preprocessing results in four video samples (body and hand with grayscale and depth) of resolution $64\times64$. Furthermore, the noise in the depth maps is reduced by thresholding, background removal using the user index, and median filtering.
 The depth images are normalised with mean substraction for each image because the median of depth images are irrelevant to the gesture subclass. And both RGB and depth images are normalised by dividing the standard deviation of each image.
 The outcome is illustrated in Fig.~\ref{3dcnn input}.
 \begin{figure}[t]
@@ -505,7 +505,7 @@ v^{xyz}_{ij} =  max( 0,  ( b_{ij} + \sum_m \sum_{p=0}^{P_i - 1} \sum_{q=0}^{Q_i 
 \label{ReLU}
 \end{equation}
 
-The complete 3DCNN architecture is depicted in Fig.~\ref{3dcnn_architecture} : 4 types~(Fig.~\ref{3dcnn input}) of input contextual frames are stacked as size $64\times64\times4$. 
+The complete 3DCNN architecture is depicted in Fig.~\ref{3dcnn_architecture} : 4 types~(Fig.~\ref{3dcnn input}) of input contextual frames are stacked as size $64\times64\times4$.
 The first layer consists of 32 feature maps produced by $5\times5$ spatial convolutional kernels followed by local contrast normalisation (LCN)~\cite{jarrett2009best} and 3D max pooling with strides $(2,2,2)$, then the grayscale channel and depth channel are concatenated. The second layer has 64 feature maps with $5\times5$ kernels followed by LCN and 3D max pooling with strides $(2,2,2)$. The third layer is composed of 64 feature maps with $4\times4$ kernels followed by 3D max pooling with strides $(1,2,2)$. All convolutional layer outputs are flattened with the body channel and hand channel concatenated, and fed into one fully connected layer of size $1024$. The output layer has \numberhiddenstates{} values, the number of states in the HMM.
  is of size $ 101 = 5\times20+1$ (number of hidden states for each class $\times$ number of classes plus one ergodic state).
 
@@ -904,7 +904,7 @@ While many of the gestures in this data set could be mainly differentiated by ex
  \begin{table}[t]
    \centering
         \begin{tabular}{|l||*{3}{c|}}\hline
-            \backslashbox{Module}{Evaluation Set}
+            {Module}
             &\makebox[3em]{Skeleton}&\makebox[6em]{RGBD}&\makebox[3em]{Fusion}
             \\\hline\hline
             {~\cite{neverova2014multi}} Deep Learning (Step 4)                  &   0.7891     &  0.7990      & \textbf{0.8449}\\\hline
@@ -1208,6 +1208,9 @@ We have included the papers using deep learning for RBG-D data with discussions 
 ``Gupta \emph{et al.} proposed a geocentric embedding for depth images that encodes height above ground and angle with gravity for each pixel in addition to the horizontal disparity. The depth image was represented by three channels: horizontal disparity, height above ground and angle with gravity. This augmented representation allows the CNN to learn strong features than by using disparity (or depth) alone."
 ``In the field of deep learning from RGBD data, Socher \emph{et al.} proposed a single convolutional neural net layer for each modality as input to multiple, fixed-tree RNNs in order to compose higher order features for 3D object classification. The single convolutional neural net layer provides useful translational invariance of low level features such as edges and allows parts of an object to be deformable to some extent. The pooled filter responses are then given to a recursive neural network to learn compositional features and part interactions."
 \end{document}
+
+
+
 
 
 
