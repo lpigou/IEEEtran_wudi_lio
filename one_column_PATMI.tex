@@ -21,7 +21,7 @@
 \fi
 
 
-% new command section, Thanks for JMO for the suggestion to keep the document clean and unifited.
+% new command section, Thanks for JMO for the suggestion to keep the document clean and unified.
 
 \include{Newcommand}
 
@@ -506,8 +506,7 @@ v^{xyz}_{ij} =  max( 0,  ( b_{ij} + \sum_m \sum_{p=0}^{P_i - 1} \sum_{q=0}^{Q_i 
 \end{equation}
 
 The complete 3DCNN architecture is depicted in Fig.~\ref{3dcnn_architecture} : 4 types~(Fig.~\ref{3dcnn input}) of input contextual frames are stacked as size $64\times64\times4$.
-The first layer consists of 32 feature maps produced by $5\times5$ spatial convolutional kernels followed by local contrast normalisation (LCN)~\cite{jarrett2009best} and 3D max pooling with strides $(2,2,2)$, then the grayscale channel and depth channel are concatenated. The second layer has 64 feature maps with $5\times5$ kernels followed by LCN and 3D max pooling with strides $(2,2,2)$. The third layer is composed of 64 feature maps with $4\times4$ kernels followed by 3D max pooling with strides $(1,2,2)$. All convolutional layer outputs are flattened with the body channel and hand channel concatenated, and fed into one fully connected layer of size $1024$. The output layer has \numberhiddenstates{} values, the number of states in the HMM.
- is of size $ 101 = 5\times20+1$ (number of hidden states for each class $\times$ number of classes plus one ergodic state).
+The first layer consists of 32 feature maps produced by $5\times5$ spatial convolutional kernels followed by local contrast normalisation (LCN)~\cite{jarrett2009best} and 3D max pooling with strides $(2,2,2)$, then the grayscale channel and depth channel are concatenated. The second layer has 64 feature maps with $5\times5$ kernels followed by LCN and 3D max pooling with strides $(2,2,2)$. The third layer is composed of 64 feature maps with $4\times4$ kernels followed by 3D max pooling with strides $(1,2,2)$. All convolutional layer outputs are flattened with the body channel and hand channel concatenated, and fed into one fully connected layer of size $1024$. The output layer has \numberhiddenstates{} values, the number of states in the HMM in Fig.~\ref{HMM_ES}.
 
 
 
@@ -526,9 +525,9 @@ The frame based validation error rate is $39.06\%$ after 40 epochs as shown in F
   \caption{The frame based error rate for training 3DCNN. The frame error rates from 3DCNN are much higher than the skeleton module in~\ref{sk_error_rate} which indicates learning from images may be more difficult than from skeleton modules. }\label{error rate}
 \end{figure}
 
-\subsubsection{Looking into the Networks: Visualisation of Filter Banks}
+\subsubsection{Looking into the Networks: visualisation of Filter Banks}
 
-The convolutional filter weights of the first layer are depicted in Fig.~\ref{3dcnn_filters}. The unique characteristics from the kernels are clearly visible: For body and hand filters, both inputs are of the same size : $64\times64$. Hand inputs have larger homogenous areas than the body inputs, hence the hand part filters are smoother than the body part filters.
+The convolutional filter weights of the first layer are depicted in Fig.~\ref{3dcnn_filters}. The unique characteristics from the kernels are clearly visible: as hand inputs have larger homogenous areas than the body inputs, hence the hand part filters are smoother than the body part filters.
 
 Depth images have sharper edges as also observed in~\cite{socher2012convolutional} and generally are smoother than the grayscale filters, though the distinctions are less obvious compared with the body versus hand filters.
 
@@ -940,7 +939,7 @@ Future works include learning the share representation amongst the heterogeneous
 % you can choose not to have a title for an appendix
 % if you want by leaving the argument blank
 \section{Details of the Code}
-The python code for this work can be found at: \\
+The python code using Theano~\cite{Bastien-Theano-2012} for this work can be found at: \\
 \footnotesize{\verb+https://github.com/stevenwudi/chalearn2014_wudi_lio+}
 
 
