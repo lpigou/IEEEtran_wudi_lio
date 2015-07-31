@@ -1,6 +1,18 @@
 
 % The newcommand file to define the variables
 
+\usepackage{xspace}
+
+\newcommand{\mbf}{\mathbf}
+%\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand{\mypartitle}[2][2]{\vspace*{-#1 ex}~\\{\noindent {\bf #2}}}
+\newcommand{\mypartitletwo}[1]{\vspace*{-1.5ex}~\\{\noindent \underline{\bf #1}}}
+
+\newcommand{\mycomline}[1]{~\\[0mm]{JMO comment: {\color{blue} #1}}~\\}
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %HMM
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -64,6 +76,10 @@
 
 % number of hidden state
 \newcommand{\numberhiddenstates}{\ensuremath{N_\mathcal{H}}}
+
+
+% Result section
+\newcommand{\jaccardindex}{\ensuremath{J\hspace*{-0.1em}I}}
 
 
 
