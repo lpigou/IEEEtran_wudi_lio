@@ -11,8 +11,7 @@ Finally, Section~\ref{sec:ComputationalComplexity} will briefly discuss the comp
 
 
 \subsection{Chalearn LAP Dataset}
-
-
+\label{sec:chalearn}
 \begin{figure}[t]
         \centering
         \begin{subfigure}[c]{.2\textwidth}
@@ -36,8 +35,7 @@ Note that some gestures primarily differ primarily in hand pose but not the arm 
 \end{figure}
 
 
-\subsection{Chalearn LAP Dataset}
-\label{sec:chalearn}
+
 
 \mycomline{In this part, provide more information about the dataset: description, content, types of gestures (what are the classes), illustration of the gestures with some pictures (esp. for gestures that have impact on data -for example, expand fig 14 where yoou have the two ok and noncepiu examples with other ones, and put it earlier in the document. why is the dataset challenging ?\\
 Also, provide some statistics about the dataset:
@@ -139,13 +137,13 @@ which are further averaged over test sequences for reporting.
   }\label{Sample0700_comparison}
 \end{figure*}
 
-\subsubsection{Tested systems.}
+\subsubsection{Tested systems}
 
 We evaluated the recognition performance made by the HMM applied to the emission probabilities estimated from either
 the skeleton data, the RGBD image data, the late fusion scheme, and the early fusion scheme.
 %
 Note that the HMM output was further filtered as follows to avoid false alarms.
-First, predicted gesture segments of less than 20 frames were considered as noise and discarded.
+First, predicted gesture segments of less than 10 frames were considered as noise and discarded.
 %
 In addition, longer but noisy gesture segments whose log-probability (including both emission and transition probabilities)  measured over the viterbi path
 was lower than a threshold were discarded.
@@ -157,7 +155,7 @@ This threshold was set by optimizing the Jaccard index on the validation set  of
  \begin{table}[t]
    \centering
         \begin{tabular}{|l||*{2}{c|}}\hline
-            {Module}
+            {Module }
             &\makebox[5em]{Validation}&\makebox[5em]{Test}
             \\\hline\hline
             {\small Skeleton -- DBDN }            &  0.783    & 0.779 \\\hline
@@ -179,17 +177,19 @@ This threshold was set by optimizing the Jaccard index on the validation set  of
    \centering
         \begin{tabular}{|ll||*{2}{c|}}\hline
             %\backslashbox{Module}{Evaluation Set}
-             & &  \makebox[5em]{Validation}&\makebox[5em]{Test}       \\\hline\hline
+             &  \% &  \makebox[5em]{Validation}&\makebox[5em]{Test}       \\\hline\hline
             \multirow{2}{*}{Skeleton - DBDN}       & \eventaccuracy                & 86.3     & 83.6 \\
                                             &  \eventconfused           & 11.4     & 12.3 \\
                                             &  \eventmissed           &  2.3     &   4.1 \\\hline\hline
             \multirow{2}{*}{RGBD - 3DCNN}    & \eventaccuracy              & 78.7     & 75.8  \\
                                             &  \eventconfused           & 5.2     &  4.5 \\
                                             &  \eventmissed           & 16.1     & 19.7  \\\hline\hline
-            \multirow{2}{*}{Multimodal Late Fusion}   &{\small Acc }               & 0.8791     & 0.8642\\
-                                            &  {\small UnRate}           & 0.0302     & 0.0485 \\\hline
-           \multirow{2}{*}{Multimodal Early Fusion}   &{\small Acc }    & 0.8650     & 0.8545\\
-                                            &  {\small UnRate}           & 0.0623     & 0.0768 \\\hline
+            \multirow{2}{*}{Multimodal Late Fusion}   &  \eventaccuracy    & 87.9     & 86.4 \\
+                                                      &  \eventconfused    & 11.4     & 8.7 \\
+                                                      &  \eventmissed      & 9.1      & 4.9 \\\hline
+           \multirow{2}{*}{Multimodal Early Fusion}   &  \eventaccuracy    & 86.5     & 85.5\\
+                                                      &  \eventconfused    & 7.2      & 6.8 \\
+                                                      &  \eventmissed      & 6.2      & 7.7 \\\hline
         \end{tabular}
 \vspace*{-2mm}
     \caption{
@@ -201,7 +201,7 @@ This threshold was set by optimizing the Jaccard index on the validation set  of
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Results}
+\subsection{Results}\label{sec:results}
 
 \mycomline{Confusion matrices are fine. However, would it be possible to know the classifiction accuracy of the different classes, for each modality? (i.e the diagonal elements of the confusion matrix? i.e. for instance to look at lowest/highest results? and it improves with fusion?}
 

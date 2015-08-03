@@ -527,60 +527,66 @@ The frame based validation error rate is $39.06\%$ after 40 epochs as shown in F
 
 \subsubsection{Looking into the Networks: visualisation of Filter Banks}
 
-The convolutional filter weights of the first layer are depicted in Fig.~\ref{3dcnn_filters}. The unique characteristics from the kernels are clearly visible: as hand inputs have larger homogenous areas than the body inputs, hence the hand part filters are smoother than the body part filters.
-
-Depth images have sharper edges as also observed in~\cite{socher2012convolutional} and generally are smoother than the grayscale filters, though the distinctions are less obvious compared with the body versus hand filters.
-
+The convolutional filter weights of the first layer are depicted in Fig.~\ref{3dcnn_filters}. The unique characteristics from the kernels are clearly visible: as hand inputs have larger homogenous areas than the body inputs, hence the hand part filters are smoother than their body counterpart. 
+In addition, depth images have sharper edges as also observed in~\cite{socher2012convolutional} and while being smooth overall than the grayscale filters.
 
 
 
-\begin{figure}[t]
-        \centering
-        \begin{subfigure}[c]{.5\textwidth}
-                \includegraphics[width=\textwidth]{images/3dcnn_filters/gray_body_conv1_5_5}
-                \caption{Grayscale body filters.}
-                \label{Template_Image}
-        \end{subfigure}%
-        % ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
+\begin{figure*}[t]
+  \centering
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.9\textwidth]{images/CNN_filters}
+  \caption{Visualisation of the $5\times5$ filters in the first layer for the different input channels. Interestingly, we observe the same effect as~\cite{socher2012convolutional} that the resulting filters from depth images have sharper edges which arise due to the strong discontinuities at object boundaries. While the depth channel is often quite noisy most of the features are still smooth. And response maps correspond to hand part are smoother than those correspond to body part. }\label{3dcnn_filters}
+\end{figure*}
 
-        \begin{subfigure}[c]{0.5\textwidth}
-                \includegraphics[width=\textwidth]{images/3dcnn_filters/depth_body_conv1_5_5}
-                \caption{Depth body filters.}
-                \label{Test_Image}
-        \end{subfigure}
-
-        \begin{subfigure}[c]{0.5\textwidth}
-                \includegraphics[width=\textwidth]{images/3dcnn_filters/filtered_images_body.eps}
-                \caption{Response maps corresponds to body part.}
-                \label{Test_Image}
-        \end{subfigure}
-
-        % ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[c]{0.5\textwidth}
-                \includegraphics[width=\textwidth]{images/3dcnn_filters/gray_hand_conv1_5_5}
-                \caption{Grayscale hand filters.}
-                \label{Template_Response}
-        \end{subfigure}
-
-        \begin{subfigure}[c]{0.5\textwidth}
-        \includegraphics[width=\textwidth]{images/3dcnn_filters/depth_hand_conv1_5_5}
-        \caption{Depth hand filters.}
-        \label{shift-resize_image}
-        \end{subfigure}
-
-       \begin{subfigure}[c]{0.5\textwidth}
-                \includegraphics[width=\textwidth]{images/3dcnn_filters/filtered_images_hand.eps}
-                \caption{Response maps corresponds to hand part.}
-                \label{Test_Image}
-        \end{subfigure}
-
-
-        \caption{Visualisation of the $5\times5$ filters in the first layer for the different input channels. Interestingly, we observe the same effect as~\cite{socher2012convolutional} that the resulting filters from depth images have sharper edges which arise due to the strong discontinuities at object boundaries. While the depth channel is often quite noisy most of the features are still smooth. And response maps correspond to hand part are smoother than those correspond to body part.
-        % Itcan be seen that the hand filters are smoother than the body part filters because hand input are smoother than the body part input.
-        }\label{3dcnn_filters}
-\end{figure}
+%
+%\begin{figure}[t]
+%        \centering
+%        \begin{subfigure}[c]{.5\textwidth}
+%                \includegraphics[width=\textwidth]{images/CNN_filters}
+%                \caption{Grayscale body filters.}
+%                \label{Template_Image}
+%        \end{subfigure}%
+%        % ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+%          %(or a blank line to force the subfigure onto a new line)
+%
+%        \begin{subfigure}[c]{0.5\textwidth}
+%                \includegraphics[width=\textwidth]{images/3dcnn_filters/depth_body_conv1_5_5}
+%                \caption{Depth body filters.}
+%                \label{Test_Image}
+%        \end{subfigure}
+%
+%        \begin{subfigure}[c]{0.5\textwidth}
+%                \includegraphics[width=\textwidth]{images/3dcnn_filters/filtered_images_body.eps}
+%                \caption{Response maps corresponds to body part.}
+%                \label{Test_Image}
+%        \end{subfigure}
+%
+%        % ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+%          %(or a blank line to force the subfigure onto a new line)
+%        \begin{subfigure}[c]{0.5\textwidth}
+%                \includegraphics[width=\textwidth]{images/3dcnn_filters/gray_hand_conv1_5_5}
+%                \caption{Grayscale hand filters.}
+%                \label{Template_Response}
+%        \end{subfigure}
+%
+%        \begin{subfigure}[c]{0.5\textwidth}
+%        \includegraphics[width=\textwidth]{images/3dcnn_filters/depth_hand_conv1_5_5}
+%        \caption{Depth hand filters.}
+%        \label{shift-resize_image}
+%        \end{subfigure}
+%
+%       \begin{subfigure}[c]{0.5\textwidth}
+%                \includegraphics[width=\textwidth]{images/3dcnn_filters/filtered_images_hand.eps}
+%                \caption{Response maps corresponds to hand part.}
+%                \label{Test_Image}
+%        \end{subfigure}
+%
+%
+%        \caption{Visualisation of the $5\times5$ filters in the first layer for the different input channels. Interestingly, we observe the same effect as~\cite{socher2012convolutional} that the resulting filters from depth images have sharper edges which arise due to the strong discontinuities at object boundaries. While the depth channel is often quite noisy most of the features are still smooth. And response maps correspond to hand part are smoother than those correspond to body part.
+%        % Itcan be seen that the hand filters are smoother than the body part filters because hand input are smoother than the body part input.
+%        }\label{3dcnn_filters}
+%\end{figure}
 
 
 
