@@ -1,0 +1,56 @@
+\documentclass[12pt]{article}
+\usepackage{url,graphicx,tabularx,array,paralist}
+\usepackage[margin=20mm,nohead]{geometry}
+
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{booktabs} %For more aesthetic tab lines
+
+\usepackage{color}
+\usepackage{setspace}
+\usepackage{multirow}
+
+
+\input{../content/variables}
+
+\begin{document}
+
+% \newcommand{\rev}[1]{{\noindent {\bf Comment:} {\it #1}}~\\}
+% \newcommand{\ans}[1]{{\noindent {\bf Response:} #1}~\\}
+% \newcommand{\td}[1]{{\noindent {\bf TODO:} #1}~\\}
+
+%For comments
+\newcommand{\AL}[1]{{\textcolor{blue}{\bf AL: #1}}}
+\newcommand{\AH}[1]{{\textcolor{red}{#1}}}
+
+% For paper modifications
+%\newcommand{\PM}[1]{\begin{tabular}{|p{0.9\linewidth}|}
+%\hline
+%\color{blue}#1\\
+%\hline
+%\end{tabular}
+%}
+
+\newcommand{\PM}[1]{
+~\\
+``\ldots{\em #1}\ldots''
+}
+
+
+
+\input{reviewers_comments}
+
+\end{document}
+
+
+TODO:
+
+- Reply to Reviewer 1... about RGBD methods, refine the described details [Done]
+- Reply to Reviewer 3 about inducing artificial 3DMM misalignment
+- Reply to Reviewer 3 about considering automatic landmarks detection algorithms... say that now we are doing it
