@@ -60,7 +60,7 @@ In terms of data, three modalities are provided with the input videos: the seque
 
 \subsection{Experimental protocol}
 
-\subsubsection{Training and evaluation protocol.}
+\subsubsection{Training and evaluation protocol}
 
 We follow the ChaLearn experimental protocol, in which the input sequences are split into 700 videos for training, and 240 sequences for testing and reporting results.
 Note that the   test sequences  are not segmented a priori and the gestures must be detected within a continuous data stream
@@ -70,7 +70,7 @@ Furthermore, in the experiments, we split the training videos into 650 videos fo
 used as validation data for monitoring the training performance or selecting hyper-parameters.
 
 
-\subsubsection{Performance measures.}
+\subsubsection{Performance measures}
 
 Several measures can be used to evaluate the gesture recognition performance.
 %
@@ -132,7 +132,7 @@ which are further averaged over test sequences for reporting.
   }\label{Sample0700_comparison}
 \end{figure*}
 
-\subsubsection{Tested systems.}
+\subsubsection{Tested systems}
 
 We evaluated the recognition performance made by the HMM applied to the emission probabilities estimated from either  
 the skeleton data, the RGBD image data, the late fusion scheme, and the early fusion scheme.
@@ -215,7 +215,7 @@ suffer from some overfitting.
 %
 Another interesting conclusion that can be drawn from Table~\ref{tab:eventperformance} is that while most errors from the RGBD module are due to under detection 
 (the \eventmissed rate is 19.7\%, whereas it is only 4.1\% for the skeleton), the skeleton module is more reactive to gesture activity, but makes more mistakes 
-(the \eventconfused rate is 12.3\% vs 4.5 for RGBD).
+(the \eventconfused rate is 12.3\% vs 4.5\% for RGBD).
 
 
 Finally, the results also demonstrate  that the combination of both modalities is more robust,
@@ -264,24 +264,27 @@ The confusion matrices in Fig.~\ref{fig:confusion_matrix} better illustrate the 
 %
 The higher underdetection of RGBD is clearly visible (whiter matrix, except last 'undetected' column).
 %
-We can also notice that some gestures are more easily recognized than others.
-For instance, the 'basta' gesture, which resembles  the resting gesture (see Fig.~\ref{fig:chaleanclasses}), tend to be over detected whatever the modality 
-for all gesture classes whenever the gesture instances 
-do not match their ground truth due to too much variability.
+We can also notice that some gestures are more easily recognized than others, 
+or catch the difficult instances of other gestures.
+This is the case for instance of the 'basta' gesture, 
+whose arms motion  resembles the  start and end of the arm motion of many other gesture (see Fig.~\ref{fig:chalearnclasses}). 
+Whatever the modality, it thus tends to be over-detected for all gesture classes, whenever the 
+likelihood of the instances are low when being evaluated using the HMM states associated with their true label 
+due to too much variability.
 %
-Similarly, the hand movement and pose of the 'buenissimo' gesture is somehow present in other gesture classes, 
-and thus the instances of these classes are often confused with 'buenissimo' when relying on the skeleton information.
+Similarly, the hand movement and pose of the 'buenissimo' gesture is present in several other gesture classes, 
+whose instances are then often confused with 'buenissimo' when relying on the skeleton information alone.
 %
-However, as these gestures differe  primarily in their hand pose, such confusion is much more reduced using the RGBD domain, 
-or in the fusion of the skeleton and RGBD module.
+However, as these gestures differ primarily in their hand pose, such confusion is much more reduced using the RGBD domain, 
+or when fusing  the skeleton and RGBD modules.
 %
-In general, the benefit of this complementarity between pose/gesture and hand pose
-can be observed from the whiter confusion matrix than in the skeleton case (less confusion due to hand pose)  
-and much less underdetection than in the RGBD case (better upper-body pose discrimination).
+In general, the benefit of this complementarity between arm pose/gesture and hand pose
+can be observed from the whiter confusion matrix than in the skeleton case (less confusion due to hand pose information from RGBD)  
+and much less under-detection than in the RGBD case (better upper-body pose discrimination thanks to skeleton input).
 %
 
-However, the modalities by themselves have more difficulties to improve the recognition due to performer variations, 
-in particular differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynamics}).
+However, the modalities by themselves have more difficulties to correct the recognition errors which are due to variations coming from the performer, 
+like differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynamics}).
 
 \mypartitle{Early vs Late fusion.}
 
