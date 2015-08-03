@@ -4,10 +4,9 @@
 
 This Section reports the experiments performed to validate our model.
 First, we will introduce the ChaLearn dataset, and then present the experimental protocol we followed.
-In Section~\ref{sec:results}, we will present and analyse the obtained results, including a discussion 
+In Section~\ref{sec:results}, we will present and analyse the obtained results, including a discussion
 on the modeling elements.
 Finally, Section~\ref{sec:ComputationalComplexity} will briefly discuss the computational complexity of the approach.
-
 
 
 
@@ -25,33 +24,34 @@ Finally, Section~\ref{sec:ComputationalComplexity} will briefly discuss the comp
                 \caption{``Non ce ne piu"}
         \end{subfigure}
   \caption{
-\mycomline{Add other examples of gestures, interesting to comment upon take them from chalearn website. 
+\mycomline{Add other examples of gestures, interesting to comment upon take them from chalearn website.
 From the confusion matrix, i would propose: ``Basta'', buenissimo, daccordo, combinato}
-Examples of gestures in the Chalearn dataset. 
+Examples of gestures in the Chalearn dataset.
 Note that some gestures primarily differ primarily in hand pose but not the arm motions, like ``OK'' vs ``Non ce ne piu''
   }
 \label{fig:chalearnclasses}
 \end{figure}
 
 
-\subsection{Chalearn LAP Dataset} 
+\subsection{Chalearn LAP Dataset}
 \label{sec:chalearn}
 
 \mycomline{In this part, provide more information about the dataset: description, content, types of gestures (what are the classes), illustration of the gestures with some pictures (esp. for gestures that have impact on data -for example, expand fig 14 where yoou have the two ok and noncepiu examples with other ones, and put it earlier in the document. why is the dataset challenging ?\\
-Also, provide some statistics about the dataset: 
+Also, provide some statistics about the dataset:
  rough duration of the gestures (average, min max). How many person are performing the gestures, how many occurrences per class, is the dataset balanced}
 
 The dataset used in this work is provided by the ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge\footnote{\href{http://gesture.chalearn.org/homewebsourcereferrals}{http://gesture.chalearn.org/homewebsourcereferrals}}.
 %
-It contains 940 videos sequences, each performed by a single person (X persons are involved in the dataset) 
+It contains 940 videos sequences, each performed by a single person (X persons are involved in the dataset)
 and composed of 10 to 20 gesture instances for a total of around $14\,000$ gestures.
 %
 There are 20 gesture classes, with a number a samples well balanced between classes. Some of them are illustrated in Fig.~\ref{fig:chalearnclasses}
+
 \mycomline{(to be presented/commented)}
 
-In terms of data, three modalities are provided with the input videos: the sequence of skeleton joints, and the RGB and depth images 
-(including a segmentation of the person performing the gesture). 
-%For the input sequences, there are three modalities provided, \emph{i.e.} skeleton, RGB and depth images (with user segmentation). 
+In terms of data, three modalities are provided with the input videos: the sequence of skeleton joints, and the RGB and depth images
+(including a segmentation of the person performing the gesture).
+%For the input sequences, there are three modalities provided, \emph{i.e.} skeleton, RGB and depth images (with user segmentation).
 % This dataset  is on ``multiple instance, user independent learning and continuous gesture spotting"~\cite{ICMI} of gestures.
 % In the 3 track, there are more than 14,000 gestures.
 
@@ -66,7 +66,7 @@ We follow the ChaLearn experimental protocol, in which the input sequences are s
 Note that the   test sequences  are not segmented a priori and the gestures must be detected within a continuous data stream
 which, in addition to the targeted gestures, also contains noisy and out-of-vocabulary gestures.
 %
-Furthermore, in the experiments, we split the training videos into 650 videos for learning the actual neural network model parameters, and 50 videos 
+Furthermore, in the experiments, we split the training videos into 650 videos for learning the actual neural network model parameters, and 50 videos
 used as validation data for monitoring the training performance or selecting hyper-parameters.
 
 
@@ -74,30 +74,34 @@ used as validation data for monitoring the training performance or selecting hyp
 
 Several measures can be used to evaluate the gesture recognition performance.
 %
-In this work, we adopted the ChaLearn performance measure known as the Jaccard index, which relies on a frame-by-frame prediction accuracy. 
-More precisely, if $GT_i$ denotes the sequence of ground truth labels in video $i$, and $R_i$ the algorithm output, the Jaccard index 
+In this work, we adopted the ChaLearn performance measure known as the Jaccard index, which relies on a frame-by-frame prediction accuracy.
+More precisely, if $GT_i$ denotes the sequence of ground truth labels in video $i$, and $R_i$ the algorithm output, the Jaccard index
 of the video is defined as:
 \begin{equation}
-\jaccardindex_i(GT_i, R_i,g) = \frac{N_s(GT_i, R_i,g)}{N_u(GT_i, R_i,g)}, 
+\jaccardindex_i(GT_i, R_i,g) = \frac{N_s(GT_i, R_i,g)}{N_u(GT_i, R_i,g)},
 \mbox{ and } \jaccardindex_i = \frac{1}{|{\cal G}_i)|} \sum_{g \in {\cal G}_i} \jaccardindex_i(GT_i, R_i,g)
 \end{equation}
-where $N_s(GT_i, R_i, g)$ denotes the number of frames where the ground truth and result agree on the gesture class $g$, 
-and $N_u(GT_i, R_i, g)$ denotes the number of frames labeled as a gesture frame $g$ by  either the ground truth or the algorithm, 
-and ${{\cal G}_i}$ denotes the set of gestures either in the ground truth or detected by the algorithm in sequence $i$\footnote{Note that 'non gesture' 
+
+where $N_s(GT_i, R_i, g)$ denotes the number of frames where the ground truth and result agree on the gesture class $g$,
+and $N_u(GT_i, R_i, g)$ denotes the number of frames labeled as a gesture frame $g$ by  either the ground truth or the algorithm,
+and ${{\cal G}_i}$ denotes the set of gestures either in the ground truth or detected by the algorithm in sequence $i$\footnote{Note that 'non gesture'
+
 frames are thus excluded from the counts.}. The average of the $\jaccardindex_i$ over all test videos is reported as performance measure.
 %
 Note that experimentally, this measure tends to favours having more false positives than missing true positives, in order to increase the numerator.
 %Effective ways to detect false positives should be an interesting aspect of future work.
 
-Being defined at the frame level, the Jaccard index can vary due to variations of the segmentation (both in the ground truth and recognition) 
+Being defined at the frame level, the Jaccard index can vary due to variations of the segmentation (both in the ground truth and recognition)
 at gesture boundaries, which can be irrelevant from an application viewpoint.
 %
-Thus, we also defined performance at the gesture event level by following the commonly used PASCAL challenge intersection over union criterion. 
-More precisely, if for a gesture segment $G$, we have $\frac{G \cap R}{G \cup R} >  0.5$, where R denotes a recognized gesture 
+Thus, we also defined performance at the gesture event level by following the commonly used PASCAL challenge intersection over union criterion.
+More precisely, if for a gesture segment $G$, we have $\frac{G \cap R}{G \cup R} >  0.5$, where R denotes a recognized gesture
 segment of the same class, then the  gesture is said to be recognized.
 %
 If the same relation holds but with a gesture segment of another class, the prediction is incorrect.
-Otherwise the gesture is rated as undetected. This allows us to define the \eventaccuracy, \eventconfused and \eventmissed performance measures at the video level, 
+
+Otherwise the gesture is rated as undetected. This allows us to define the \eventaccuracy, \eventconfused and \eventmissed performance measures at the video level,
+
 which are further averaged over test sequences for reporting.
 
 
@@ -134,13 +138,13 @@ which are further averaged over test sequences for reporting.
 
 \subsubsection{Tested systems}
 
-We evaluated the recognition performance made by the HMM applied to the emission probabilities estimated from either  
+We evaluated the recognition performance made by the HMM applied to the emission probabilities estimated from either
 the skeleton data, the RGBD image data, the late fusion scheme, and the early fusion scheme.
 %
-Note that the HMM output was further filtered as follows to avoid false alarms. 
-First, predicted gesture segments of less than 20 frames were considered as noise and discarded. 
+Note that the HMM output was further filtered as follows to avoid false alarms.
+First, predicted gesture segments of less than 20 frames were considered as noise and discarded.
 %
-In addition, longer but noisy gesture segments whose log-probability (including both emission and transition probabilities)  measured over the viterbi path 
+In addition, longer but noisy gesture segments whose log-probability (including both emission and transition probabilities)  measured over the viterbi path
 was lower than a threshold were discarded.
 %
 This threshold was set by optimizing the Jaccard index on the validation set  of the training data.
@@ -174,10 +178,10 @@ This threshold was set by optimizing the Jaccard index on the validation set  of
             %\backslashbox{Module}{Evaluation Set}
              & &  \makebox[5em]{Validation}&\makebox[5em]{Test}       \\\hline\hline
             \multirow{2}{*}{Skeleton - DBDN}       & \eventaccuracy                & 86.3     & 83.6 \\
-                                            &  \eventconfused           & 11.4     & 12.3 \\ 
+                                            &  \eventconfused           & 11.4     & 12.3 \\
                                             &  \eventmissed           &  2.3     &   4.1 \\\hline\hline
             \multirow{2}{*}{RGBD - 3DCNN}    & \eventaccuracy              & 78.7     & 75.8  \\
-                                            &  \eventconfused           & 5.2     &  4.5 \\ 
+                                            &  \eventconfused           & 5.2     &  4.5 \\
                                             &  \eventmissed           & 16.1     & 19.7  \\\hline\hline
             \multirow{2}{*}{Multimodal Late Fusion}   &{\small Acc }               & 0.8791     & 0.8642\\
                                             &  {\small UnRate}           & 0.0302     & 0.0485 \\\hline
@@ -203,14 +207,14 @@ This threshold was set by optimizing the Jaccard index on the validation set  of
 The overal performance of the algorithms are given in Tables~\ref{Table_score_fusion} and~\ref{tab:eventperformance}.
 %
 As can be observed from both performance measures, the skeleton module usually  performs better than the RGBD module.
-In addition, its generalization capability  is better than that of the RGBD module, 
+In addition, its generalization capability  is better than that of the RGBD module,
 especially when measured with the Jaccard index where there is almost no drop of performance between the validation and test data.
 %
-One possible explanation is that the information in the squeleton data is more robust, as it benefited from training using huge and highly 
-varied data~\cite{shotton2011real}: around on million images from both realistic and synthetic depth images were used to train  
+One possible explanation is that the information in the squeleton data is more robust, as it benefited from training using huge and highly
+varied data~\cite{shotton2011real}: around on million images from both realistic and synthetic depth images were used to train
 the decision forest classifiers involved in the joints extraction.
 %
-On the over hand, as the  RGBD module relies on  the raw data and was learned only from the ChaLearn training set, it may 
+On the over hand, as the  RGBD module relies on  the raw data and was learned only from the ChaLearn training set, it may
 suffer from some overfitting.
 %
 Another interesting conclusion that can be drawn from Table~\ref{tab:eventperformance} is that while most errors from the RGBD module are due to under detection 
@@ -220,8 +224,8 @@ Another interesting conclusion that can be drawn from Table~\ref{tab:eventperfor
 
 Finally, the results also demonstrate  that the combination of both modalities is more robust,
 as shown by the recognition rate increase and the smaller drop in the generalization performance
-%, both at the \jaccardindex and event level 
-(for instance the decrease of the \eventaccuracy rate is lower than for the skeleton data alone). 
+%, both at the \jaccardindex and event level
+(for instance the decrease of the \eventaccuracy rate is lower than for the skeleton data alone).
 
 
 
@@ -264,6 +268,7 @@ The confusion matrices in Fig.~\ref{fig:confusion_matrix} better illustrate the 
 %
 The higher underdetection of RGBD is clearly visible (whiter matrix, except last 'undetected' column).
 %
+<<<<<<< HEAD
 We can also notice that some gestures are more easily recognized than others, 
 or catch the difficult instances of other gestures.
 This is the case for instance of the 'basta' gesture, 
@@ -294,7 +299,7 @@ like differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynami
 \mypartitle{HMM benefit.}
 
 
-\mypartitle{Comparison with the state-of-the-art. In particular, add discussion that other temporal module could be used, 
+\mypartitle{Comparison with the state-of-the-art. In particular, add discussion that other temporal module could be used,
 including those that could lead to the training of a full deep-neural network.  }
 %
 The performance of recent state-of-the-art techniques is given in Table~\ref{tab:soa}.
@@ -323,7 +328,7 @@ The performance of recent state-of-the-art techniques is given in Table~\ref{tab
       \vspace*{-3mm}
   \caption{
 \mycomline{Show more sample to illustrate the dynamic - would be good to show the instances for the same gestures - the jaccard index below are obtained using which module?}
-Examples of performer variations in the  upper body dynamic. 
+Examples of performer variations in the  upper body dynamic.
 While most performers tend to keep their upper-body static while performing the gesture leading to good recognition performance (left, Jaccard index of 0.94),
 others vehemently move their body when doing the gestures, making them harder to recognize (right, Jaccard index of 0.34).
 }
@@ -336,7 +341,7 @@ others vehemently move their body when doing the gestures, making them harder to
  \begin{table}[t]
    \centering
         \begin{tabular}{|l||*{3}{c|}}\hline
-            \backslashbox{Module}{Evaluation Set}
+            {Module}
             &\makebox[3em]{Skeleton}&\makebox[6em]{RGBD}&\makebox[3em]{Fusion}
             \\\hline\hline
             {~\cite{neverova2014multi}} Deep Learning (Step 4)                  &   0.7891     &  0.7990      & \textbf{0.8449}\\\hline
@@ -370,12 +375,12 @@ Although training the deep neural network using stochastic gradient descent is c
 %
 Given the learned models,  our framework can perform real-time video sequence labelling with a low inference cost.
 %
-More specifically, a single feed forward neural network incurs linear computational time ($\mathcal{O}(T)$), 
-and is efficient because it requires only matrix products and convolution operations. 
-The complexity of the Viterbi algorithm is itself of $\mathcal{O} (T* |S|^2)$, where 
+More specifically, a single feed forward neural network incurs linear computational time ($\mathcal{O}(T)$),
+and is efficient because it requires only matrix products and convolution operations.
+The complexity of the Viterbi algorithm is itself of $\mathcal{O} (T* |S|^2)$, where
 $T$ is the number of frames and $|S|$ the number of states, and thus performs real-timegiven our state-space.
 
-In practice, using a modern GPU (GeForece GTX TITAN Black), our multimodal neural network can be deployed at 90 FPS using the  
+In practice, using a modern GPU (GeForece GTX TITAN Black), our multimodal neural network can be deployed at 90 FPS using the
 Theano library~\cite{Bastien-Theano-2012}.
 The preprocessing part takes most of the time and our un-optimized version runs at 25 FPS, while the
  Viterbi decoding  runs at 90 FPS. Hence, the overall system can achieve faster than real-time performance.
