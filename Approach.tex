@@ -7,13 +7,21 @@
   \centering
   % Requires \usepackage{graphicx}
   \includegraphics[width=0.48\textwidth]{images/GraphicalModel_new2}\\
-  \caption{Per-gesture model: the temporal model is a HMM (left), whose emission probability \emissionprob{} (right) is modeled by a forward-linked chain. The HMM observations \randomvariable{} (skeletal features \randomvariableSK{}, or RGB-D image features \randomvariableRGBD{}) are first passed through deep neural nets: a Deep Belief Network (DBN) for skeletal modality or a 3D convolutional neural network (3DCNN) for the RGB-D modality, to extract high-level features (\highSK{} and \highRGBD{}). The outputs of the neural networks are the emission probabilities of the hidden states $p(X_t | H_t )$.}\label{GM}
+  \caption{Gesture recognition model: the temporal model is a HMM (left), whose emission probability 
+\emissionprob{} (right) is modeled by a forward-linked neural network chain. 
+%%
+More precisely, observations $\observation_t$ (skeletal features $\observationSK_t$, or RGB-D image features $\observationRGBD_t$) 
+are first passed through appropriate deep neural nets (a Deep Belief Network (DBN) for the skeletalon modality, and 
+ a 3D convolutional neural network (3DCNN) for the RGB-D modality) to implictly extract high-level features (\highSK and \highRGBD)
+which are further fused to produce an estimate of $p(\observation_t|\hiddenstate_t)$.
+} 
+\label{fig:GM}
 \end{figure}
 
-Inspired by the framework successfully applied to speech recognition~\cite{mohamed2012acoustic}, the proposed model is a data driven learning system, relying on a pure learning approach. This results in an integrated model, where the amount of prior knowledge and engineering is minimised. On top of that, this approach works without the need for additional complicated preprocessing and dimensionality reduction methods as it is naturally embedded in the framework.
+Inspired by the framework successfully applied to speech recognition~\cite{mohamed2012acoustic}, the proposed model is a data driven learning system. This results in an integrated model, where the amount of prior knowledge and engineering is minimised. On top of that, this approach works without the need for additional complicated preprocessing and dimensionality reduction methods as it is naturally embedded in the framework.
 
-The proposed approach relies on a Hidden Markov Model (HMM) for the temporal part, where the emission probabilities are modelled by two distinctive types of neural networks appropriate for input modality.
- More specifically, the first model works on skeletal features and the neural network for the emission probabilities is a deep boltzmann machine. The second model, on the other hand, uses convolutional neural networks to model the emission probabilities related to RGB and depth (RGB-D) video data.
+The proposed approach relies on a Hidden Markov Model (HMM) for the temporal part, 
+and neural networks to model the emission probabilities.
  In the remainder of this section, we will first present our temporal model and then introduce its main component. 
 The details of the two distinct neural networks and fusion mechanisms along with post-processing will be provided 
 in Section~\ref{sec:ModelImplementation}.
@@ -24,8 +32,13 @@ in Section~\ref{sec:ModelImplementation}.
 
 The proposed deep dynamic neural network \emph{(DDNN)} can be seen as an extension of~\cite{diwucvpr14}, where instead of only using the restricted Boltzmann machines to model human motion, various connectivity layers (fully connected layers, convolutional layers) are stacked together to learn higher level features justified by a variational bound~\cite{hinton2006fast} from different input modules.
 
-A continuous-observation HMM with discrete hidden states is adopted for modelling higher level temporal relationships. At each time step $t$, we have one observed random variable \randomvariable{} represents the skeleton input \randomvariableSK{} and RGB-D input \randomvariableRGBD{} as shown in the graphical representation in Fig.~\ref{GM}.
- The unobserved variable \hiddenvariable{} taking on values in a finite set composed of \finiteset{}$=(\bigcup _{a \in \mathcal{A}} \mathcal{H}_a)$, where $\mathcal{H}_a$ is a set of states associated with an individual gesture \gesturea{} related to the different gesture. The unobserved variable \hiddenvariable{} can be interpreted as a segment of a gesture \gesturea{}.
+A continuous-observation HMM with discrete hidden states is adopted for modelling higher level temporal relationships. 
+At each time step $t$, we have one observed random variable $\observation_t$ 
+composed of the skeleton input $\observationSK_t$ and RGB-D input $\observationRGBD_t$ 
+as shown in the graphical representation in Fig.~\ref{fig:GM}.
+%
+ The unobserved variable $\hiddenstate_t$ takes on values in a finite set  \finiteset composed of \numberhiddenstate states related to 
+the different gestures. In practice,  $\hiddenstate_t$ can be interpreted as a segment of a gesture \gesturea{}.
 
  The intuition motivating this construction is that a gesture is composed of a sequence of poses where the relative duration of each pose may vary. This variance is captured by allowing flexible forward transitions within the chain.
  Classically under the HMM assumption, the joint probability of observations and states is given by:
@@ -33,10 +46,14 @@ A continuous-observation HMM with discrete hidden states is adopted for modellin
 p(H_{1:T},X_{1:T}) = p(H_1)p(X_1 | H_1) \prod^{T}_{t=2} p(X_t | H_t ) p(H_t | H_{t-1}),
 \label{HMM_GM_1}
 \end{equation}
-where $p(H_1)$ is the prior on the first hidden state, \transitionmatrix{} is the transition dynamics modelling the allowed state transitions and their probability and $p(X_t | H_t )$ is the emission probability modelled by the deep neural nets.
+where $p(\hiddenstate_1)$ is the prior on the first hidden state, $p(\hiddenstate_t|\hiddenstate_{t-1})$ 
+is the transition dynamics modelling the allowed state transitions and their probabilities, 
+ and $p(\observation_t | \hiddenstate_t )$ is the emission probability of the observation, 
+modelled by  deep neural networks in our case. These elements are presented below.
 
 
 %\subsection{Ergodic States Hidden Markov Model}
+
 \begin{figure}[t]
   \centering
   % Requires \usepackage{graphicx}
@@ -45,23 +62,32 @@ where $p(H_1)$ is the prior on the first hidden state, \transitionmatrix{} is th
     State diagram of the \emph{ES-HMM} model for low-latency gesture segmentation and recognition. An ergodic state (\emph{$\mathcal{ES}$}) is used to model the resting position between gesture sequences. Each node represents a single state and each row represents a single gesture model. The arrows indicate possible transitions between states.}
     \label{HMM_ES}
 \end{figure}
+
+
+\subsection{State-transition model}
+\label{sec:ProblemFormation}
+
+
 The HMM framework can be used for simultaneous gesture segmentation and recognition.
-This is achieved by defining the state transition diagram as shown in Fig~\ref{HMM_ES}. For each given gesture $a \in \mathcal{A}$, a set of state $\mathcal{H}_a$ is introduced to defined a Markov model of that gesture. For example, for action sequence ``tennis serving", the action sequence can be dissected into $h_{a_1}, h_{a_2}, h_{a_3}$ as: 1) raising one arm 2) raising the racket 3) hitting the ball.
+This is achieved by defining the state transition diagram as shown in Fig~\ref{HMM_ES}. For each given gesture $a \in \mathcal{A}$, a set of states $\mathcal{H}_a$ is introduced to defined a Markov model of that gesture. For example, for action sequence ``tennis serving", the action sequence can implictly be dissected into $\hiddenstatenode_{a_1}, \hiddenstatenode_{a_2}, \hiddenstatenode_{a_3}$ as: 1) raising one arm 2) raising the racket 3) hitting the ball.
 More precisely, since our goal is to capture the variation in speed of the performed gestures, we set the transition matrix \transitionmatrix{}  in the following way: when being in a particular node $n$ at time $t$, moving to time $t + 1$, we can either stay in the same node (slower), move to node $n + 1$, or move to node $n+2$ (faster).
+%
+Furthermore, to allow sthe egmentation of gestures, we add an ergodic state 
+(\emph{$\mathcal{ES}$}) which resembles the silence state for speech recognition and which serve as a catch-all state.
+From this state we can move to the first three nodes of any gesture class, and from the last three nodes of any gesture class we can move to $\mathcal{ES}$.
+Hence, the hidden variable \hiddenvariable{} can take values within the finite set
+ $\mathcal{H}=(\bigcup _{a \in \mathcal{A}} \mathcal{H}_a) \bigcup \{\mathcal{ES}\}$.  
 
-Further more, to alow segmentation of gesture, we add an ergodic state (\emph{$\mathcal{ES}$}) which resembles the silence state for speech recognition which serve as a catch-all state.
-From the $\mathcal{ES}$ we can move to the first three nodes of any gesture class, and from the last three nodes of any gesture class we can move to the $\mathcal{ES}$.
-Hence, the hidden variable \hiddenvariable{} can take values within the finite set, defined as $\mathcal{H}=(\bigcup _{a \in \mathcal{A}} \mathcal{H}_a) \bigcup \{\mathcal{ES}\}$, where $\mathcal{ES}$ is the ergodic state as the resting position between gestures. We refer to the model as the ergodic states hidden Markov model (\emph{ES-HMM}) for simultaneously gesture segmentation and recognition.
-
-
-The \emph{ES-HMM} framework differs from the firing hidden Markov model of~\cite{nowozin2012action} in that we strictly follow a left-right HMM structure without allowing backward transition, forbidding inter-states transverse, assuming that the considered gestures do not undergo cyclic repetitions as in walking for instance.
+Overall, we refer to the model as the ergodic states hidden Markov model (\emph{ES-HMM}) for simultaneously gesture segmentation and recognition. It  differs from the firing hidden Markov model of~\cite{nowozin2012action} in that we strictly follow a left-right HMM structure without allowing backward transition, forbidding inter-states transverse, assuming that the considered gestures do not undergo cyclic repetitions as in walking for instance.
 
 
 %The emission probability is represented as a matrix of size $N_{\mathcal{TC}} \times N_{\mathcal{F}}$ where $N_{\mathcal{F}}$ is the number of frames and output target class $N_{\mathcal{TC}}=N_{\mathcal{A}} \times N_{\mathcal{H}_a}+1$ where $N_{\mathcal{A}}$ is the number of gesture classes and $N_{\mathcal{H}_a}$ is the number of states associated to an individual gesture $a$ and one $\mathcal{ES}$ state (\emph{c.f.} Fig. \ref{Sample0700_comparison}: x-axis as $N_{\mathcal{F}}$ and y-axis as $N_{\mathcal{TC}} $ with $\mathcal{ES}$ as the bottom y-axis 101).
 
 
-Once we have the trained model, we can use standard techniques to infer online the filtering distribution $p(H_t | X_{1:t})$; or offline the smoothed distribution $p(H_t | X_{1:T})$ where $T$ denotes the end of the sequence.
-Because the graph for the hidden Markov model is a directed tree, this problem can be solved exactly and efficiently using the max-sum algorithm also known as Viterbi algorithm. This algorithm searches this space of paths efficiently to find the most probable path with a computational cost that grows only linearly with the length of the chain~\cite{bishop2006pattern}.
+Once we have the trained model, we can use standard techniques to infer online the filtering 
+distribution $p(\hiddenstate_t | \observation_{1:t})$,  or offline (or with delay) 
+the smoothed distribution $p(H_t | X_{1:T})$ where $T$ denotes the end of the sequence.
+Because the graph for the hidden Markov model is a directed tree, this problem can be solved exactly and efficiently using the max-sum algorithm also known as Viterbi algorithm. This algorithm searches the space of paths efficiently to find the most probable path with a computational cost that grows only linearly with the length of the chain~\cite{bishop2006pattern}.
 %We can infer the gesture presence in a new sequence by Viterbi decoding.
 % \begin{equation}
 %    V_{t,\mathcal{H}}= \log P(X_t | H_t)+  \log(\max_{\mathcal{H} \in \mathcal{H}_a}( V_{t-1,\mathcal{H}}))
@@ -69,13 +95,48 @@ Because the graph for the hidden Markov model is a directed tree, this problem c
 %\end{equation}
 %whith the initial state $V_{1,\mathcal{H}}=P(X_1 |H_1)$.
 %From the inference results, we define the probability of a gesture $a \in \mathcal{A}$ as $p(y_t=a|x_{1:t}) =V_{T,\mathcal{H}}$.
-The result of the Viterbi algorithm is a path--sequence $h_{t:T}$ of nodes going through the state diagram of Fig.\ref{HMM_ES} and from which we can easily infer the class of the gesture as illustrated in Fig. \ref{Sample0700_comparison}.
+The result of the Viterbi algorithm is a path--sequence $\hat{\hiddenstatenode}_{t:T}$ of nodes going through the state diagram of 
+Fig.\ref{HMM_ES} and from which we can easily infer the class of the gesture as illustrated in Fig.~\ref{fig:Sample0700_comparison}.
 
 
 
-\subsection{Learning the emission probability \emissionprob{}}\label{Problem formation}
+\subsection{Learning the emission probability \emissionprob{}}
+\label{sec:ProblemFormation}
 
-Traditionally, GMMs and HMMs co-evolved as a way of doing speech recognition when computers were too slow to explore more computationally intensive approaches. GMMs are easy to fit when they have diagonal covariance matrices and, with enough components, they can model any distribution. They are, however, statistically inefficient at modeling high-dimensional data that has many kind of componential structure as explained in~\cite{mohamed2012acoustic}. Suppose, for example, that $\mathcal{N}$ significantly different patterns can occur in one sub-band and $\mathcal{M}$ significantly different patterns can occur in another sub-band. Suppose also that which pattern occurs in each sub-band is approximately independent. A GMM requires $\mathcal{N*M}$ components to model this structure because each component must generate both sub-bands(each piece of data has only a single latent cause). On the other hand, a model that explains the data using multiple causes only requires $\mathcal{N+M}$ components, each of which is specific to a particular sub-band. This exponential inefficiency of GMMs for modeling factorial structures leads to the GMMs+HMMs systems that have a very large number of Gaussians, most of which must be estimated from a very small fraction of the data.
+Traditionnally, emission probabilities for activity recognition have been trained with Gaussian Mixture Models (GMM), one per state. 
+%
+Alternatively, in this work we propose to model this term in a discriminative fashion.
+More precisely, since the input features have a high dimensionality, 
+we propose to learn them using two distinctive types of neural networks suited to the input modality,
+as summarized in the right of Fig.~\ref{fig:GM}. 
+%
+More specifically, for  the skeletal features, we rely on deep boltzmann machine (DBM) 
+to learn  high-level feature representations and further fine-tune them as a Deep-Belief Network 
+for learning the emission probability.
+%
+For the RGB and depth (RGB-D) video data, we rely on a 3D (2D for space and 1D for time) 
+convolutional neural networks (3DCNN) to model the emission probabilities.
+
+Such an approach present several advantages over the traditional GMM paradigm.
+%
+%Traditionally, GMMs and HMMs co-evolved as a way of doing speech recognition when computers were too slow to explore more computationally intensive approaches. 
+First, while  GMMs are easy to fit when they have diagonal covariance matrices and, with enough components, 
+can model any distribution, they have been shown to statistically inefficient at modeling high-dimensional features 
+with many componential structure as explained in~\cite{mohamed2012acoustic}.
+%
+For instance, assume that the components of the input feature space can be separated into two subspaces
+characterized by  $N$  and $M$ significantly different  patterns in the training data, respectively, and that the occurences 
+of these patterns are relatively independent\footnote{In our case, intuitively these spaces could be the  features from different body parts, 
+like left/right arm or torso features.}. 
+%
+A GMM will requires $N*M$ components to model this structure because each component must generate all the input features.
+%
+On the other hand, a DBM model that can explains the data using multiple causes only requires $N+M$ components
+(in the ideal fully independent case), each of which is specific to a particular subspace. 
+%
+This exponential inefficiency of GMMs at modeling factorial structures leads to GMM+HMM systems having 
+a very large number of Gaussians, most of which must be estimated from a very small fraction of the data.
+
 
 The benefit of learning a generative model is greatly magnified when there is a large supply of unlabeled skeletal, RGB and depth data either acquired by motion capture systems or inferred from depth images in addition to the training data that has been labeled by a forced HMM alignment. We do not make use of unlabeled data in this paper, but it could only improve our results relative to purely discriminatively approaches.
 

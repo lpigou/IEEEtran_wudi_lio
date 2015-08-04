@@ -17,21 +17,26 @@
 %HMM
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % random variable
-\newcommand{\randomvariable}{$X_t$}
+\newcommand{\observation}{\ensuremath{X}\xspace}
+\newcommand{\observationSK}{\ensuremath{\observation^{s}}\xspace}
+\newcommand{\observationRGBD}{\ensuremath{\observation^{s}}\xspace}
+\newcommand{\randomvariable}{$\observation_t$}
 
 % hidden variable
-\newcommand{\hiddenvariable}{$H_t$}
+\newcommand{\hiddenstate}{\ensuremath{H}\xspace}
+\newcommand{\hiddenstatenode}{\ensuremath{h}\xspace}
+\newcommand{\hiddenvariable}{$\hiddenstate_t$}
 
 % finite set
-\newcommand{\finiteset}{$\mathcal{H}$}
+\newcommand{\finiteset}{\ensuremath{\mathcal{H}}\xspace}
 % number of hidden states
-\newcommand{\numberhiddenstate}{}
+\newcommand{\numberhiddenstate}{\ensuremath{N_{\finiteset}}\xspace}
 
 % transition matrix
-\newcommand{\transitionmatrix}{$p(H_t | H_{t-1})$}
+\newcommand{\transitionmatrix}{$p(\hiddenstate_t | \hiddenstate_{t-1})$}
 
 % emission probability
-\newcommand{\emissionprob}{\ensuremath{p(X_t | H_t)}\xspace}
+\newcommand{\emissionprob}{\ensuremath{p(\observation_t | \hiddenstate_t)}\xspace}
 
 \newcommand{\emissionprobSK}{\ensuremath{p(X_t^S | H_t)}\xspace}
 
@@ -56,14 +61,14 @@
 %  input
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % skeleton input
-\newcommand{\randomvariableSK}{$X_t^s$}
+\newcommand{\randomvariableSK}{$\observation_t^s$}
 % skeleton high level features
-\newcommand{\highSK}{$V^s$}
+\newcommand{\highSK}{\ensuremath{V^s}\xspace}
 
 % RGBD input
-\newcommand{\randomvariableRGBD}{$X_t^r$}
+\newcommand{\randomvariableRGBD}{$\observation_t^r$}
 %RGBD high level features
-\newcommand{\highRGBD}{$V^r$}
+\newcommand{\highRGBD}{\ensuremath{V^r}\xspace}
 
 % gesture a
 \newcommand{\gesturea}{$\textbf{\emph{a}}$}
