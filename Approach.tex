@@ -110,12 +110,21 @@ More precisely, since the input features have a high dimensionality,
 we propose to learn them using two distinctive types of neural networks suited to the input modality,
 as summarized in the right of Fig.~\ref{fig:GM}. 
 %
-More specifically, for  the skeletal features, we rely on deep boltzmann machine (DBM) 
-to learn  high-level feature representations and further fine-tune them as a Deep-Belief Network 
+More specifically, for  the skeletal features, we rely on a Deep-Belief Network (DBN) trained in two steps \cite{salakhutdinov2009learning}:
+in the first one,  a (stacked) deep boltzmann machine (DBM) is trained in an unsupervised fashion using only observation data
+to learn  high-level feature representations;
+in the second step, the model is used as a Deep-Belief Network 
+whose weights are further fine-tuned them as a 
 for learning the emission probability.
 %
 For the RGB and depth (RGB-D) video data, we rely on a 3D (2D for space and 1D for time) 
 convolutional neural networks (3DCNN) to model the emission probabilities.
+%
+Finally, a fusion method combines in an early or in a late stage the contributions of both modalities.
+%
+In all cases (including the fusion), the supervised training is conducted by learning to 
+predict the state label (an element of \finiteset) associated to each training or testing frame.
+
 
 Such an approach present several advantages over the traditional GMM paradigm.
 %
@@ -138,32 +147,76 @@ This exponential inefficiency of GMMs at modeling factorial structures leads to 
 a very large number of Gaussians, most of which must be estimated from a very small fraction of the data.
 
 
-The benefit of learning a generative model is greatly magnified when there is a large supply of unlabeled skeletal, RGB and depth data either acquired by motion capture systems or inferred from depth images in addition to the training data that has been labeled by a forced HMM alignment. We do not make use of unlabeled data in this paper, but it could only improve our results relative to purely discriminatively approaches.
+Secondly, the approach for training the skeleton DBN model, first using variational learning to train a
+ DBM model with unlabeled data, then in a discrimative fashion
+\cite{salakhutdinov2009learning} has been shown to have several advantages.
+%
+It has been observed that  variational learning~\cite{neal1998view}, 
+which tries to optimize the data-likelihood while minizing the Kullback-Leibler divergence between 
+the true posterior distribution of the hidden state (i.e. hidden layer variables of the DBM  in our case) 
+and an approximation of this distribution, tends to produce unimodal distributions.
+%
+This is beneficial, as this means that similar sensory inputs will be mapped to  similar hidden variables.
+%
+Thus, the intuition for using DBN  for modeling the emission probability $p(\observation_t|\hiddenstate_t)$  
+from skeleton joints  is that by learning the multi-layer network layer by layer, 
+semantically meaningful high level features for skeleton configuration will be extracted while at the same 
+time a  parametric prior of human pose is learned.
+%
+%In the recent work of~\cite{6751269} a non-parametric bayesian network is adopted for human pose prior estimation, whereas in our framework, the parametric networks are incorporated.
+%
+In our case, using the pair wise joints features as raw input, the data-driven approach network will be able to extract relational 
+multi-joints features which are relevant to the target classes. 
+For instance, from  the ``toss" action data, a wrist joints rotating around shoulder joints feature is expected to 
+be extracted from the backpropagation  learning, and be the equivalent of those task specific \emph{ad hoc} hard wired sets 
+of joints configurations defined in~\cite{chaudhry2013bio}~\cite{muller2006motion}\cite{nowozin2012action}~\cite{ofli2013sequence}.
 
-Naturally, many of the high-level features learned by the generative model may be irrelevant for making the required discriminations, even though they are important for explaining the input data. However, this is a price worth paying if computation is cheap and high-level features are very good for discriminating between classes of interest.
-The benefit of each weight in a neural network being constrained by a larger faction of training case than each parameter in a GMM has been masked by other differences in training. Neural networks have traditionally been training discriminatively, whereas GMMs are typically trained as generative models (even if discriminative training is performed later in the training procedure). Generative training allows the data to impose many more bits of constraints on the parameters, hence partially compensating for the fact that each component of a large GMM must be trained on a very small fraction of the data.
+The benefit of such a learning approach is even more important when large amount of unlabelled data (e.g. skeleton data
+ inferred from depth images of people performing unknown gestures) is available in addition to the labeled ones 
+(this was not the case in this paper). 
+%
+%% The benefit of learning a generative model is greatly magnified when there is a large supply of unlabeled skeletal, RGB and depth data either acquired by motion capture systems or inferred from depth images in addition to the training data that has been labeled by a forced HMM alignment. We do not make use of unlabeled data in this paper, but it could only improve our results relative to purely discriminatively approaches.
+%
+Naturally, many of the  features learned in this unsupervised way might  be irrelevant for making the required discriminations, 
+even though they are important for explaining the input data. 
+However, this is a price worth paying if data availability and computation are cheap and 
+lead to  a stable mapping of the high-dimensional input  into high-level features 
+that are very good for discriminating between classes of interest.
+%
+In this view, it is important to notice that each weight in a neural network is usually constrained by a larger fraction of 
+the training samples than each parameter in a GMM, a point that has been masked by other differences in training. 
+In particular,  neural networks have traditionally been training discriminatively, whereas GMMs are typically trained as generative models, 
+%(even if discriminative training is performed later in the training procedure). 
+which given their parametric  nature  partially compensate the fact that each mixture 
+of a large GMM is usually trained on a very small fraction of the data.
 
-Feed forward neural networks offer several potential advantages over GMMs:
+In summary, the feed forward neural networks offer several potential advantages over GMMs:
 \begin{itemize}
-\item Their estimation of the posterior probabilities of HMM states does not require detailed assumptions about the data distribution.
-\item They allow an easy way of combining diverse features, including both discrete and continuous features.
-\item They use far more of the data to constrain each parameter because the output on each training case is sensitive to a large fraction of the weights.
+\item their estimation of emission  probabilities does not require detailed assumptions about the data distribution;
+\item they allow an easy combination of diverse features, including both discrete and continuous features;
+\item they use far more of the data to constrain each parameter because the output on each training case 
+is sensitive to a large fraction of the weights.
 \end{itemize}
-\textbf{Learning the higher level representation for skeleton joints features}: \label{skeleon_high_level}\newline Neal and Hinton~\cite{neal1998view} demonstrated that the negative log probability of a single data vector, $\textbf{v}^0$, under the multi-layer generative model is bounded by a variational free energy, which is the expected energy under the approximating distribution, $Q(\textbf{h}^0 |\textbf{v}^0 )$, minus the entropy of that distribution. For a directed model, the ``energy" of the configuration $\textbf{v}^0 $,$\textbf{h}^0$ is given by $  E(\textbf{v}^0, \textbf{h}^0) = - [ \log p(\textbf{h}^0)+ \log p(\textbf{v}^0 | \textbf{h}^0)]$.
-So the bound is
-\begin{align*}
-    \log p(\textbf{v}^0) &\geqslant \sum_{\textbf{h}^0} Q(\textbf{h}^0 | \textbf{v}^0) [ \log p (\textbf{h}^0) + \log p (\textbf{v}^0 | \textbf{h}^0)] \\
-     &- \sum_{\textbf{h}^0} Q(\textbf{h}^0 | \textbf{v}^0) \log Q(\textbf{h}^0 |\textbf{v}^0)
-\end{align*}
 
-The intuition using deep belief networks for modeling marginal distribution \emissionprob{} in skeleton joints action recognition is that by constructing multi-layer networks, semantically meaningful high level features for skeleton configuration will be extracted whilst learning the parametric prior of human pose from mass pool of skeleton joints data. In the recent work of~\cite{6751269} a non-parametric bayesian network is adopted for human pose prior estimation, whereas in our framework, the parametric networks are incorporated.
 
-Using the pair wise joints features as raw input, the data-driven approach network will be able to extract relational multi-joints features which are relevant to target frame class. E.g., for ``toss" action, wrist joints is rotating around shoulder joints would be extracted from the backpropagation via target frame as those task specific, \emph{ad hoc} hard wired sets of joints configurations as in~\cite{chaudhry2013bio}~\cite{muller2006motion}\cite{nowozin2012action}~\cite{ofli2013sequence}.
 
-The outputs of the neural net are the hidden states learned by force alignment during the supervised training process.
-Once we have model, we can use the normal online or offline smoothing, inferring the hidden marginal distributions of every node (frame) of the test video.
+%% \textbf{Learning the higher level representation for skeleton joints features}: \label{skeleon_high_level}
 
-The overall algorithm for training and testing are presented in Algorithm \ref{MMDDN_train} and \ref{MMDDN_test}.
+%Neal and Hinton~\cite{neal1998view} demonstrated that the negative log probability of a single data vector, $\textbf{v}^0$, under the multi-layer generative model is bounded by a variational free energy, which is the expected energy under the approximating distribution, $Q(\textbf{h}^0 |\textbf{v}^0 )$, minus the entropy of that distribution. For a directed model, the ``energy" of the configuration $\textbf{v}^0 $,$\textbf{h}^0$ is given by $  E(\textbf{v}^0, \textbf{h}^0) = - [ \log p(\textbf{h}^0)+ \log p(\textbf{v}^0 | \textbf{h}^0)]$.
+%% So the bound is
+%% \begin{align*}
+%%     \log p(\textbf{v}^0) &\geqslant \sum_{\textbf{h}^0} Q(\textbf{h}^0 | \textbf{v}^0) [ \log p (\textbf{h}^0) + \log p (\textbf{v}^0 | \textbf{h}^0)] \\
+%%      &- \sum_{\textbf{h}^0} Q(\textbf{h}^0 | \textbf{v}^0) \log Q(\textbf{h}^0 |\textbf{v}^0)
+%% \end{align*}
+
+%% The intuition using deep belief networks for modeling marginal distribution \emissionprob{} in skeleton joints action recognition is that by constructing multi-layer networks, semantically meaningful high level features for skeleton configuration will be extracted whilst learning the parametric prior of human pose from mass pool of skeleton joints data. In the recent work of~\cite{6751269} a non-parametric bayesian network is adopted for human pose prior estimation, whereas in our framework, the parametric networks are incorporated.
+
+%% Using the pair wise joints features as raw input, the data-driven approach network will be able to extract relational multi-joints features which are relevant to target frame class. E.g., for ``toss" action, wrist joints is rotating around shoulder joints would be extracted from the backpropagation via target frame as those task specific, \emph{ad hoc} hard wired sets of joints configurations as in~\cite{chaudhry2013bio}~\cite{muller2006motion}\cite{nowozin2012action}~\cite{ofli2013sequence}.
+
+%% The outputs of the neural net are the hidden states learned by force alignment during the supervised training process.
+%% Once we have model, we can use the normal online or offline smoothing, inferring the hidden marginal distributions of every node (frame) of the test video.
+
+%The overall algorithm for training and testing are presented in Algorithm \ref{MMDDN_train} and \ref{MMDDN_test}.
 
 \begin{algorithm}
 \caption{Multimodal deep dynamic networks -- training}\label{MMDDN_train}
