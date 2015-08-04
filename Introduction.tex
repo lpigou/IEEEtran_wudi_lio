@@ -1,0 +1,43 @@
+
+
+\section{Introduction}
+\label{sec:introduction}
+
+\IEEEPARstart{I}{n} recent years, human action recognition has drawn increasing attention of researchers, primarily due to its potential in areas such as video surveillance, robotics, human-computer interaction, user interface design, and multimedia video retrieval.
+
+Previous works on video-based motion recognition~\cite{liuli,xiantong,diwu2} mainly focused on adapting handcrafted features. % and low-level hand-designed features.
+These methods usually have two stages: an optional feature detection stage followed by a feature description stage. Well-known feature detection methods (``interest point detectors") are Harris3D~\cite{laptev2005space}, Cuboids~\cite{dollar2005behavior} and Hessian3D~\cite{hession3d}. For descriptors, popular methods are Cuboids~\cite{scovanner20073}, HOG/HOF~\cite{laptev2005space}, HOG3D~\cite{klaser:inria-00514853} and Extended SURF~\cite{hession3d}.
+In recent work of Wang \textit{et al.}~\cite{wang2013dense}, dense trajectories with improved motion based descriptors epitomised the pinnacle of handcrafted features and achieved state-of-the-art results on a variety of ``in the wild" datasets.
+Based on the current trends, challenges and interests within the action recognition community, it is to be expected that many successes will follow. However, the very high-dimensional and dense trajectory features usually require the use of advanced dimensionality reduction methods to make them computationally feasible.
+
+Furthermore, as discussed in the evaluation paper of Wang \emph{et al.}~\cite{wang2009evaluation}, no universally best hand-engineered feature exists and the best performing feature descriptor is often dataset dependent. This clearly indicates that the ability to learn dataset specific feature extractors can be highly beneficial.
+%In the evaluation paper of Wang \emph{et al.}~\cite{wang2009evaluation}, one interesting finding is that there is no universally best hand-engineered feature for all datasets, suggesting that learning features directly from the dataset itself may be more advantageous.
+For this reason, even though handcrafted features have dominated image recognition in previous years, there has been a growing interest in learning low-level and mid-level features, either in supervised, unsupervised, or semi-supervised settings~\cite{taylor2010convolutional,le2011learning,baccouche2005spatio}.
+%Albeit the dominant methodology for visual recognition from images and videos relies on hand-crafted features, there has been a growing interest in methods that learn low-level and mid-level features, either in supervised, unsupervised, or semi-supervised settings~\cite{taylor2010convolutional,le2011learning,baccouche2005spatio}.
+
+Due to the recent resurgence of neural networks invoked by Hinton and others~\cite{hinton2006fast}, deep neural architectures serve as an effective solution for extracting high-level features from data.
+Deep artificial neural networks have won numerous contests in pattern recognition and representation learning. Schmidhuber~\cite{schmidhuber2014deep} compiled a historical survey compactly summarising relevant works with more than 850 entries of credited works.
+From this overview we see that these models have been successfully applied to a plethora of different domains: the GPU-based cuda-convnet~\cite{krizhevsky2012imagenet} classifies 1.2 million high-resolution images into 1000 different classes; multi-column deep neural networks~\cite{ciresan2012multi} achieve near-human performance on the handwritten digits and traffic signs recognition benchmarks; 3D convolutional neural networks~\cite{3dcnn}~\cite{ji20133d} recognise human actions in surveillance videos; deep belief networks combined with hidden Markov models~\cite{mohamed2012acoustic}~\cite{diwucvpr14} for acoustic and skeletal joints modelling outperform the decade-dominating paradigm of Gaussian mixture models in conjunction with hidden Markov models. And recently, Baidu research proposed a DeepSpeech system~\cite{hannun2014deepspeech} that combines a well-optimised recurrent neural network (RNN) training system, achieving the best error rate on noisy speech dataset. In these fields, deep architectures have shown great capacity to discover and extract higher level relevant features.
+
+However, direct and unconstrained learning of complex problems remains difficult, since (i) the amount of required training data increases steeply with the complexity of the prediction model and (ii) training highly complex models with very general learning algorithms is extremely difficult. It is therefore a common practice to restrain the complexity of the model. This is generally done by operating on small patches to reduce the input dimension and diversity~\cite{baccouche2005spatio}, or by training the model in an unsupervised manner~\cite{le2011learning}, or by forcing the model parameters to be identical for different input locations (as in convolutional neural networks~\cite{krizhevsky2012imagenet,ciresan2012multi,3dcnn}).
+
+
+On the sensor side, due to the immense popularity of Microsoft Kinect~\cite{shotton2011real}~\cite{lingshao2}, there has been a recent interest in developing methods for human gesture and action recognition from 3D skeletal data and depth images.
+A number of new datasets~\cite{ICMI,fothergill2012instructing,guyon2012chalearn,wang2012mining} have provided researchers with the opportunity to design novel representations and algorithms, and test them on a much larger number of sequences.
+While gesture recognition based on 3D joint positions may seem trivial, it is actually not the case due to several factors. A first one is the high dimensionality and the large amount of variability of the pose space itself.
+A second aspect that further complicates the recognition is the segmentation of the different gestures. While in practice segmentation is as important as the recognition, it is an often neglected aspect of the current action recognition research which often assume the availability of segmented inputs~\cite{laptev2005space}~\cite{marszalek09}~\cite{Kuehne11}.
+
+In this paper we aim to address these issues by proposing a data driven system, focusing on analysis of acyclic video sequence labelling problems, \emph{i.e.} video sequences that are non-repetitive as opposed to longer repetitive activities, \textit{e.g.} jogging, walking and running. This paper is an extension of the works of~\cite{diwucvpr14},~\cite{wu2014deep} and~\cite{lio2014deep}.
+Within a temporal framework allowing the labelling of videos in a frame-by-frame fashion, 
+thus making it possible for online gesture recognition, the key contributions can be summarised as follows:
+\begin{itemize}
+\item A Gaussian-Bernoulli Deep Belief Network is proposed to extracts high-level skeletal joint features and the learned representation is used to estimate the emission probability needed to infer gesture sequences;
+\item A 3D Convolutional Neural Network  is proposed to extract features from multiple channel inputs such as depth, RGB images;
+\item Early and late fusion strategies are investigated within the temporal modelling. The result of both mechanisms 
+show that multiple-channel fusions outperform individual modules.
+\end{itemize}
+
+The remainder of this paper is organised as follows. Section II reviews related works for gesture recognition with various temporal models and recent deep learning works for RGB-D data. Section III introduces the formulation of our Deep Dynamic Neural Network model and the intuition behind the high level feature extraction. Section IV details the model implementation. Section V conducts the experimental analysis and Section VI concludes the paper with discussions related to future works.
+
+
+\endinput
