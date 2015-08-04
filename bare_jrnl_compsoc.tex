@@ -21,7 +21,7 @@
 \fi
 
 
-% new command section, Thanks for JMO for the suggestion to keep the document clean and unifited.
+% new command section, Thanks for JMO for the suggestion to keep the document clean and unified.
 
 \include{Newcommand}
 
@@ -129,7 +129,7 @@ For addressing Gupta \emph{et al.}~\cite{gupta2014learning} proposed a geocentri
 This augmented representation allows CNN to learn stronger features than when using disparity (or depth) alone.
 
 The gesture recognition doamin has been stimulated by the collection of large public corpus. In particular, the ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge has collected than 14,000 gestures drawn from a vocabulary of 20 Italian sign gesture categories. The emphasis is on multi-modal automatic learning gestures performed by several different users, with the aim of performing user independent continuous gesture spotting.
-Some of the top winning methods in the ChaLearn LAP gesture spotting challenge require a set of complicated handcrafted features for either skeletal input, RGBD input, or both.
+Some of the top winning methods in the ChaLearn LAP gesture spotting challenge require a set of complicated handcrafted features for either skeletal input, RGB-D input, or both.
 For instance, Neveroa \emph{et al.}~\cite{neverova2014multi} proposed a pose descriptor consisting of 7 logical subsets for skeleton features while Monnier \emph{et al.}~\cite{Monnier2014multi} proposed to use 4 types of features for skeleton features (normalised joint positions; joint quaternion angles; Euclidean distances between specific joints; and directed distances between pairs of joints, based on the features proposed by Yao \emph{et al.}~\cite{yao2011does}) and histograms of oriented gradients (HOG) descriptor for RGB-D images around hand regions.
 In~\cite{Peng2014multi}, the state-of-the-art dense trajectory~\cite{wang2013dense} handcrafted features are adopted for the RGB module.
 
@@ -149,7 +149,7 @@ Neveroa \emph{et al.}~\cite{neverova2014multi} presents a multi-scale and multim
 Inspired by the framework successfully applied to speech recognition~\cite{mohamed2012acoustic}, the proposed model is a data driven learning system, relying on a “pure” learning approach. This results in an integrated model, where the amount of prior knowledge and engineering is minimised. On top of that, this approach works without the need for additional complicated preprocessing and dimensionality reduction methods as it is naturally embedded in the framework.
 
 The proposed approach relies on a Hidden Markov Model (HMM) for the temporal part, where the emission probabilities are modelled by two distinctive types of neural networks appropriate for input modality.
- More specifically, the first model works on skeletal features and the neural network for the emission probabilities is a deep boltzmann machine. The second model, on the other hand, uses convolutional neural networks to model the emission probabilities related to RGB and depth (RGBD) video data.
+ More specifically, the first model works on skeletal features and the neural network for the emission probabilities is a deep boltzmann machine. The second model, on the other hand, uses convolutional neural networks to model the emission probabilities related to RGB and depth (RGB-D) video data.
  In the remainder of this section, we will first present our temporal model and then introduce its main component. Details of two distinct neural networks and fusion mechanisms along with post-processing will be provided in Section~\ref{Model Implementation}.
 
 
@@ -312,13 +312,13 @@ The overall algorithm for training and testing are presented in Algorithm \ref{M
         Feedforwarding network $\mathbf{GDBN}$ to generate the emission probability $\mathbf{p(X_t | H_t )}$ in Eq.\ref{HMM_GM_1}. \;
         Generating the score probability matrix $\mathbf{S^1 = p(H_{1:T},X_{1:T}).}$ \;
     %}{
-        Preprocessing(median filtering the depth data) and normalising data RGBD data $ \mathbf{X^2}$ .\;
+        Preprocessing(median filtering the depth data) and normalising data RGB-D data $ \mathbf{X^2}$ .\;
         Feedforwarding $\mathbf{3DCNN}$ to generate the emission probability $\mathbf{S^2 = p(X_t | H_t )}$ in Eq.\ref{HMM_GM_1}. \;
         Generating the score probability matrix $\mathbf{S^2 =p(H_{1:T},X_{1:T}).}$ \;
     %}
 %}
         Fuse the score matrix $\mathbf{S = \alpha * S^1 + (1-\alpha)* S^2}$ OR the learnt joint representation.\;
-        Finding the best path $\mathbf{V_{t,\mathcal{H}}}$ using $\mathbf{S}$ by Viterbi decoding as in Eq.\ref{viterbi_GDBN}. \;
+        Finding the best path $\mathbf{V_{t,\mathcal{H}}}$ using $\mathbf{S}$ by Viterbi decoding. \;
 \KwResult{\;
         $ \mathbf{Y=\{ y_i\}_{i \in [1 \ldots t]}}$  - frame based local label  \;
         $ \mathbf{C}$ - global label, the anchor point is chosen as the\;
@@ -342,7 +342,7 @@ Transitional matrix \transitionmatrix{} is collected from the statistics of labe
 %
 %\textbf{\emph{Transitional Matrix (\transitionmatrix{})}:} Statistics is collected from the labelling stage, allowing 5 frame jumps to accommodate skipping states.
 %\end{flushleft}
-\subsection{Skeleton Module}
+\subsection{Skeleton Module}\label{sec:skeleton_module}
 \begin{figure}[t]
   \centering
   % Requires \usepackage{graphicx}
@@ -379,46 +379,47 @@ Note that feature extraction process resembles the computation of \emph{Mel Freq
 
 \subsubsection{Modeling \randomvariableSK{} using Deep Belief Networks}
 
-Once we have the skeleton input feature \skfeature{} which served as the input \randomvariableSK{} for DBN in Fig.~\ref{GM}. The emission probability \emissionprob{} can be generated using a Deep Belief Networks. We briefly introduce the building elements of the network and a more detailed introduction can be found at~\cite{salakhutdinov2009learning}:
 
+%We briefly introduce the building elements of the network and a more detailed introduction can be found at:
+%Boltzmann Machines (BMs) are a special structure of Markov Random Field (MRF), \emph{i.e.} the energy function is linear in term of its corresponding free parameters.
+%To empower the expressiveness of the model so as to encode complex distributions, the hidden variables are introduced to enhance the modelling capability of the Boltzmann Machines
 
-Boltzmann Machines (BMs) are a special structure of Markov Random Field (MRF), \emph{i.e.} the energy function is linear in term of its corresponding free parameters.
-To empower the expressiveness of the model so as to encode complex distributions, the hidden variables are introduced to enhance the modelling capability of the Boltzmann Machines
+%Restricted Boltzmann Machines (RBMs) is a subtype of BMs in that there is no connections between visible to visible or hidden to hidden variables. RBM, as a special type of Markov random field with a two-layer structure, has the visible binary stochastic units $v\in \{0,1\}^D$ connected to the hidden binary stochastic units $h\in \{0,1\}^F$.
+%
+%The energy of the state $\{v,h\}$is:
+%\begin{eqnarray}
+%E(v,h;\theta)&=&-v ^{\top}Wh-b^{\top}v-a^{\top}h  \\
+%             &=&-\sum^D_{i=1} \sum^F_{j=1} W_{ij} v_i h_j -\sum^D_{i=1}b_iv_i - \sum^F_{j=1}a_jh_j
+%   \label{energy}
+%\end{eqnarray}
+%where $\theta=\{W,b,a\}$ are the free parameters: $W_{i,j}$ serves as the symmetric synergy term between visible unit $i$ and hidden unit $j$; $b_i$ is the bias term of the visible units and $a_j$ is the bias term of the hidden units.
+%The joint distribution over the visible and hidden units is defined by:
+%\begin{eqnarray}
+%    P(v,h;\theta)&=&\frac{1}{Z(\theta)} \exp(-E(v,h;\theta)); \\
+%        Z(\theta)&=&\sum_v \sum_h exp(-E(v,h;\theta))
+%    \label{RBM}
+%\end{eqnarray}
+%The conditional distributions needed for inference and generation are given by:
+%\begin{eqnarray}
+%    P(h_{j=1}|\textbf{v})&=&g(\sum_i W_{ij}v_i+a_j)); \\
+%      P(v_{i=1}|\textbf{h})&=&g(\sum_j W_{ij}h_j+b_i))
+%\end{eqnarray}
+%where $g(x)=\frac{1}{1+exp(-x)}$ is the logistic function.
 
-Restricted Boltzmann Machines (RBMs) is a subtype of BMs in that there is no connections between visible to visible or hidden to hidden variables. RBM, as a special type of Markov random field with a two-layer structure, has the visible binary stochastic units $v\in \{0,1\}^D$ connected to the hidden binary stochastic units $h\in \{0,1\}^F$.
-
-The energy of the state $\{v,h\}$is:
-\begin{eqnarray}
-E(v,h;\theta)&=&-v ^{\top}Wh-b^{\top}v-a^{\top}h  \\
-             &=&-\sum^D_{i=1} \sum^F_{j=1} W_{ij} v_i h_j -\sum^D_{i=1}b_iv_i - \sum^F_{j=1}a_jh_j
-   \label{energy}
-\end{eqnarray}
-where $\theta=\{W,b,a\}$ are the free parameters: $W_{i,j}$ serves as the symmetric synergy term between visible unit $i$ and hidden unit $j$; $b_i$ is the bias term of the visible units and $a_j$ is the bias term of the hidden units. The joint distribution over the visible and hidden units is defined by:
-\begin{eqnarray}
-    P(v,h;\theta)&=&\frac{1}{Z(\theta)} \exp(-E(v,h;\theta)); \\
-        Z(\theta)&=&\sum_v \sum_h exp(-E(v,h;\theta))
-    \label{RBM}
-\end{eqnarray}
-The conditional distributions needed for inference and generation are given by:
-\begin{eqnarray}
-    P(h_{j=1}|\textbf{v})&=&g(\sum_i W_{ij}v_i+a_j)); \\
-      P(v_{i=1}|\textbf{h})&=&g(\sum_j W_{ij}h_j+b_i))
-\end{eqnarray}
-where $g(x)=\frac{1}{1+exp(-x)}$ is the logistic function.
-
-The derivative of the log-likelihood with respect to the model parameter from Eq.~\ref{RBM} is expressed as: $E_{P_{data}}[vh^{\top}]-E_{P_{model}}[vh^{\top}]$ where $E$ denotes the expectation.
-Due to the intractability of the second term, an approximation is generally required. This approximation is called the ``Constrative Divergence":
-%In practice, learning is done by following an approximation to the gradient of a different objective function, called the ``Constrative Divergence":
-\begin{equation}
-    \Delta W = \alpha (E_{P_{data}}  [\textbf{vh}^T]-E_{P_T}[\textbf{vh}^T]). \label{CD1}
-\end{equation}
-where $\alpha$ is the learning rate and $P_T$ is the distribution obtained by running a Gibbs chain, initialized with the visible units given by the data, for $T$ full steps.
-
-Because input skeletal features \skfeature{} are continuous instead of binomial features, we use the Gaussian-Bernoulli RBM (\emph{GRBM}) to model the energy term of first layer. More precisely:
+%The derivative of the log-likelihood with respect to the model parameter from Eq.~\ref{RBM} is expressed as: $E_{P_{data}}[vh^{\top}]-E_{P_{model}}[vh^{\top}]$ where $E$ denotes the expectation.
+%Due to the intractability of the second term, an approximation is generally required. This approximation is called the ``Constrative Divergence":
+%%In practice, learning is done by following an approximation to the gradient of a different objective function, called the ``Constrative Divergence":
+%\begin{equation}
+%    \Delta W = \alpha (E_{P_{data}}  [\textbf{vh}^T]-E_{P_T}[\textbf{vh}^T]). \label{CD1}
+%\end{equation}
+%where $\alpha$ is the learning rate and $P_T$ is the distribution obtained by running a Gibbs chain, initialized with the visible units given by the data, for $T$ full steps.
+Once we have the skeleton input feature \skfeature{} which served as the input \randomvariableSK{} for DBN in Fig.~\ref{GM}. The emission probability \emissionprob{} can be generated using a Deep Belief Networks.
+Because input skeletal features \skfeature{} are continuous instead of binomial features, we use the Gaussian-Bernoulli RBM (\emph{GRBM})~\cite{salakhutdinov2009learning} to model the energy term of first layer with continuous visible units $v$ of dimension $D$ connected to the hidden binary stochastic units $h\in \{0,1\}^F$. More precisely:
 \begin{equation}
     E(v,h;\theta) =-\sum^D_{i=1} \frac{(v_i-b_i)^2}{2\sigma_i^2} -\sum^D_{i=1} \sum^F_{j=1} W_{ij}  h_j \frac{v_i}{\sigma_i}- \sum^F_{j=1}a_jh_j
 \label{GRBMenergy}
 \end{equation}
+where $\theta=\{W,b,a\}$ are the free parameters: $W_{i,j}$ serves as the symmetric synergy term between visible unit $i$ and hidden unit $j$; $b_i$ is the bias term of the visible units and $a_j$ is the bias term of the hidden units.
 
 The conditional distributions needed for inference and generation are given by:
 \begin{equation}
@@ -432,7 +433,7 @@ where $\mu_i=b_i+\sigma_i^2 \sum_j W_{ij} h_j$ and $\mathscr{N}$ is the normal d
 \begin{figure}[t]
   \centering
   % Requires \usepackage{graphicx}
-  \includegraphics[width=0.25\textwidth]{images/DBN}\\
+  \includegraphics[width=0.23\textwidth]{images/DBN}\\
   \caption{
     Deep Belief Network using skeleton input \skfeature{} to predict emission probability \emissionprob{}.}
     \label{DBN}
@@ -467,7 +468,7 @@ The performance of the skeleton module is shown in Tab.~\ref{Table_score_fusion}
     \label{sk_error_rate}
 \end{figure}
 
-\subsection{RGB \& Depth 3D Module}
+\subsection{RGB \& Depth 3D Module} \label{sec:rgbd_modules}
 \subsubsection{Preprocessing}\label{3d_preproc}
 
 Although DeepMind technology~\cite{mnih2013playing} presented the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using deep reinforcement learning, working directly with raw input Kinect recorded data frames, which are $640 \times 480$ pixel images, can be computationally demanding.
@@ -477,15 +478,15 @@ Furthermore, to be invariant to handiness, we train the model with the right han
 
 The preprocessing results in four video samples (body and hand with grayscale and depth) of resolution $64\times64$. Furthermore, the noise in the depth maps is reduced by thresholding, background removal using the user index, and median filtering.
 The depth images are normalised with mean substraction for each image because the median of depth images are irrelevant to the gesture subclass. And both RGB and depth images are normalised by dividing the standard deviation of each image.
-The outcome is illustrated in Fig.~\ref{3dcnn input}.
-\begin{figure}[t]
-  \centering
-  % Requires \usepackage{graphicx}
-  \includegraphics[width=0.5\textwidth]{images/3dcnn_filters/original.eps}\\
-  \caption{
-    Preprocessing result. Inputs  from top to bottom: 1) grayscale body input, 2) grayscale hand input, 3) depth body input, 4) depth hand input. }
-    \label{3dcnn input}
-\end{figure}
+The outcome is illustrated in Fig.~\ref{3dcnn_filters} (left).
+%\begin{figure}[t]
+%  \centering
+%  % Requires \usepackage{graphicx}
+%  \includegraphics[width=0.5\textwidth]{images/3dcnn_filters/original.eps}\\
+%  \caption{
+%    Preprocessing result. Inputs  from top to bottom: 1) grayscale body input, 2) grayscale hand input, 3) depth body input, 4) depth hand input. }
+%    \label{3dcnn input}
+%\end{figure}
 
 
 \subsubsection{3DCNN Architecture}
@@ -505,9 +506,8 @@ v^{xyz}_{ij} =  max( 0,  ( b_{ij} + \sum_m \sum_{p=0}^{P_i - 1} \sum_{q=0}^{Q_i 
 \label{ReLU}
 \end{equation}
 
-The complete 3DCNN architecture is depicted in Fig.~\ref{3dcnn_architecture} : 4 types~(Fig.~\ref{3dcnn input}) of input contextual frames are stacked as size $64\times64\times4$.
-The first layer consists of 32 feature maps produced by $5\times5$ spatial convolutional kernels followed by local contrast normalisation (LCN)~\cite{jarrett2009best} and 3D max pooling with strides $(2,2,2)$, then the grayscale channel and depth channel are concatenated. The second layer has 64 feature maps with $5\times5$ kernels followed by LCN and 3D max pooling with strides $(2,2,2)$. The third layer is composed of 64 feature maps with $4\times4$ kernels followed by 3D max pooling with strides $(1,2,2)$. All convolutional layer outputs are flattened with the body channel and hand channel concatenated, and fed into one fully connected layer of size $1024$. The output layer has \numberhiddenstates{} values, the number of states in the HMM.
- is of size $ 101 = 5\times20+1$ (number of hidden states for each class $\times$ number of classes plus one ergodic state).
+The complete 3DCNN architecture is depicted in Fig.~\ref{3dcnn_architecture} : 4 types~(Fig.~\ref{3dcnn_filters}) of input contextual frames are stacked as size $64\times64\times4$.
+The first layer consists of 32 feature maps produced by $5\times5$ spatial convolutional kernels followed by local contrast normalisation (LCN)~\cite{jarrett2009best} and 3D max pooling with strides $(2,2,2)$, then the grayscale channel and depth channel are concatenated. The second layer has 64 feature maps with $5\times5$ kernels followed by LCN and 3D max pooling with strides $(2,2,2)$. The third layer is composed of 64 feature maps with $4\times4$ kernels followed by 3D max pooling with strides $(1,2,2)$. All convolutional layer outputs are flattened with the body channel and hand channel concatenated, and fed into one fully connected layer of size $1024$. The output layer has \numberhiddenstates{} values, the number of states in the HMM in Fig.~\ref{HMM_ES}.
 
 
 
@@ -526,421 +526,67 @@ The frame based validation error rate is $39.06\%$ after 40 epochs as shown in F
   \caption{The frame based error rate for training 3DCNN. The frame error rates from 3DCNN are much higher than the skeleton module in~\ref{sk_error_rate} which indicates learning from images may be more difficult than from skeleton modules. }\label{error rate}
 \end{figure}
 
-\subsubsection{Looking into the Networks: Visualisation of Filter Banks}
+\subsubsection{Looking into the Networks: visualisation of Filter Banks}
 
-The convolutional filter weights of the first layer are depicted in Fig.~\ref{3dcnn_filters}. The unique characteristics from the kernels are clearly visible: For body and hand filters, both inputs are of the same size : $64\times64$. Hand inputs have larger homogenous areas than the body inputs, hence the hand part filters are smoother than the body part filters.
+The convolutional filter weights of the first layer are depicted in Fig.~\ref{3dcnn_filters}. The unique characteristics from the kernels are clearly visible: as hand inputs have larger homogenous areas than the body inputs, hence the hand part filters are smoother than their body counterpart.
+In addition, depth images have sharper edges as also observed in~\cite{socher2012convolutional} and while being smooth overall than the grayscale filters.
 
-Depth images have sharper edges as also observed in~\cite{socher2012convolutional} and generally are smoother than the grayscale filters, though the distinctions are less obvious compared with the body versus hand filters.
+\begin{figure*}[t]
+  \centering
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.85\textwidth]{images/CNN_filters}
+  \caption{Visualisation of input frames, first convolutional layer $5\times5$ filters and the corresponding response maps for body and hand parts. Because depth channel is smoother than the RGB grayscale channel, the corresponding filter maps are smoother as well. }\label{3dcnn_filters}
+\end{figure*}
 
-
-
-
-\begin{figure}[t]
-        \centering
-        \begin{subfigure}[c]{.5\textwidth}
-                \includegraphics[width=\textwidth]{images/3dcnn_filters/gray_body_conv1_5_5}
-                \caption{Grayscale body filters.}
-                \label{Template_Image}
-        \end{subfigure}%
-        % ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-
-        \begin{subfigure}[c]{0.5\textwidth}
-                \includegraphics[width=\textwidth]{images/3dcnn_filters/depth_body_conv1_5_5}
-                \caption{Depth body filters.}
-                \label{Test_Image}
-        \end{subfigure}
-
-        \begin{subfigure}[c]{0.5\textwidth}
-                \includegraphics[width=\textwidth]{images/3dcnn_filters/filtered_images_body.eps}
-                \caption{Response maps corresponds to body part.}
-                \label{Test_Image}
-        \end{subfigure}
-
-        % ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[c]{0.5\textwidth}
-                \includegraphics[width=\textwidth]{images/3dcnn_filters/gray_hand_conv1_5_5}
-                \caption{Grayscale hand filters.}
-                \label{Template_Response}
-        \end{subfigure}
-
-        \begin{subfigure}[c]{0.5\textwidth}
-        \includegraphics[width=\textwidth]{images/3dcnn_filters/depth_hand_conv1_5_5}
-        \caption{Depth hand filters.}
-        \label{shift-resize_image}
-        \end{subfigure}
-
-       \begin{subfigure}[c]{0.5\textwidth}
-                \includegraphics[width=\textwidth]{images/3dcnn_filters/filtered_images_hand.eps}
-                \caption{Response maps corresponds to hand part.}
-                \label{Test_Image}
-        \end{subfigure}
-
-
-        \caption{Visualisation of the $5\times5$ filters in the first layer for the different input channels. Interestingly, we observe the same effect as~\cite{socher2012convolutional} that the resulting filters from depth images have sharper edges which arise due to the strong discontinuities at object boundaries. While the depth channel is often quite noisy most of the features are still smooth. And response maps correspond to hand part are smoother than those correspond to body part.
-        % Itcan be seen that the hand filters are smoother than the body part filters because hand input are smoother than the body part input.
-        }\label{3dcnn_filters}
-\end{figure}
-
-
-
-%\begin{figure}[h]
-%  \centering
-%  % Requires \usepackage{graphicx}
-%  \includegraphics[width=0.5\textwidth]{images/filter_all_2}
-%  \caption{{\footnotesize
-%  Top left: the \emph{conv1} weights of the 3DCNN learnt with uncropped input; top right: the \emph{conv1} weights of the 3DCNN learnt with cropped input. It can be seen that filters/weights of the cropped input trained networks are smoother. Bottom: visualization of sample frames after \emph{conv1} layer (Sample0654, 264-296 frames, sampled every 8 frames). It can be seen that the filters of the first convolutional layer are able to learn both shape pattern(red bounding box) and motion(yellow bounding box). Also note that the high response maps correspond to the most informative part of the body, even though during the training process, all local patches are learned indiscriminately regardless of its location.}
-%  }\label{conv1_vis}
-%\end{figure}
-
-
-%\begin{algorithm}[t]
-%\caption{Normalization scheme 1: template matching}\label{normalization_scheme_1}
-%\LinesNumbered
-%\SetAlgoLined
-%\SetAlgoNoEnd
-%\DontPrintSemicolon
-%\SetKwFunction{zeroes}{zeroes}
-%\KwData{\;
-%          $ \mathbf{T}$ - exemplary template with original scale of size $320 \times 320$,   \;
-%           \hspace{0.5cm}   (Sample0003 is chosen as the exemplary template, shown in \ref{Template_Image}). \;
-%          $ \mathbf{R_{depth}}$  - reference depth, fixed to $\textbf{\emph{1941}}$ (acquired from the above \;
-%             \hspace{0.5cm} exemplary template  $ \mathbf{T}$). \;
-%          $ \mathbf{\hat{T}}$ - test image, as shown in \ref{Test_Image}.\;
-%          $ \mathbf{M}$ - user foreground segmented mask. \;
-%            }
-%        Apply a $5 \times 5$ aperture median filter to test depth frame $\mathbf{\hat{T}}$ as in~\cite{wu2012one} to reduce the salt and pepper noise. \;
-%        Multiply test depth frame $\mathbf{\hat{T}}$ with the user segmented mask $ \mathbf{M}$: $\mathbf{\hat{T} = \hat{T} \times M}$. \;
-%        Template matching test image $\mathbf{\hat{T}}$ with $ \mathbf{T}$ using normalized cross-correlation~\cite{lewis1995fast}, the response score $\mathbf{R}$  is shown in \ref{Template_Response}. \;
-%        Shift the image according to the maximum response $\mathbf{R}$ to its centre applying affine transformation~\cite{opencv_library}. \;
-%        Scale the image according to reference depth $ \mathbf{R_{depth}}$ and the median depth of a bounding box in the centre of the image with $25 \times 25$ size as shown as the green boundingp box in \ref{shift-resize_image}. \;
-%        Resize the image from $320 \times 320$ to $90 \times 90$. \;
-%
-%
-%\KwResult{\;
-%        $ \mathbf{\tilde{T}}$ - Resize-normalized image shown in the yellow bounding box of \ref{shift-resize_image}.\;
-%}
-%\end{algorithm}
-%\begin{algorithm}
-%\caption{Normalization scheme 2: skeleton normalization}\label{normalization_scheme_2}
-%\LinesNumbered
-%\SetAlgoLined
-%\SetAlgoNoEnd
-%\DontPrintSemicolon
-%\SetKwFunction{zeroes}{zeroes}
-%\KwData{\;
-%          $ \mathbf{S_{spine}}$ - Skeleton Spine joints pixel coordinates. \;
-%          $ \mathbf{S_{shoulder}}$ - Skeleton Shoulder joints pixel coordinates. \;
-%          $ \mathbf{\hat{T}}$ - test image.\;
-%          $ \mathbf{M}$ - user foreground segmented mask. \;
-%          $ \mathbf{R_{length}}$  - reference length of shoulder to spine, fixed to $\textbf{\emph{100}}$ (1 meter). \;
-%            }
-%        Apply a $5 \times 5$ aperture median filter to test depth frame $\mathbf{\hat{T}}$. \;
-%        Multiply test depth frame $\mathbf{\hat{T}}$ with the user segmented mask $ \mathbf{M}$. \;
-%        Shift the image according to the centroid of Spine joint $ \mathbf{S_{spine}}$.\;
-%        Scale the image according to the $\mathbf{R_{length}}  / (\mathbf{S_{spine}} - \mathbf{S_{shoulder}})$. \;
-%
-%\KwResult{\;
-%        $ \mathbf{\tilde{T}}$ - Resize the shifted-scaledp image to $90 \times 90$ .\;
-%}
-%\end{algorithm}
-%\begin{figure}[t]
-%        \centering
-%        \begin{subfigure}[c]{0.2\textwidth}
-%                \includegraphics[width=\textwidth]{images/template3}
-%                \caption{{\scriptsize template image}}
-%                \label{Template_Image}
-%        \end{subfigure}%
-%        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-%          %(or a blank line to force the subfigure onto a new line)
-%        \begin{subfigure}[c]{0.2\textwidth}
-%                \includegraphics[width=\textwidth]{images/test1}
-%                \caption{{\scriptsize test image}}
-%                \label{Test_Image}
-%        \end{subfigure}
-%        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-%          %(or a blank line to force the subfigure onto a new line)
-%        \begin{subfigure}[c]{0.2\textwidth}
-%                \includegraphics[width=\textwidth]{images/test3}
-%                \caption{{\scriptsize template response}}
-%                \label{Template_Response}
-%        \end{subfigure}
-%        \begin{subfigure}[c]{0.2\textwidth}
-%        \includegraphics[width=\textwidth]{images/test2}
-%        \caption{{\scriptsize shift-resize image}}
-%        \label{shift-resize_image}
-%        \end{subfigure}
-%        \caption{{\footnotesize Illustration of normalization scheme 1: template matching.}}\label{Normalization scheme 1: template matching}
-%\end{figure}
 
 \subsection{Multimodal Fusion}
+To combine the two modalities, two strategies can be used, as shown in Fig.~\ref{fig:fusion}: a late fusion approach and an early fusion approach.
 
-%\begin{figure}[t]
-%  \centering
-%  % Requires \usepackage{graphicx}
-%  \includegraphics[width=0.45\textwidth]{images/fusion}
-%  \caption{
-% Illustration of late fusion. The coefficient is chosen using cross-validation using a validation set.
-%  }\label{fusion}
-%\end{figure}
 
-\begin{figure}[t]
-  \centering
-  % Requires \usepackage{graphicx}
-  \includegraphics[width=0.45\textwidth]{images/Different_pipeline}
-  \caption{{\footnotesize
-        Different Pipelines for descriptor fusion.}
-  }\label{fusion}
-\end{figure}
-To fuse both model predictions, the strategies shown in Fig.~\ref{fusion} are adopted.
 \subsubsection{Late Fusion}
-
-
-
-
-Formally, the multimodal fusion is a score fusion defined by:
+Formally, this multimodal fusion scheme corresponds to the fusion of the emission probabilities estimated from the different input. While different schemes exits, a simple linear combination:
 
 \begin{equation}
- \mathbf{S} = \alpha*\mathbf{S^1} + (1-\alpha) * \mathbf{S^2}
+\emissionprob  \propto  \alpha \cdot \emissionprobSK + (1-\alpha)\cdot \emissionprobRGBD
 \end{equation}
-where $\mathbf{S^1}$ and $\mathbf{S^2}$ are the score probability matrices as in Algo.~\ref{MMDDN_test}, corresponding to the skeletal input and RGBD input, and $\alpha$ is the coefficient that controls the score balance obtained by cross validation.
-Interestingly, the best performing $\alpha$ is close to $0.5$, thus indicating that both approaches perform comparably.
+where different emission probabilities are provided by the modules described in \ref{sec:skeleton_module} and \ref{sec:rgbd_modules} and $\alpha$ is a coefficient that controls the contributions of each source of information estimated by cross validation.
+Interestingly, the best performing $\alpha$ is close to $0.5$, indicating that both approaches are equally important.
 
-The complementary properties of both modules can be seen from the Viterbi path decoding plot in Fig.~\ref{Sample0700_comparison}.
 
 \subsubsection{Early Fusion}\label{early_fusion}
-\begin{figure*}[t]
+
+Instead of traditional late fusion, we adopt another layer of perceptron (with 2024 hidden unites) for cross modality learning taking the input from each individual net's penultimate layer.
+The parameters of two neural networks (for skeleton and depth) are loaded from the previously trained individual module. We argue that this ``pre-trained" parameters are important because the heterogenous inputs of the system.  We fine-tune the network and stop the training when the validation error rate stops decreasing ($\sim$15 epochs).
+
+\begin{figure}[t]
   \centering
   % Requires \usepackage{graphicx}
-  \includegraphics[width=0.75\textwidth]{images/early_fusion}
+  \includegraphics[width=0.5\textwidth]{images/Fusion_combined}
   \caption{
-  Architecture of the multimodal dynamic networks: each modality (RGBD and skeleton) is first pre-trained by a Deep Neural Network, and their penultimate layers are fused together to generate a shared representation for dual modalities. The outputs are the emission probabilities $\mathfrak{g_t}$ for temporal dynamic modeling. The Gaussians represent activations of the neurons for each input modality and the final fusion layer. The mean activation of skeleton module neurons is predominantly larger than the RGBD ConvNet's (0.57 vs. 0.056). Note that skeleton module has logistic units whereas ConvNet module has leaky relu unit~\cite{DBLP:journals/corr/PigouODHD15}, hence the mean activations of the two are not directly comparable. However, 10 times the difference of mean activation indicates the bias during the multimodal fine-tuning phase that could cause the less than expected performance.
-  }\label{early_fusion_fig}
-\end{figure*}
-
-Instead of traditional late fusion, we adopt another layer of perceptron(with 2024 hidden unites) for cross modality learning taking the input from each individual net's penultimate layer.
-The parameters of two neural networks (for skeleton and depth) are loaded from the previously trained individual module. We argue that this ``pre-trained" parameters are important because the heterogenous inputs of the system.  We fine-tune the network and the stop the training when validation error rate stop decreasing ($\sim$15 epochs). The result for early fusion system are reported in Tab.~\ref{Table_score_fusion}.
-
-
-However, we can see from Tab.~\ref{Table_score_fusion} that the early fusion system didn't outperform the late fusion system. The result is counter-intuitive because we expect the early fusion  multimodal feature learning will extract semantically meaningful shared representations, outperforming individual modalities, and the early fusion scheme’s efficacy against the traditional method of late fusion. One possible explanation could be that one individual module has dominant effect on the learning process so as to screw the network towards learning that specific module. The mean activations of the neurons for each modules in Fig.~\ref{early_fusion_fig} indicate the aforementioned conjecture.
-
-
-
-\section{Experiments and Analysis}
-\subsection{Chalearn LAP Data Set \& Evaluation Metrics} \label{sec:chalearn}
-The data set\footnote{\href{http://gesture.chalearn.org/homewebsourcereferrals}{http://gesture.chalearn.org/homewebsourcereferrals}} used in this work is provided by the ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge. The development set consists of 700 video sequences and 240 sequences are used for testing. The testing sequences however are not segmented a priori and the gestures must be detected within a continuous data stream. In total, there are more than $14\,000$ performed gestures.
-% This dataset  is on ``multiple instance, user independent learning and continuous gesture spotting"~\cite{ICMI} of gestures.
-% In the 3 track, there are more than 14,000 gestures.
-
-For the input sequences, there are three modalities provided, \emph{i.e.} skeleton, RGB and depth images (with user segmentation). In the following experiments, the first 650 videos equences are used for training, 50 for validation and the other 240 for testing where each sequence contains around 10 to 20 gestures with some noisy non-meaningful vocabulary tokens.
-
-The evaluation of this data set is performed using the Jaccard index, which computes the overlap between the ground truth and the predictions on a frame-by-frame basis:
-\begin{equation}
-J(A, B) = \frac{A \bigcap B}{A \bigcup B}
-\end{equation}
-where $A$ is the ground truth gesture label and $B$ is the predicted gesture label.
-
-
-\begin{figure*}[t]
-        \centering
-        \begin{subfigure}[c]{.8\textwidth}
-                \includegraphics[width=\textwidth]{images/path/Sample0700_sk}
-                \caption{Sample \#700 skeleton input path.}
-                \label{Sample0700_sk}
-        \end{subfigure}%
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-
-        \begin{subfigure}[c]{0.8\textwidth}
-                \includegraphics[width=\textwidth]{images/path/Sample0700_cnn}
-                \caption{Sample \#700 depth and RGB input path.}
-                \label{Sample0700_cnn}
-        \end{subfigure}
-
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[c]{0.8\textwidth}
-                \includegraphics[width=\textwidth]{images/path/Sample0700_combined}
-                \caption{Sample \#700 combined input path.}
-                \label{Sample0700_combined}
-        \end{subfigure}
-
-  \caption{Viterbi decoding of the two modules and their fusion of sample sequence \#700. Top to bottom: skeleton, RGBD, multimodal fusion with x-axis representing the time and y-axis representing the hidden states of all the classes with the ergodic state at the bottom. Red lines are the ground truth labels, cyan lines represent the viterbi shortest path and yellow lines are the predicted labels. There are some complementary information of the two modules and generally the skeletal module outperforms the depth module. The fusion of the two could exploit the uncertainty, \emph{e.g.} around frame 200 the skeleton can help with the false negative predictions given by the 3DCNN module. Around frame 1450, the 3DCNN module can help suppress the false positive prediction given by skeleton module.
-  }\label{Sample0700_comparison}
-\end{figure*}
-
-\subsection{Post-processing}
-The predicted tokens that happen to be less than 20 frames are discarded as noisy tokens. Note that there are many noisy gesture tokens predicted by viterbi decoding. One way to sift through the noisy tokens is to discard the token path log probability smaller than a certain threshold. However, because we use the Jaccard index as evaluation score, it strongly penalises false negatives. Experiments show that the evaluation metric favours having more false positives than missing true positives. Effective ways to detect false positives should be an interesting aspect of future work.
-
-\subsection{Results}
-
-The individual module results and the fusion results are shown in Tab. \ref{Table_score_fusion}. Note that the skeleton module generally performs better than the depth module, one reason could be that the skeleton joints learnt from~\cite{shotton2011real} lie in success of utilising huge and highly varied training data: from both realistic and synthetic depth images, a total number of 1 million images were used to train the deep randomised decision forest classifier in order to avoid overfitting. Hence, skeleton data is more robust.
-
-From the frame based prediction, we also evaluate the gesture token classification rate using the commonly-used PASCAL overlap criterion: if the gesture is predicted correctly with more than 50\% overlap with the ground truth label, then the prediction is counted as a true positive. The results of the two individual modules and the score of the fused modules are shown in Tab.~\ref{Prediction}. From the confusion matrices in Fig.~\ref{confusion_matrix} we can observe the complimentary information between the skeleton input and the RGBD input.
-% with the confusion matrices shown in Fig.~\ref{confusion_matrix}.
-While many of the gestures in this data set could be mainly differentiated by examining the positions and motions of large joints such as the elbows and wrists,  some gestures differ primarily  in hand pose, \emph{e.g.} Fig. \ref{hand_differ}.
-% From the confusion matrices in Fig.~\ref{confusion_matrix} we can observe the complimentary information between the skeleton input and the depth \& RGB input.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- \begin{table}[t]
-   \centering
-        \begin{tabular}{|l||*{2}{c|}}\hline
-            {Module}
-            &\makebox[5em]{Validation}&\makebox[5em]{Test}
-            \\\hline\hline
-            {\small Skeleton -- DBDN }            &  0.78266    & 0.77920 \\\hline
-            {\small RGBD -- 3DCNN }      &  0.75163    & 0.71678 \\\hline%\hline
-            {\small Multimodal Late Fusion }              &  0.81744    & 0.80910 \\\hline
-            {\small Multimodal Early Fusion }             &  0.80014    & 0.79800 \\\hline
-        \end{tabular}
-
-    \caption{
-    Comparison of results in terms of Jaccard index between different network structures and various modules.
-          }
-          \label{Table_score_fusion}
-\end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
- \begin{table}[rt]
-   \centering
-        \begin{tabular}{|ll||*{2}{c|}}\hline
-            %\backslashbox{Module}{Evaluation Set}
-             & &  \makebox[5em]{Validation}&\makebox[5em]{Test}       \\\hline\hline
-            \multirow{2}{*}{Skeleton}       &{\small Acc}                & 0.8633     & 0.8360\\
-                                            &  {\small UnRate}           & 0.0230     & 0.0412 \\\hline\hline
-            \multirow{2}{*}{RGBD}    &{\small Acc }              & 0.7871     & 0.7581  \\
-                                            &  {\small UnRate}           & 0.1612     & 0.1976 \\\hline\hline
-            \multirow{2}{*}{Multimodal Late Fusion}   &{\small Acc }               & 0.8791     & 0.8642\\
-                                            &  {\small UnRate}           & 0.0302     & 0.0485 \\\hline
-           \multirow{2}{*}{Multimodal Early Fusion}   &{\small Acc }    & 0.8650     & 0.8545\\
-                                            &  {\small UnRate}           & 0.0623     & 0.0768 \\\hline
-        \end{tabular}
-
-    \caption{
-    Gesture classification accuracy (\emph{Acc}) and undetected rate (\emph{UnRate}): if the prediction overlaps with the ground truth with more than 50\%, it's considered a true positive.
-          }
-          \label{Prediction}
-\end{table}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-        \centering
-        \begin{subfigure}[c]{.36\textwidth}
-                \includegraphics[width=\textwidth]{images/cm/cm_sk}
-                \caption{Skeletal input prediction result.}
-                \label{sk_cm}
-        \end{subfigure}%
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-
-        \begin{subfigure}[c]{0.36\textwidth}
-                \includegraphics[width=\textwidth]{images/cm/cm_cnn}
-                \caption{RGBD input prediction result.}
-                \label{cnn_cm}
-        \end{subfigure}
-
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[c]{0.36\textwidth}
-                \includegraphics[width=\textwidth]{images/cm/cm_combination}
-                \caption{Multimodal fusion prediction result.}
-                \label{fusion_cm}
-        \end{subfigure}
-
-  \caption{Confusion Matrix for the skeletal input, RGBD input and multimodal fusion result.
-  % Generally, the skeleton module has higher classification rate.
-  Some gestures, \emph{e.g.} ``OK" and ``Non ce ne piu" differ primarily in hand poses. Hence, they are easier to be differentiated using the RGBD module than the skeleton module.
-  }\label{confusion_matrix}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{figure}[t]
-        \centering
-
-
-        \begin{subfigure}[c]{.2\textwidth}
-        \centering
-                \includegraphics[width=3cm,height=3cm, trim=120 100 100 50, clip]{images/good}
-                \caption{Well-recognised}
-        \end{subfigure}%
-        %
-        \begin{subfigure}[c]{0.2\textwidth}
-        \centering
-                \includegraphics[width=3cm,height=3cm, trim=120 100 100 50, clip]{images/bad}
-                \caption{Poorly-recognised}
-        \end{subfigure}
-  \caption{
-  Examples of overall upper body movement's influence on system performance. Left (score: 0.94) performer almost kept static upper body whilst performing Italian sign language. Right (score: 0.34) performer moved vehemently when performing the gestures.
-  }\label{good_bad_differ}
+    Architecture of the multimodal dynamic networks with late fusion scheme (left) and early fusion scheme (right).  Late fusion scheme combines the emission probabilities from two modalities. For early fusion scheme, each modality (skeleton and RGB-D) is first pre-trained by a Deep Neural Network, and their penultimate layers are fused together to generate a shared representation for dual modalities. The outputs are the emission probabilities \emissionprob for temporal dynamic modeling. The Gaussians represent activations of the neurons for each input modality and the final fusion layer. The mean activation of skeleton module neurons is predominantly larger than the RGBD ConvNet's (0.57 \emph{vs.} 0.056). Note that skeleton module has logistic units whereas ConvNet module has relu unit~\cite{DBLP:journals/corr/PigouODHD15}, hence the mean activations of the two are not directly comparable. However, 10 times the difference of mean activation indicates the bias during the multimodal fine-tuning phase that could cause the less than expected performance.
+  }\label{fig:fusion}
 \end{figure}
 
 
 
-\begin{figure}[t]
-        \centering
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{Results}
 
 
-        \begin{subfigure}[c]{.2\textwidth}
-        \centering
-                \includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/ok}
-                \caption{``OK"}
-        \end{subfigure}%
-        %
-        \begin{subfigure}[c]{0.2\textwidth}
-        \centering
-                \includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/noncenepiu}
-                \caption{``Non ce ne piu"}
-        \end{subfigure}
-  \caption{Examples of gestures that differ primarily in hand pose but not the arm motions.
-  }\label{hand_differ}
-\end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- \begin{table}[t]
-   \centering
-        \begin{tabular}{|l||*{3}{c|}}\hline
-            {Module}
-            &\makebox[3em]{Skeleton}&\makebox[6em]{RGBD}&\makebox[3em]{Fusion}
-            \\\hline\hline
-            {~\cite{neverova2014multi}} Deep Learning (Step 4)                  &   0.7891     &  0.7990      & \textbf{0.8449}\\\hline
-            {~\cite{neverova2014multi}} Deep Learning (multiscal)               &   0.8080     &  0.8096      & \textbf{ 0.8488}\\\hline
-            {~\cite{Monnier2014multi}} 3 Set Skeletal \& HOG                   &   0.791     & -           & 0.8220 \\\hline
-            {~\cite{Chang2014multi}}   Handcrafted features                       &  \textbf{0.7948}     & -           & 0.8268\\\hline
-            {~\cite{Peng2014multi}}    Dense Trajectory                         &  -          & \textbf{0.7919}      & -\\\hline
-            {~\cite{lio2014deep}}      CNN                                      &  -          & 0.7888      & -\\\hline
-            {~\cite{wu2014deep}}    Deep Learning                               &  0.7468     & 0.6371      & 0.8045\\\hline \hline
-            \textbf{\emph{DDNN}} (this work)                                    &  0.7792    & 0.7168  & 0.8091\\\hline
-        \end{tabular}
-    \caption{
-    Comparison of results in terms of Jaccard index between different network structures and various modules.
-          }
-          \label{Table_baseline}
-\end{table}
-
-\subsection{Computational Complexity}\label{Computational Complexity}
-Although training the deep neural network using stochastic gradient descent is computationally intensive, once the model finishes training, our framework can perform real-time video sequence labelling with a low inference cost.
-Specifically, a single feed forward neural network incurs linear computational time ($\mathcal{O}(T)$) and is efficient because it requires only matrix products and convolution operations. The complexity of the Viterbi algorithm is $\mathcal{O} (T* |S|^2)$ with $T$ the number of frames and $|S|$ the number of states.
-
-Using a modern GPU (GeForece GTX TITAN Black), our multimodal neural network can be deployed at 90 FPS using Theano library~\cite{Bastien-Theano-2012} which is 6 times of real time (15 FPS). The preprocessing part takes most of the time and our un-optimized preprocessing pipeline is 25 FPS and Viterbi decoding is 90 FPS. Hence, the overall system can achieve faster than real-time performance.
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion and Discussion}
 
 Hand-engineered, task-specific features are often less adaptive and time-consuming to design. This difficulty is more pronounced with multimodal data as the features have to relate with multiple data sources.
 In this paper, we presented a novel deep dynamic neural network (DDNN) framework that utilises deep belief betworks and 3D convolutional neural networks for learning contextual frame-level representations and modelling emission probabilities for Markov fields.
  The heterogeneous inputs from skeletal joints, RGB and depth images require different feature learning methods and the late fusion scheme is adopted at the score level. The experimental results on bi-modal time series data show that the multimodal DDNN framework can learn a good model of the joint space of multiple sensory inputs, and is consistently as good as or better than the unimodal input, opening the door for exploring the complementary representation among multimodal inputs. It also suggests that learning features directly from data is a very important research direction and with more and more data and flops-free  computational power, the learning-based methods are not only more generalisable to many domains, but also are powerful in combining with other well-studied probabilistic graphical models for modelling and reasoning dynamic sequences.
-Future works include learning the share representation amongst the heterogeneous inputs at the penultimate layer and backpropagating the gradient in the share space in a unified representation.
-
+ \dwucomline{Should we mention the below?}
+Future works include learning the share representation amongst the heterogeneous inputs in a more meaningful fashion as in~\cite{neverova2014moddrop} and integrate the overall system into a unified deep learning framework by replacing the temporal modelling part with Recurrent Neural Nets such as the work of ~\cite{DBLP:journals/corr/PigouODHD15}.
 
 \appendices
 % you can choose not to have a title for an appendix
 % if you want by leaving the argument blank
 \section{Details of the Code}
-The python code for this work can be found at: \\
+The python code using Theano~\cite{Bastien-Theano-2012} for this work can be found at: \\
 \footnotesize{\verb+https://github.com/stevenwudi/chalearn2014_wudi_lio+}
 
 
@@ -963,253 +609,7 @@ The authors would like to thank Sander Dieleman for his guidance in building, tr
 
 \newpage
 
-\section{Review}
+\input{ReviewersComments}
 
-\subsection{Editor Comments}
-Associate Editor
-Comments to the Author:
-Reviews of the paper have been received. In general comments are positive. Still one reviewer suggests some interesting extra analyses of the proposed method. Please carefully address all reviewers comments for a second review round of the paper. Please provide your revision by July 31th.
 
-
-\hfill
-
-\textbf{Response:}
-We’d like to thank the associate editor's general positive comments on our paper. We also would like to thank reviewers' careful and insightful suggestions for improving the paper. Following are some common points that were mentioned by the reviewers and we list the most notable changes below. The point to point responses are provided afterwards.
-
-
-
-\begin{itemize}
-\item In the previous version for multimodal fusion, we used the late fusion scheme  $s = a * s1 + (1-a)*s2$ where $a$ is chosen by cross-validation. In this revision, we implement an early fusion scheme in Section~\ref{early_fusion} that a new-top level perceptron layer is created to combine two models' output as in Fig.~\ref{early_fusion_fig}. The new multimodal neural network's parameters are initialised by the previously trained individual module, taking advantage of different modules’ intrinsic properties and making the network converge much faster. The early fusion system uses pre-trained weights. The results are reported in  Section~\ref{early_fusion} and Table~\ref{Table_score_fusion}.
-
-\item The Related Works section has been moved after the Introduction section. We also follow reviewers' suggestions and include discussions of related works concerning works of: 1) exploiting temporal models in the context of gesture recognition; 2) literature for RGBD data using deep learning -
-    ``Wang \emph{et al.}~\cite{wang2006hidden} introduced a discriminative hidden-state approach for the recognition of human gestures. However, their discriminative training is limited for pre-segmented gesture sequences and one layer of hidden states might not learn powerful enough high level representations for a larger corpus."
-    ``In the field of deep learning from RGBD data, Socher \emph{et al.}~\cite{socher2012convolutional} proposed a single convolutional neural net layer for each modality as input to multiple, fixed-tree RNNs in order to compose higher order features for 3D object classification. The single convolutional neural net layer provides useful translational invariance of low level features such as edges and allows parts of an object to be deformable to some extent. The pooled filter responses are then given to a recursive neural network to learn compositional features and part interactions.
-    Gupta \emph{et al.}~\cite{gupta2014learning} proposed a geocentric embedding for depth images that encodes height above ground and angle with gravity for each pixel in addition to the horizontal disparity. The depth image was represented by three channels: horizontal disparity, height above ground and angle with gravity. This augmented representation allows the CNN to learn strong features than by using disparity (or depth) alone. "
-
-\item Experimental analysis. We have included some time analysis in Section~\ref{Computational Complexity} and visualisation of response maps after learnt filters in Fig~\ref{3dcnn_filters}.
-
-\item Explanation of intuition behind higher level presentation of the skeleton features. We include Section \ref{Deep Dynamic Neural Networks} to explain the intuition behind higher level representation for skeleton joint features which appeared in our previous CVPR paper but was not included in the previous submission. We think this part is one of major contributions of the paper and inclusion of this section makes the journal paper more self-contained.
-\end{itemize}
-
-\hrulefill
-
-\subsection{Reviewer Comments}
-\subsubsection{Reviewer1}
-\emph{Recommendation: Accept With No Changes}
-
-\emph{\textbf{Comments:} The article is easy to read and well structured. The methodology is not strictly novel but its application in the gesture domain with the multimodal fusion makes the article worth reading. Although results are arguably a little behind the maximum performance ones the overall impression of the article is favorable and I believe the community may benefit to check the ideas included in this paper. }
-
-\emph{ The article proposes a framework for dynamic data augmenting a HMM with deep learning techniques and apply this to gesture segmentation and recognition. Gestures segmentation and recognition is a difficult problem. The article tackles this difficulty by means of pure data driven approaches similar to the ones used for speech recognition. The particularities of the computer vision domain are handled accordingly.}
-
-\textbf{Response:} Thank you for your review and positive outlook of the paper. We are also aware that our results are arguably a little behind the maximum performance, and this may be due to the network initialisation and multimodal neural network learning. We have included extra experimental analysis and early fusion implementation to further extend the broadness of the paper.
-
-\hrulefill
-
-\subsubsection{Reviewer2}
-\emph{Recommendation: Revise and resubmit as “new”}
-
-\textbf{\emph{Comments:}}
-\emph{In general, the manuscript is well written and is easy to follow. In the given case, it would be preferable to have the "Related work" section right after the introduction, as otherwise paper's contributions are not completely clear. Furthermore, there is certainly a vast literature on exploiting HMMs in the context of gesture recognition (as well as other temporal models, such as recurrent neural networks), which should be briefly summarized, the differences with the proposed solution should be highlighted.}
-
-\textbf{Response:}
-Thank you for your comments and the recognition of easy readability of the paper. We have moved the related work section after the introduction section. Moreover, we have included the discussions of literature that utilise temporal models, e.g.,``Wang \emph{et al.}~\cite{wang2006hidden} introduced a discriminative hidden-state approach for the recognition of human gestures. However, their discriminative training is limited for pre-segmented gesture sequences and one layer of hidden states might not learn powerful enough high level representations for a larger corpus",  ``~\cite{socher2012convolutional} proposed a single convolutional neural net layer for each modality as input to multiple, fixed-tree RNNs in order to compose higher order features for 3D object classification."
-
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{Authors claim to learn a model in the joint multi-modal space is a slight overstatement, as neural networks processing different modalities are trained completely independently with following averaging of produced scores.}
-
-\textbf{Response:}
-Thank you for your comments. In this revision, we implement the early fusion scheme in Section~\ref{early_fusion} that ``we adopt another layer of perceptron for cross modality learning taking the input from each individual net's penultimate layer.
-The parameters of two neural networks (for skeleton and depth) are loaded from the previously trained individual module...The results for the early fusion system are reported in Tab.~\ref{Table_score_fusion}. The fusion network is initialised by the pre-trained model and stacked with one hidden layer with 2024 hidden unites. We fine-tune the network and stop the training when the validation error rate stops decreasing ($\sim$15 epochs)...However, we can see from Tab.~\ref{Table_score_fusion} that the early fusion system does not outperform the late fusion system. The result is counter-intuitive because we expect that the early fusion  multimodal feature learning would extract semantically meaningful shared representations, outperforming individual modalities, and the early fusion scheme’s efficacy against the traditional method of late fusion~\cite{wu2014multimodal}. One possible explanation could be that one individual module has dominant effect on the learning process so as to screw the network towards learning that specific module. The mean activations of the neurons for each module in Fig.~\ref{early_fusion_fig} indicate the aforementioned conjecture."
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{State of the art in the experimental section should be mentioned more consistently. For fair comparison, first three lines in Table 3 should be:
-[39] Deep learning (step 4): skeleton 0.7891, video 0.7990, fusion 0.8449 [39] Deep learning (multiscale): skeleton 0.8080, video 0.8096, fusion 0.8488 [40] 3 sets of skeletal features and HoG: skeleton 0.791, fusion 0.8220
-Therefore, it shows that both learning-based and feature extraction-based approaches outperform the proposed method on each modality, as well as on a combination of them.
-Furthermore, it would be interesting to see how the HMM contributes in the performance in comparison with simple voting based on frame-based predictions.}
-
-\textbf{Response:}
-Thank you for your detailed comments. We have amended the results table accordingly. The less than maximum performance could be due to the less than ideal settings and initialisations of the neural network. Nonetheless, we would like to argue that one major contribution of the paper is using the learning method for feature extraction and the utilisation of HMM for simultaneous gesture segmentation and recognition. We also present some brief analysis of why the fusion network didn't achieve expected performance gain and hope the experimental analysis could cast some light on the future research directions of the related problems.
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{Visualization of the filter banks (section 3.3.4) in its current state is unnecessary as it does not provide any interesting insights on the interpretation of the learned features. Instead, the poorly formed filters rather indicate undertraining, or lack of training data given the model complexity, or suboptimality of training procedure.}
-
-\textbf{Response:} We  include the response maps after filtering for both body and hand parts. We observe some interesting properties from the visualisation of the filter banks as in~\cite{socher2012convolutional} that ``Depth images have sharper edges and generally are smoother than the grayscale filters, though the distinctions are less obvious compared with the body versus hand filters."
-
-
-
-
-\hrulefill
-
-\subsubsection{Reviewer3}
-\emph{Recommendation: Author Should Prepare A Minor Revision}
-
-\textbf{\emph{Comments:}}
-
-\emph{In general, I would be more excited if shared representations were learned from the skeleton and the RGB data, as done in multimodal deep learning. This is left for future work.  On the positive side, the CNN and DBN are technically sound and the results from their fusion are interesting.}
-
-\emph{One would expect that the journal version of the paper would be more self-contained and easier to follow than the conference versions, but here I observe the opposite trend. For example, the older conference version ~\cite{diwucvpr14} explains the intuition behind the higher level representation of the skeleton features, but the journal version does not. The conference paper explains how the coordinate frames are built for the features, while this paper skips this part. The conference paper explains the datasets and visualizes the Viterbi paths better.}
-
-\textbf{Response:} Thank you for your careful and positive review. We agree that in this journal version of the paper, some self-contained information has been omitted from the conference paper. In this revision, we have included more details. Specifically, 1) we include the Problem formation in Sec~\ref{Problem formation} that explains the intuition behind the higher level representation and the advantages offered by feed forward neural over GMMs. 2) we include another section for learning the higher level representation for skeleton joints features in Section~\ref{skeleon_high_level} from a pre-training point of view. The pre-training step is of crucial importance in learning the right initialisation of the deep belief networks using the sigmoid activation function.
-
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{Section 2 does not help much the reader understand the formulation. For example:
- "At each time step, we have one observed random variable $X_t$: explain what these variables represent early (raw skeletan input / RGBD)  we have an unobserved variable $H_t$: describe at a high level the information that the unobserved variables capture, mention examples}
-
-\textbf{Response:}
-We have included the interpretation part as follows: ``A continuous-observation HMM with discrete hidden states is adopted for modelling higher level temporal relationships. At each time step $t$, we have one observed random variable $X_t$ which can be the skeleton input or depth/RGB input.
- The unobserved variable $H_t$ taking on values in a finite set  $\mathcal{H}=(\bigcup _{a \in \mathcal{A}} \mathcal{H}_a)$, where $\mathcal{H}_a$ is a set of states associated with an individual gesture $\textbf{\emph{a}}$ by force-alignment. The unobserved variable $H_t$ can be interpreted as a segment of an action $\textbf{\emph{a}}$. For example, for action sequence ``tennis serving", the action sequence can be dissected into $\mathcal{H}_{a_1}, \mathcal{H}_{a_2}, \mathcal{H}_{a_3}$ as: 1) raising one arm, 2) raising the racket, and 3) hitting the ball."
-
-
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{The related work section is out of place after the technical sections and before the experiments.}
-
-\textbf{Response:} We have moved the related work section after the introduction section.
-
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{There is no point writing a loop for m=1:2 in Algorithm 1 and 2.}
-
-\textbf{Response:} We have rewritten Algorithms 1 and 2 and merge the algorithms into a more succinct format.
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{"the number of states ... is chosen as 5": any intuition here?}
-
-\textbf{Response:} Thank you for the comment and this is a very good observation. The number of hidden states chosen uniformly as 5 in the paper might not be the optimal way of setting the number of hidden states for each gesture. We also experimented segmenting gestures into 10 states and obtained similar results. We reduce the hidden states from 10 to 5 in order to reduce the number of predicting classes and avoiding overfitting. The interpretation of choosing the number of hidden states for Markove Model is similar to choosing the number of hidden states for neural networks: it's more heuristically based. Ideally, we could set the number of hidden states according to the average length of the gesture sequence. But due to time constraint, we didn't train such neural networks.
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{"10 frames are assigned to hidden state ...": why 10?}
-
-\textbf{Response:} Thank you for the careful observation. This is actually a written error due to different number of hidden states used for our experiments. We rewrote the section as:
-``\textbf{\emph{Hidden states} ($\mathcal{H}_a$): } Force alignment is used to extract the hidden states, \emph{i.e.} if a gesture token is 100 frames, the first $20= \frac{100}{5(N_{\mathcal{H}_a} )}$ frames are assigned to hidden state $\textbf{\emph{1}}$, the following 20 frames are assigned to hidden state $\textbf{\emph{2}}$, and so forth."
-
-
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{it is hard to interpret the learned features on Figure 8. There is no intuition what the depth filters capture.}
-
-\textbf{Response:} Because our filter size is $5\times5$ (smaller filter sizes tend to generalize better, ~\cite{simonyan2014very} used $3\times3$ convolution filters), it will be hard to interpret. However, we observe the similar effect as in paper~\cite{socher2012convolutional} for depth image filters and we include the following analysis:
-``Visualisation of the $5\times5$ filters in the first layer for the different input channels . Interestingly, we observe the same effect as~\cite{socher2012convolutional} that the resulting filters from depth images have sharper edges which arise due to the strong discontinuities at object boundaries. While the depth channel is often quite noisy, most of the features are still smooth."
-
-\hfill
-
-%\textbf{\emph{Comments:}}
-%\emph{ "multiple channel fusion outperforms individual modules by a large margin.": the difference is rather small based on the experiments}
-%
-%\textbf{Response:}
-
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{Citations that could be added in the context of deep learning from RGBD data: "Convolutional-Recursive Deep Learning for 3D Object Classification", Socher et al., NIPS 2012}
-
-\textbf{Response:}
-Thank you for the suggested citation. And we now include in the related works section as follows:``In the field of deep learning from RGBD data, Socher \emph{et al.}~\cite{socher2012convolutional} proposed a single convolutional neural net layer for each modality as input to multiple, fixed-tree RNNs in order to compose higher order features for 3D object classification. The single convolutional neural net layer provides useful translational invariance of low level features such as edges and allows parts of an object to be deformable to some extent. The pooled filter responses are then given to a recursive neural network to learn compositional features and part interactions."
-
-We also observe the same CNN filters as the paper that ``one interesting result is that depth channel edges are much sharper. This is due to the large discontinuities between object boundaries and background. While the depth channel is often quite noisy, most of the features are still smooth".
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{"Learning Rich Features from RGB-D Images for Object Detection and Segmentation", Gupta et al., ECCV 2014}
-
-\textbf{Response:}
-We find the works in Gupta \emph{et al.}~\cite{gupta2014learning} interesting in a sense that CNN does not necessarily need to be trained from the raw images, and some handcrafted features may better help the network to learn more meaningful, higher level representations. And we have included this related work as follows.
-``Gupta \emph{et al.} proposed a geocentric embedding for depth images that encodes height above ground and angle with gravity for each pixel in addition to the horizontal disparity. The depth image was represented by three channels: horizontal disparity, height above ground and angle with gravity. This augmented representation allows the CNN to learn strong features than by using disparity (or depth) alone."
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{Another related work is the "Multimodal Deep Learning" by Ngiam et al., ICML 11. I would also like to see some discussion wrt "Hidden Conditional Random Fields for Gesture Recognition", Wang et al, CVPR 2006}
-
-\textbf{Response:}
-Thank you for suggesting very relevant works. We came across both papers. "Multimodal Deep Learning" essentially is the prototype for an early fusion model. Wang \emph{et al.}~\cite{wang2006hidden}) observed that one hidden layer is limited for learning a larger class corpus. Feature learning for skeleton modules is an essential part of this paper and we believe a higher level representation is more beneficial for gesture classification. Moreover, the partition function of CRF makes the discriminative training more difficult to train.  The similarity in the aforementioned paper with our proposed method is that both methods used a hidden layer for learning higher level representations. Recent advancement in feature learning and pre-training for DBN renders our proposed method more meaningful. We have included the following in the related works section:
-``Wang \emph{et al.}~\cite{wang2006hidden} introduced a discriminative hidden-state approach for the recognition of human gestures. However, their discriminative training is limited for pre-segmented gesture sequences and one layer of hidden states might not learn powerful enough high level representation for a larger corpus."
-
-\hfill
-
-\hrulefill
-\subsubsection{Reviewer4}
-\emph{Recommendation: Author Should Prepare A Major Revision For A Second Review}
-
-\textbf{\emph{Comments:}}
-\emph{Late fusion: my greatest technical concern is that two deep models are trained and then combined with a weighted average: s = a * s1 + (1-a)*s2 where a is chosen by cross-validation. Instead, the authors could combine the two models by creating a new top-level perceptron layer which takes the two models as input. Then this whole structure could be trained jointly with back-propagation. I'd expect results to be (1)at least as good and (2) more philosophically unified. }
-
-\textbf{Response:} We agree with your insightful observation and continue experimenting with the early fusion scheme in this revision. Our previous paper~\cite{wu2014multimodal} utilized the early fusion scheme for audio and skeleton modules for action recognition. We followed that strategy and perform the early fusion scheme using penultimate layer in Section\ref{early_fusion}.
-``However, we can see from Table~\ref{Table_score_fusion} that the early fusion system does not outperform the late fusion system. The result is counter-intuitive because we expect that the early fusion  multimodal feature learning would extract semantically meaningful shared representations, outperforming individual modalities, and the early fusion scheme’s efficacy against the traditional method of late fusion~\cite{wu2014multimodal}. One possible explanation could be that one individual module has the dominant effect on the learning process so as to screw the network towards learning that specific module. The mean activations of the neurons for each modules in Fig.~\ref{early_fusion_fig} indicate the aforementioned conjecture."
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{The analysis is a bit brief. More experiments and ablative analysis could be added. Specifically, can we interpret the failure patterns of the proposed model(s) and prior work? It would be interesting to see statements like [40] fails more often on gestures of X kind because HOG erases Y useful information or [39] does worse for Z because it handles time at an earlier stage of the pipeline. Then, also giving some qualitative examples of these failures.}
-
-\textbf{Response:}
-We agree that there is a lack of experiments’ analysis, especially the failure patterns and lessons learnt from the experiments. We have included more analysis in the Experiment and Analysis section as follows:
-``Examples of overall upper body movements’ influence on the system performance. Left (score: 0.94) performer almost kept a static upper body whilst performing Italian sign language. Right (score: 0.34) performer moved vehemently when performing the gestures.\ref{good_bad_differ}"
-
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{These extra experiments (considering joint training of a combined emission probability model) and qualitative interpretation could significantly affect the paper. Overall, the research is solid but needs significantly more work before publication.
-RCNN: Last, it is entirely possible to train a recurrent neural network to perform Viterbi decoding. This may be difficult (requiring more training data) but would make the entire paper fit into a the deep learning framework. I cannot hold this against the authors, but some discussion might help.}
-
-\textbf{Response:}
-We have included more qualitative interpretation of the results.
-We agree that a recurrent neural network could potentially replace the Viterbi decoding part to make the system as a more unified end-to-end system. This, however, may be left to the future work.
-
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{
-They use a 3d convolutional network. While the introduction makes it sound like this is for multiple-channels (e.g. RGB + Depth), sec. 3.3.2 makes it clear the 3rd dimension is time as the model processes 4 frame sub-sequences. I think, Fig. 6 could be clearer.}
-
-\textbf{Response:}
-Thank you for your detailed observation. Yes, the 3rd dimension of the input network is indeed the time axis. However, RGB and Depth data are treated as the two channels during the input phase. We detailed the description of the Figure as follows.
-``The 3rd dimension of the input is time with 4 frames stacked together. The depth and RGB data are stacked (concatenated) together at Input. Hand and body part outputs are concatenated at H7."
-
-
-\hfill
-
-\textbf{\emph{Comments:}}
-\emph{
-Using RGB-D with deep learning is a common idea, explored by many concurrent works e.g. [A,B,C].
-[A] Dosovitskiy, A., Springenberg, J. T., Riedmiller, M., \& Brox, T. (2014). Discriminative Unsupervised Feature Learning with Convolutional Neural Networks. arXiv Preprint arXiv: 1–13.
-\newline
-[B] Gupta, S., Girshick, R., Arbeláez, P., \& Malik, J. (2014). Learning Rich Features from RGB-D Images for Object Detection and Segmentation. arXiv Preprint arXiv:1407.5736, 1–16. doi:10.1007978-3-319-10584-0-23
-\newline
-[C] Socher, R., Huval, B., Bhat, B., Manning, C. D., \& Ng, A. Y. (2012). Convolutional-Recursive Deep Learning for 3D Object Classification. Advances in Neural Information Processing Systems}
-
-\textbf{Response:}
-Thank you for suggesting related works.  We find the works in Gupta \emph{et al.}~\cite{gupta2014learning} interesting in a sense that CNN does not necessarily need to train from the raw images, and some handcrafted features may better help the network to learn more meaningful, higher level representations.
-We have included the papers using deep learning for RBG-D data with discussions in the related works section:
-``Gupta \emph{et al.} proposed a geocentric embedding for depth images that encodes height above ground and angle with gravity for each pixel in addition to the horizontal disparity. The depth image was represented by three channels: horizontal disparity, height above ground and angle with gravity. This augmented representation allows the CNN to learn strong features than by using disparity (or depth) alone."
-``In the field of deep learning from RGBD data, Socher \emph{et al.} proposed a single convolutional neural net layer for each modality as input to multiple, fixed-tree RNNs in order to compose higher order features for 3D object classification. The single convolutional neural net layer provides useful translational invariance of low level features such as edges and allows parts of an object to be deformable to some extent. The pooled filter responses are then given to a recursive neural network to learn compositional features and part interactions."
 \end{document}
-
-
-
-
-

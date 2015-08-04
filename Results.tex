@@ -16,22 +16,53 @@ Finally, Section~\ref{sec:ComputationalComplexity} will briefly discuss the comp
 
 \begin{figure}[t]
         \centering
-        \begin{subfigure}[c]{.2\textwidth}
+        \begin{subfigure}[c]{.5\textwidth}
         \centering
-                \includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/ok}
+                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_ok}
                 \caption{``OK"}
         \end{subfigure}%
         %
-        \begin{subfigure}[c]{0.2\textwidth}
+        \\
+        \begin{subfigure}[c]{0.5\textwidth}
         \centering
-                \includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/noncenepiu}
+                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_ncnp}
+                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
                 \caption{``Non ce ne piu"}
+        \end{subfigure}
+        \\
+       \begin{subfigure}[c]{0.5\textwidth}
+        \centering
+                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_basta}
+                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+                \caption{``Basta"}
+        \end{subfigure}
+       \\
+       \begin{subfigure}[c]{0.5\textwidth}
+        \centering
+                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_buonissimo}
+                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+                \caption{``Buonissimo"}
+        \end{subfigure}
+               \\
+       \begin{subfigure}[c]{0.5\textwidth}
+        \centering
+                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_daccordo}
+                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+                \caption{``Daccordo"}
+        \end{subfigure}
+                       \\
+       \begin{subfigure}[c]{0.5\textwidth}
+        \centering
+                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_combinato}
+                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+                \caption{``Combinato"}
         \end{subfigure}
   \caption{
 \mycomline{Add other examples of gestures, interesting to comment upon take them from chalearn website.
 From the confusion matrix, i would propose: ``Basta'', buenissimo, daccordo, combinato}
+\dwucomline{We may not show all the examples here}
 Examples of gestures in the Chalearn dataset.
-Note that some gestures primarily differ primarily in hand pose but not the arm motions, like ``OK'' vs ``Non ce ne piu''
+Note that some gestures primarily differ primarily in hand pose but not the arm motions, like ``OK'' \emph{vs} ``Non ce ne piu''. ``Basta" and ``Combinato" are the gestures that got mostly misclassified.
   }
 \label{fig:chalearnclasses}
 \end{figure}
@@ -43,12 +74,19 @@ Note that some gestures primarily differ primarily in hand pose but not the arm 
 Also, provide some statistics about the dataset:
  rough duration of the gestures (average, min max). How many person are performing the gestures, how many occurrences per class, is the dataset balanced}
 
-The dataset used in this work is provided by the ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge\footnote{\href{http://gesture.chalearn.org/homewebsourcereferrals}{http://gesture.chalearn.org/homewebsourcereferrals}}.
+The dataset used in this work is provided by the ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge\footnote{\href{http://gesture.chalearn.org/2014-looking-at-people-challenge/data-2014-challenge}{http://gesture.chalearn.org/2014-looking-at-people-challenge/data-2014-challenge}}.
 %
-It contains 940 videos sequences, each performed by a single person (X persons are involved in the dataset)
-and composed of 10 to 20 gesture instances for a total of around $14\,000$ gestures.
+The focus  is on ``multiple instance, user independent spotting" of gestures, which means learning to recognize gestures from several instances for each category performed by different users, drawn from a gesture vocabulary of 20 Italian cultural/anthropological signs.
+A gesture vocabulary is a set of unique gestures, generally related to a particular task.
+
+The challenge dataset contains 940 videos sequences, each performed by a single person and composed of 10 to 20 gesture instances for a total of around $14,000$ gestures.
 %
-There are 20 gesture classes, with a number a samples well balanced between classes. Some of them are illustrated in Fig.~\ref{fig:chalearnclasses}
+There are 20 gesture classes, \emph{i.e.} \emph{vattene, vieniqui, perfetto, furbo, cheduepalle, chevuoi, daccordo, seipazzo, combinato, freganiente
+    , ok, cosatifarei, basta, prendere, noncenepiu, fame, tantotempo, buonissimo, messidaccordo, sonostufo}, with a number a samples well balanced between classes.
+% statistics of the gestures here:
+The average length of gestures is 39 frames, the minimum frame number for a gesture is 16  and the maximum frame number is 104.
+
+This dataset is challenging because the ``user independent" setting and some of gestures differ primarily in hand pose but not the overall arm motions as illustrated in Fig.~\ref{fig:chalearnclasses}
 
 \mycomline{(to be presented/commented)}
 
@@ -80,10 +118,11 @@ Several measures can be used to evaluate the gesture recognition performance.
 In this work, we adopted the ChaLearn performance measure known as the Jaccard index, which relies on a frame-by-frame prediction accuracy.
 More precisely, if $GT_i$ denotes the sequence of ground truth labels in video $i$, and $R_i$ the algorithm output, the Jaccard index
 of the video is defined as:
-\begin{equation}
+\begin{align}
 \jaccardindex_i(GT_i, R_i,g) = \frac{N_s(GT_i, R_i,g)}{N_u(GT_i, R_i,g)},
-\mbox{ and } \jaccardindex_i = \frac{1}{|{\cal G}_i)|} \sum_{g \in {\cal G}_i} \jaccardindex_i(GT_i, R_i,g)
-\end{equation}
+\\
+\mbox{and } \jaccardindex_i = \frac{1}{|{\cal G}_i)|} \sum_{g \in {\cal G}_i} \jaccardindex_i(GT_i, R_i,g)
+\end{align}
 
 where $N_s(GT_i, R_i, g)$ denotes the number of frames where the ground truth and result agree on the gesture class $g$,
 and $N_u(GT_i, R_i, g)$ denotes the number of frames labeled as a gesture frame $g$ by  either the ground truth or the algorithm,
@@ -102,9 +141,7 @@ More precisely, if for a gesture segment $G$, we have $\frac{G \cap R}{G \cup R}
 segment of the same class, then the  gesture is said to be recognized.
 %
 If the same relation holds but with a gesture segment of another class, the prediction is incorrect.
-
 Otherwise the gesture is rated as undetected. This allows us to define the \eventaccuracy, \eventconfused and \eventmissed performance measures at the video level,
-
 which are further averaged over test sequences for reporting.
 
 
@@ -112,8 +149,8 @@ which are further averaged over test sequences for reporting.
         \centering
         \begin{subfigure}[c]{.8\textwidth}
                 \includegraphics[width=\textwidth]{images/path/Sample0700_sk}
-\vspace*{-3mm}
-                \caption{Sample \#700 skeleton input path.}
+%\vspace*{-3mm}
+                \caption{Viterbi decoding from skeleton input.}
                 \label{Sample0700_sk}
         \end{subfigure}%
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
@@ -121,8 +158,8 @@ which are further averaged over test sequences for reporting.
 
         \begin{subfigure}[c]{0.8\textwidth}
                 \includegraphics[width=\textwidth]{images/path/Sample0700_cnn}
-\vspace*{-3mm}
-                \caption{Sample \#700 depth and RGB input path.}
+%\vspace*{-3mm}
+                \caption{Viterbi decoding from RGB-D input.}
                 \label{Sample0700_cnn}
         \end{subfigure}
 
@@ -130,13 +167,13 @@ which are further averaged over test sequences for reporting.
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[c]{0.8\textwidth}
                 \includegraphics[width=\textwidth]{images/path/Sample0700_combined}
-\vspace*{-3mm}
-                \caption{Sample \#700 combined input path.}
+%\vspace*{-3mm}
+                \caption{Viterbi decoding from the late fusion of skeleton and RGB-D input.}
                 \label{Sample0700_combined}
         \end{subfigure}
 
-  \caption{Viterbi decoding of the two modules and their fusion of sample sequence \#700. Top to bottom: skeleton, RGBD, multimodal fusion with x-axis representing the time and y-axis representing the hidden states of all the classes with the ergodic state at the bottom. Red lines are the ground truth labels, cyan lines represent the viterbi shortest path and yellow lines are the predicted labels. There are some complementary information of the two modules and generally the skeletal module outperforms the depth module. The fusion of the two could exploit the uncertainty, \emph{e.g.} around frame 200 the skeleton can help with the false negative predictions given by the 3DCNN module. Around frame 1450, the 3DCNN module can help suppress the false positive prediction given by skeleton module.
-  }\label{Sample0700_comparison}
+  \caption{Viterbi decoding of sample sequence \#700, using skeleton (top), RGB-D (middle) and late fusion system (bottom). The x-axis represents the time and the y-axis represents the hidden states of all the classes and of the ergodic state at the state \emph{101}. Red lines are the ground truth labels, cyan lines represent the viterbi shortest path and yellow lines are the predicted labels. Two modules exhibit complementary behaviors and generally the skeletal module outperforms the depth module. The fusion exploits the complementary properties, \emph{e.g.} around frame 200 the skeleton help solving with the missed detection from the 3DCNN module, while around frame 1450, the 3DCNN module can help suppress the false positive prediction given by skeleton module.
+  }\label{fig:Sample0700_comparison}
 \end{figure*}
 
 \subsubsection{Tested systems}
@@ -145,8 +182,9 @@ We evaluated the recognition performance made by the HMM applied to the emission
 the skeleton data, the RGBD image data, the late fusion scheme, and the early fusion scheme.
 %
 Note that the HMM output was further filtered as follows to avoid false alarms.
-First, predicted gesture segments of less than 10 frames were considered as noise and discarded.
+First, predicted gesture segments of less than 20 frames were considered as noise and discarded.
 %
+\dwucomline{Actually during the actual test the threshold is set at -inf which does not serve as postprocessing}
 In addition, longer but noisy gesture segments whose log-probability (including both emission and transition probabilities)  measured over the viterbi path
 was lower than a threshold were discarded.
 %
@@ -183,20 +221,20 @@ This threshold was set by optimizing the Jaccard index on the validation set  of
             \multirow{2}{*}{Skeleton - DBDN}       & \eventaccuracy                & 86.3     & 83.6 \\
                                             &  \eventconfused           & 11.4     & 12.3 \\
                                             &  \eventmissed           &  2.3     &   4.1 \\\hline\hline
-            \multirow{2}{*}{RGBD - 3DCNN}    & \eventaccuracy              & 78.7     & 75.8  \\
+            \multirow{2}{*}{RGB-D - 3DCNN}    & \eventaccuracy              & 78.7     & 75.8  \\
                                             &  \eventconfused           & 5.2     &  4.5 \\
                                             &  \eventmissed           & 16.1     & 19.7  \\\hline\hline
             \multirow{2}{*}{Multimodal Late Fusion}   &  \eventaccuracy    & 87.9     & 86.4 \\
-                                                      &  \eventconfused    & 11.4     & 8.7 \\
-                                                      &  \eventmissed      & 9.1      & 4.9 \\\hline
+                                                      &  \eventconfused    & 9.1     & 8.7 \\
+                                                      &  \eventmissed      & 3.0      & 4.9 \\\hline
            \multirow{2}{*}{Multimodal Early Fusion}   &  \eventaccuracy    & 86.5     & 85.5\\
-                                                      &  \eventconfused    & 7.2      & 6.8 \\
+                                                      &  \eventconfused    & 7.3      & 6.8 \\
                                                       &  \eventmissed      & 6.2      & 7.7 \\\hline
         \end{tabular}
 \vspace*{-2mm}
     \caption{
        Gesture classification performance at the event level, in percentage of the number of ground truth gestures.
-\mycomline{table to be finished as for the skeleton}
+%\mycomline{table to be finished as for the skeleton}
           }
           \label{tab:eventperformance}
 \end{table}
@@ -215,16 +253,16 @@ As can be observed from both performance measures, the skeleton module usually  
 In addition, its generalization capability  is better than that of the RGBD module,
 especially when measured with the Jaccard index where there is almost no drop of performance between the validation and test data.
 %
-One possible explanation is that the information in the squeleton data is more robust, as it benefited from training using huge and highly
+One possible explanation is that the information in the skeleton data is more robust, as it benefited from training using huge and highly
 varied data~\cite{shotton2011real}: around on million images from both realistic and synthetic depth images were used to train
 the decision forest classifiers involved in the joints extraction.
 %
 On the over hand, as the  RGBD module relies on  the raw data and was learned only from the ChaLearn training set, it may
 suffer from some overfitting.
 %
-Another interesting conclusion that can be drawn from Table~\ref{tab:eventperformance} is that while most errors from the RGBD module are due to under detection
+Another interesting conclusion that can be drawn from Table~\ref{tab:eventperformance} is that while most errors from the RGB-D module are due to under detection
 (the \eventmissed rate is 19.7\%, whereas it is only 4.1\% for the skeleton), the skeleton module is more reactive to gesture activity, but makes more mistakes
-(the \eventconfused rate is 12.3\% vs 4.5\% for RGBD).
+(the \eventconfused rate is 12.3\% vs 4.5\% for RGB-D).
 
 
 Finally, the results also demonstrate  that the combination of both modalities is more robust,
@@ -271,32 +309,38 @@ as shown by the recognition rate increase and the smaller drop in the generaliza
 %
 The confusion matrices in Fig.~\ref{fig:confusion_matrix} better illustrate the complementarity of the behaviors of the two modalities.
 %
-The higher underdetection of RGBD is clearly visible (whiter matrix, except last 'undetected' column).
+The higher underdetection of RGB-D is clearly visible (whiter matrix, except last 'undetected' column).
 %
 
 We can also notice that some gestures are more easily recognized than others,
 or catch the difficult instances of other gestures.
-This is the case for instance of the 'basta' gesture,
+This is the case for instance of the ``Basta" gesture,
 whose arms motion  resembles the  start and end of the arm motion of many other gesture (see Fig.~\ref{fig:chalearnclasses}).
 Whatever the modality, it thus tends to be over-detected for all gesture classes, whenever the
 likelihood of the instances are low when being evaluated using the HMM states associated with their true label
 due to too much variability.
 %
-Similarly, the hand movement and pose of the 'buenissimo' gesture is present in several other gesture classes,
-whose instances are then often confused with 'buenissimo' when relying on the skeleton information alone.
+Similarly, the hand movement and pose of the ``Buenissimo" gesture is present in several other gesture classes,
+whose instances are then often confused with ``Buenissimo" when relying on the skeleton information alone.
 %
-However, as these gestures differ primarily in their hand pose, such confusion is much more reduced using the RGBD domain,
-or when fusing  the skeleton and RGBD modules.
+However, as these gestures differ primarily in their hand pose, such confusion is much more reduced using the RGB-D domain,
+or when fusing  the skeleton and RGB-D modules.
 %
+The complementary properties of the two modalities is also illustrated from the Viterbi path decoding plot in Fig.~\ref{fig:Sample0700_comparison}.
 In general, the benefit of this complementarity between arm pose/gesture and hand pose
-can be observed from the whiter confusion matrix than in the skeleton case (less confusion due to hand pose information from RGBD)
-and much less under-detection than in the RGBD case (better upper-body pose discrimination thanks to skeleton input).
+can be observed from the whiter confusion matrix than in the skeleton case (less confusion due to hand pose information from RGB-D)
+and much less under-detection than in the RGB-D case (better upper-body pose discrimination thanks to skeleton input).
 %
 
 However, the modalities by themselves have more difficulties to correct the recognition errors which are due to variations coming from the performer,
 like differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynamics}).
 
-\mypartitle{Early vs Late fusion.}
+\mypartitle{Late vs. Early fusion.}
+
+
+
+We compare the results of late fusion and early fusion in Tab.~\ref{Table_score_fusion} and we can see that the early fusion system didn't outperform the late fusion system. The result is counter-intuitive because we expect the early fusion  multimodal feature learning will extract semantically meaningful shared representations, outperforming individual modalities, and the early fusion scheme’s efficacy against the traditional method of late fusion. One possible explanation could be that one individual module has dominant effect on the learning process so as to skew the network towards learning that specific module. The mean activations of the neurons for each modules in Fig.~\ref{fig:fusion} indicate the aforementioned conjecture.
+ The mean activation of skeleton module neurons is predominantly larger than the RGBD ConvNet's (0.57 \emph{vs.} 0.056). Though that skeleton module has logistic units whereas ConvNet module has relu unit~\cite{DBLP:journals/corr/PigouODHD15}, the mean activations of the two are not directly comparable. However, 10 times the difference of mean activation indicates the bias during the multimodal fine-tuning phase that could cause the less than expected performance.
 
 \mycomline{In this comment on the results and benefit of the temporal model, as we dsicussed.}
 %
