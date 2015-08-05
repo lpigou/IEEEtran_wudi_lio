@@ -278,7 +278,7 @@ In addition, while being smoother overall than the grayscale filters, depth filt
   % Requires \usepackage{graphicx}
   \includegraphics[width=0.85\textwidth]{images/CNN_filters}
   \caption{Visualisation of input frames, first convolutional layer $5\times5$ filters, and corresponding response maps.
-As the depth channel is smoother than the grayscale one, the corresponding filter are smoother as well. 
+As depth images are smoother than the grayscale ones, the corresponding filter are smoother as well. 
 }\label{3dcnn_filters}
 \end{figure*}
 
@@ -301,17 +301,35 @@ and $\alpha$ is a coefficient that controls the contributions of each source of 
 Interestingly, the best performing $\alpha$ is close to $0.5$, indicating that both modalities are equally important.
 
 
-\subsubsection{Early Fusion}\label{early_fusion}
+\subsubsection{Early Fusion}
+\label{early_fusion}
 
-Instead of traditional late fusion, we adopt another layer of perceptron (with 2024 hidden unites) for cross modality learning taking the input from each individual net's penultimate layer.
-The parameters of two neural networks (for skeleton and depth) are loaded from the previously trained individual module. We argue that this ``pre-trained" parameters are important because the heterogenous inputs of the system.  We fine-tune the network and stop the training when the validation error rate stops decreasing ($\sim$15 epochs).
+As an alternative to the late fusion scheme, we can take advantage of the high-level representation implicitly learned by each module 
+(and represented by the \highSK and \highRGBD nodes of the penultimate layer of the respective networks, before the softmax) 
+to fuse the modality in an early fashion by concatenating these two layers in one layer of 2024 hidden unites
+and learning a cross-modality emission probability predictive network.
+%
+The resulting architecture is trained by first initializing the weights of the deeper layers from the previously trained module,
+and then jointly fine tuning the whole network (including learning the last layer parameters)
+and stop the training when the validation error rate stops decreasing ($\sim$15 epochs).
+%
+We argue that using the ``pre-trained" parameters is important due to the heterogeneity of the inputs of the system, 
+and that the joint training should adjust parameters to handle  this heterogeneity and produce the final estimates.
+
 
 \begin{figure}[t]
   \centering
   % Requires \usepackage{graphicx}
   \includegraphics[width=0.5\textwidth]{images/Fusion_combined}
-  \caption{
-    Architecture of the multimodal dynamic networks with late fusion scheme (left) and early fusion scheme (right).  Late fusion scheme combines the emission probabilities from two modalities. For early fusion scheme, each modality (skeleton and RGB-D) is first pre-trained by a Deep Neural Network, and their penultimate layers are fused together to generate a shared representation for dual modalities. The outputs are the emission probabilities \emissionprob for temporal dynamic modeling. The Gaussians represent activations of the neurons for each input modality and the final fusion layer. The mean activation of skeleton module neurons is predominantly larger than the RGBD ConvNet's (0.57 \emph{vs.} 0.056). Note that skeleton module has logistic units whereas ConvNet module has relu unit~\cite{DBLP:journals/corr/PigouODHD15}, hence the mean activations of the two are not directly comparable. However, 10 times the difference of mean activation indicates the bias during the multimodal fine-tuning phase that could cause the less than expected performance.
+\vspace*{-2mm}  
+\caption{
+Multimodal dynamic networks with late fusion scheme (left) and early fusion scheme (right).  
+The late approach simply combines the emission probabilities from two modalities. 
+In the early fusion scheme, each modality (skeleton and \RGBD) is first pre-trained separately, 
+and their high-level representation \highSK and \highRGBD (the penultimate node layers of their neural networks) 
+are concatenated to generate a shared representation. The resulting architecture is trained jointly.
+%
+%% The outputs are the emission probabilities \emissionprob for temporal dynamic modeling. The Gaussians represent activations of the neurons for each input modality and the final fusion layer. The mean activation of skeleton module neurons is predominantly larger than the RGBD ConvNet's (0.57 \emph{vs.} 0.056). Note that skeleton module has logistic units whereas ConvNet module has relu unit~\cite{DBLP:journals/corr/PigouODHD15}, hence the mean activations of the two are not directly comparable. However, 10 times the difference of mean activation indicates the bias during the multimodal fine-tuning phase that could cause the less than expected performance.
   }\label{fig:fusion}
 \end{figure}
 
