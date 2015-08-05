@@ -31,31 +31,42 @@
 \newcommand{\finiteset}{\ensuremath{\mathcal{H}}\xspace}
 % number of hidden states
 \newcommand{\numberhiddenstate}{\ensuremath{N_{\finiteset}}\xspace}
+% number of hidden state
+\newcommand{\numberhiddenstates}{\numberhiddenstate}
+
+% gesture a
+\newcommand{\gesturea}{\ensuremath{\textbf{\emph{a}}}}
+
+% number of states associated to an individual gesture
+\newcommand{\nsig}{\ensuremath{N_{\finiteset_{\gesturea}}}\xspace}
+% total number of states
+\newcommand{\tns}{\ensuremath{N_{\finiteset}}\xspace}
+
+% general input for hmm - one sequence
+\newcommand{\inputsequence}{\ensuremath{\mbf x}\xspace}
+\newcommand{\framefeature}{\ensuremath{x}\xspace}
+
+% skeleton features observations
+\newcommand{\skrawfeature}{\ensuremath{\framefeature^s}\xspace}
+% actual skeleton features
+\newcommand{\skfeature}{\ensuremath{f}\xspace}
+
+
+
+% general frame label for hmm
+\newcommand{\labelsequence}{\ensuremath{\mbf y}\xspace}
+\newcommand{\framelabel}{\ensuremath{y}\xspace}
+
 
 % transition matrix
 \newcommand{\transitionmatrix}{$p(\hiddenstate_t | \hiddenstate_{t-1})$}
-
 % emission probability
 \newcommand{\emissionprob}{\ensuremath{p(\observation_t | \hiddenstate_t)}\xspace}
-
 \newcommand{\emissionprobSK}{\ensuremath{p(X_t^S | H_t)}\xspace}
-
 \newcommand{\emissionprobRGBD}{\ensuremath{p(X_t^R | H_t)}\xspace}
-% general input for hmm
-\newcommand{\inputhmm}{$x_i$}
-
-% general frame label for hmm
-\newcommand{\framelabelhmm}{$y_i$}
 
 % ergodic state
 \newcommand{\ergodicstate}{$\mathcal{ES}$}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% HMM numbers
-
-% number of states associated to an individual gesture
-\newcommand{\nsig}{$N_{\mathcal{H}_a}$}
-% total number of states
-\newcommand{\tns}{$N_{\mathcal{H}}$}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  input
@@ -70,20 +81,9 @@
 %RGBD high level features
 \newcommand{\highRGBD}{\ensuremath{V^r}\xspace}
 
-% gesture a
-\newcommand{\gesturea}{$\textbf{\emph{a}}$}
-
 % number of joints used
-\newcommand{\numberofjoints}{$N_j$}
+\newcommand{\numberofjoints}{\ensuremath{N_j}\xspace}
 
-% skeleton features at time t
-\newcommand{\skfeaturet}{$x_t^s$}
-
-% skeleton features
-\newcommand{\skfeature}{$f_t$}
-
-% number of hidden state
-\newcommand{\numberhiddenstates}{\ensuremath{N_\mathcal{H}}}
 
 
 % Result section

@@ -7,10 +7,29 @@ In this section, we detail the different component of the proposed Deep Dynamic 
 
 \subsection{Ergodic States Hidden Markov Model}
 
- In all our experiments, the different modelling elements are specified as follows: the number of states \nsig{} associated to an individual gesture has been set to 5. Therefore, in total, the number of  \tns{}$= 20(classes) \times 5 + 1 = 101$ as experiments are conducted on the Chalearn dataset.
- The training data in Chalearn is given as a set of sequences \inputhmm{}=$[x_{i,1}, \ldots,x_{i,t},\ldots, x_{i,T}]$ where $x_{i,t}=[x_{i,t}^s, x_{i,t}^r]$ corresponds to the skeleton and RGB-D input. As the gesture label is provided for each sequence, we need to define \framelabelhmm{}=$[y_{i,1}, \ldots,y_{i,t},\ldots, y_{i,T}]$, the sequence of state labels $y_{i,t}$ associated to each frame. To do so, a force alignment is used which means that if the $i^{th}$ sequence is a gesture \gesturea{}, then the first $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to state $h_a^1$ (the first state of gesture \gesturea{}), the following $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to $h_a^2$, and so forth.
-Note that each gesture sequence comes with the video frames proceeding and following the gesture. In practice, we dictate 5 frames before and after each gesture sequence and labelled this shot sequence with the ergodic state (\ergodicstate{}) label.
-Transitional matrix \transitionmatrix{} is collected from the statistics of labelling stage, allowing 5 frame jumps to accommodate skipping states.
+In all our experiments, the different modelling elements are specified as follows.
+ 
+The number of states \nsig{} associated to an individual gesture has been set to 5. 
+Therefore, in total, the number of states is $\tns = 20 \times 5 + 1 = 101$ 
+when conducting  experiments on the Chalearn dataset containing 20 classes.
+
+The training data in Chalearn is given as a set of sequences 
+$\inputsequence_i=[\framefeature_{i,1}, \ldots,\framefeature_{i,t},\ldots, \framefeature_{i,T_i}]$ 
+where $\framefeature_{i,t}=[\framefeature_{i,t}^s, \framefeature_{i,t}^r]$ corresponds to the skeleton and RGB-D input.
+%
+As only a single gesture label is provided for each sequence, we need to define 
+$\labelsequence_i=[\framelabel_{i,1}, \ldots,\framelabel_{i,t},\ldots, \framelabel_{i,T_i}]$, 
+the sequence of state labels $\framelabel_{i,t}$ associated to each frame. 
+%
+To do so, a force alignment is used which means that if the $i^{th}$ sequence is a gesture \gesturea{}, then the first $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to state $\hiddenstatenode_\gesturea^1$ (the first state of gesture \gesturea{}), 
+the following $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to $\hiddenstatenode_\gesturea^2$, and so forth.
+
+Note that each gesture sequence comes with the video frames preceeding and following the gesture. 
+In practice, we extracted 5 frames before and after each gesture sequence and labelled them 
+%this shot sequence 
+with the ergodic state (\ergodicstate) label.
+%
+The transitional matrix \transitionmatrix{} was learned by simply  collecting the transition statistics from the label sequences $\labelsequence_i$, allowing 5 frame jumps to accommodate skipping states.
 
 % \begin{flushleft}
 %\textbf{\emph{Hidden states} ($\mathcal{H}_a$): } Force alignment is used to extract the hidden states, \emph{i.e.} if a gesture token is 100 frames, the first $20= \frac{100}{5(N_{\mathcal{H}_a} )}$ frames are assigned to hidden state $\textbf{\emph{1}}$, the following 20 frames are assigned to hidden state $\textbf{\emph{2}}$, and so forth.
@@ -19,7 +38,12 @@ Transitional matrix \transitionmatrix{} is collected from the statistics of labe
 %
 %\textbf{\emph{Transitional Matrix (\transitionmatrix{})}:} Statistics is collected from the labelling stage, allowing 5 frame jumps to accommodate skipping states.
 %\end{flushleft}
-\subsection{Skeleton Module}\label{sec:skeleton_module}
+
+
+\subsection{Skeleton Module}
+\label{sec:skeleton_module}
+
+
 \begin{figure}[t]
   \centering
   % Requires \usepackage{graphicx}
@@ -30,23 +54,28 @@ Transitional matrix \transitionmatrix{} is collected from the statistics of labe
 \end{figure}
 
 
+\subsubsection{Skeleton input features}
 
-
-%\subsubsection{Preprocessing}
-Given our task, only upper body joints are relevant. Accordingly, only the \numberofjoints{}$ =11$ upper body joints are considered, namely \emph{``ElbowLeft, WristLeft, ShoulderLeft, HandLeft, ElbowRight, WristRight, ShoulderRight, HandRight, Head, Spine, HipCenter"}.
-
-Skeleton features of time $t$ are defined as \skfeaturet{}$=x_t^{s,1}, \ldots, x_t^{s, N_j}$. To capture the gesture dynamics, rather than using \skfeaturet{} as raw input to our data drive approach, we follow the features used in~\cite{diwucvpr14} and compute 3D positional pairwise differences of joints as well as temporal derivatives, defined as (as shown in Fig. \ref{point_cloud}) \footnote{Note that offset features used in~\cite{diwucvpr14} depends on the first frame, if the initialisation fails which is a very common scenario, the feature descriptor will be generally very noisy. Hence, the offset features are discarded and only the three more robust features $[f^{cc}_t, f^{cp}_t, f^{ca}_t]$}:
+Given our task, only  the $\numberofjoints=11$ upper body joints are relevant and 
+considered, namely \emph{``ElbowLeft, WristLeft, ShoulderLeft, HandLeft, ElbowRight, WristRight, ShoulderRight, HandRight, Head, Spine, HipCenter"}.
+%
+The raw skeleton features of time $t$ are defined as $\skrawfeature_t=[\framefeature_t^{s,1}, \ldots, \framefeature_t^{s, \numberofjoints}]$. 
+To capture the gesture dynamics, rather than using $\skrawfeature_t$ as raw input to our data driven approach, 
+we follow the approach of~\cite{diwucvpr14} and compute the 3D positional pairwise differences of joints as well as temporal derivatives, defined as (as shown in Fig.~\ref{point_cloud}) \footnote{Note that the offset features used in~\cite{diwucvpr14} depend on the first frame.
+Thus if the initialisation fails which is a very common scenario, the feature descriptor will be generally very noisy. 
+Hence, here we do not use these offset features.}:
 \begin{align}
 f^{cc}_t&=\{x_t^{s,i}-x_t^{s,j} | i,j=1,2,\ldots, N_j; i\neq j\} \label{sk_features_1}\\
 f^{cp}_t&=\{x_{t+1}^{s,i}-x_t^{s,i} |  i=1,2,\ldots, N_j\} \label{sk_features_2}\\
 f^{ca}_t&=\{x_{t+1}^{s,i} - 2 \times x_t^{s,i} + x_t^{s,i} | i=1,2,\ldots, N_j  \} \label{sk_features_3}
 \end{align}
-
-
-This results in an input feature $f_t=[f^{cc}_t, f^{cp}_t, f^{ca}_t]$ of dimension $N_f=N_j \times( \frac{ N_j}{2} + N_j + N_j)*\mathit{3}=891$.
+%
+This results in an input feature vector $f_t=[f^{cc}_t, f^{cp}_t, f^{ca}_t]$ of dimension $N_f=N_j \times( \frac{ N_j}{2} + N_j + N_j)*\mathit{3}=891$.
 Admittedly, here we do not completely neglect human prior knowledge about information extraction for relevant static postures, velocity and acceleration of overall dynamics of motion data.
-While we have indeed used prior knowledge to define our relevant features, we believe they remain quite general and do not need data-set specific tuning.
-Note that feature extraction process resembles the computation of \emph{Mel Frequency Cepstral Coefficients (MFCCs)} and their temporal derivatives for the speech recognition community~\cite{mohamed2012acoustic}.
+While we have indeed used prior knowledge to define our relevant features, we believe they remain quite general and do not need dataset specific tuning.
+Note that the feature extraction process resembles the computation of the 
+\emph{Mel Frequency Cepstral Coefficients (MFCCs)} and their temporal derivatives 
+typically used in the  speech recognition community~\cite{mohamed2012acoustic}.
 %\textbf{\emph{Caveat}}:
 %\begin{itemize}
 %\item  When extracting skeletal features, the 3D joint coordinates have not been transformed from the world coordinate system to a person centric coordinate system by placing the \emph{``HipCenter"} at the origin.
