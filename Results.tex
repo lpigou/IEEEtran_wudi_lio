@@ -96,7 +96,37 @@ In terms of data, three modalities are provided with the input videos: the seque
 % This dataset  is on ``multiple instance, user independent learning and continuous gesture spotting"~\cite{ICMI} of gestures.
 % In the 3 track, there are more than 14,000 gestures.
 
-
+ \begin{table}[t]
+   \centering
+        \begin{tabular}{|l|c|}\hline
+            { Gesture }  &\makebox[5em]{ Length}\\\hline\hline
+            {\small vattene }            &  38.0   \\\hline
+            {\small vieniqui }           &  36.1   \\\hline
+            {\small perfetto }           &  36.7  \\\hline
+            {\small furbo }              &  40.1   \\\hline
+            {\small cheduepalle }        &  36.9    \\\hline
+            {\small chevuoi }            &  35.9    \\\hline
+            {\small daccordo }           &  40.2   \\\hline
+            {\small seipazzo }           &  43.5    \\\hline
+            {\small combinato }          &  45.6    \\\hline
+            {\small freganiente }        &  37.8    \\\hline
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            {\small ok }                 &  30.8    \\\hline
+            {\small cosatifarei }        &  419    \\\hline
+            {\small basta }              &  35.7   \\\hline
+            {\small prendere }           &  37.9    \\\hline
+            {\small noncenepiu }         &  37.5    \\\hline
+            {\small fame }               &  41.3    \\\hline
+            {\small tantotempo }         &  39.1    \\\hline
+            {\small buonissimo }         &  43.5   \\\hline
+            {\small messidaccordo }      &  44.5    \\\hline
+            {\small sonostufo }          &  39.9    \\\hline
+        \end{tabular}
+\vspace*{-2mm}
+    \caption{\dwucomline{Average length of a gesture, this table won't be included in the final version, but just to show to JMO.}
+          }
+          \label{Table_score_fusion}
+\end{table}
 
 
 \subsection{Experimental protocol}
@@ -342,7 +372,7 @@ like differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynami
 We compare the results of late fusion and early fusion in Tab.~\ref{Table_score_fusion} and we can see that the early fusion system didn't outperform the late fusion system. The result is counter-intuitive because we expect the early fusion  multimodal feature learning will extract semantically meaningful shared representations, outperforming individual modalities, and the early fusion scheme’s efficacy against the traditional method of late fusion. One possible explanation could be that one individual module has dominant effect on the learning process so as to skew the network towards learning that specific module. The mean activations of the neurons for each modules in Fig.~\ref{fig:fusion} indicate the aforementioned conjecture.
  The mean activation of skeleton module neurons is predominantly larger than the RGBD ConvNet's (0.57 \emph{vs.} 0.056). Though that skeleton module has logistic units whereas ConvNet module has relu unit~\cite{DBLP:journals/corr/PigouODHD15}, the mean activations of the two are not directly comparable. However, 10 times the difference of mean activation indicates the bias during the multimodal fine-tuning phase that could cause the less than expected performance.
 
-\mycomline{In this comment on the results and benefit of the temporal model, as we dsicussed.}
+\mycomline{In this comment on the results and benefit of the temporal model, as we discussed.}
 %
 
 \mypartitle{HMM benefit.}
@@ -351,6 +381,10 @@ We compare the results of late fusion and early fusion in Tab.~\ref{Table_score_
 \mypartitle{Comparison with the state-of-the-art. In particular, add discussion that other temporal module could be used,
 including those that could lead to the training of a full deep-neural network.  }
 %
+
+To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set.
+
+\dwucomline{A new Fig. will be included}
 The performance of recent state-of-the-art techniques is given in Table~\ref{tab:soa}.
 
 \mycomline{Distinguish handcrafted features and neural net approaches. explain the differences in models that potentially lead to the difference.}
@@ -418,7 +452,7 @@ We can distinguish between two complexity: the training one, and the test one.
 \mycomline{Say a few words about the training complexity (which part takes longer -skeleton ? RGBD? - and how long does it take on the Chalearn dataset.}
 
 \mypartitle{Complexity at training time.}
-Although training the deep neural network using stochastic gradient descent is computationally intensive,
+Although training the deep neural network using stochastic gradient descent is computationally intensive, the reuse of our pre-train network parameters could help with the better initialisation of the fusion network and fast convergence. Different modality training time also varies. Specifically, the training time of each epoch for DBN skeleton module is less than 300 second and allowing training 500 epochs within 2 days. The training time of each epoch for 3DCNN of RGB-D  module is much computational expensive, taking more than 10,000 second. Hence, 40 epochs takes around 5 days to train.
 
 \mypartitle{Complexity at test time.}
 %
