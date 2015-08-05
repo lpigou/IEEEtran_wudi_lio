@@ -6,7 +6,7 @@ This Section reports the experiments performed to validate our model.
 First, we will introduce the ChaLearn dataset, and then present the experimental protocol we followed.
 In Section~\ref{sec:results}, we will present and analyse the obtained results, including a discussion
 on the modeling elements.
-Finally, Section~\ref{sec:ComputationalComplexity} will briefly discuss the computational complexity of the approach.
+Finally, in Section~\ref{sec:ComputationalComplexity} will briefly discuss the computational complexity of the approach.
 
 
 
@@ -77,18 +77,20 @@ Also, provide some statistics about the dataset:
 The dataset used in this work is provided by the ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge\footnote{\href{http://gesture.chalearn.org/2014-looking-at-people-challenge/data-2014-challenge}{http://gesture.chalearn.org/2014-looking-at-people-challenge/data-2014-challenge}}.
 %
 The focus  is on ``multiple instance, user independent spotting" of gestures, which means learning to recognize gestures from several instances for each category performed by different users, drawn from a gesture vocabulary of 20 Italian cultural/anthropological signs.
-A gesture vocabulary is a set of unique gestures, generally related to a particular task.
+%A gesture vocabulary is a set of unique gestures, generally related to a particular task.
 
 The challenge dataset contains 940 videos sequences, each performed by a single person and composed of 10 to 20 gesture instances for a total of around $14,000$ gestures.
 %
-There are 20 gesture classes, \emph{i.e.} \emph{vattene, vieniqui, perfetto, furbo, cheduepalle, chevuoi, daccordo, seipazzo, combinato, freganiente
-    , ok, cosatifarei, basta, prendere, noncenepiu, fame, tantotempo, buonissimo, messidaccordo, sonostufo}, with a number a samples well balanced between classes.
-% statistics of the gestures here:
-The average length of gestures is 39 frames, the minimum frame number for a gesture is 16  and the maximum frame number is 104.
+The 20 gesture classes are \emph{vattene, vieniqui, perfetto, furbo, cheduepalle, chevuoi, daccordo, seipazzo, combinato, freganiente
+    , ok, cosatifarei, basta, prendere, noncenepiu, fame, tantotempo, buonissimo, messidaccordo, sonostufo}, 
+with a number a samples well balanced between classes.
+The average length of the gesture instances is 39 frames, with a minimum of 16 a maximum of 104.
+%
+This dataset is challenging because of the ``user independent" setting,
+ and  of several gestures which differ primarily in hand pose but not in the overall arm motions,
+ as illustrated in Fig.~\ref{fig:chalearnclasses}.
 
-This dataset is challenging because the ``user independent" setting and some of gestures differ primarily in hand pose but not the overall arm motions as illustrated in Fig.~\ref{fig:chalearnclasses}
-
-\mycomline{(to be presented/commented)}
+%\mycomline{(to be presented/commented)}
 
 In terms of data, three modalities are provided with the input videos: the sequence of skeleton joints, and the RGB and depth images
 (including a segmentation of the person performing the gesture).
@@ -126,9 +128,9 @@ of the video is defined as:
 
 where $N_s(GT_i, R_i, g)$ denotes the number of frames where the ground truth and result agree on the gesture class $g$,
 and $N_u(GT_i, R_i, g)$ denotes the number of frames labeled as a gesture frame $g$ by  either the ground truth or the algorithm,
-and ${{\cal G}_i}$ denotes the set of gestures either in the ground truth or detected by the algorithm in sequence $i$\footnote{Note that 'non gesture'
-
-frames are thus excluded from the counts.}. The average of the $\jaccardindex_i$ over all test videos is reported as performance measure.
+and ${{\cal G}_i}$ denotes the set of gestures either in the ground truth or detected by the algorithm in sequence $i$\footnote{Note that 
+'non gesture' frames are thus excluded from the counts.}. 
+The average of the $\jaccardindex_i$ over all test videos is reported as performance measure.
 %
 Note that experimentally, this measure tends to favours having more false positives than missing true positives, in order to increase the numerator.
 %Effective ways to detect false positives should be an interesting aspect of future work.
@@ -179,9 +181,9 @@ which are further averaged over test sequences for reporting.
 \subsubsection{Tested systems}
 
 We evaluated the recognition performance made by the HMM applied to the emission probabilities estimated from either
-the skeleton data, the RGBD image data, the late fusion scheme, and the early fusion scheme.
+the skeleton data, the RGBD image data, the late and early fusion schemes.
 %
-Note that the HMM output was further filtered as follows to avoid false alarms.
+Note that in all cases the HMM output was further filtered as follows to avoid false alarms.
 First, predicted gesture segments of less than 20 frames were considered as noise and discarded.
 %
 \dwucomline{Actually during the actual test the threshold is set at -inf which does not serve as postprocessing}
@@ -249,7 +251,7 @@ This threshold was set by optimizing the Jaccard index on the validation set  of
 %
 The overal performance of the algorithms are given in Tables~\ref{Table_score_fusion} and~\ref{tab:eventperformance}.
 %
-As can be observed from both performance measures, the skeleton module usually  performs better than the RGBD module.
+As can be observed, the skeleton module usually  performs better than the RGBD module.
 In addition, its generalization capability  is better than that of the RGBD module,
 especially when measured with the Jaccard index where there is almost no drop of performance between the validation and test data.
 %
@@ -315,7 +317,7 @@ The higher underdetection of RGB-D is clearly visible (whiter matrix, except las
 We can also notice that some gestures are more easily recognized than others,
 or catch the difficult instances of other gestures.
 This is the case for instance of the ``Basta" gesture,
-whose arms motion  resembles the  start and end of the arm motion of many other gesture (see Fig.~\ref{fig:chalearnclasses}).
+whose arms motion  resembles the  start and end of the arm motion of many other gestures (see Fig.~\ref{fig:chalearnclasses}).
 Whatever the modality, it thus tends to be over-detected for all gesture classes, whenever the
 likelihood of the instances are low when being evaluated using the HMM states associated with their true label
 due to too much variability.
@@ -327,13 +329,13 @@ However, as these gestures differ primarily in their hand pose, such confusion i
 or when fusing  the skeleton and RGB-D modules.
 %
 The complementary properties of the two modalities is also illustrated from the Viterbi path decoding plot in Fig.~\ref{fig:Sample0700_comparison}.
-In general, the benefit of this complementarity between arm pose/gesture and hand pose
+In general, the benefit of this complementarity in the fusion between arm pose/gesture and hand pose
 can be observed from the whiter confusion matrix than in the skeleton case (less confusion due to hand pose information from RGB-D)
 and much less under-detection than in the RGB-D case (better upper-body pose discrimination thanks to skeleton input).
 %
 
 However, the modalities by themselves have more difficulties to correct the recognition errors which are due to variations coming from the performer,
-like differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynamics}).
+like differentiating  people that gesticulate more, as illustrated in Fig.~\ref{fig:bodydynamics}.
 
 \mypartitle{Late vs. Early fusion.}
 

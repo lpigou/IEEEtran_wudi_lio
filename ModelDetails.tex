@@ -163,14 +163,16 @@ The optimisation completes with a frame based validation error rate of $16.5\%$,
 % Since a completely new approach will initially have a hard time competing against established, carefully fine-tuned methods.
 %More fundamentally, it may be that the right way to treat dataset performance numbers is not as a competition for the top place.
 %This way, fundamentally new approaches will not be forced to compete for top performance right away, but will have a chance to develop and mature.
-The performance of the skeleton module is shown in Tab.~\ref{Table_score_fusion}.
+%The performance of the skeleton module is shown in Tab.~\ref{Table_score_fusion}.
 
 \begin{figure}[t]
   \centering
   % Requires \usepackage{graphicx}
   \includegraphics[width=0.4\textwidth]{images/training_error_sk}\\
   \caption{
-    Deep belief network frame based validation error rate for the skeleton input module. The 0.05 frame error rate indicates the well generalisation Deep Belief Network of skeleton modules.}
+    Deep Belief Network frame based validation error rate for the skeleton modality.
+    The 0.05 frame error rate indicates the good generalisation property of the DBN skeleton module.
+    }
     \label{sk_error_rate}
 \end{figure}
 
@@ -179,11 +181,16 @@ The performance of the skeleton module is shown in Tab.~\ref{Table_score_fusion}
 
 Although DeepMind technology~\cite{mnih2013playing} presented the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using deep reinforcement learning, working directly with raw input Kinect recorded data frames, which are $640 \times 480$ pixel images, can be computationally demanding.
 Therefore, our first step in the preprocessing stage consists of cropping the highest hand and the upper body using the given joint information. In the Chalearn dataset, we determined that the highest hand is the most interesting. When both hands are used, they normally perform the same (mirrored) movement, and when one hand is used, it is always the highest one which is relevant.
-Furthermore, to be invariant to handiness, we train the model with the right hand view. That is, when the left hand is actually the performing hand, the video was mirrored.
+Furthermore, to be invariant to handedness, we always train the model with the right hand view. 
+That is, when the left hand is actually the performing hand, the video was mirrored.
 
 
 The preprocessing results in four video samples (body and hand with grayscale and depth) of resolution $64\times64$. Furthermore, the noise in the depth maps is reduced by thresholding, background removal using the user index, and median filtering.
-The depth images are normalised with mean substraction for each image because the median of depth images are irrelevant to the gesture subclass. And both RGB and depth images are normalised by dividing the standard deviation of each image.
+%
+The depth images are Z-normalised, i.e the mean is subtracted (as it is rather irrelevant to the gesture subclass) and 
+the result divived by the standard deviation.
+%
+In contrast, the RGB image is only normalized by the image standard deviation.
 The outcome is illustrated in Fig.~\ref{3dcnn_filters} (left).
 %\begin{figure}[t]
 %  \centering
@@ -204,8 +211,8 @@ The outcome is illustrated in Fig.~\ref{3dcnn_filters} (left).
 \end{figure*}
 
 This deep neural network architecture consists of a series of layers composed of either convolution, pooling or, in the last layer, fully connected layers.
-The 3D convolution itself is achieved by convolving a 3D kernel to the cuboid formed by stacking multiple contiguous frames together. We follow the nomenclature as in~\cite{ji20133d}.
- However, instead of using $tanh$ units as in~\cite{ji20133d},  Rectified Linear Units (\emph{ReLUs})~\cite{krizhevsky2012imagenet} were used in order to speed up training.
+The 3D convolution itself is achieved by convolving a 3D kernel to the cuboid formed by stacking multiple contiguous frames together. We follow the nomenclature of in~\cite{ji20133d}.
+ However, instead of using $tanh$ units~\cite{ji20133d},  Rectified Linear Units (\emph{ReLUs})~\cite{krizhevsky2012imagenet} were used in order to speed up training.
  Formally, the value of a unit at position $(x, y, z)$ ($z$ here corresponds to the time-axis) in the $j$-th feature map in the $i$-th layer, denoted as $v^{xyz}_{ij}$, is given by:
 \begin{equation}
 v^{xyz}_{ij} =  max( 0,  ( b_{ij} + \sum_m \sum_{p=0}^{P_i - 1} \sum_{q=0}^{Q_i -1 } \sum_{r=0}^{R_i -1} w^{pqr}_{ijm} v^{(x+p)(y+q)(t+r)}_{(i-1)m} ))
@@ -213,7 +220,9 @@ v^{xyz}_{ij} =  max( 0,  ( b_{ij} + \sum_m \sum_{p=0}^{P_i - 1} \sum_{q=0}^{Q_i 
 \end{equation}
 
 The complete 3DCNN architecture is depicted in Fig.~\ref{3dcnn_architecture} : 4 types~(Fig.~\ref{3dcnn_filters}) of input contextual frames are stacked as size $64\times64\times4$.
-The first layer consists of 32 feature maps produced by $5\times5$ spatial convolutional kernels followed by local contrast normalisation (LCN)~\cite{jarrett2009best} and 3D max pooling with strides $(2,2,2)$, then the grayscale channel and depth channel are concatenated. The second layer has 64 feature maps with $5\times5$ kernels followed by LCN and 3D max pooling with strides $(2,2,2)$. The third layer is composed of 64 feature maps with $4\times4$ kernels followed by 3D max pooling with strides $(1,2,2)$. All convolutional layer outputs are flattened with the body channel and hand channel concatenated, and fed into one fully connected layer of size $1024$. The output layer has \numberhiddenstates{} values, the number of states in the HMM in Fig.~\ref{HMM_ES}.
+The first layer consists of 32 feature maps produced by $5\times5$ spatial convolutional kernels followed by local contrast normalisation (LCN)~\cite{jarrett2009best} and 3D max pooling with strides $(2,2,2)$, then the grayscale channel and depth channel are concatenated. The second layer has 64 feature maps with $5\times5$ kernels followed by LCN and 3D max pooling with strides $(2,2,2)$. The third layer is composed of 64 feature maps with $4\times4$ kernels followed by 3D max pooling with strides $(1,2,2)$. All convolutional layer outputs are flattened with the body channel and hand channel concatenated, and fed into one fully connected layer of size $1024$. 
+%
+The output layer has \numberhiddenstates{} values, the number of states in the HMM state diagram (see Fig.~\ref{HMM_ES}).
 
 
 
@@ -222,20 +231,26 @@ The first layer consists of 32 feature maps produced by $5\times5$ spatial convo
 % The first 650 batches are used for training and the remaining 50 files for validation.
 During training, dropout \cite{hinton2012improving} is used as main regularisation approach to reduce overfitting. Nesterovs accelerated gradient descent (NAG) \cite{sutskever2013importance} with a fixed momentum-coefficient of 0.9 and mini-batches of size 64 are also used.
 The learning rate is initialised at 0.003 with a 5\% decrease after each epoch. The weights of the 3DCNNs are randomly initialised with a normal distribution with $\mu = 0$ and $\sigma = 0.04$.
-The frame based validation error rate is $39.06\%$ after 40 epochs as shown in Fig.~\ref{error rate}. Compared with the skeleton module (16.5\% validation error rate), the 3DCNN has a notable higher frame based error rate.
+The frame based validation error rate is $39.06\%$ after 40 epochs as shown in Fig.~\ref{fig:RGBErrorRate}. 
+Compared with the skeleton module (16.5\% validation error rate), the 3DCNN has a notable higher frame based error rate.
 
 
 \begin{figure}[t]
   \centering
   % Requires \usepackage{graphicx}
   \includegraphics[width=.4\textwidth]{images/3dcnn_filters/training_error}
-  \caption{The frame based error rate for training 3DCNN. The frame error rates from 3DCNN are much higher than the skeleton module in~\ref{sk_error_rate} which indicates learning from images may be more difficult than from skeleton modules. }\label{error rate}
+  \caption{Frame based error rate of the 3DCNN. 
+ The error rates are much higher than when using the skeleton module (see Fig.~\ref{sk_error_rate})
+ indicating that  learning from images is more difficult. }
+\label{fig:RGBErrorRate}
 \end{figure}
 
 \subsubsection{Looking into the Networks: visualisation of Filter Banks}
 
-The convolutional filter weights of the first layer are depicted in Fig.~\ref{3dcnn_filters}. The unique characteristics from the kernels are clearly visible: as hand inputs have larger homogenous areas than the body inputs, hence the hand part filters are smoother than their body counterpart.
-In addition, depth images have sharper edges as also observed in~\cite{socher2012convolutional} and while being smooth overall than the grayscale filters.
+The convolutional filter weights of the first layer are depicted in Fig.~\ref{3dcnn_filters}. 
+The unique characteristics from the kernels are clearly visible: as hand input images (RGB and depth) have larger homogenous areas than the body inputs, the resulting filters are smoother than their body counterpart.
+In addition, while being smoother overall than the grayscale filters, depth filters exhibit stronger edges, 
+ as also reported in~\cite{socher2012convolutional}.
 
 \begin{figure*}[t]
   \centering
