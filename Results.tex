@@ -211,14 +211,17 @@ which are further averaged over test sequences for reporting.
 We evaluated the recognition performance made by the HMM applied to the emission probabilities estimated from either
 the skeleton data, the RGBD image data, the late fusion scheme, and the early fusion scheme.
 %
-Note that the HMM output was further filtered as follows to avoid false alarms.
-First, predicted gesture segments of less than 20 frames were considered as noise and discarded.
+Note that in all cases the HMM output was further filtered to avoid false alarms,
+by considering gesture segments of less than 20 frames as noise and discarding them.
+%Note that in all cases the HMM output was further filtered as follows to avoid false alarms.
+%First, predicted gesture segments of less than 20 frames were considered as noise and discarded.
+
 %
-\dwucomline{Actually during the actual test the threshold is set at -inf which does not serve as postprocessing}
-In addition, longer but noisy gesture segments whose log-probability (including both emission and transition probabilities)  measured over the viterbi path
-was lower than a threshold were discarded.
-%
-This threshold was set by optimizing the Jaccard index on the validation set  of the training data.
+%% \dwucomline{Actually during the actual test the threshold is set at -inf which does not serve as postprocessing}
+%% In addition, longer but noisy gesture segments whose log-probability (including both emission and transition probabilities)  measured over the viterbi path
+%% was lower than a threshold were discarded.
+%% %
+%% This threshold was set by optimizing the Jaccard index on the validation set  of the training data.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
