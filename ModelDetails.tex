@@ -185,13 +185,14 @@ Furthermore, to be invariant to handedness, we always train the model with the r
 That is, when the left hand is actually the performing hand, the video was mirrored.
 
 
-The preprocessing results in four video samples (body and hand with grayscale and depth) of resolution $64\times64$. Furthermore, the noise in the depth maps is reduced by thresholding, background removal using the user index, and median filtering.
+The preprocessing results in four video samples (body and hand with grayscale and depth) of resolution $64\times64$. 
+Furthermore, the noise in the depth maps is reduced by removing the background using the automatically produced 
+segmentation mask provided with the data, and applying a  median filtering.
 %
-The depth images are Z-normalised, i.e the mean is subtracted (as it is rather irrelevant to the gesture subclass) and 
-the result divived by the standard deviation.
-%
-In contrast, the RGB image is only normalized by the image standard deviation.
-The outcome is illustrated in Fig.~\ref{3dcnn_filters} (left).
+Depth images are Z-normalised (the mean is subtracted -as it is rather irrelevant to the gesture subclass- 
+and the result divided by the standard deviation), whereas 
+RGB images are only normalized by the image standard deviation.
+The outcome is illustrated in Fig.~\ref{3dcnn_filters}.
 %\begin{figure}[t]
 %  \centering
 %  % Requires \usepackage{graphicx}
@@ -207,10 +208,17 @@ The outcome is illustrated in Fig.~\ref{3dcnn_filters} (left).
   \centering
   % Requires \usepackage{graphicx}
   \includegraphics[width=.9\textwidth]{images/3DCNN_new}
-  \caption{An illustration of the architecture of the 3DCNN architecture. The 3rd dimension of the input is time with 4 frames stacked together. The depth and RGB data are stacked (concatenated) together at Input. Hand and body part output are concatenated at H7.}\label{3dcnn_architecture}
+\vspace*{-2mm}
+  \caption{3DCNN architecture. The input is $2\times2@64\ast64\ast4$, meaning 2 modalities (depth and RGB)  for the hand and body regions, 
+each  being 4  consecutive 64 by 64 frames stacked together. 
+%
+%Note that in H1, the Depth and RGB  response maps of the hand (and body) are summed to produce a single feature map,
+%while in H7, the hand and body part feature maps of H6 are just flattened.
+}
+\label{3dcnn_architecture}
 \end{figure*}
 
-This deep neural network architecture consists of a series of layers composed of either convolution, pooling or, in the last layer, fully connected layers.
+This  architecture consists of a series of layers composed of either convolution, pooling or, in the last layer, fully connected layers.
 The 3D convolution itself is achieved by convolving a 3D kernel to the cuboid formed by stacking multiple contiguous frames together. We follow the nomenclature of in~\cite{ji20133d}.
  However, instead of using $tanh$ units~\cite{ji20133d},  Rectified Linear Units (\emph{ReLUs})~\cite{krizhevsky2012imagenet} were used in order to speed up training.
  Formally, the value of a unit at position $(x, y, z)$ ($z$ here corresponds to the time-axis) in the $j$-th feature map in the $i$-th layer, denoted as $v^{xyz}_{ij}$, is given by:
@@ -218,18 +226,31 @@ The 3D convolution itself is achieved by convolving a 3D kernel to the cuboid fo
 v^{xyz}_{ij} =  max( 0,  ( b_{ij} + \sum_m \sum_{p=0}^{P_i - 1} \sum_{q=0}^{Q_i -1 } \sum_{r=0}^{R_i -1} w^{pqr}_{ijm} v^{(x+p)(y+q)(t+r)}_{(i-1)m} ))
 \label{ReLU}
 \end{equation}
-
-The complete 3DCNN architecture is depicted in Fig.~\ref{3dcnn_architecture} : 4 types~(Fig.~\ref{3dcnn_filters}) of input contextual frames are stacked as size $64\times64\times4$.
-The first layer consists of 32 feature maps produced by $5\times5$ spatial convolutional kernels followed by local contrast normalisation (LCN)~\cite{jarrett2009best} and 3D max pooling with strides $(2,2,2)$, then the grayscale channel and depth channel are concatenated. The second layer has 64 feature maps with $5\times5$ kernels followed by LCN and 3D max pooling with strides $(2,2,2)$. The third layer is composed of 64 feature maps with $4\times4$ kernels followed by 3D max pooling with strides $(1,2,2)$. All convolutional layer outputs are flattened with the body channel and hand channel concatenated, and fed into one fully connected layer of size $1024$. 
 %
-The output layer has \numberhiddenstates{} values, the number of states in the HMM state diagram (see Fig.~\ref{HMM_ES}).
+The complete 3DCNN architecture is depicted in Fig.~\ref{3dcnn_architecture}:
+4 types of input contextual frames are stacked as size $64\times64\times4$ (as illustrated in Fig.~\ref{3dcnn_filters}).
+%
+The first layer (H1) consists of 32 feature maps produced by $5\times5$ spatial convolutional kernels,
+followed by local contrast normalisation (LCN)~\cite{jarrett2009best}.
+%
+Note that the filter response maps of the Depth and RGB images of the hand (and body) are summed to produce a single feature map, 
+thus resulting in H1 in 32 feature maps for the hand and for the body region.
+%
+A 3D max pooling with strides $(2,2,2)$ is then applied. 
+%
+The second layer uses 64 feature maps with $5\times5$ kernels followed by LCN and 3D max pooling with strides $(2,2,2)$. 
+The third layer is composed of 64 feature maps with $4\times4$ kernels followed by 3D max pooling with strides $(1,2,2)$. 
+All hand and body convolutional layer outputs of H6 are flattened in H7, and fed into one fully connected layer of size $1024$. 
+%
+Finally, the output layer has \numberhiddenstate values, the number of states in the HMM state diagram (see Fig.~\ref{HMM_ES}).
 
 
 
 
 \subsubsection{Details of Learning}
 % The first 650 batches are used for training and the remaining 50 files for validation.
-During training, dropout \cite{hinton2012improving} is used as main regularisation approach to reduce overfitting. Nesterovs accelerated gradient descent (NAG) \cite{sutskever2013importance} with a fixed momentum-coefficient of 0.9 and mini-batches of size 64 are also used.
+During training, dropout \cite{hinton2012improving} is used as main regularisation approach to reduce overfitting. 
+Nesterovs accelerated gradient descent (NAG) \cite{sutskever2013importance} with a fixed momentum-coefficient of 0.9 and mini-batches of size 64 are also used.
 The learning rate is initialised at 0.003 with a 5\% decrease after each epoch. The weights of the 3DCNNs are randomly initialised with a normal distribution with $\mu = 0$ and $\sigma = 0.04$.
 The frame based validation error rate is $39.06\%$ after 40 epochs as shown in Fig.~\ref{fig:RGBErrorRate}. 
 Compared with the skeleton module (16.5\% validation error rate), the 3DCNN has a notable higher frame based error rate.
@@ -256,22 +277,28 @@ In addition, while being smoother overall than the grayscale filters, depth filt
   \centering
   % Requires \usepackage{graphicx}
   \includegraphics[width=0.85\textwidth]{images/CNN_filters}
-  \caption{Visualisation of input frames, first convolutional layer $5\times5$ filters and the corresponding response maps for body and hand parts. Because depth channel is smoother than the RGB grayscale channel, the corresponding filter maps are smoother as well. }\label{3dcnn_filters}
+  \caption{Visualisation of input frames, first convolutional layer $5\times5$ filters, and corresponding response maps.
+As the depth channel is smoother than the grayscale one, the corresponding filter are smoother as well. 
+}\label{3dcnn_filters}
 \end{figure*}
 
 
 \subsection{Multimodal Fusion}
-To combine the two modalities, two strategies can be used, as shown in Fig.~\ref{fig:fusion}: a late fusion approach and an early fusion approach.
+To combine the two modalities, two strategies can be used, as shown in Fig.~\ref{fig:fusion}: 
+a late fusion approach and an early fusion approach.
 
 
 \subsubsection{Late Fusion}
-Formally, this multimodal fusion scheme corresponds to the fusion of the emission probabilities estimated from the different input. While different schemes exits, a simple linear combination:
+%
+This scheme fuses the combination of the emission probabilities estimated from the different input. 
+While different combinatin schemes exist, here we considered a simple linear combination:
 
 \begin{equation}
-\emissionprob  \propto  \alpha \cdot \emissionprobSK + (1-\alpha)\cdot \emissionprobRGBD
+\log \emissionprob  \propto  \alpha \cdot \log \emissionprobSK + (1-\alpha)\cdot \log \emissionprobRGBD
 \end{equation}
-where different emission probabilities are provided by the modules described in \ref{sec:skeleton_module} and \ref{sec:rgbd_modules} and $\alpha$ is a coefficient that controls the contributions of each source of information estimated by cross validation.
-Interestingly, the best performing $\alpha$ is close to $0.5$, indicating that both approaches are equally important.
+where the different emission probabilities are provided by the modules described in \ref{sec:skeleton_module} and \ref{sec:rgbd_modules},
+and $\alpha$ is a coefficient that controls the contributions of each source of information and which is estimated by cross validation.
+Interestingly, the best performing $\alpha$ is close to $0.5$, indicating that both modalities are equally important.
 
 
 \subsubsection{Early Fusion}\label{early_fusion}
