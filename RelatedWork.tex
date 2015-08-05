@@ -4,12 +4,12 @@
 
 Gesture recognition has drawn increasing attention of researchers, primarily due to its growing potential in areas such as robotics, human-computer interaction and user interface design. Different temporal models have been proposed.
 Nowozin and Shotton~\cite{nowozin2012action} proposed the notion of ``action points" to serve as natural temporal anchors of simple human actions using a Hidden Markov Model.
-Wang \emph{et al.}~\cite{wang2006hidden} introduced a more elaborated discriminative hidden-state approach for the recognition of human gestures. 
-However, relying on only one layer of hidden states, 
+Wang \emph{et al.}~\cite{wang2006hidden} introduced a more elaborated discriminative hidden-state approach for the recognition of human gestures.
+However, relying on only one layer of hidden states,
 their model alone might not  be powerful enough to learn a higher level representation of the data and take advantage of very large corpus. In this paper, we adopt a different approach by focusing on feature learning within a temporal model.
 
-There have been a few works exploring deep learning for action recognition in videos. For instance, Ji \emph{et al.}\cite{ji20133d} proposed using 3D convolutional neural network for automated recognition of human actions in surveillance videos. Their model extracts features from both the spatial and the temporal dimensions by performing 3D convolutions, thereby capturing the motion information encoded in multiple adjacent frames. To further boost the performance, they proposed regularising the outputs with high-level features and combining the predictions of a variety of different models. Taylor \emph{et al.}~\cite{taylor2010convolutional}  also explored 3D convolutional networks for learning spatio-temporal features for videos. The experiments in~\cite{wu2014deep} show that multiple network averaging works better than a single individual network and larger nets  will generally perform better than smaller nets. 
-Providing there is enough data, averaging multi-column nets~\cite{ciresan2012multi} applied to 
+There have been a few works exploring deep learning for action recognition in videos. For instance, Ji \emph{et al.}\cite{ji20133d} proposed using 3D convolutional neural network for automated recognition of human actions in surveillance videos. Their model extracts features from both the spatial and the temporal dimensions by performing 3D convolutions, thereby capturing the motion information encoded in multiple adjacent frames. To further boost the performance, they proposed regularising the outputs with high-level features and combining the predictions of a variety of different models. Taylor \emph{et al.}~\cite{taylor2010convolutional}  also explored 3D convolutional networks for learning spatio-temporal features for videos. The experiments in~\cite{wu2014deep} show that multiple network averaging works better than a single individual network and larger nets  will generally perform better than smaller nets.
+Providing there is enough data, averaging multi-column nets~\cite{ciresan2012multi} applied to
 action recognition could also further improve the performance.
 
 However, the advent of  Kinect-like sensors has put more emphasis on RGB-D data for gesture recognition, but not only.
@@ -28,18 +28,18 @@ In~\cite{Peng2014multi}, the state-of-the-art dense trajectory~\cite{wang2013den
 
 There is a gradual trend to learn the features for gesture recognition in videos.
 %
-For instance, the recent methods in \cite{wu2014deep,lio2014deep} focused on single modalities,  
-used deep networks to learn representations from skeleton data \cite{wu2014deep} or from RGB-D data \cite{liodeep2014}.
+For instance, the recent methods in \cite{wu2014deep,lio2014deep} focused on single modalities,
+used deep networks to learn representations from skeleton data ~\cite{wu2014deep} or from RGB-D data ~\cite{lio2014deep}.
 %
-Neveroa \emph{et al.}~\cite{neverova2014multi} presents a multi-scale and multimodal deep network for gesture detection and localisation. 
-Key to their technique is a training strategy that exploits i) careful initialisation of individual modalities and ii) gradual fusion of modalities from the strongest to weakest cross-modality structure. 
+Neveroa \emph{et al.}~\cite{neverova2014multi} presents a multi-scale and multimodal deep network for gesture detection and localisation.
+Key to their technique is a training strategy that exploits i) careful initialisation of individual modalities and ii) gradual fusion of modalities from the strongest to weakest cross-modality structure.
 %
-One major difference compared to what we propose is the treatment of the time factor: 
-rather than using a temporal model, they used frames within a fixed interval as the input of their neural networks 
-for the prediction of the final gesture class, an approach that 
-requires require to train several multi-scale temporal networks  to cope with gestures performed at different speeds. 
+One major difference compared to what we propose is the treatment of the time factor:
+rather than using a temporal model, they used frames within a fixed interval as the input of their neural networks
+for the prediction of the final gesture class, an approach that
+requires require to train several multi-scale temporal networks  to cope with gestures performed at different speeds.
 %
-Furthermore, their skeleton features used in their network are sets of ad-hoc hand crafted features, rather than being 
+Furthermore, their skeleton features used in their network are sets of ad-hoc hand crafted features, rather than being
 learned from raw data.
 
 
