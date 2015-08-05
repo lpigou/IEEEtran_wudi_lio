@@ -226,7 +226,7 @@ is sensitive to a large fraction of the weights.
 \DontPrintSemicolon
 \SetKwFunction{zeroes}{zeroes}
 \KwData{\;
-          \inputhmm{}=$[x_{i,1}, \ldots,x_{i,t},\ldots, x_{i,T}]$ \;
+          \inputsequence=$[\framefeature_{i,1}, \ldots,\framefeature_{i,t},\ldots, \framefeature_{i,T}]$ \;
           $ \mathbf{X^1=\{ x^1_i\}_{i \in [1 \ldots t]}}$ - raw input (skeletal) feature \; \hspace{1cm} sequence.\;
           $ \mathbf{X^2=\{ x^2_i\}_{i \in [1 \ldots t]}}$ - raw input (depth) feature \; \hspace{1cm} sequence in the form of     $M_1 \times M_2 \times T$, where \; \hspace{1cm} $M_1, M_2$ are the height and width of the input \; \hspace{1cm} image and $T$  is the number of contiguous \; \hspace{1cm} frames of the spatio-temporal cuboid. \;
           $ \mathbf{Y=\{ y_i\}_{i \in [1 \ldots t]}}$  - frame based local label (achieved by\; \hspace{1cm} semi-supervised forced-aligment), where \;
