@@ -346,17 +346,17 @@ as shown by the recognition rate increase and the smaller drop in the generaliza
 
 \mypartitle{Confusion matrices.}
 %
-The confusion matrices in Fig.~\ref{fig:confusion_matrix} better illustrate the complementarity of the behaviors of the two modalities.
+The confusion matrices (in log-form)
+ in Fig.~\ref{fig:confusion_matrix} better illustrate the complementarity of the behaviors of the two modalities.
 %
 The higher underdetection of RGB-D is clearly visible (whiter matrix, except last 'undetected' column).
 %
-
 We can also notice that some gestures are more easily recognized than others,
 or catch the difficult instances of other gestures.
-This is the case for instance of the ``Basta" gesture,
+This is the case  of the ``Basta" gesture,
 whose arms motion  resembles the  start and end of the arm motion of many other gesture (see Fig.~\ref{fig:chalearnclasses}).
-Whatever the modality, it thus tends to be over-detected for all gesture classes, whenever the
-likelihood of the instances are low when being evaluated using the HMM states associated with their true label
+Whatever the modality, its model thus tends to recognize few instance of all other gesture classes, whenever their
+likelihood are low when being evaluated using the HMM states associated with their true label
 due to too much variability.
 %
 Similarly, the hand movement and pose of the ``Buenissimo" gesture is present in several other gesture classes,
@@ -376,7 +376,6 @@ like differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynami
 
 \mypartitle{Late vs. Early fusion.}
 %
-
 The results in Table~\ref{tab:jaccardperformance} and~\ref{tab:eventperformance} show that the early fusion system
 improved individual modalities, but without outperforming the late fusion system.
 %
@@ -403,20 +402,53 @@ Further investigation on how to better address this heterogeneity should be cond
 
 \mypartitle{HMM benefit.}
 %
- To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set.
-
-
-
-%\mypartitle{Comparison with the state-of-the-art. In particular, add discussion that other temporal module could be used,
-%including those that could lead to the training of a full deep-neural network.  }
+As the emission probabilities are learned in a discrimimate fashion, one may wonder whether the HMM brings benefit beyond smoothing.
+To investigate this issue, we removed the temporal structure in the following way:
+for a given gesture \gesturea, we computed its score at time $t$, $Score(\gesturea,t)$, by summing the emission
+log-probabilities $p(\observation_t|\hiddenstate_t = \hiddenstatenode)$ for all nodes associated to that gesture,
+\ie $\hiddenstatenode \in \finiteset_{\gesturea}$.
 %
+This score is then smoothed in the temporal domain (using a window of 5 frames) to obtain $\widehat{Score}(\gesturea,t)$.
+%
+Finally, following \cite{neverova2014moddrop}, the gesture recognition proceeds in two steps:
+first finding gesture segments by thresholding the score of the ergodic state;
+then, for each resulting gesture segment, the recognized gesture is defined as the one whose average score within the segment is the highest.
+%
+Fig.~\ref{fig:temporalModellingComparision} illustrates this process along with the DDNN and ground-truth.
+
+\mycomline{The figure should show the procedure described above, that you used. It should also illustrate why the jaccard index is so low.}
+
+\mycomline{``Without temporal modelling, the decision boundary of a gesture will be more rugged and it is
+more difficult to make hard decisions of where the gesture starts or ends.'': is the very low jaccard index just a problem of
+having errors on the event boudary? that sounds strange to me (and would not be a so strong argument;
+in that case the event measure should be computed to check this.}
+%As can be observed, while the correct gesture tends to get the highest probability within the segments, defining an actual
+%
+The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}.
+%
+And the overall performance in terms of  Jaccard index is reduced to $0.535$ for test set.
+Note that, this representation learning template matching method using only 5 frames still outperforms
+the Jaccard index $0.413$ in~\cite{camgoz2014gesture} where all the features are handcrafted.
+
 
 To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set. Fig.~\ref{fig:temporalModellingComparision} illustrates the effect of temporal modelling. The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}. And the overall performance in terms of  Jaccard index is reduced to $0.607$ for test set. Note that, this representation learning template matching method using only 5 frames still outperforms the Jaccard index $0.413$ using 5 frames template matching system in~\cite{camgoz2014gesture} where all the features are handcrafted.
+
+%% To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set. Fig.~\ref{fig:temporalModellingComparision} illustrates the effect of temporal modelling. The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}.
+%% %
+%% And the overall performance in terms of  Jaccard index is reduced to $0.535$ for test set.
+%% Note that, this representation learning template matching method using only 5 frames still outperforms
+%% the Jaccard index $0.413$ in~\cite{camgoz2014gesture} where all the features are handcrafted.
+
 
 
 
 \mypartitle{Comparison with the state-of-the-art.}
-The performance of recent state-of-the-art techniques is given in Table~\ref{tab:soa}. The first half of the table resort 
+
+The performance of recent state-of-the-art techniques is given in Table~\ref{tab:soa}. The first half of the table resort
+
+%\mypartitle{Comparison with the state-of-the-art. In particular, add discussion that other temporal module could be used,
+%including those that could lead to the training of a full deep-neural network.  }
+%
 
 
 \begin{figure*}[t]
