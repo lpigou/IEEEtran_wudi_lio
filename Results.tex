@@ -241,6 +241,7 @@ by considering gesture segments of less than 20 frames as noise and discarding t
     \caption{Results in terms of Jaccard index \jaccardindex for the different network structures and modalities modeling the emission probabilities.
           }
           \label{Table_score_fusion}
+          \label{tab:jaccardperformance}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -370,10 +371,20 @@ However, the modalities by themselves have more difficulties to correct the reco
 like differentiating  people that gesticulate more, as illustrated in Fig.~\ref{fig:bodydynamics}.
 
 \mypartitle{Late vs. Early fusion.}
-
-
-
-We compare the results of late fusion and early fusion in Tab.~\ref{Table_score_fusion} and we can see that the early fusion system didn't outperform the late fusion system. The result is counter-intuitive because we expect the early fusion  multimodal feature learning will extract semantically meaningful shared representations, outperforming individual modalities, and the early fusion scheme’s efficacy against the traditional method of late fusion. One possible explanation could be that one individual module has dominant effect on the learning process so as to skew the network towards learning that specific module. The mean activations of the neurons for each modules in Fig.~\ref{fig:fusion} indicate the aforementioned conjecture.
+%
+The results in Table~\ref{tab:jaccardperformance} and~\ref{tab:eventperformance} show that the early fusion system 
+improved individual modalities, but without outperform the late fusion system. 
+%
+The result is counter-intuitive, as we would have expected the cross-modality learning in the early fusion scheme 
+to result in better emission probability predictions, as compared to the simple score fusion in the late system.
+%
+One possible explanation is that the independance assumption of the late scheme better preserves both
+the complementarity and redundancy of the different modalities, properties which are important for fusion.
+%
+Another related explanation is that one individual modality may have a dominant effect in the early fusion learning process, 
+thus skewing the network towards learning that specific module and lowering the importance of the other module outputs 
+%
+The mean activations of the neurons for each modules in Fig.~\ref{fig:fusion} indicate the aforementioned conjecture.
  The mean activation of skeleton module neurons is predominantly larger than the RGBD ConvNet's (0.57 \emph{vs.} 0.056). Though that skeleton module has logistic units whereas ConvNet module has relu unit~\cite{DBLP:journals/corr/PigouODHD15}, the mean activations of the two are not directly comparable. However, 10 times the difference of mean activation indicates the bias during the multimodal fine-tuning phase that could cause the less than expected performance.
 
 \mycomline{In this comment on the results and benefit of the temporal model, as we discussed.}
