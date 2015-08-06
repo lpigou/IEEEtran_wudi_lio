@@ -8,11 +8,11 @@
   % Requires \usepackage{graphicx}
   \includegraphics[width=0.48\textwidth]{images/GraphicalModel_new2}\\
   \caption{Gesture recognition model: the temporal model is a HMM (left), whose emission probability
-\emissionprob{} (right) is modeled by forward-linked neural networks.
+\emissionprob{} (right) is modeled by a forward-linked neural network chain.
 %%
 More precisely, observations $\observation_t$ (skeletal features $\observationSK_t$, or RGB-D image features $\observationRGBD_t$)
-are first passed through appropriate deep neural nets (a Deep Belief Network -\DBN- for the skeletalon modality, and
- a 3D convolutional neural network -\ThreeDCNN- for the \RGBD  modality) to implictly extract high-level features (\highSK and \highRGBD)
+are first passed through appropriate deep neural nets (a Deep Belief Network (DBN) for the skeletalon modality, and
+ a 3D convolutional neural network (3DCNN) for the RGB-D modality) to implictly extract high-level features (\highSK and \highRGBD)
 which are further fused to produce an estimate of $p(\observation_t|\hiddenstate_t)$.
 }
 \label{fig:GM}
@@ -102,7 +102,6 @@ Fig.\ref{HMM_ES} and from which we can easily infer the class of the gesture as 
 
 \subsection{Learning the emission probability \emissionprob{}}
 \label{sec:ProblemFormation}
-\label{sec:emissionprob}
 
 Traditionnally, emission probabilities for activity recognition have been trained with Gaussian Mixture Models (GMM), one per state.
 %
@@ -151,7 +150,7 @@ a very large number of Gaussians, most of which must be estimated from a very sm
 Secondly, the approach for training the skeleton DBN model, first using variational learning to train stacked RBMs with unlabeled data, then in a discriminative fashion
 \cite{salakhutdinov2009learning} has been shown to have several advantages.
 %
-It has been observed that  variational learning~\cite{hinton2006fast},
+It has been observed that  variational learning~\cite{neal1998view},
 which tries to optimize the data-likelihood while minizing the Kullback-Leibler divergence between
 the true posterior distribution of the hidden state (i.e. hidden layer variables of the RBMs  in our case)
 and an approximation of this distribution, tends to produce unimodal distributions.
