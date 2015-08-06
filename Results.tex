@@ -376,7 +376,6 @@ like differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynami
 
 \mypartitle{Late vs. Early fusion.}
 %
-
 The results in Table~\ref{tab:jaccardperformance} and~\ref{tab:eventperformance} show that the early fusion system
 improved individual modalities, but without outperforming the late fusion system.
 %
@@ -403,20 +402,15 @@ Further investigation on how to better address this heterogeneity should be cond
 
 \mypartitle{HMM benefit.}
 %
- To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set.
-
-
-
-%\mypartitle{Comparison with the state-of-the-art. In particular, add discussion that other temporal module could be used,
-%including those that could lead to the training of a full deep-neural network.  }
-%
-
 To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set. Fig.~\ref{fig:temporalModellingComparision} illustrates the effect of temporal modelling. The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}. And the overall performance in terms of  Jaccard index is reduced to $0.535$ for test set. Note that, this representation learning template matching method using only 5 frames still outperforms the Jaccard index $0.413$ in~\cite{camgoz2014gesture} where all the features are handcrafted.
 
 
 
 \mypartitle{Comparison with the state-of-the-art.}
 The performance of recent state-of-the-art techniques is given in Table~\ref{tab:soa}.
+%\mypartitle{Comparison with the state-of-the-art. In particular, add discussion that other temporal module could be used,
+%including those that could lead to the training of a full deep-neural network.  }
+%
 
 
 \begin{figure*}[t]
