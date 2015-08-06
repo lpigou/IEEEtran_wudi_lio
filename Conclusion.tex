@@ -1,0 +1,43 @@
+
+\section{Conclusion and future work}
+\label{sec:conclusion}
+
+Hand-engineered, task-specific features are often less adaptive and time-consuming to design. 
+This difficulty is even more pronounced with multimodal data as we would like the features 
+to relate to multiple data sources.
+%
+In this paper, we presented a novel deep dynamic neural network (DDNN) 
+%that relied on  deep belief networks 
+%and 3D convolutional neural networks 
+for learning contextual frame-level representations and modelling emission probabilities in the framework of an HMM temporal model.
+%
+Different feature learning methods (DBN and 3DCNN) suited to the heterogeneous inputs from skeletal joints, RGB images, and depth images 
+were proposed, as well as different fusion schemes.
+%
+Experimental results on bi-modal gesture time series  show that the multimodal DDNN framework can learn 
+good models of the joint space of multiple sensory inputs, improving over  unimodal input. 
+
+
+
+There are several directions for future work. 
+%
+Our results with those of other recent works suggest that learning features directly from data is a very important research direction 
+and that with more and more data and flops-free  computational power, learning-based methods are not only more generalisable to many domains, 
+but also are powerful in combination  with other well-studied probabilistic graphical models 
+for dynamical modelling and reasoning.
+%
+In this view, the learning of  better shared and complementary representation among multimodal  and heterogeneous  inputs,
+as done in~\cite{neverova2014moddrop}, requires more exploration.
+%
+In addition, while the proposed HMM provided a good basis for the temporal modeling of gestures, 
+other more discriminant temporal approaches such as Conditional Random Field or further and better variants 
+\cite{wang2006hidden} could be directly exploited at their advantage in conjuction with our deep neural network  learning approach.
+%
+Ultimately, in a logical way, these two research directions converge into the investigation of 
+a single and unified deep learning framework fusing heterogeneous modalities 
+by using recent Recurrent Neural Networks for modelling the temporal component of the problem.
+
+\mycomline{I would cite papers providing neural temporal models, rather than the one already applied to the gesture task}
+%such as the work of ~\cite{DBLP:journals/corr/PigouODHD15}.
+
+\endinput
