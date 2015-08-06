@@ -88,7 +88,7 @@ The average length of gestures is 39 frames, the minimum frame number for a gest
 
 This dataset is challenging because the ``user independent" setting and some of gestures differ primarily in hand pose but not the overall arm motions as illustrated in Fig.~\ref{fig:chalearnclasses}
 
-\mycomline{(to be presented/commented)}
+%\mycomline{(to be presented/commented)}
 
 In terms of data, three modalities are provided with the input videos: the sequence of skeleton joints, and the RGB and depth images
 (including a segmentation of the person performing the gesture).
@@ -201,9 +201,17 @@ which are further averaged over test sequences for reporting.
                 \caption{Viterbi decoding from the late fusion of skeleton and RGB-D input.}
                 \label{Sample0700_combined}
         \end{subfigure}
-
-  \caption{Viterbi decoding of sample sequence \#700, using skeleton (top), RGB-D (middle) and late fusion system (bottom). The x-axis represents the time and the y-axis represents the hidden states of all the classes and of the ergodic state at the state \emph{101}. Red lines are the ground truth labels, cyan lines represent the viterbi shortest path and yellow lines are the predicted labels. Two modules exhibit complementary behaviors and generally the skeletal module outperforms the depth module. The fusion exploits the complementary properties, \emph{e.g.} around frame 200 the skeleton help solving with the missed detection from the 3DCNN module, while around frame 1450, the 3DCNN module can help suppress the false positive prediction given by skeleton module.
-  }\label{fig:Sample0700_comparison}
+\vspace*{-3mm}
+  \caption{Viterbi decoding of sample sequence \#700, using skeleton (top), RGB-D (middle) and late fusion system (bottom). 
+The x-axis represents time and the y-axis represents the hidden states of all classes and of the ergodic state (state $101$). 
+The cyan lines represent the viterbi shortest path, while red lines denote the ground truth labels,  
+and the yellow segments  are the predicted labels. 
+%Two modules exhibit complementary behaviors and generally the skeletal module outperforms the depth module. 
+The fusion method exploits the complementary properties of individual modules, \emph{e.g.} around frame 200 the skeleton 
+help solving  the missed detection from the 3DCNN module, 
+while around frame 1450, the 3DCNN module can help suppress the false positive prediction made by the skeleton module.
+}
+\label{fig:Sample0700_comparison}
 \end{figure*}
 
 \subsubsection{Tested systems}
@@ -372,7 +380,7 @@ like differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynami
 \mypartitle{Late vs. Early fusion.}
 %
 The results in Table~\ref{tab:jaccardperformance} and~\ref{tab:eventperformance} show that the early fusion system 
-improved individual modalities, but without outperform the late fusion system. 
+improved individual modalities, but without outperforming the late fusion system. 
 %
 The result is counter-intuitive, as we would have expected the cross-modality learning in the early fusion scheme 
 to result in better emission probability predictions, as compared to the simple score fusion in the late system.
@@ -380,28 +388,35 @@ to result in better emission probability predictions, as compared to the simple 
 One possible explanation is that the independance assumption of the late scheme better preserves both
 the complementarity and redundancy of the different modalities, properties which are important for fusion.
 %
-Another related explanation is that one individual modality may have a dominant effect in the early fusion learning process, 
-thus skewing the network towards learning that specific module and lowering the importance of the other module outputs 
+Another related explanation is that in the early fusion learning process, 
+one modality may dominate and  skew the network towards  learning that specific module and 
+lowering the importance of the other one.
 %
-The mean activations of the neurons for each modules in Fig.~\ref{fig:fusion} indicate the aforementioned conjecture.
- The mean activation of skeleton module neurons is predominantly larger than the RGBD ConvNet's (0.57 \emph{vs.} 0.056). Though that skeleton module has logistic units whereas ConvNet module has relu unit~\cite{DBLP:journals/corr/PigouODHD15}, the mean activations of the two are not directly comparable. However, 10 times the difference of mean activation indicates the bias during the multimodal fine-tuning phase that could cause the less than expected performance.
+The large difference between the mean activations of the  skeleton module neurons which are predominantly larger than those of the  
+RGBD ConvNet's (0.57 \emph{vs.} 0.056) can be an indicator of such a bias during the multimodal fine-tuning phase and 
+support this conjecture, even if these mean activations are not directly comparable
+due to the neuron heterogeneity (the skeleton DBN has logistic units whereas the 3DCNN ConvNet has relu units). 
+%
+Further investigation on how to better address this heterogeneity should be conducted.
+
 
 \mycomline{In this comment on the results and benefit of the temporal model, as we discussed.}
 %
 
 \mypartitle{HMM benefit.}
-
-
-\mypartitle{Comparison with the state-of-the-art. In particular, add discussion that other temporal module could be used,
-including those that could lead to the training of a full deep-neural network.  }
 %
+ To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set.
 
-To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set.
+
+\mycomline{Distinguish handcrafted features and neural net approaches. explain the differences in models that potentially lead to the difference.}
+\mycomline{In particular, add discussion that other temporal module could be used, including those that could lead to the 
+training of a full deep-neural network.  }
+%}
+
+\mypartitle{Comparison with the state-of-the-art.}
 
 \dwucomline{A new Fig. will be included}
 The performance of recent state-of-the-art techniques is given in Table~\ref{tab:soa}.
-
-\mycomline{Distinguish handcrafted features and neural net approaches. explain the differences in models that potentially lead to the difference.}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -461,23 +476,35 @@ others vehemently move their body when doing the gestures, making them harder to
 \subsection{Computational Complexity}
 \label{sec:ComputationalComplexity}
 
-We can distinguish between two complexity: the training one, and the test one.
+We can distinguish between two complexities: the training one, and the test one.
 
-\mycomline{Say a few words about the training complexity (which part takes longer -skeleton ? RGBD? - and how long does it take on the Chalearn dataset.}
 
 \mypartitle{Complexity at training time.}
-Although training the deep neural network using stochastic gradient descent is computationally intensive, the reuse of our pre-train network parameters could help with the better initialisation of the fusion network and fast convergence. Different modality training time also varies. Specifically, the training time of each epoch for DBN skeleton module is less than 300 seconds and allowing training 500 epochs within 2 days. The training time of each epoch for 3DCNN of RGB-D  module is much computational expensive, taking more than 10,000 seconds. Hence, 40 epochs takes around 5 days to train. The fusion network's parameters are initialised with individual modules
+%
+Although training deep neural network using stochastic gradient descent is computationally intensive, 
+the reuse of pre-trained network parameters as done in our case can help with  better initialisation and lead to to faster convergence. 
+%
+We can observe different training time in function of the modality (and architecture).
+%
+Specifically, using a modern GPU (GeForece GTX TITAN Black), 
+the training time of each epoch of the DBN skeleton module is less than 300 seconds and allows training the required 500 epochs within 2 days. 
+%
+The training time of each epoch of the 3DCNN \RGBD  module is much more computational expensive, 
+taking more than 10,000 seconds. 
+Hence, 40 epochs takes around 5 days to train.
+%
+The fusion network being initialised with the individual module parameters, its trainign time is  faster.
 
 \mypartitle{Complexity at test time.}
 %
-Given the learned models,  our framework can perform real-time video sequence labelling with a low inference cost.
+Given the learned models, our framework with above GPU can perform real-time video sequence labelling with a low inference cost.
 %
 More specifically, a single feed forward neural network incurs linear computational time ($\mathcal{O}(T)$),
 and is efficient because it requires only matrix products and convolution operations.
 The complexity of the Viterbi algorithm is itself of $\mathcal{O} (T* |S|^2)$, where
 $T$ is the number of frames and $|S|$ the number of states, and thus performs real-timegiven our state-space.
-
-In practice, using a modern GPU (GeForece GTX TITAN Black), our multimodal neural network can be deployed at 90 FPS using the
+%
+In practice, our multimodal neural network can be deployed at 90 FPS using the
 Theano library~\cite{Bastien-Theano-2012}.
 The preprocessing part takes most of the time and our un-optimized version runs at 25 FPS, while the
  Viterbi decoding  runs at 90 FPS. Hence, the overall system can achieve faster than real-time performance.
