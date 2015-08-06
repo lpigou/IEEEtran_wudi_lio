@@ -119,7 +119,7 @@ typically used in the  speech recognition community~\cite{mohamed2012acoustic}.
 %    \Delta W = \alpha (E_{P_{data}}  [\textbf{vh}^T]-E_{P_T}[\textbf{vh}^T]). \label{CD1}
 %\end{equation}
 %where $\alpha$ is the learning rate and $P_T$ is the distribution obtained by running a Gibbs chain, initialized with the visible units given by the data, for $T$ full steps.
-Once we have the skeleton input feature \skfeature{} which served as the input \randomvariableSK{} for DBN in Fig.~\ref{GM}. The emission probability \emissionprob{} can be generated using a Deep Belief Networks.
+Once we have the skeleton input feature \skfeature{} which served as the input \randomvariableSK{} for DBN in Fig.~\ref{fig:GM}. The emission probability \emissionprob{} can be generated using a Deep Belief Networks.
 Because input skeletal features \skfeature{} are continuous instead of binomial features, we use the Gaussian-Bernoulli RBM (\emph{GRBM})~\cite{salakhutdinov2009learning} to model the energy term of first layer with continuous visible units $v$ of dimension $D$ connected to the hidden binary stochastic units $h\in \{0,1\}^F$. More precisely:
 \begin{equation}
     E(v,h;\theta) =-\sum^D_{i=1} \frac{(v_i-b_i)^2}{2\sigma_i^2} -\sum^D_{i=1} \sum^F_{j=1} W_{ij}  h_j \frac{v_i}{\sigma_i}- \sum^F_{j=1}a_jh_j
