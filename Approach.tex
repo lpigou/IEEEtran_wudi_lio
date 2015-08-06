@@ -217,95 +217,95 @@ is sensitive to a large fraction of the weights.
 
 %The overall algorithm for training and testing are presented in Algorithm \ref{MMDDN_train} and \ref{MMDDN_test}.
 
-\begin{algorithm}
-\caption{Multimodal deep dynamic networks -- training}\label{MMDDN_train}
-\LinesNumbered
-\SetAlgoLined
-\SetAlgoNoEnd
-\DontPrintSemicolon
-\SetKwFunction{zeroes}{zeroes}
-\KwData{\;
-          \inputsequence=$[\framefeature_{i,1}, \ldots,\framefeature_{i,t},\ldots, \framefeature_{i,T}]$ \;
-          $ \mathbf{X^1=\{ x^1_i\}_{i \in [1 \ldots t]}}$ - raw input (skeletal) feature \; \hspace{1cm} sequence.\;
-          $ \mathbf{X^2=\{ x^2_i\}_{i \in [1 \ldots t]}}$ - raw input (depth) feature \; \hspace{1cm} sequence in the form of     $M_1 \times M_2 \times T$, where \; \hspace{1cm} $M_1, M_2$ are the height and width of the input \; \hspace{1cm} image and $T$  is the number of contiguous \; \hspace{1cm} frames of the spatio-temporal cuboid. \;
-          $ \mathbf{Y=\{ y_i\}_{i \in [1 \ldots t]}}$  - frame based local label (achieved by\; \hspace{1cm} semi-supervised forced-aligment), where \;
-          \hspace{1cm} $ \mathbf{y_i} \in \{ N_{\mathcal{A}} * N_{\mathcal{H}_a} + \textbf{\emph{1}} \} $ with $N_{\mathcal{A}}$ the number of \;
-          %\hspace{1cm} classes, $N_{\mathcal{H}_a$ is the number of hidden states for \; \hspace{1cm} each class,
-          \hspace{1cm} gesture classes and $N_{\mathcal{H}_a}$ is the number of \;
-          \hspace{1cm} states associated to an individual gesture $a$ \;
-          \hspace{1cm} and $\textbf{\emph{1}}$ as ergodic state.
-            }
-%\For{$m \leftarrow 1$ to $2$}{
-    \SetAlgoVlined
-    %\eIf{$m$ is $1$}{
-
-
-        Preprocess skeletal data $ \mathbf{X^1}$ as in Eq.\ref{sk_features_1}, \ref{sk_features_2}, \ref{sk_features_3}.\;
-        Normalise (zero mean, unit variance per dimension) the above features and feed it to Eq.\ref{GRBMenergy}. \;
-        Pre-train the networks using \emph{Contrastive Divergence}. \;
-        Supervised fine-tuning of the deep belief networks using $ \mathbf{Y}$ by standard mini-batch \emph{SGD} backpropagation.\;
-    %}{
-        Preprocess the depth and RGB data $ \mathbf{X^2}$ as in \ref{3d_preproc}.\;
-        Feed the above features to Eq.\ref{ReLU}. \;
-        Train the 3D convolutional neural networks using $ \mathbf{Y}$.\;
-    %}
+%\begin{algorithm}
+%\caption{Multimodal deep dynamic networks -- training}\label{MMDDN_train}
+%\LinesNumbered
+%\SetAlgoLined
+%\SetAlgoNoEnd
+%\DontPrintSemicolon
+%\SetKwFunction{zeroes}{zeroes}
+%\KwData{\;
+%          \inputsequence=$[\framefeature_{i,1}, \ldots,\framefeature_{i,t},\ldots, \framefeature_{i,T}]$ \;
+%          $ \mathbf{X^1=\{ x^1_i\}_{i \in [1 \ldots t]}}$ - raw input (skeletal) feature \; \hspace{1cm} sequence.\;
+%          $ \mathbf{X^2=\{ x^2_i\}_{i \in [1 \ldots t]}}$ - raw input (depth) feature \; \hspace{1cm} sequence in the form of     $M_1 \times M_2 \times T$, where \; \hspace{1cm} $M_1, M_2$ are the height and width of the input \; \hspace{1cm} image and $T$  is the number of contiguous \; \hspace{1cm} frames of the spatio-temporal cuboid. \;
+%          $ \mathbf{Y=\{ y_i\}_{i \in [1 \ldots t]}}$  - frame based local label (achieved by\; \hspace{1cm} semi-supervised forced-aligment), where \;
+%          \hspace{1cm} $ \mathbf{y_i} \in \{ N_{\mathcal{A}} * N_{\mathcal{H}_a} + \textbf{\emph{1}} \} $ with $N_{\mathcal{A}}$ the number of \;
+%          %\hspace{1cm} classes, $N_{\mathcal{H}_a$ is the number of hidden states for \; \hspace{1cm} each class,
+%          \hspace{1cm} gesture classes and $N_{\mathcal{H}_a}$ is the number of \;
+%          \hspace{1cm} states associated to an individual gesture $a$ \;
+%          \hspace{1cm} and $\textbf{\emph{1}}$ as ergodic state.
+%            }
+%%\For{$m \leftarrow 1$ to $2$}{
+%    \SetAlgoVlined
+%    %\eIf{$m$ is $1$}{
+%
+%
+%        Preprocess skeletal data $ \mathbf{X^1}$ as in Eq.\ref{sk_features_1}, \ref{sk_features_2}, \ref{sk_features_3}.\;
+%        Normalise (zero mean, unit variance per dimension) the above features and feed it to Eq.\ref{GRBMenergy}. \;
+%        Pre-train the networks using \emph{Contrastive Divergence}. \;
+%        Supervised fine-tuning of the deep belief networks using $ \mathbf{Y}$ by standard mini-batch \emph{SGD} backpropagation.\;
+%    %}{
+%        Preprocess the depth and RGB data $ \mathbf{X^2}$ as in \ref{3d_preproc}.\;
+%        Feed the above features to Eq.\ref{ReLU}. \;
+%        Train the 3D convolutional neural networks using $ \mathbf{Y}$.\;
+%    %}
+%%}
+%\KwResult{\;
+%        $\mathbf{GDBN}$ - a Gaussian-Bernoulli visible layer deep \;
+%                \hspace{1cm} belief network to generate the emission \;
+%                \hspace{1cm} probabilities for the hidden Markov model.\;
+%        $\mathbf{3DCNN}$ - a 3D deep convolutional neural \;
+%                    \hspace{1cm} network to generate the emission probabilities\;
+%                    \hspace{1cm} for the hidden Markov model.\;
+%        $\mathbf{p(X_t | H_t )}$ emission probability. \;
+%        $\mathbf{p(H_1)}$ - prior probability for $ \mathbf{Y}$ by accumulating and \;
+%                \hspace{1cm} normalising labels.\;
+%        $ \mathbf{p(H_t | H_{t-1})}$ - transition probability for $ \mathbf{Y}$,  enforcing\;
+%                \hspace{1cm} the beginning and ending of a sequence can \;
+%                \hspace{1cm} only start from the first or the last state.
 %}
-\KwResult{\;
-        $\mathbf{GDBN}$ - a Gaussian-Bernoulli visible layer deep \;
-                \hspace{1cm} belief network to generate the emission \;
-                \hspace{1cm} probabilities for the hidden Markov model.\;
-        $\mathbf{3DCNN}$ - a 3D deep convolutional neural \;
-                    \hspace{1cm} network to generate the emission probabilities\;
-                    \hspace{1cm} for the hidden Markov model.\;
-        $\mathbf{p(X_t | H_t )}$ emission probability. \;
-        $\mathbf{p(H_1)}$ - prior probability for $ \mathbf{Y}$ by accumulating and \;
-                \hspace{1cm} normalising labels.\;
-        $ \mathbf{p(H_t | H_{t-1})}$ - transition probability for $ \mathbf{Y}$,  enforcing\;
-                \hspace{1cm} the beginning and ending of a sequence can \;
-                \hspace{1cm} only start from the first or the last state.
-}
-\end{algorithm}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{algorithm}[t]
-\caption{Multimodal deep dynamic networks -- testing}\label{MMDDN_test}
-\LinesNumbered
-\SetAlgoLined
-\SetAlgoNoEnd
-\DontPrintSemicolon
-\SetKwFunction{zeroes}{zeroes}
-\KwData{\;
-         $\mathbf{X^1=\{x^1_i\}_{i \in [1 \ldots t]}}$ - raw input (skeletal) feature \; \hspace{1cm} sequence.\;
-         $\mathbf{X^2=\{x^2_i\}_{i \in [1 \ldots t]}}$ - raw input (depth) feature \; \hspace{1cm} sequencein the form of $M_1 \times M_2 \times T$. \;
-         $\mathbf{GDBN}$ - trained Gaussian-Bernoulli visible layer  \;
-                \hspace{1cm} deep belief network to  generate the emission\;
-                 \hspace{1cm} probabilities for the hidden Markov model.\;
-         $\mathbf{3DCNN}$ - trained  3D deep convolutional neural\;
-                    \hspace{1cm} network to generate the emission\;
-                    \hspace{1cm} probabilities for the hidden Markov model.\;
-        $\mathbf{p(H_1)}$ - prior probability for $ \mathbf{Y}$.\;
-        $ \mathbf{p(H_t | H_{t-1})}$ - transition probability for $ \mathbf{Y}.$
-            }
-
-%\For{$m \leftarrow 1$ to $2$}{
-    \SetAlgoVlined
-    %\eIf{$m$ is $1$}{
-        Preprocessing and normalising the skeletal data $ \mathbf{X^1}$  as in Eq. \ref{sk_features_1}, \ref{sk_features_2}, \ref{sk_features_3}.\;
-        Feedforwarding network $\mathbf{GDBN}$ to generate the emission probability $\mathbf{p(X_t | H_t )}$ in Eq.\ref{HMM_GM_1}. \;
-        Generating the score probability matrix $\mathbf{S^1 = p(H_{1:T},X_{1:T}).}$ \;
-    %}{
-        Preprocessing(median filtering the depth data) and normalising data RGB-D data $ \mathbf{X^2}$ .\;
-        Feedforwarding $\mathbf{3DCNN}$ to generate the emission probability $\mathbf{S^2 = p(X_t | H_t )}$ in Eq.\ref{HMM_GM_1}. \;
-        Generating the score probability matrix $\mathbf{S^2 =p(H_{1:T},X_{1:T}).}$ \;
-    %}
+%\end{algorithm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{algorithm}[t]
+%\caption{Multimodal deep dynamic networks -- testing}\label{MMDDN_test}
+%\LinesNumbered
+%\SetAlgoLined
+%\SetAlgoNoEnd
+%\DontPrintSemicolon
+%\SetKwFunction{zeroes}{zeroes}
+%\KwData{\;
+%         $\mathbf{X^1=\{x^1_i\}_{i \in [1 \ldots t]}}$ - raw input (skeletal) feature \; \hspace{1cm} sequence.\;
+%         $\mathbf{X^2=\{x^2_i\}_{i \in [1 \ldots t]}}$ - raw input (depth) feature \; \hspace{1cm} sequencein the form of $M_1 \times M_2 \times T$. \;
+%         $\mathbf{GDBN}$ - trained Gaussian-Bernoulli visible layer  \;
+%                \hspace{1cm} deep belief network to  generate the emission\;
+%                 \hspace{1cm} probabilities for the hidden Markov model.\;
+%         $\mathbf{3DCNN}$ - trained  3D deep convolutional neural\;
+%                    \hspace{1cm} network to generate the emission\;
+%                    \hspace{1cm} probabilities for the hidden Markov model.\;
+%        $\mathbf{p(H_1)}$ - prior probability for $ \mathbf{Y}$.\;
+%        $ \mathbf{p(H_t | H_{t-1})}$ - transition probability for $ \mathbf{Y}.$
+%            }
+%
+%%\For{$m \leftarrow 1$ to $2$}{
+%    \SetAlgoVlined
+%    %\eIf{$m$ is $1$}{
+%        Preprocessing and normalising the skeletal data $ \mathbf{X^1}$  as in Eq. \ref{sk_features_1}, \ref{sk_features_2}, \ref{sk_features_3}.\;
+%        Feedforwarding network $\mathbf{GDBN}$ to generate the emission probability $\mathbf{p(X_t | H_t )}$ in Eq.\ref{HMM_GM_1}. \;
+%        Generating the score probability matrix $\mathbf{S^1 = p(H_{1:T},X_{1:T}).}$ \;
+%    %}{
+%        Preprocessing(median filtering the depth data) and normalising data RGB-D data $ \mathbf{X^2}$ .\;
+%        Feedforwarding $\mathbf{3DCNN}$ to generate the emission probability $\mathbf{S^2 = p(X_t | H_t )}$ in Eq.\ref{HMM_GM_1}. \;
+%        Generating the score probability matrix $\mathbf{S^2 =p(H_{1:T},X_{1:T}).}$ \;
+%    %}
+%%}
+%        Fuse the score matrix $\mathbf{S = \alpha * S^1 + (1-\alpha)* S^2}$ OR the learnt joint representation.\;
+%        Finding the best path $\mathbf{V_{t,\mathcal{H}}}$ using $\mathbf{S}$ by Viterbi decoding. \;
+%\KwResult{\;
+%        $ \mathbf{Y=\{ y_i\}_{i \in [1 \ldots t]}}$  - frame based local label  \;
+%        $ \mathbf{C}$ - global label, the anchor point is chosen as the\;
+%                        \hspace{1cm} middle state frame.\;
 %}
-        Fuse the score matrix $\mathbf{S = \alpha * S^1 + (1-\alpha)* S^2}$ OR the learnt joint representation.\;
-        Finding the best path $\mathbf{V_{t,\mathcal{H}}}$ using $\mathbf{S}$ by Viterbi decoding. \;
-\KwResult{\;
-        $ \mathbf{Y=\{ y_i\}_{i \in [1 \ldots t]}}$  - frame based local label  \;
-        $ \mathbf{C}$ - global label, the anchor point is chosen as the\;
-                        \hspace{1cm} middle state frame.\;
-}
-\end{algorithm}
+%\end{algorithm}
 
 
 

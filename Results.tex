@@ -411,12 +411,12 @@ Further investigation on how to better address this heterogeneity should be cond
 %including those that could lead to the training of a full deep-neural network.  }
 %
 
-To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set. Fig.~\ref{fig:temporalModellingComparision} illustrates the effect of temporal modelling. The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}. And the overall performance in terms of  Jaccard index is reduced to $0.535$ for test set. Note that, this representation learning template matching method using only 5 frames still outperforms the Jaccard index $0.413$ in~\cite{camgoz2014gesture} where all the features are handcrafted.
+To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set. Fig.~\ref{fig:temporalModellingComparision} illustrates the effect of temporal modelling. The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}. And the overall performance in terms of  Jaccard index is reduced to $0.607$ for test set. Note that, this representation learning template matching method using only 5 frames still outperforms the Jaccard index $0.413$ using 5 frames template matching system in~\cite{camgoz2014gesture} where all the features are handcrafted.
 
 
 
 \mypartitle{Comparison with the state-of-the-art.}
-The performance of recent state-of-the-art techniques is given in Table~\ref{tab:soa}.
+The performance of recent state-of-the-art techniques is given in Table~\ref{tab:soa}. The first half of the table resort 
 
 
 \begin{figure*}[t]
@@ -469,11 +469,11 @@ others vehemently move their body when doing the gestures, making them harder to
             {~\cite{Peng2014multi}}  {\scriptsize  Dense trajectory   }                       &  -         &\textbf{0.792}& - \\\hline
             {~\cite{camgoz2014gesture}} {\scriptsize Template based Random Forest Classifier} &      -     &      -       & 0.747    \\\hline
             {~\cite{evangelidis2014continuous}} {\scriptsize Fisher Vector, Dynamic Programming} &      0.745     &      -       & -  \\\hline
-            {~\cite{chen2014multi}} {\scriptsize ISA, RF } &      -     &      0.649       & -    \\\hline
+            {~\cite{chen2014multi}} {\scriptsize Independent Subspace Analysis, RF } &      -     &      0.649       & -    \\\hline
             {~\cite{liang2014multi}} {\scriptsize PHOG, SVM, HMM } &      0.454    &      0.462       & 0.597
             \\\hline\hline
 
-            {~\cite{neverova2014multi}} {\scriptsize Representation Learning (Step 4)        }           &  0.789     & 0.799      & \textbf{0.845}\\\hline
+            %{~\cite{neverova2014multi}} {\scriptsize Representation Learning (Step 4)        }           &  0.789     & 0.799      & \textbf{0.845}\\\hline
             {~\cite{neverova2014multi}} {\scriptsize Representation Learning (multiscal)  }              &  0.808     & 0.809      & \textbf{ 0.849}\\\hline
             {~\cite{lio2014deep}}     {\scriptsize CNN             }                          &  -         & 0.789      & - \\\hline
             {~\cite{wu2014deep}}   {\scriptsize Deep Neural Networks       }                         &  0.747     & 0.637      & 0.804
