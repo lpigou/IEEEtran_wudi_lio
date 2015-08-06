@@ -70,7 +70,7 @@ f^{cp}_t&=\{x_{t+1}^{s,i}-x_t^{s,i} |  i=1,2,\ldots, N_j\} \label{sk_features_2}
 f^{ca}_t&=\{x_{t+1}^{s,i} - 2 \times x_t^{s,i} + x_t^{s,i} | i=1,2,\ldots, N_j  \} \label{sk_features_3}
 \end{align}
 %
-This results in an input feature vector $f_t=[f^{cc}_t, f^{cp}_t, f^{ca}_t]$ of dimension $N_f=N_j \times( \frac{ N_j}{2} + N_j + N_j)*\mathit{3}=891$.
+This results in an input feature vector $\skfeature_t=[f^{cc}_t, f^{cp}_t, f^{ca}_t]$ of dimension $N_{\skfeature}=N_j \times( \frac{ N_j}{2} + N_j + N_j)*\mathit{3}=891$.
 Admittedly, here we do not completely neglect human prior knowledge about information extraction for relevant static postures, velocity and acceleration of overall dynamics of motion data.
 While we have indeed used prior knowledge to define our relevant features, we believe they remain quite general and do not need dataset specific tuning.
 Note that the feature extraction process resembles the computation of the
@@ -88,9 +88,7 @@ typically used in the  speech recognition community~\cite{mohamed2012acoustic}.
 
 %We briefly introduce the building elements of the network and a more detailed introduction can be found at:
 %Boltzmann Machines (BMs) are a special structure of Markov Random Field (MRF), \emph{i.e.} the energy function is linear in term of its corresponding free parameters.
-%To empower the expressiveness of the model so as to encode complex distributions, the hidden variables are introduced to enhance the modelling capability of the Boltzmann Machines
-
-%Restricted Boltzmann Machines (RBMs) is a subtype of BMs in that there is no connections between visible to visible or hidden to hidden variables. RBM, as a special type of Markov random field with a two-layer structure, has the visible binary stochastic units $v\in \{0,1\}^D$ connected to the hidden binary stochastic units $h\in \{0,1\}^F$.
+%To empower the expressiveness of the model so as to encode complex distributions, the hidden variables are introduced to enhance the modelling capability of the Boltzmann Machinesd with a two-layer structure, has the visible binary stochastic units $v\in \{0,1\}^D$ connected to the hidden binary stochastic units $h\in \{0,1\}^F$.
 %
 %The energy of the state $\{v,h\}$is:
 %\begin{eqnarray}
@@ -119,45 +117,73 @@ typically used in the  speech recognition community~\cite{mohamed2012acoustic}.
 %    \Delta W = \alpha (E_{P_{data}}  [\textbf{vh}^T]-E_{P_T}[\textbf{vh}^T]). \label{CD1}
 %\end{equation}
 %where $\alpha$ is the learning rate and $P_T$ is the distribution obtained by running a Gibbs chain, initialized with the visible units given by the data, for $T$ full steps.
-Once we have the skeleton input feature \skfeature{} which served as the input \randomvariableSK{} for DBN in Fig.~\ref{fig:GM}. The emission probability \emissionprob{} can be generated using a Deep Belief Networks.
-Because input skeletal features \skfeature{} are continuous instead of binomial features, we use the Gaussian-Bernoulli RBM (\emph{GRBM})~\cite{salakhutdinov2009learning} to model the energy term of first layer with continuous visible units $v$ of dimension $D$ connected to the hidden binary stochastic units $h\in \{0,1\}^F$. More precisely:
+
+Given the input skeleton feature \skfeature, a \DBN model is used to predict the emission probability, as shown in Fig.~\ref{fig:DBN}.
+As explained in Section~\ref{sec:emissionprob}, the learning proceeds in two steps:
+in the first one, the network is considered as a stack of RBMs, and trained using a greedy, layer-by-layer 
+unsupervised learning algorithm \cite{hinton2006fast};
+in the second one, a softmax network layer is added on top of the RBMs to create a \DBN architecture,
+where the  weights of the first step are used to initialize the corresponding weights in the \DBN, 
+and the \DBN is further trained and fine-tuned in a supervised fashion to predict the emission probability. 
+%
+The number of nodes at each layer of the \DBN are $[N_{\skfeature},2000,2000,1000,\numberhiddenstate]$.
+% where $N_f = 891$ is the observation domain dimensionality; $N_{\mathcal{H}}$ is the output target class.
+We provide below further details on the model and training.
+
+\mypartitle{Gaussian-Bernoulli RBM.}
+%
+In most cases, Restriced Boltzmann machine (RBM) are considered as a network of symmetrically coupled stochastic binary units
+(called the visible and hidden units). 
+%
+However, in our case the visible unit in the first layer are the vector of skeleton features $\skfeature \in \mbf{R}^{N_{\skfeature}}$, which are continous. 
+To account for this situation, we thus resort to a Gaussian-Bernoulli RBM (\emph{GRBM})~\cite{salakhutdinov2009learning}, 
+whose main difference w.r.t. standard RBM lies in the following:
+the energy term of our first layer $\skfeature$ to the hidden binary stochastic units $\rbmh \in \{0,1\}^F$ is given by:
 \begin{equation}
-    E(v,h;\theta) =-\sum^D_{i=1} \frac{(v_i-b_i)^2}{2\sigma_i^2} -\sum^D_{i=1} \sum^F_{j=1} W_{ij}  h_j \frac{v_i}{\sigma_i}- \sum^F_{j=1}a_jh_j
+    E(\skfeature,\rbmh;\theta) =-\sum_{i} \frac{(\skfeatureel_i-b_i)^2}{2\sigma_i^2} -\sum_{i} \sum_{j} W_{ij}  \rbmhel_j \frac{\skfeatureel_i}{\sigma_i}- \sum_{j=1}a_j\rbmhel_j
 \label{GRBMenergy}
 \end{equation}
-where $\theta=\{W,b,a\}$ are the free parameters: $W_{i,j}$ serves as the symmetric synergy term between visible unit $i$ and hidden unit $j$; $b_i$ is the bias term of the visible units and $a_j$ is the bias term of the hidden units.
+where $\theta=\{W,b,a\}$ are the free parameters: $W_{i,j}$ serves as the symmetric synergy term between visible unit $i$ and hidden unit $j$,
+while $b_i$ and $a_j$ are the bias term of the visible and hidden units, respectively.
+%
+The conditional distributions needed for inference and generation are given by the traditional logistic function $g$ for the binary hidden variable, and the normal distribution $\mathscr{N}$  for the continous variable:
+\begin{eqnarray}
+    P(\rbmhel_j=1 | \skfeature) & = & g (\sum_i W_{ij} \skfeatureel_i+a_j) \\
+    P(\skfeatureel_i=\skfeatureel|\rbmh) & = & \mathscr{N}( \skfeatureel |\mu_i,\sigma_i^2).
+\end{eqnarray}
+where $\mu_i=b_i+\sigma_i^2 \sum_j W_{ij}$. 
+In practice, we normalise the data (mean substraction and standard deviation division) in the preprocessing phase. 
+Hence, instead of learning $\sigma_i^2$, one typically used  $\sigma_i^2=1$ during training.
 
-The conditional distributions needed for inference and generation are given by:
-\begin{equation}
-    P(h_{j=1}|\textbf{v})=g(\sum_i W_{ij}v_i+a_j));
-\end{equation}
-\begin{equation}
-    P(v_{i=1}|\textbf{h})=\mathscr{N}(v_i|\mu_i,\sigma_i^2).
-\end{equation}
-where $\mu_i=b_i+\sigma_i^2 \sum_j W_{ij} h_j$ and $\mathscr{N}$ is the normal distribution. In general, we normalise the data (mean substraction and standard deviation division) in the preprocessing phase. Hence, in practice, instead of learning $\sigma_i^2$, one would typically use a fixed, predetermined unit value $\textbf{\emph{1}}$ for $\sigma_i^2$.
+We ran 100 epochs using a fixed recipe based on stochastic gradient descent with a mini-batch size of 200 training cases
+to train  the stacked RBM, in which the learning rate is fixed at 0.001 for the Gaussian-Bernoulli RBMs, 
+and at 0.01 for the following binary-binary RBMs. 
+
+
+
 
 \begin{figure}[t]
   \centering
   % Requires \usepackage{graphicx}
   \includegraphics[width=0.23\textwidth]{images/DBN}\\
   \caption{
-    Deep Belief Network using skeleton input \skfeature{} to predict emission probability \emissionprob{}.}
-    \label{DBN}
+  A \DBN is trained to predict the emission probability  $p(\observationSK_t|\hiddenstate_t)$ 
+  from the  skeleton input \skfeature. 
+  The double arrows indicate that the intermediate weights are first trained in an unsupervised fashion using stacked RBMs.
+}
+    \label{fig:DBN}
 \end{figure}
 
-By stacking a softmax layer on top of the RBMs as in Fig.~\ref{DBN}, a Deep Belief Network is built for predicting emission probability \emissionprob{}. The weights are fine-tuned slightly from the top.
-
-For high-level skeleton feature extraction, the network architectures is $[N_f,2000,2000,1000,N_{\mathcal{H}}]$,
- where $N_f = 891$ is the observation domain dimensionality; $N_{\mathcal{H}}$ is the output target class.
-
-
-
-
-
-
- In the training set, there are in total $400\,117$ frames. During the training of the \emph{DBN}, $90\%$ is used for training, $8\%$ for validation (for the purpose of early stopping) $2\%$ is used for test evaluation.
-The feed forward networks are pre-trained with a fixed recipe using stochastic gradient decent with a mini-batch size of 200 training cases. Unsupervised initialisations (we run 100 epochs for unsupervised pre-training) tend to avoid suboptimal local minima and increase the networks performance stability. For Gaussian-Bernoulli RBMs, the learning rate is fixed at 0.001 while for binary-binary RBMs the learning is 0.01 (note that in general, training \emph{GRBMs} requires smaller learning rates). For fine-tuning, the learning rate starts at 1 with 0.99999 mini-batch scaling. During the experiments, early stopping occurs around epoch 440.
-The optimisation completes with a frame based validation error rate of $16.5\%$, with $16.15\%$ on the test set. The frame based validation error rate is shown in Fig~\ref{sk_error_rate} .
+\mypartitle{\DBN forward training.}
+%
+% In the training set, there are in total $400\,117$ frames. During the training of the \emph{DBN}, $90\%$ is used for training, $8\%$ for validation (for the purpose of early stopping) $2\%$ is used for test evaluation.
+%
+The \DBN is initialized with the result of the previous step, a method which tends to avoid suboptimal local minima and increase 
+the networks performance stability. 
+%
+The learning rate for the parameter fine tuning 
+starts at 1 with 0.99999 mini-batch scaling. During the experiments, early stopping occurs around epoch 440.
+The optimisation completes with a frame based validation error rate of $16.5\%$, as shown in  Fig~\ref{sk_error_rate}.
 
 % Although that further optimising the network architecture would lead to more competitive results, in order not to overfit, ``as algorithms over time become too adapted to the data set, essentially memorising all its idiosyncrasies, and losing ability to generalise"~\cite{torralba2011unbiased}, we would like to treat the model as the aforementioned more generic approach.
 % Since a completely new approach will initially have a hard time competing against established, carefully fine-tuned methods.
