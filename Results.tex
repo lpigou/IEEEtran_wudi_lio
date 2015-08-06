@@ -378,8 +378,7 @@ like differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynami
 %
 
 The results in Table~\ref{tab:jaccardperformance} and~\ref{tab:eventperformance} show that the early fusion system
-improved individual modalities, but without outperform the late fusion system.
-
+improved individual modalities, but without outperforming the late fusion system.
 %
 The result is counter-intuitive, as we would have expected the cross-modality learning in the early fusion scheme
 to result in better emission probability predictions, as compared to the simple score fusion in the late system.
@@ -387,11 +386,9 @@ to result in better emission probability predictions, as compared to the simple 
 One possible explanation is that the independance assumption of the late scheme better preserves both
 the complementarity and redundancy of the different modalities, properties which are important for fusion.
 %
-
 Another related explanation is that in the early fusion learning process,
 one modality may dominate and  skew the network towards  learning that specific module and
 lowering the importance of the other one.
-
 %
 The large difference between the mean activations of the  skeleton module neurons which are predominantly larger than those of the
 RGBD ConvNet's (0.57 \emph{vs.} 0.056) can be an indicator of such a bias during the multimodal fine-tuning phase and
@@ -499,23 +496,23 @@ We can distinguish between two complexities: the training one, and the test one.
 \mypartitle{Complexity at training time.}
 %
 Although training deep neural network using stochastic gradient descent is computationally intensive,
-the reuse of pre-trained network parameters as done in our case can help with  better initialisation and lead to to faster convergence.
+the reuse of pre-trained network parameters as done in our case can help with  better initialisation and lead  to faster convergence.
 %
 We can observe different training time in function of the modality (and architecture).
 %
 Specifically, using a modern GPU (GeForece GTX TITAN Black) and conv op. by Theano~\cite{Bastien-Theano-2012},
 the training time of each epoch of the DBN skeleton module is less than 300 seconds and allows training the required 500 epochs within 2 days.
 %
-The training time of each epoch of the 3DCNN \RGBD  module is much more computational expensive,
+The training time of each epoch of the 3DCNN \RGBD  module is much more  expensive,
 taking more than 10,000 seconds.
 Hence, 40 epochs takes around 5 days to train.
 %
-The fusion network being initialised with the individual module parameters, its training time is halved than the 3DCNN training time.
+The fusion network being initialised with the individual module parameters, its training time is half that of the 3DCNN.
 
 
 \mypartitle{Complexity at test time.}
 %
-Given the learned models, our framework with above GPU can perform real-time video sequence labelling with a low inference cost.
+Given the learned models, our framework with the above GPU can perform real-time video sequence labelling with a low inference cost.
 %
 More specifically, a single feed forward neural network incurs linear computational time ($\mathcal{O}(T)$),
 and is efficient because it requires only matrix products and convolution operations.
