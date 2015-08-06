@@ -402,15 +402,39 @@ Further investigation on how to better address this heterogeneity should be cond
 
 \mypartitle{HMM benefit.}
 %
-As the emission probabilities are learned in a discrimimate fashion, one may wonder whether the HMM brings more benefit than smoothing 
+As the emission probabilities are learned in a discrimimate fashion, one may wonder whether the HMM brings benefit beyond smoothing. 
+To investigate this issue, we removed the temporal structure in the following way:
+for a given gesture \gesturea, we computed its score at time $t$, $Score(\gesturea,t)$, by summing the emission 
+log-probabilities $p(\observation_t|\hiddenstate_t = \hiddenstatenode)$ for all nodes associated to that gesture, 
+\ie $\hiddenstatenode \in \finiteset_{\gesturea}$.
+%
+This score is then smoothed in the temporal domain (using a window of 5 frames) to obtain $\widehat{Score}(\gesturea,t)$.
+%
+Finally, following \cite{neverova2014moddrop}, the gesture recognition proceeds in two steps: 
+first finding gesture segments by thresholding the score of the ergodic state;
+then, for each resulting gesture segment, the recognized gesture is defined as the one whose average score within the segment is the highest.
+%
+Fig.~\ref{fig:temporalModellingComparision} illustrates this process along with the DDNN and ground-truth.
 
+\mycomline{The figure should show the procedure described above, that you used. It should also illustrate why the jaccard index is so low.}
 
-
-To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set. Fig.~\ref{fig:temporalModellingComparision} illustrates the effect of temporal modelling. The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}. 
+\mycomline{``Without temporal modelling, the decision boundary of a gesture will be more rugged and it is 
+more difficult to make hard decisions of where the gesture starts or ends.'': is the very low jaccard index just a problem of 
+having errors on the event boudary? that sounds strange to me (and would not be a so strong argument; 
+in that case the event measure should be computed to check this.}
+%As can be observed, while the correct gesture tends to get the highest probability within the segments, defining an actual
+%
+The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}. 
 %
 And the overall performance in terms of  Jaccard index is reduced to $0.535$ for test set. 
 Note that, this representation learning template matching method using only 5 frames still outperforms 
 the Jaccard index $0.413$ in~\cite{camgoz2014gesture} where all the features are handcrafted.
+
+%% To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set. Fig.~\ref{fig:temporalModellingComparision} illustrates the effect of temporal modelling. The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}. 
+%% %
+%% And the overall performance in terms of  Jaccard index is reduced to $0.535$ for test set. 
+%% Note that, this representation learning template matching method using only 5 frames still outperforms 
+%% the Jaccard index $0.413$ in~\cite{camgoz2014gesture} where all the features are handcrafted.
 
 
 
