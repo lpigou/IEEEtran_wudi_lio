@@ -111,12 +111,32 @@ Finally, Section~\ref{sec:ComputationalComplexity} will briefly discuss the comp
                 %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
                 \caption{``Combinato"}
         \end{subfigure}
+        \\
+            \centering
+        \begin{subfigure}[c]{0.15\textwidth}
+        \centering
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/13basta.PNG}}
+                \caption{``Basta"}
+        \end{subfigure}%
+        %
+        \begin{subfigure}[c]{0.15\textwidth}
+        \centering
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/5cheduepalle.PNG}}
+                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+                \caption{``Cheduepalle"}
+        \end{subfigure}
+       \begin{subfigure}[c]{0.15\textwidth}
+        \centering
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/7daccordo.PNG}}
+                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+                \caption{``Daccordo"}
+        \end{subfigure}
   \caption{
 %\mycomline{Add other examples of gestures, interesting to comment upon take them from chalearn website.
 %From the confusion matrix, i would propose: ``Basta'', buenissimo, daccordo, combinato}
 %\dwucomline{We may not show all the examples here}
 Examples of gestures in the Chalearn dataset.
-This dataset is challenging because the ``user independent" setting (a)\&(b), and some of gestures differ primarily in hand pose but not the overall arm motions (d)\&(e).
+This dataset is challenging because the ``user independent" setting (a)\&(b), some of gestures differ primarily in hand pose but not the overall arm motions (d)\&(e) and some gestures require both hands to perform (g-i).
 Subtle hand movement (c) and differences in performing speed and range (f) also make recognising tasks challenging.
 %Note that some gestures primarily differ primarily in hand pose but not the arm motions, like ``OK'' \emph{vs} ``Non ce ne piu''. ``Basta" and ``Combinato" are the gestures that got mostly misclassified.
   }
@@ -502,8 +522,8 @@ The performance of recent state-of-the-art techniques is given in Table~\ref{tab
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=.7\textwidth]{images/WO_HMM_703.pdf}
-  \caption{The output probabilities are shown for a sequence fragment for the test set \#703. The dashed line represents silence and different colour represent different gestures. Without temporal modelling, the decision boundary of a gesture will be more rugged and it is more difficult to make hard decisions of where the gesture starts or ends. Because of the temporal modelling and Viterbi path decoding, the gesture boundary will have a clean jump from the ergodic state to the gesture states, resembling the behavior of the manual annotators with better accuracy.}
+  \includegraphics[width=.7\textwidth]{images/output.png}
+  \caption{The output probabilities are shown for a sequence fragment for the test set \#703. The dashed line represents silence and different colour represent different gestures. Without temporal modelling, the decision boundary of a gesture will be more rugged and it is more difficult to make hard decisions of where the gesture starts or ends. Hence, it causes miss-detection and miss-merging. Because of the temporal modelling and Viterbi path decoding, the gesture boundary will have a clean jump from the ergodic state to the gesture states, resembling the behavior of the manual annotators with better accuracy.}
     \label{fig:temporalModellingComparision}
 \end{figure*}
 
@@ -513,14 +533,14 @@ The performance of recent state-of-the-art techniques is given in Table~\ref{tab
         \centering
         \begin{subfigure}[c]{.5\textwidth}
         \centering
-                \includegraphics[width=8cm,height=2cm, clip]{images/original/original_images_gray_body_9combinato_stable.png}
+                \includegraphics[width=8cm,height=2cm, clip]{images/original806.png}
                 \caption{Sample \#806}
         \end{subfigure}%
         %
         \\
         \begin{subfigure}[c]{0.5\textwidth}
         \centering
-                \includegraphics[width=8cm,height=2cm, clip]{images/original/original_images_gray_body_9combinato_unstable.png}
+                \includegraphics[width=8cm,height=2cm, clip]{images/original702.png}
                 %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
                 \caption{Sample \#702}
         \end{subfigure}
@@ -544,8 +564,8 @@ While most performers tend to keep their upper-body static while performing the 
             \\\hline\hline
 
             {~\cite{Monnier2014multi}} {\scriptsize 3 set skeletal \& HOG, Boosted classifier}                    &  0.791     & -           & 0.822 \\\hline
-            {~\cite{Chang2014multi}}  {\scriptsize 3D skeletal pose \& HOG, MRF }            &  \textbf{0.795}& -        & 0.827\\\hline
-            {~\cite{Peng2014multi}}  {\scriptsize  Dense trajectory   }                       &  -         &\textbf{0.792}& - \\\hline
+            {~\cite{Chang2014multi}}  {\scriptsize 3D skeletal pose \& HOG, MRF }            &  0.790& -        & 0.827\\\hline
+            {~\cite{Peng2014multi}}  {\scriptsize  Dense trajectory (HOG, HOF, MBH)  }                       &  -         &0.792& - \\\hline
             {~\cite{camgoz2014gesture}} {\scriptsize Template based Random Forest Classifier} &      -     &      -       & 0.747    \\\hline
             {~\cite{evangelidis2014continuous}} {\scriptsize Fisher Vector, Dynamic Programming} &      0.745     &      -       & -  \\\hline
             {~\cite{chen2014multi}} {\scriptsize Independent Subspace Analysis, RF } &      -     &      0.649       & -    \\\hline
