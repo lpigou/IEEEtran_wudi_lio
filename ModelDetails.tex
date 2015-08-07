@@ -222,7 +222,7 @@ The optimisation completes with a frame based validation error rate of $16.5\%$,
   \includegraphics[width=.9\textwidth]{images/3DCNN_new}
 \vspace*{-2mm}
   \caption{3DCNN architecture. The input is $2\times2@64\ast64\ast4$, meaning 2 modalities (depth and RGB)  for the hand and body regions,
-each  being 4  consecutive 64 by 64 frames stacked together.
+each  being 4  consecutive 64 by 64 frames stacked together. See text for further details.
 %
 %Note that in H1, the Depth and RGB  response maps of the hand (and body) are summed to produce a single feature map,
 %while in H7, the hand and body part feature maps of H6 are just flattened.
@@ -257,9 +257,11 @@ The outcome is illustrated in Fig.~\ref{3dcnn_filters}.
 
 
 This  architecture consists of a series of layers composed of either convolution, pooling or, in the last layer, fully connected layers.
-The 3D convolution itself is achieved by convolving a 3D kernel to the cuboid formed by stacking multiple contiguous frames together. We follow the nomenclature of in~\cite{ji20133d}.
- However, instead of using $tanh$ units~\cite{ji20133d},  Rectified Linear Units (\emph{ReLUs})~\cite{krizhevsky2012imagenet} were used in order to speed up training.
- Formally, the value of a unit at position $(x, y, z)$ ($z$ here corresponds to the time-axis) in the $j$-th feature map in the $i$-th layer, denoted as $v^{xyz}_{ij}$, is given by:
+The 3D convolution itself is achieved by convolving a 3D kernel to the cuboid formed by stacking multiple contiguous frames together. 
+We follow the nomenclature of in~\cite{ji20133d}.
+However, instead of using $tanh$ units~\cite{ji20133d},  Rectified Linear Units (\emph{ReLUs})~\cite{krizhevsky2012imagenet} 
+were used in order to speed up training.
+Formally, the value of a unit at position $(x, y, z)$ ($z$ here corresponds to the time-axis) in the $j$-th feature map in the $i$-th layer, denoted as $v^{xyz}_{ij}$, is given by:
 \begin{equation}
 v^{xyz}_{ij} =  max( 0,  ( b_{ij} + \sum_m \sum_{p=0}^{P_i - 1} \sum_{q=0}^{Q_i -1 } \sum_{r=0}^{R_i -1} w^{pqr}_{ijm} v^{(x+p)(y+q)(t+r)}_{(i-1)m} ))
 \label{ReLU}
@@ -272,7 +274,7 @@ The first layer (H1) consists of 32 feature maps produced by $5\times5$ spatial 
 followed by local contrast normalisation (LCN)~\cite{jarrett2009best}.
 %
 Note that the filter response maps of the Depth and RGB images of the hand (and body) are summed to produce a single feature map,
-thus resulting in H1 in 32 feature maps for the hand and for the body region.
+thus resulting in H1 in 32 feature maps for each of the hand and for the body region.
 %
 A 3D max pooling with strides $(2,2,2)$ is then applied.
 %

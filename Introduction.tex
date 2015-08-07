@@ -39,7 +39,8 @@ In this paper we aim to address these issues by proposing a data driven system, 
 Within an HMM temporal framework allowing the online joint recognition and segmentation of gestures, the key contributions can be summarised as follows:
 \begin{itemize}
 \item A Gaussian-Bernoulli Deep Belief Network is proposed to extracts high-level skeletal joint features and the learned representation is used to estimate the emission probability needed to infer gesture sequences;
-\item A 3D Convolutional Neural Network  is proposed to extract features from multiple channel inputs such as depth and  RGB images;
+\item A 3D Convolutional Neural Network  is proposed to extract features from 2D multiple channel inputs 
+like  depth and RGB images stacked along the 1D temporal domain;
 \item Early and late fusion strategies are investigated within the temporal modelling. The result of both mechanisms
 show that multiple-channel fusions outperform individual modules.
 \end{itemize}
