@@ -349,29 +349,98 @@ The paper purports 3 contributions.
 
 (3) Emission probability models are trained for both the skeletal data and depth data. They are then averaged (weighted) and used in an HMM. 
 
-Overall, I am convinced this paper solves the problem of gesture recognition with a novel combination of techniques. However, I am not convinced (1) any of the technical techniques themselves are particularly novel nor (2) that the chosen combination is the right one. Finally, (3) the results aren't particularly impressive (only matching state-of-the-art). Moreover, I have technical/philosophical objections which I'll elaborate on in the comments. 
+ Overall, I am convinced this paper solves the problem of gesture recognition with a novel combination of techniques. However, I am not convinced (1) any of the technical techniques themselves are particularly novel nor (2) that the chosen combination is the right one. Finally, (3) the results aren't particularly impressive (only matching state-of-the-art). Moreover, I have technical/philosophical objections which I'll elaborate on in the comments. 
 
 Learning to model HMM emission and transition parameters is an old idea (going back decades, 
-to at least the well known Baum-Welch algorithm) and 3D convolutional networks for video were explored by [11]. 
+ to at least the well known Baum-Welch algorithm) and 3D convolutional networks for video were explored by [11]. 
 
 Using RGB-D with deep learning is a common idea, explored by many concurrent works e.g. [A,B,C]. 
-[A] Dosovitskiy, A., Springenberg, J. T., Riedmiller, M., & Brox, T. (2014). Discriminative Unsupervised Feature Learning with Convolutional Neural Networks. arXiv Preprint arXiv: 1–13.
-
-[B] Gupta, S., Girshick, R., Arbeláez, P., & Malik, J. (2014). Learning Rich Features from RGB-D Images for Object Detection and Segmentation. arXiv Preprint arXiv:1407.5736, 1–16. doi:10.1007/978-3-319-10584-0_23
-
-[C] Socher, R., Huval, B., Bhat, B., Manning, C. D., & Ng, A. Y. (2012). Convolutional-Recursive Deep Learning for 3D Object Classification. Advances in Neural Information Processing Systems 25, (i), 665–673.
+ [A] Dosovitskiy, A., Springenberg, J. T., Riedmiller, M.,  Brox, T. (2014). Discriminative Unsupervised Feature Learning with Convolutional Neural Networks. 
+ Arxiv Preprint arXiv: 1-13.
+ [B] Gupta, S., Girshick, R., Arbeláez, P.,  Malik, J. (2014). Learning Rich Features from RGB-D Images for Object Detection and Segmentation. arXiv Preprint arXiv:1407.5736, 1–16. doi:10.1007/978-3-319-10584-0 23
+ [C] Socher, R., Huval, B., Bhat, B., Manning, C. D.,  Ng, A. Y. (2012). Convolutional-Recursive Deep Learning for 3D Object Classification. Advances in Neural Information Processing Systems 25, (i), 665-673.
 }
 
+\ans{
+answer =
 
+\mycomline{we agree, HMM is not novel - we need to add one or two reference and some text about that (Nam)}
+
+\mycomline{clarify 3rd dimension in intro (JMO), + figure 6 (now xx) should be clear}
+
+
+
+}
 
 
 
 \rev{Late fusion: my greatest technical concern is that two deep models are trained and then combined with a weighted average: s = a * s1 + (1-a)*s2 where a is chosen by cross-validation. Instead, the authors could combine the two models by creating a new top-level perceptron layer which takes the two models as input. Then this whole structure could be trained jointly with back-propagation. I'd expect results to be (1)at least as good and (2) more philosophically unified. }
 
-\ans{We agree with your insightful observation and continue experimenting with the early fusion scheme in this revision. Our previous paper~\cite{wu2014multimodal} utilized the early fusion scheme for audio and skeleton modules for action recognition. We followed that strategy and perform the early fusion scheme using penultimate layer in Section\ref{early_fusion}.
-``However, we can see from Table~\ref{Table_score_fusion} that the early fusion system does not outperform the late fusion system. The result is counter-intuitive because we expect that the early fusion  multimodal feature learning would extract semantically meaningful shared representations, outperforming individual modalities, and the early fusion schemes efficacy against the traditional method of late fusion~\cite{wu2014multimodal}. One possible explanation could be that one individual module has the dominant effect on the learning process so as to screw the network towards learning that specific module. The mean activations of the neurons for each modules in Fig.~\ref{fig:fusion} indicate the aforementioned conjecture."}
+\ans{We agree with your insightful observation, and actually believe that this should improve the system.
+We thus implemented such a scheme 
+ and continue experimenting with such an intermediate fusion fusion scheme in this revision. 
+However, this approach did not improve the results over the late fusion scheme, providing similar results.
+%Our previous paper~\cite{wu2014multimodal} utilized the early fusion scheme for audio and skeleton modules for action recognition. 
+%We followed that strategy and perform the early fusion scheme using penultimate layer in Section\ref{early_fusion}.
 
-\vspace{5mm}
+To account for this new model, the text was updated as follows in the model description and the result analysis. 
+In Section IV.D.2, describing the Intermediate fusion:
+
+\PM{
+As an alternative to the late fusion scheme, we can take advantage of the high-level representation implicitly learned by each module
+(and represented by the \highSK and \highRGBD nodes of the penultimate layer of the respective networks, before the softmax)
+to fuse the modality in an intermediate fashion by concatenating these two layers in one layer of 2024 hidden unites
+and learning a cross-modality emission probability predictive network.
+%
+Note that this is very similar in spirit to the approach proposed in \cite{Ngiam2011multimodal}
+for audio-visual speech recognition.
+%
+An important difference is that in \cite{Ngiam2011multimodal}, the same stacked RBMs/\DBN architecture was used
+to represent both modalities before fusion, whereas in our case, a stacked RBMs/\DBN and a \ThreeDCNN are used.
+%
+Also, \cite{Ngiam2011multimodal} proposed the use of a multimodal autoencoder to handle predictions when potentially
+only one modality migth be present, a point that we do not address.
+
+The resulting architecture is trained by first initializing the weights of the deeper layers from the previously trained module,
+and then jointly fine tuning the whole network (including learning the last layer parameters)
+and stop the training when the validation error rate stops decreasing ($\sim$15 epochs).
+%
+We argue that using the ``pre-trained" parameters is important due to the heterogeneity of the inputs of the system,
+and that the joint training should adjust parameters to handle  this heterogeneity and produce the final estimates.
+}
+
+A specific section in the analysis is devoted to the result analysis, which reads:
+
+\PM{
+\mypartitle{Late vs. Intermediate  fusion.}
+%
+The results in Tab.~\ref{tab:jaccardperformance} and~\ref{tab:eventperformance} show that the early fusion system
+improved individual modalities, but without outperforming the late fusion system.
+%
+The result is counter-intuitive, as we would have expected the cross-modality learning in the early fusion scheme
+to result in better emission probability predictions, as compared to the simple score fusion in the late system.
+%
+One possible explanation is that the independance assumption of the late scheme better preserves both
+the complementarity and redundancy of the different modalities, properties which are important for fusion.
+%
+Another related explanation is that in the early fusion learning process,
+one modality may dominate and  skew the network towards  learning that specific module and
+lowering the importance of the other one.
+%
+The large difference between the mean activations of the  skeleton module neurons which are predominantly larger than those of the
+RGB-D ConvNet's (0.57 \emph{vs.} 0.056) can be an indicator of such a bias during the multimodal fine-tuning phase and
+support this conjecture, even if these mean activations are not directly comparable
+due to the neuron heterogeneity (the skeleton DBN has logistic units whereas the 3DCNN ConvNet has relu units).
+%
+Note that such heterogeneity was not present when fusing modalities  in \cite{Ngiam2011multimodal},
+where better registration and less spatial registration variability in lip images
+allowed to also resort to the same stacked RBMs for the visual modality (rather than \ThreeDCNN)  and the audio one.
+%
+More investigation on how to handle heteregeneous networks  should be conducted.
+}
+
+}
+
 
 \rev{The analysis is a bit brief. More experiments and ablative analysis could be added. Specifically, can we interpret the failure patterns of the proposed model(s) and prior work? It would be interesting to see statements like [40] fails more often on gestures of X kind because HOG erases Y useful information or [39] does worse for Z because it handles time at an earlier stage of the pipeline. Then, also giving some qualitative examples of these failures.}
 

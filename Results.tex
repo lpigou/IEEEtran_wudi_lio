@@ -450,7 +450,7 @@ and much less under-detection than in the RGB-D case (better upper-body pose dis
 However, the modalities by themselves have more difficulties to correct the recognition errors which are due to variations coming from the performer,
 like differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynamics}).
 
-\mypartitle{Late vs. Early fusion.}
+\mypartitle{Late vs. Intermediate  fusion.}
 %
 The results in Tab.~\ref{tab:jaccardperformance} and~\ref{tab:eventperformance} show that the early fusion system
 improved individual modalities, but without outperforming the late fusion system.
@@ -470,7 +470,12 @@ RGB-D ConvNet's (0.57 \emph{vs.} 0.056) can be an indicator of such a bias durin
 support this conjecture, even if these mean activations are not directly comparable
 due to the neuron heterogeneity (the skeleton DBN has logistic units whereas the 3DCNN ConvNet has relu units).
 %
-Further investigation on how to better address this heterogeneity should be conducted.
+Note that such heterogeneity was not present when fusing modalities  in \cite{Ngiam2011multimodal},
+where better registration and less spatial registration variability in lip images
+allowed to also resort to the same stacked RBMs for the visual modality (rather than \ThreeDCNN)  and the audio one.
+%
+More investigation on how to handle heteregeneous networks  should be conducted.
+
 
 
 %\mycomline{In this comment on the results and benefit of the temporal model, as we discussed.}

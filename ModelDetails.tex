@@ -343,12 +343,12 @@ and $\alpha$ is a coefficient that controls the contributions of each source of 
 Interestingly, the best performing $\alpha$ is close to $0.5$, indicating that both modalities are equally important.
 
 
-\subsubsection{Early Fusion}
+\subsubsection{Intermediate Fusion}
 \label{early_fusion}
 
 As an alternative to the late fusion scheme, we can take advantage of the high-level representation implicitly learned by each module
 (and represented by the \highSK and \highRGBD nodes of the penultimate layer of the respective networks, before the softmax)
-to fuse the modality in an early fashion by concatenating these two layers in one layer of 2024 hidden unites
+to fuse the modality in an intermediate fashion by concatenating these two layers in one layer of 2024 hidden unites
 and learning a cross-modality emission probability predictive network.
 %
 Note that this is very similar in spirit to the approach proposed in \cite{Ngiam2011multimodal}
@@ -359,8 +359,6 @@ to represent both modalities before fusion, whereas in our case, a stacked RBMs/
 %
 Also, \cite{Ngiam2011multimodal} proposed the use of a multimodal autoencoder to handle predictions when potentially
 only one modality migth be present, a point that we do not address.
-
-
 
 The resulting architecture is trained by first initializing the weights of the deeper layers from the previously trained module,
 and then jointly fine tuning the whole network (including learning the last layer parameters)
