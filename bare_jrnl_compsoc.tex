@@ -13,6 +13,7 @@
 \usepackage{latexsym}
 \usepackage{multirow}
 % \usepackage[caption=false]{subfig}
+\usepackage[export]{adjustbox}
 
 \ifCLASSOPTIONcompsoc
   \usepackage[nocompress]{cite}
@@ -79,6 +80,7 @@ gesture recognition.
 
 \input{Introduction}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{RelatedWork}
 
@@ -91,16 +93,8 @@ gesture recognition.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{Results}
 
-
+\input{Conclusion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusion and Discussion}
-
-Hand-engineered, task-specific features are often less adaptive and time-consuming to design. This difficulty is more pronounced with multimodal data as the features have to relate with multiple data sources.
-In this paper, we presented a novel deep dynamic neural network (DDNN) framework that utilises deep belief betworks and 3D convolutional neural networks for learning contextual frame-level representations and modelling emission probabilities for Markov fields.
- The heterogeneous inputs from skeletal joints, RGB and depth images require different feature learning methods and the late fusion scheme is adopted at the score level. The experimental results on bi-modal time series data show that the multimodal DDNN framework can learn a good model of the joint space of multiple sensory inputs, and is consistently as good as or better than the unimodal input, opening the door for exploring the complementary representation among multimodal inputs. It also suggests that learning features directly from data is a very important research direction and with more and more data and flops-free  computational power, the learning-based methods are not only more generalisable to many domains, but also are powerful in combining with other well-studied probabilistic graphical models for modelling and reasoning dynamic sequences.
-% \dwucomline{Should we mention the below?}
-Future works include learning the share representation amongst the heterogeneous inputs in a more meaningful fashion as in~\cite{neverova2014moddrop} and integrate the overall system into a unified deep learning framework by replacing the temporal modelling part with Recurrent Neural Nets such as the work of ~\cite{graves2009novel}.
-
 \appendices
 % you can choose not to have a title for an appendix
 % if you want by leaving the argument blank

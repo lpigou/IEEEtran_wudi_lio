@@ -14,65 +14,119 @@ Finally, Section~\ref{sec:ComputationalComplexity} will briefly discuss the comp
 \subsection{Chalearn LAP Dataset}
 \label{sec:chalearn}
 
+%\begin{figure}[t]
+%        \centering
+%        \begin{subfigure}[c]{.5\textwidth}
+%        \centering
+%                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_ok}
+%                \caption{``OK"}
+%        \end{subfigure}%
+%        %
+%        \\
+%        \begin{subfigure}[c]{0.5\textwidth}
+%        \centering
+%                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_ncnp}
+%                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+%                \caption{``Non ce ne piu"}
+%        \end{subfigure}
+%        \\
+%       \begin{subfigure}[c]{0.5\textwidth}
+%        \centering
+%                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_basta}
+%                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+%                \caption{``Basta"}
+%        \end{subfigure}
+%       \\
+%       \begin{subfigure}[c]{0.5\textwidth}
+%        \centering
+%                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_buonissimo}
+%                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+%                \caption{``Buonissimo"}
+%        \end{subfigure}
+%               \\
+%       \begin{subfigure}[c]{0.5\textwidth}
+%        \centering
+%                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_daccordo}
+%                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+%                \caption{``Daccordo"}
+%        \end{subfigure}
+%                       \\
+%       \begin{subfigure}[c]{0.5\textwidth}
+%        \centering
+%                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_combinato}
+%                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+%                \caption{``Combinato"}
+%        \end{subfigure}
+%  \caption{
+%\mycomline{Add other examples of gestures, interesting to comment upon take them from chalearn website.
+%From the confusion matrix, i would propose: ``Basta'', buenissimo, daccordo, combinato}
+%\dwucomline{We may not show all the examples here}
+%Examples of gestures in the Chalearn dataset.
+%Note that some gestures primarily differ primarily in hand pose but not the arm motions, like ``OK'' \emph{vs} ``Non ce ne piu''. ``Basta" and ``Combinato" are the gestures that got mostly misclassified.
+%  }
+%\label{fig:chalearnclasses}
+%\end{figure}
+
+
+
+\setlength{\fboxsep}{1pt}%
+\setlength{\fboxrule}{1pt}%
 \begin{figure}[t]
+       \centering
+        \begin{subfigure}[c]{0.15\textwidth}
         \centering
-        \begin{subfigure}[c]{.5\textwidth}
-        \centering
-                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_ok}
-                \caption{``OK"}
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/3perfetto.PNG}}
+                \caption{``Perfetto"}
         \end{subfigure}%
         %
-        \\
-        \begin{subfigure}[c]{0.5\textwidth}
+        \begin{subfigure}[c]{0.15\textwidth}
         \centering
-                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_ncnp}
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/3perfetto2.PNG}}
                 %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
-                \caption{``Non ce ne piu"}
+                \caption{``Perfetto"}
         \end{subfigure}
-        \\
-       \begin{subfigure}[c]{0.5\textwidth}
+       \begin{subfigure}[c]{0.15\textwidth}
         \centering
-                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_basta}
-                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
-                \caption{``Basta"}
-        \end{subfigure}
-       \\
-       \begin{subfigure}[c]{0.5\textwidth}
-        \centering
-                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_buonissimo}
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/18buonissimo2.PNG}}
                 %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
                 \caption{``Buonissimo"}
         \end{subfigure}
-               \\
-       \begin{subfigure}[c]{0.5\textwidth}
+        \\
+       \centering
+        \begin{subfigure}[c]{0.15\textwidth}
         \centering
-                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_daccordo}
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/11ok.PNG}}
+                \caption{``OK"}
+        \end{subfigure}%
+        %
+        \begin{subfigure}[c]{0.15\textwidth}
+        \centering
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/15noncenepiu.PNG}}
                 %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
-                \caption{``Daccordo"}
+                \caption{``Non ce ne piu"}
         \end{subfigure}
-                       \\
-       \begin{subfigure}[c]{0.5\textwidth}
+       \begin{subfigure}[c]{0.15\textwidth}
         \centering
-                \includegraphics[width=8cm,height=2cm, clip]{images/3dcnn_filters/original_images_gray_body_combinato}
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/9combinato.PNG}}
                 %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
                 \caption{``Combinato"}
         \end{subfigure}
   \caption{
-\mycomline{Add other examples of gestures, interesting to comment upon take them from chalearn website.
-From the confusion matrix, i would propose: ``Basta'', buenissimo, daccordo, combinato}
-\dwucomline{We may not show all the examples here}
+%\mycomline{Add other examples of gestures, interesting to comment upon take them from chalearn website.
+%From the confusion matrix, i would propose: ``Basta'', buenissimo, daccordo, combinato}
+%\dwucomline{We may not show all the examples here}
 Examples of gestures in the Chalearn dataset.
-Note that some gestures primarily differ primarily in hand pose but not the arm motions, like ``OK'' \emph{vs} ``Non ce ne piu''. ``Basta" and ``Combinato" are the gestures that got mostly misclassified.
+This dataset is challenging because the ``user independent" setting (a)\&(b), and some of gestures differ primarily in hand pose but not the overall arm motions (d)\&(e).
+Subtle hand movement (c) and differences in performing speed and range (f) also make recognising tasks challenging.
+%Note that some gestures primarily differ primarily in hand pose but not the arm motions, like ``OK'' \emph{vs} ``Non ce ne piu''. ``Basta" and ``Combinato" are the gestures that got mostly misclassified.
   }
 \label{fig:chalearnclasses}
 \end{figure}
 
 
-
-
-\mycomline{In this part, provide more information about the dataset: description, content, types of gestures (what are the classes), illustration of the gestures with some pictures (esp. for gestures that have impact on data -for example, expand fig 14 where yoou have the two ok and noncepiu examples with other ones, and put it earlier in the document. why is the dataset challenging ?\\
-Also, provide some statistics about the dataset:
- rough duration of the gestures (average, min max). How many person are performing the gestures, how many occurrences per class, is the dataset balanced}
+%\mycomline{In this part, provide more information about the dataset: description, content, types of gestures (what are the classes), illustration of the gestures with some pictures (esp. for gestures that have impact on data -for example, expand fig 14 where yoou have the two ok and noncepiu examples with other ones, and put it earlier in the document. why is the dataset challenging ?\\
+%Also, provide some statistics about the dataset:
+% rough duration of the gestures (average, min max). How many person are performing the gestures, how many occurrences per class, is the dataset balanced}
 
 The dataset used in this work is provided by the ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge\footnote{\href{http://gesture.chalearn.org/2014-looking-at-people-challenge/data-2014-challenge}{http://gesture.chalearn.org/2014-looking-at-people-challenge/data-2014-challenge}}.
 %
@@ -93,37 +147,37 @@ In terms of data, three modalities are provided with the input videos: the seque
 % This dataset  is on ``multiple instance, user independent learning and continuous gesture spotting"~\cite{ICMI} of gestures.
 % In the 3 track, there are more than 14,000 gestures.
 
- \begin{table}[t]
-   \centering
-        \begin{tabular}{|l|c|c|}\hline
-            { Gesture }  &\makebox[5em]{ Length}   &\makebox[5em]{ MAP} \\\hline\hline
-            {\small vattene }            &  38.0   & 0.882  \\\hline
-            {\small vieniqui }           &  36.1   & 0.902  \\\hline
-            {\small perfetto }           &  36.7   & 0.877  \\\hline
-            {\small furbo }              &  40.1   & 0.945  \\\hline
-            {\small cheduepalle }        &  36.9   & 0.949  \\\hline
-            {\small chevuoi }            &  35.9   & 0.926  \\\hline
-            {\small daccordo }           &  40.2   & 0.982  \\\hline
-            {\small seipazzo }           &  43.5   & 0.963  \\\hline
-            {\small combinato }          &  45.6   & 0.956  \\\hline
-            {\small freganiente }        &  37.8   & 0.852  \\\hline
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            {\small ok }                 &  30.8   & 0.778   \\\hline
-            {\small cosatifarei }        &  41.9   & 0.942   \\\hline
-            {\small basta }              &  35.7   & 0.924   \\\hline
-            {\small prendere }           &  37.9   & 0.892   \\\hline
-            {\small noncenepiu }         &  37.5   & 0.774   \\\hline
-            {\small fame }               &  41.3   & 0.958   \\\hline
-            {\small tantotempo }         &  39.1   & 0.955   \\\hline
-            {\small buonissimo }         &  43.5   & 0.905   \\\hline
-            {\small messidaccordo }      &  44.5   & 0.951  \\\hline
-            {\small sonostufo }          &  39.9   & 0.926   \\\hline
-        \end{tabular}
-\vspace*{-2mm}
-    \caption{\dwucomline{Average length of a gesture, this table won't be included in the final version, but just to show to JMO.}
-          }
-          \label{Table_score_fusion}
-\end{table}
+ %\begin{table}[t]
+%   \centering
+%        \begin{tabular}{|l|c|c|}\hline
+%            { Gesture }  &\makebox[5em]{ Length}   &\makebox[5em]{ MAP} \\\hline\hline
+%            {\small 1.vattene }            &  38.0   & 0.882  \\\hline
+%            {\small 2.vieniqui }           &  36.1   & 0.902  \\\hline
+%            {\small 3.perfetto }           &  36.7   & 0.877  \\\hline
+%            {\small 4.furbo }              &  40.1   & 0.945  \\\hline
+%            {\small 5.cheduepalle }        &  36.9   & 0.949  \\\hline
+%            {\small 6.chevuoi }            &  35.9   & 0.926  \\\hline
+%            {\small 7.daccordo }           &  40.2   & 0.982  \\\hline
+%            {\small 8.seipazzo }           &  43.5   & 0.963  \\\hline
+%            {\small 9.combinato }          &  45.6   & 0.956  \\\hline
+%            {\small 10.freganiente }        &  37.8   & 0.852  \\\hline
+%            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%            {\small 11.ok }                 &  30.8   & 0.778   \\\hline
+%            {\small 12.cosatifarei }        &  41.9   & 0.942   \\\hline
+%            {\small 13.basta }              &  35.7   & 0.924   \\\hline
+%            {\small 14.prendere }           &  37.9   & 0.892   \\\hline
+%            {\small 15.noncenepiu }         &  37.5   & 0.774   \\\hline
+%            {\small 16.fame }               &  41.3   & 0.958   \\\hline
+%            {\small 17.tantotempo }         &  39.1   & 0.955   \\\hline
+%            {\small 18.buonissimo }         &  43.5   & 0.905   \\\hline
+%            {\small 19.messidaccordo }      &  44.5   & 0.951  \\\hline
+%            {\small 20.sonostufo }          &  39.9   & 0.926   \\\hline
+%        \end{tabular}
+%\vspace*{-2mm}
+%    \caption{\dwucomline{Average length of a gesture, this table won't be included in the final version, but just to show to JMO.}
+%          }
+%          \label{Table_score_fusion}
+%\end{table}
 
 
 \subsection{Experimental protocol}
@@ -214,7 +268,7 @@ while around frame 1450, the 3DCNN module can help suppress the false positive p
 \subsubsection{Tested systems}
 
 We evaluated the recognition performance made by the HMM applied to the emission probabilities estimated from either
-the skeleton data, the RGBD image data, the late fusion scheme, and the early fusion scheme.
+the skeleton data, the RGB-D image data, the late fusion scheme, and the early fusion scheme.
 %
 Note that in all cases the HMM output was further filtered to avoid false alarms,
 by considering gesture segments of less than 20 frames as noise and discarding them.
@@ -237,7 +291,7 @@ by considering gesture segments of less than 20 frames as noise and discarding t
             &\makebox[5em]{Validation}&\makebox[5em]{Test}
             \\\hline\hline
             {\small Skeleton -- DBDN }            &  0.783    & 0.779 \\\hline
-            {\small RGBD -- 3DCNN }      &  0.752    & 0.717 \\\hline%\hline
+            {\small RGB-D -- 3DCNN }      &  0.752    & 0.717 \\\hline%\hline
             {\small Multimodal Late Fusion }              &  0.817    & 0.809 \\\hline
             {\small Multimodal Early Fusion }             &  0.800    & 0.798 \\\hline
         \end{tabular}
@@ -263,6 +317,7 @@ by considering gesture segments of less than 20 frames as noise and discarding t
             \multirow{2}{*}{RGB-D - 3DCNN}    & \eventaccuracy              & 78.7     & 75.8  \\
                                             &  \eventconfused           & 5.2     &  4.5 \\
                                             &  \eventmissed           & 16.1     & 19.7  \\\hline\hline
+
             \multirow{2}{*}{Multimodal Late Fusion}   &  \eventaccuracy    & 87.9     & 86.4 \\
                                                       &  \eventconfused    & 9.1     & 8.7 \\
                                                       &  \eventmissed      & 3.0      & 4.9 \\\hline
@@ -282,7 +337,7 @@ by considering gesture segments of less than 20 frames as noise and discarding t
 
 \subsection{Results}\label{sec:results}
 
-\mycomline{Confusion matrices are fine. However, would it be possible to know the classifiction accuracy of the different classes, for each modality? (i.e the diagonal elements of the confusion matrix? i.e. for instance to look at lowest/highest results? and it improves with fusion?}
+%\mycomline{Confusion matrices are fine. However, would it be possible to know the classifiction accuracy of the different classes, for each modality? (i.e the diagonal elements of the confusion matrix? i.e. for instance to look at lowest/highest results? and it improves with fusion?}
 
 \mypartitle{Overall results.}
 %
@@ -296,7 +351,7 @@ One possible explanation is that the information in the skeleton data is more ro
 varied data~\cite{shotton2011real}: around on million images from both realistic and synthetic depth images were used to train
 the decision forest classifiers involved in the joints extraction.
 %
-On the over hand, as the  RGBD module relies on  the raw data and was learned only from the ChaLearn training set, it may
+On the over hand, as the  RGB-D module relies on  the raw data and was learned only from the ChaLearn training set, it may
 suffer from some overfitting.
 %
 Another interesting conclusion that can be drawn from Table~\ref{tab:eventperformance} is that while most errors from the RGB-D module are due to under detection
@@ -326,7 +381,7 @@ as shown by the recognition rate increase and the smaller drop in the generaliza
         \begin{subfigure}[c]{0.36\textwidth}
                 \includegraphics[width=\textwidth]{images/cm/cm_cnn}
 \vspace*{-3mm}
-                \caption{RGBD - 3DCNN}
+                \caption{RGB-D - 3DCNN}
                 \label{cnn_cm}
         \end{subfigure}
 
@@ -376,7 +431,7 @@ like differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynami
 
 \mypartitle{Late vs. Early fusion.}
 %
-The results in Table~\ref{tab:jaccardperformance} and~\ref{tab:eventperformance} show that the early fusion system
+The results in Tab.~\ref{tab:jaccardperformance} and~\ref{tab:eventperformance} show that the early fusion system
 improved individual modalities, but without outperforming the late fusion system.
 %
 The result is counter-intuitive, as we would have expected the cross-modality learning in the early fusion scheme
@@ -390,7 +445,7 @@ one modality may dominate and  skew the network towards  learning that specific 
 lowering the importance of the other one.
 %
 The large difference between the mean activations of the  skeleton module neurons which are predominantly larger than those of the
-RGBD ConvNet's (0.57 \emph{vs.} 0.056) can be an indicator of such a bias during the multimodal fine-tuning phase and
+RGB-D ConvNet's (0.57 \emph{vs.} 0.056) can be an indicator of such a bias during the multimodal fine-tuning phase and
 support this conjecture, even if these mean activations are not directly comparable
 due to the neuron heterogeneity (the skeleton DBN has logistic units whereas the 3DCNN ConvNet has relu units).
 %
@@ -415,23 +470,18 @@ first finding gesture segments by thresholding the score of the ergodic state;
 then, for each resulting gesture segment, the recognized gesture is defined as the one whose average score within the segment is the highest.
 %
 Fig.~\ref{fig:temporalModellingComparision} illustrates this process along with the DDNN and ground-truth.
-
-\mycomline{The figure should show the procedure described above, that you used. It should also illustrate why the jaccard index is so low.}
-
-\mycomline{``Without temporal modelling, the decision boundary of a gesture will be more rugged and it is
-more difficult to make hard decisions of where the gesture starts or ends.'': is the very low jaccard index just a problem of
-having errors on the event boudary? that sounds strange to me (and would not be a so strong argument;
-in that case the event measure should be computed to check this.}
-%As can be observed, while the correct gesture tends to get the highest probability within the segments, defining an actual
+%\mycomline{The figure should show the procedure described above, that you used. It should also illustrate why the jaccard index is so low.}
+%\mycomline{``Without temporal modelling, the decision boundary of a gesture will be more rugged and it is
+%more difficult to make hard decisions of where the gesture starts or ends.'': is the very low jaccard index just a problem of
+%having errors on the event boudary? that sounds strange to me (and would not be a so strong argument;
+%in that case the event measure should be computed to check this.}
 %
-The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}.
+%\dwucomline{No temporal modelling:
 %
-And the overall performance in terms of  Jaccard index is reduced to $0.535$ for test set.
-Note that, this representation learning template matching method using only 5 frames still outperforms
-the Jaccard index $0.413$ in~\cite{camgoz2014gesture} where all the features are handcrafted.
-
-
-To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set. Fig.~\ref{fig:temporalModellingComparision} illustrates the effect of temporal modelling. The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}. And the overall performance in terms of  Jaccard index is reduced to $0.607$ for test set. Note that, this representation learning template matching method using only 5 frames still outperforms the Jaccard index $0.413$ using 5 frames template matching system in~\cite{camgoz2014gesture} where all the features are handcrafted.
+%To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set. Fig.~\ref{fig:temporalModellingComparision} illustrates the effect of temporal modelling.
+The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}. And the overall performance in terms of  Jaccard index is reduced to $0.660$ for test set.
+The \emph{Recognized}, \emph{Confused} and \emph{Missed} correspond to Table~\ref{tab:eventperformance} for test set are  $76.6$ , $5.3$ and $18.1$. The increased miss detection rate reinforces the importance of temporal modelling for better deciding gesture boundary.
+ Note that, this representation learning template matching method using only 5 frames still outperforms the Jaccard index $0.413$ using 5 frames template matching system in~\cite{camgoz2014gesture} where all the features are handcrafted.
 
 %% To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set. Fig.~\ref{fig:temporalModellingComparision} illustrates the effect of temporal modelling. The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}.
 %% %
@@ -443,8 +493,7 @@ To investigate the benefit of temporal modelling of the proposed system, we comp
 
 
 \mypartitle{Comparison with the state-of-the-art.}
-
-The performance of recent state-of-the-art techniques is given in Table~\ref{tab:soa}. The first half of the table resort
+The performance of recent state-of-the-art techniques is given in Table~\ref{tab:soa}. The first half of the table resort to hand crafted feature approaches and then usually a second stage classifier. Our proposed system performs on par with the top two methods. However, hand crafted feature methods' performance is saturated regardless of the increase training data. The representation learning methods in the second half of the Table perform comparably with the best hand crafted feature approaches and the top representation method achieves the best Jaccard index score. Given more training data, it's expected the networks will be able to be more adapted to this ``user independent" setting and learn user invariant features in a transfer learning fashion. It also worths noting that our proposed system is the only method that incorporates the temporal modelling element rather than sliding window approach. We believe this is an interesting research direction that can be more adapted to various lengths of gestures and relevant temporal factors.
 
 %\mypartitle{Comparison with the state-of-the-art. In particular, add discussion that other temporal module could be used,
 %including those that could lead to the training of a full deep-neural network.  }
@@ -453,36 +502,34 @@ The performance of recent state-of-the-art techniques is given in Table~\ref{tab
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=.7\textwidth]{images/output.pdf}
-  \caption{The output probabilities are shown for a sequence fragment for the test set \#881. The dashed line represents silence and different colour represent different gestures. Without temporal modelling, the decision boundary of a gesture will be more rugged and it is more difficult to make hard decisions of where the gesture starts or ends. Because of the temporal modelling and Viterbi path decoding, the gesture boundary will have a clean jump from the ergodic state to the gesture states, resembling the behavior of the manual annotators with better accuracy.}
+  \includegraphics[width=.7\textwidth]{images/WO_HMM_703.pdf}
+  \caption{The output probabilities are shown for a sequence fragment for the test set \#703. The dashed line represents silence and different colour represent different gestures. Without temporal modelling, the decision boundary of a gesture will be more rugged and it is more difficult to make hard decisions of where the gesture starts or ends. Because of the temporal modelling and Viterbi path decoding, the gesture boundary will have a clean jump from the ergodic state to the gesture states, resembling the behavior of the manual annotators with better accuracy.}
     \label{fig:temporalModellingComparision}
 \end{figure*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}[tb]
+\begin{figure}[t]
         \centering
-
-        \begin{subfigure}[c]{.2\textwidth}
+        \begin{subfigure}[c]{.5\textwidth}
         \centering
-                \includegraphics[width=3cm,height=3cm, trim=120 100 100 50, clip]{images/good}
-      \vspace*{-2mm}
-                \caption{Well-recognised}
+                \includegraphics[width=8cm,height=2cm, clip]{images/original/original_images_gray_body_9combinato_stable.png}
+                \caption{Sample \#806}
         \end{subfigure}%
         %
-        \begin{subfigure}[c]{0.2\textwidth}
+        \\
+        \begin{subfigure}[c]{0.5\textwidth}
         \centering
-                \includegraphics[width=3cm,height=3cm, trim=120 100 100 50, clip]{images/bad}
-      \vspace*{-2mm}
-                \caption{Poorly-recognised}
+                \includegraphics[width=8cm,height=2cm, clip]{images/original/original_images_gray_body_9combinato_unstable.png}
+                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+                \caption{Sample \#702}
         \end{subfigure}
-      \vspace*{-3mm}
+
   \caption{
-\mycomline{Show more sample to illustrate the dynamic - would be good to show the instances for the same gestures - the jaccard index below are obtained using which module?}
 Examples of performer variations in the  upper body dynamic.
-While most performers tend to keep their upper-body static while performing the gesture leading to good recognition performance (left, Jaccard index of 0.94),
-others vehemently move their body when doing the gestures, making them harder to recognize (right, Jaccard index of 0.34).
-}
+Using \emph{DDNN} (late fusion), Jaccard index of top is 0.95 while bottom is only 0.61.
+While most performers tend to keep their upper-body static while performing the gesture, leading to good recognition performance. Vehemently moving of the body when doing the gestures, could make the gestures harder to be recognised.
+  }
 \label{fig:bodydynamics}
 \end{figure}
 
@@ -493,7 +540,7 @@ others vehemently move their body when doing the gestures, making them harder to
    \centering
         \begin{tabular}{|l||*{3}{c|}}\hline
             \makebox[4em]{Module}
-            &\makebox[2em]{Skeleton}&\makebox[2em]{RGBD}&\makebox[2em]{Fusion}
+            &\makebox[2em]{Skeleton}&\makebox[2em]{RGB-D}&\makebox[2em]{Fusion}
             \\\hline\hline
 
             {~\cite{Monnier2014multi}} {\scriptsize 3 set skeletal \& HOG, Boosted classifier}                    &  0.791     & -           & 0.822 \\\hline
@@ -549,7 +596,7 @@ Given the learned models, our framework with the above GPU can perform real-time
 More specifically, a single feed forward neural network incurs linear computational time ($\mathcal{O}(T)$),
 and is efficient because it requires only matrix products and convolution operations.
 The complexity of the Viterbi algorithm is itself of $\mathcal{O} (T* |S|^2)$, where
-$T$ is the number of frames and $|S|$ the number of states, and thus performs real-timegiven our state-space.
+$T$ is the number of frames and $|S|$ the number of states, and thus performs real-time given our state-space.
 In practice, our multimodal neural network can be deployed at 90 FPS.
 The preprocessing part takes most of the time and our un-optimized version runs at 25 FPS, while the
  Viterbi decoding  runs at 90 FPS. Hence, the overall system can achieve faster than real-time performance.
