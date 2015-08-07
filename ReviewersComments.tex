@@ -1,13 +1,13 @@
-\newcommand{\rev}[1]{{\noindent {\bf Comment:} {\it #1}}~\\}
-\newcommand{\ans}[1]{{\noindent {\bf Response:} #1}~\\}
+\newcommand{\rev}[1]{{\noindent {\bf Comment:} {\it #1}}~\\[-2mm]}
+\newcommand{\ans}[1]{{\noindent {\bf Response:} #1}~\\[-2mm]}
 \newcommand{\td}[1]{{\noindent {\bf TODO:} #1}~\\}
 
 
 
-
 \newcommand{\PM}[1]{
-~\\
-``\ldots{\em #1}\ldots''
+~\\[-4mm]
+%``\dots{\em #1}\ldots''
+``{\em #1}''
 }
 
 
@@ -46,12 +46,18 @@ and what we have done to clarify the paper and take comments into account.
 Note that in our answer, all references (Equations, Figures)
 refer to the new version unless stated otherwise.
 
+\qquad
 
 \rev{The article is easy to read and well structured. The methodology is not strictly novel but its application in the gesture domain with the multimodal fusion makes the article worth reading. Although results are arguably a little behind the maximum performance ones the overall impression of the article is favorable and I believe the community may benefit to check the ideas included in this paper.
 
 The article proposes a framework for dynamic data augmenting a HMM with deep learning techniques and apply this to gesture segmentation and recognition. Gestures segmentation and recognition is a difficult problem. The article tackles this difficulty by means of pure data driven approaches similar to the ones used for speech recognition. The particularities of the computer vision domain are handled accordingly.}
 
-\ans{Thank you for your review and positive outlook of the paper. We are also aware that our results are arguably a little behind the maximum performance, and this may be due to the network initialisation and multimodal neural network learning. We have included extra experimental analysis and early fusion implementation to further extend the broadness of the paper.}
+\ans{Thank you for your review and positive outlook of the paper. We are also aware that our results are arguably a little behind the maximum performance, and this may be due to the network initialisation and multimodal neural network learning. 
+
+Note that the revised version has undergone an important rewriting which hopefully should further improve the clarity of the method description, as well as the 
+DBN and 3DCNN motivation (see Section III.C).
+It also includes extra experimental analysis and an extra early fusion implementation and evaluation  to further extend the broadness of the paper.
+}
 
 % -----------------------------------------------------------------------------------
 \newpage
@@ -59,7 +65,9 @@ The article proposes a framework for dynamic data augmenting a HMM with deep lea
 {\LARGE \noindent Response to Reviewer 2}\newline
 
 We thank the reviewer for his time and comments.
-Note that the article has been reworked significantly to better introduce and enhance the modeling elements.
+Note that the article has been reworked significantly to better introduce and enhance the modeling elements and their motivation (see Section III.C).
+%
+In addition, further experiments wit an early fusion scheme learning a joint multimodal representation have been conducted.
 %
 Below, we provide our specific answers to his comments and to the unclear points that were raised,
 and what we have done to clarify the paper and take comments into account.
@@ -107,88 +115,214 @@ We  include the response maps after filtering for both body and hand parts. We o
 \newpage
 {\LARGE \noindent Response to Reviewer 3}\newline
 
-\rev{In general, I would be more excited if shared representations were learned from the skeleton and the RGB data, as done in multimodal deep learning. This is left for future work.  On the positive side, the CNN and DBN are technically sound and the results from their fusion are interesting.
-\\
-One would expect that the journal version of the paper would be more self-contained and easier to follow than the conference versions, but here I observe the opposite trend. For example, the older conference version ~\cite{diwucvpr14} explains the intuition behind the higher level representation of the skeleton features, but the journal version does not. The conference paper explains how the coordinate frames are built for the features, while this paper skips this part. The conference paper explains the datasets and visualizes the Viterbi paths better.}
+We thank the reviewer for his time and insightful comments.
+%
+Below, we provide our specific answers to his comments and to the unclear points that were raised,
+and what we have done to clarify the paper and take comments into account.
+%
+Note that in our answer, all references (Equations, Figures)
+refer to the new version unless stated otherwise.
 
-\ans{Thank you for your careful and positive review. We agree that in this journal version of the paper, some self-contained information has been omitted from the conference paper. In this revision, we have included more details. Specifically,  we include the Problem formation in Sec~\ref{sec:ProblemFormation} that explains the intuition behind the higher level representation and the advantages offered by feed forward neural over GMMs. The pre-training step is of crucial importance in learning the right initialisation of the deep belief networks using the sigmoid activation function.}
 
+\qquad
 
-\vspace{5mm}
+\rev{The paper proposes the fusion of the output from a Gaussian-Bernoulli Deep Belief network operating on skeletal features and the output of a Convolutional Neural Network operating on RGBD data to perform gesture segmentation and recognition. 
+The paper advances the field of gesture recognition by using both data sources and deep learning architectures within a Hidden Markov Model chain. 
+The results are improved compared to using either architecture independently.
+
+In general, I would be more excited if shared representations were learned from the skeleton and the RGB data, as done in multimodal deep learning. 
+This is left for future work. The paper might not have enough new material to warrant a PAMI publication wrt to the previous conference versions. 
+I also find that it is not that well written for a journal paper (see below).  
+On the positive side, the CNN and DBN are technically sound and the results from their fusion are interesting.
+
+One would expect that the journal version of the paper would be more self-contained and easier to follow than the conference versions, but here I observe the opposite trend. For example, the older conference version ~\cite{diwucvpr14} explains the intuition behind the higher level representation of the skeleton features, but the journal version does not. The conference paper explains how the coordinate frames are built for the features, while this paper skips this part. The conference paper explains the datasets and visualizes the Viterbi paths better.
+}
+
+\ans{Thank you for your careful and positive review. 
+We agree that in this journal version of the paper, some self-contained information had been omitted from the conference paper, and that there were unclear points.
+%
+We have significantly reworked the paper and improved its structure to both improve clarity and account for the reviewer's comment:
+\begin{compactitem}
+\item a related works section has been added;
+\item Section III now describe the method overview, both in terms of HMM modeling (Section III.A and III.B), and in terms of Neural network modeling (Section III.C), 
+including with new figures;
+\item more intuition about the temporal modeling (Section III.A);
+\item more motivation and intuition behind the use of learned higher level representation and the advantages offered by 
+DBN models for emission probability modeling over the use of GMMs, including the crucial importance of the Gaussian-Bernouilli Restricted Bolzman Machines 
+for pretraining and  initializing the deep belief network.
+\item the experimental part includes a proper description of the dataset, experimental protocol (including performance measures), and more result analysis.
+\item finally, an early fusion scheme that learns a shared representation has also been implemented and evaluated. Its description is provided in Section IV.D. 
+However, to the contrary of what we had expected, it did not perform better than the late fusion scheme.
+\end{compactitem}
+We hope and believe that this revision  is now much more self-contained and will better suit the quality standard of a journal paper.
+}
 
 
 \rev{Section 2 does not help much the reader understand the formulation. For example:
  "At each time step, we have one observed random variable $X_t$: explain what these variables represent early (raw skeletan input / \RGBD)  we have an unobserved variable $H_t$: describe at a high level the information that the unobserved variables capture, mention examples}
 
 \ans{
-We have included the interpretation part as follows: ``A continuous-observation HMM with discrete hidden states is adopted for modelling higher level temporal relationships. At each time step $t$, we have one observed random variable $X_t$ which can be the skeleton input or depth/RGB input.
- The unobserved variable $H_t$ taking on values in a finite set  $\mathcal{H}=(\bigcup _{a \in \mathcal{A}} \mathcal{H}_a)$, where $\mathcal{H}_a$ is a set of states associated with an individual gesture $\textbf{\emph{a}}$ by force-alignment. The unobserved variable $H_t$ can be interpreted as a segment of an action $\textbf{\emph{a}}$. For example, for action sequence ``tennis serving", the action sequence can be dissected into $\mathcal{H}_{a_1}, \mathcal{H}_{a_2}, \mathcal{H}_{a_3}$ as: 1) raising one arm, 2) raising the racket, and 3) hitting the ball."
+We have considerably reworked Section III to provide an overview of the method  along with intuition  and motivations. 
+Please check the new version. More specific parts of this section addressing your more specific comments are provided below.\\[2mm]
+%
+Regarding the variables:
+
+\PM{
+A continuous-observation HMM  is adopted for modelling higher level temporal relationships.
+At each time step $t$, we have one observed random variable $\observation_t$
+composed of the skeleton input $\observationSK_t$ and RGB-D input images $\observationRGBD_t$
+as shown in the graphical representation in Fig.~\ref{fig:GM}.
+%
+ The hidden state variable $\hiddenstate_t$ takes on values in a finite set  \finiteset composed of \numberhiddenstate states related to
+the different gestures. 
+ The intuition motivating the HMM model is that a gesture is composed of a sequence of poses where the relative duration of each pose may vary. 
+This variance is captured by allowing flexible forward transitions within a Markov chain.
+In practice,  $\hiddenstate_t$ can be interpreted as being in a particular phase  of a gesture \gesturea{}.
 }
 
+\vspace*{2mm}
 
-\vspace{5mm}
+\noindent Or related to more concrete example (Section III.B abut Markov state diagram):
+
+\PM{
+For each given gesture $a \in \mathcal{A}$, a set of states $\mathcal{H}_a$ is introduced to defined a Markov model of that gesture. For example, for action sequence ``tennis serving", the action sequence can implictly be dissected into $\hiddenstatenode_{a_1}, \hiddenstatenode_{a_2}, \hiddenstatenode_{a_3}$ as: 1) raising one arm 2) raising the racket 3) hitting the ball.
+}
+
+}
+
 
 \rev{The related work section is out of place after the technical sections and before the experiments.}
 
-\ans{We have moved the related work section after the introduction section.}
-
-\vspace{5mm}
+\ans{We have now written a proper related work section after the introduction section.}
 
 \rev{There is no point writing a loop for m=1:2 in Algorithm 1 and 2.}
 
-\ans{We have rewritten Algorithms 1 and 2 and merge the algorithms into a more succinct format.}
+\ans{The Algorithm description has been removed from the paper. 
+We have priviledged a more structured and more textual description of the method, and thus needed to remove the Algorithms for space reason. 
+Nevertheless, we believe that given the method overview in Section III, and the more detailed elements in Section IV, the method steps should be fairly easily 
+understandable.
+}
 
-\vspace{5mm}
 
 \rev{"the number of states ... is chosen as 5": any intuition here?}
 
-\ans{Thank you for the comment and this is a very good observation. The number of hidden states chosen uniformly as 5 in the paper might not be the optimal way of setting the number of hidden states for each gesture. We also experimented segmenting gestures into 10 states and obtained similar results. We reduce the hidden states from 10 to 5 in order to reduce the number of predicting classes and avoiding overfitting. The interpretation of choosing the number of hidden states for Markove Model is similar to choosing the number of hidden states for neural networks: it's more heuristically based. Ideally, we could set the number of hidden states according to the average length of the gesture sequence. But due to time constraint, we didn't train such neural networks.
+\ans{Thank you for the comment and this is a very good observation.  The main intuition behind this number was that a gesture
+is often composed of 5 phases: 1) an onset; 2)  arm motions to reach 3) a more static pose (often characterized by a distinct hand posture); 
+and a4)  motion back to 5) stop in  the rest pose.
+%
+However, we agree that  this number might not be optimal, and that different gestures could have different number of states.
+Also, from a more heuristic point of view, note that we had performed experiments with 10 states per class, and that it performed similarly.
+%
+
+To account for the reviewer's comment we have updated the text as follows:
+
+\PM{Note that intuitively, 5 states represents a good granularity as 
+most gestures in the Clalearn are composed of 5 phases: an onset, followed by arm motions to reach a more static pose 
+(often characterized by a distinct hand posture), and the motion back to the rest place.
+%
+In the future, optimal section of this number\footnote{Experiments with 10 states led to similar performance.} 
+and of different number of states per gesture could be investigated.
 }
 
-\vspace{5mm}
+}
+
 
 \rev{"10 frames are assigned to hidden state ...": why 10?}
 
-\ans{ Thank you for the careful observation. This is actually a written error due to different number of hidden states used for our experiments. We rewrote the section as:
-``\textbf{\emph{Hidden states} ($\mathcal{H}_a$): } Force alignment is used to extract the hidden states, \emph{i.e.} if a gesture token is 100 frames, the first $20= \frac{100}{5(N_{\mathcal{H}_a} )}$ frames are assigned to hidden state $\textbf{\emph{1}}$, the following 20 frames are assigned to hidden state $\textbf{\emph{2}}$, and so forth."
+\ans{Thank you for the careful observation. This is actually a written error. The corrected tet reads now:
+
+\PM{To do so, a force alignment is used which means that if the $i^{th}$ sequence is a gesture \gesturea{}, then the first $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to state $\hiddenstatenode_\gesturea^1$ (the first state of gesture \gesturea{}),
+the following $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to $\hiddenstatenode_\gesturea^2$, and so forth.
 }
-
-
-\vspace{5mm}
+}
 
 \rev{it is hard to interpret the learned features on Figure 8. There is no intuition what the depth filters capture.}
 
-\ans{Because our filter size is $5\times5$ (smaller filter sizes tend to generalize better, ~\cite{simonyan2014very} used $3\times3$ convolution filters), it will be hard to interpret. However, we observe the similar effect as in paper~\cite{socher2012convolutional} for depth image filters and we include the following analysis:
-``Visualisation of the $5\times5$ filters in the first layer for the different input channels . Interestingly, we observe the same effect as~\cite{socher2012convolutional} that the resulting filters from depth images have sharper edges which arise due to the strong discontinuities at object boundaries. While the depth channel is often quite noisy, most of the features are still smooth."
+\ans{Because our filter size is $5\times5$ (smaller filter sizes tend to generalize better, ~\cite{simonyan2014very} used $3\times3$ convolution filters), 
+their interpretation is indeed some hard, although one can notice that depth filters capture smooth depth transitions, and the combined image and depth filter 
+(see architecture description in Section IV.C.2) can represent two types of information: segmentation, and edge. 
+We have modified the text to provide better insight as follows:
+
+\PM{
+The convolutional filter weights of the first layer are depicted in Fig.~\ref{3dcnn_filters}.
+The unique characteristics from the kernels are clearly visible: as hand input images (RGB and depth) have larger homogenous areas 
+than the body inputs, the resulting filters are smoother than their body counterpart.
+In addition, while being smoother overall than the grayscale filters, depth filters exhibit stronger edges,
+as also reported in~\cite{socher2012convolutional}.
+%
+Finally, by looking at the joint depth-image response maps, we can notice that some filters better capture segmentation like information, 
+while other are more edge oriented.
+}
 }
 
-\vspace{5mm}
 
-\rev{Citations that could be added in the context of deep learning from RGBD data: "Convolutional-Recursive Deep Learning for 3D Object Classification", Socher et al., NIPS 2012}
+\rev{Citations that could be added in the context of deep learning from RGBD data: "Convolutional-Recursive Deep Learning for 3D Object Classification", 
+Socher et al., NIPS 2012, and 
+"Learning Rich Features from RGB-D Images for Object Detection and Segmentation", Gupta et al., ECCV 2014.
+}
 
 \ans{
-Thank you for the suggested citation. And we now include in the related works section as follows:``In the field of deep learning from RGBD data, Socher \emph{et al.}~\cite{socher2012convolutional} proposed a single convolutional neural net layer for each modality as input to multiple, fixed-tree RNNs in order to compose higher order features for 3D object classification. The single convolutional neural net layer provides useful translational invariance of low level features such as edges and allows parts of an object to be deformable to some extent. The pooled filter responses are then given to a recursive neural network to learn compositional features and part interactions."
+Thank you for the suggested citations. We find those work interesting, e.g.  for Gupta \emph{et al.}~\cite{gupta2014learning},
+as it shows that CNN do not necessarily need to be trained from the raw images, and some handcrafted features may better 
+help the network to learn more meaningful, higher level representations. We have added these references in the paper in the following way:
 
-We also observe the same CNN filters as the paper that ``one interesting result is that depth channel edges are much sharper. This is due to the large discontinuities between object boundaries and background. While the depth channel is often quite noisy, most of the features are still smooth".
+\PM{
+However, the advent of  Kinect-like sensors has put more emphasis on RGB-D data for gesture recognition, but not only.
+For instance, the benefits of deep Learning using RGB-D data have been explored for object detection or classification tasks.
+%
+Socher \emph{et al.}~\cite{socher2012convolutional} proposed a single convolutional neural net layer for each modality as inputs to multiple, fixed-tree RNNs in order to compose higher order features for 3D object classification. The single convolutional neural net layer provides useful translational invariance of low level features such as edges and allows parts of an object to be deformable to some extent.
+% The pooled filter responses are then give to a recursive neural network to learn compositional features and part interactions.
+To address object detection, Gupta \emph{et al.}~\cite{gupta2014learning} proposed a geocentric embedding for depth images that encodes height above ground and angle with gravity for each pixel in addition to the horizontal disparity.
+%
+}
 }
 
-
-\vspace{5mm}
-
-\rev{"Learning Rich Features from RGB-D Images for Object Detection and Segmentation", Gupta et al., ECCV 2014}
-
-\ans{
-We find the works in Gupta \emph{et al.}~\cite{gupta2014learning} interesting in a sense that CNN does not necessarily need to be trained from the raw images, and some handcrafted features may better help the network to learn more meaningful, higher level representations. And we have included this related work as follows.
-``Gupta \emph{et al.} proposed a geocentric embedding for depth images that encodes height above ground and angle with gravity for each pixel in addition to the horizontal disparity. The depth image was represented by three channels: horizontal disparity, height above ground and angle with gravity. This augmented representation allows the CNN to learn strong features than by using disparity (or depth) alone."
-}
-
-\vspace{5mm}
 
 \rev{Another related work is the "Multimodal Deep Learning" by Ngiam et al., ICML 11. I would also like to see some discussion wrt "Hidden Conditional Random Fields for Gesture Recognition", Wang et al, CVPR 2006}
 
 \ans{
-Thank you for suggesting very relevant works. We came across both papers. "Multimodal Deep Learning" essentially is the prototype for an early fusion model. Wang \emph{et al.}~\cite{wang2006hidden}) observed that one hidden layer is limited for learning a larger class corpus. Feature learning for skeleton modules is an essential part of this paper and we believe a higher level representation is more beneficial for gesture classification. Moreover, the partition function of CRF makes the discriminative training more difficult to train.  The similarity in the aforementioned paper with our proposed method is that both methods used a hidden layer for learning higher level representations. Recent advancement in feature learning and pre-training for DBN renders our proposed method more meaningful. We have included the following in the related works section:
-``Wang \emph{et al.}~\cite{wang2006hidden} introduced a discriminative hidden-state approach for the recognition of human gestures. However, their discriminative training is limited for pre-segmented gesture sequences and one layer of hidden states might not learn powerful enough high level representation for a larger corpus."
+Thank you for suggesting very relevant works. We came across both papers. "Multimodal Deep Learning" essentially is the prototype for an early fusion model. 
+%
+Regarding Wang \emph{et al.}~\cite{wang2006hidden}), the similarity with our proposed method is that both methods use a/several hidden layer 
+for learning higher level representations. 
+However, authors in Wang \emph{et al.}~\cite{wang2006hidden})  observed that one hidden layer is limited for learning a larger class corpus. 
+In our case, we believe that higher level representation learning with more layers, which is an essential part of our paper, 
+is very important for gesture classification. 
+%Moreover, the partition function of CRF makes the discriminative training more difficult to train.  
+%
+Recent advancement in multi-layer feature learning and pre-training for DBN renders our proposed method more meaningful. We have included the references as follows:\\[-3mm]
+
+\noindent For Ngiam et al, as it does not relate to gesture recognition, we have cited this method in the introduction.
+
+\PM{
+Multimodal deep learning technique were also investigated \cite{Ngiam2011multimodal} to learn cross-modality representation, 
+for instance in the context of audio-visual speech recognition.
+}
+
+\noindent However, as their method is very similar to the early fusion scheme we have now implemented, we have added the following in Section IV.D.2:
+
+\PM{
+Note that this is very similar to the approach proposed in \cite{Ngiam2011multimodal}
+for audio-visual speech recognition. 
+%
+An important difference is that in \cite{Ngiam2011multimodal}, the same stacked RBMs/\DBN architecture was used 
+to represent both modalities before fusion, whereas in our case, a stacked RBMs/\DBN and a \ThreeDCNN are used.
+%
+Also, \cite{Ngiam2011multimodal} proposed the use of a multimodal autoencoder to handle predictions when potentially 
+only one modality migth be present, a point that we do not address.
+}
+
+\vspace*{2mm}
+
+\noindent For Wang et al:
+
+\PM{
+Wang \emph{et al.}~\cite{wang2006hidden} introduced a more elaborated discriminative hidden-state approach for the recognition of human gestures.
+However, relying on only one layer of hidden states,
+their model alone might not  be powerful enough to learn a higher level representation of the data and take advantage of very large corpus. 
+In this paper, we adopt a different approach by focusing on deep feature learning within a temporal model.
+}
+
 }
 
 

@@ -69,6 +69,67 @@ Finally, Section~\ref{sec:ComputationalComplexity} will briefly discuss the comp
 
 
 
+
+
+
+%\mycomline{In this part, provide more information about the dataset: description, content, types of gestures (what are the classes), illustration of the gestures with some pictures (esp. for gestures that have impact on data -for example, expand fig 14 where yoou have the two ok and noncepiu examples with other ones, and put it earlier in the document. why is the dataset challenging ?\\
+%Also, provide some statistics about the dataset:
+% rough duration of the gestures (average, min max). How many person are performing the gestures, how many occurrences per class, is the dataset balanced}
+
+The dataset used in this work is provided by the ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge\footnote{\href{http://gesture.chalearn.org/2014-looking-at-people-challenge/data-2014-challenge}{http://gesture.chalearn.org/2014-looking-at-people-challenge/data-2014-challenge}}.
+%
+The focus  is on ``multiple instance, user independent spotting" of gestures, which means learning to recognize gestures from several instances for each category performed by different users, drawn from a gesture vocabulary of 20 Italian cultural/anthropological signs.
+A gesture vocabulary is a set of unique gestures, generally related to a particular task.
+
+The challenge dataset contains 940 videos sequences, each performed by a single person and composed of 10 to 20 gesture instances for a total of around $14,000$ gestures.
+%
+There are 20 gesture classes, \emph{i.e.} \emph{vattene, vieniqui, perfetto, furbo, cheduepalle, chevuoi, daccordo, seipazzo, combinato, freganiente
+    , ok, cosatifarei, basta, prendere, noncenepiu, fame, tantotempo, buonissimo, messidaccordo, sonostufo}, with a number a samples well balanced between classes.
+% statistics of the gestures here:
+The average length of gestures is 39 frames, the minimum frame number for a gesture is 16  and the maximum frame number is 104.
+
+This dataset is challenging because the ``user independent" setting and some of gestures differ primarily in hand pose but not the overall arm motions as illustrated in Fig.~\ref{fig:chalearnclasses}
+In terms of data, three modalities are provided with the input videos: the sequence of skeleton joints, and the RGB and depth images
+(including a segmentation of the person performing the gesture).
+%For the input sequences, there are three modalities provided, \emph{i.e.} skeleton, RGB and depth images (with user segmentation).
+% This dataset  is on ``multiple instance, user independent learning and continuous gesture spotting"~\cite{ICMI} of gestures.
+% In the 3 track, there are more than 14,000 gestures.
+
+ %\begin{table}[t]
+%   \centering
+%        \begin{tabular}{|l|c|c|}\hline
+%            { Gesture }  &\makebox[5em]{ Length}   &\makebox[5em]{ MAP} \\\hline\hline
+%            {\small 1.vattene }            &  38.0   & 0.882  \\\hline
+%            {\small 2.vieniqui }           &  36.1   & 0.902  \\\hline
+%            {\small 3.perfetto }           &  36.7   & 0.877  \\\hline
+%            {\small 4.furbo }              &  40.1   & 0.945  \\\hline
+%            {\small 5.cheduepalle }        &  36.9   & 0.949  \\\hline
+%            {\small 6.chevuoi }            &  35.9   & 0.926  \\\hline
+%            {\small 7.daccordo }           &  40.2   & 0.982  \\\hline
+%            {\small 8.seipazzo }           &  43.5   & 0.963  \\\hline
+%            {\small 9.combinato }          &  45.6   & 0.956  \\\hline
+%            {\small 10.freganiente }        &  37.8   & 0.852  \\\hline
+%            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%            {\small 11.ok }                 &  30.8   & 0.778   \\\hline
+%            {\small 12.cosatifarei }        &  41.9   & 0.942   \\\hline
+%            {\small 13.basta }              &  35.7   & 0.924   \\\hline
+%            {\small 14.prendere }           &  37.9   & 0.892   \\\hline
+%            {\small 15.noncenepiu }         &  37.5   & 0.774   \\\hline
+%            {\small 16.fame }               &  41.3   & 0.958   \\\hline
+%            {\small 17.tantotempo }         &  39.1   & 0.955   \\\hline
+%            {\small 18.buonissimo }         &  43.5   & 0.905   \\\hline
+%            {\small 19.messidaccordo }      &  44.5   & 0.951  \\\hline
+%            {\small 20.sonostufo }          &  39.9   & 0.926   \\\hline
+%        \end{tabular}
+%\vspace*{-2mm}
+%    \caption{\dwucomline{Average length of a gesture, this table won't be included in the final version, but just to show to JMO.}
+%          }
+%          \label{Table_score_fusion}
+%\end{table}
+
+
+\subsection{Experimental protocol}
+
 \setlength{\fboxsep}{1pt}%
 \setlength{\fboxrule}{1pt}%
 \begin{figure}[t]
@@ -142,66 +203,6 @@ Subtle hand movement (c) and differences in performing speed and range (f) also 
   }
 \label{fig:chalearnclasses}
 \end{figure}
-
-
-%\mycomline{In this part, provide more information about the dataset: description, content, types of gestures (what are the classes), illustration of the gestures with some pictures (esp. for gestures that have impact on data -for example, expand fig 14 where yoou have the two ok and noncepiu examples with other ones, and put it earlier in the document. why is the dataset challenging ?\\
-%Also, provide some statistics about the dataset:
-% rough duration of the gestures (average, min max). How many person are performing the gestures, how many occurrences per class, is the dataset balanced}
-
-The dataset used in this work is provided by the ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge\footnote{\href{http://gesture.chalearn.org/2014-looking-at-people-challenge/data-2014-challenge}{http://gesture.chalearn.org/2014-looking-at-people-challenge/data-2014-challenge}}.
-%
-The focus  is on ``multiple instance, user independent spotting" of gestures, which means learning to recognize gestures from several instances for each category performed by different users, drawn from a gesture vocabulary of 20 Italian cultural/anthropological signs.
-A gesture vocabulary is a set of unique gestures, generally related to a particular task.
-
-The challenge dataset contains 940 videos sequences, each performed by a single person and composed of 10 to 20 gesture instances for a total of around $14,000$ gestures.
-%
-There are 20 gesture classes, \emph{i.e.} \emph{vattene, vieniqui, perfetto, furbo, cheduepalle, chevuoi, daccordo, seipazzo, combinato, freganiente
-    , ok, cosatifarei, basta, prendere, noncenepiu, fame, tantotempo, buonissimo, messidaccordo, sonostufo}, with a number a samples well balanced between classes.
-% statistics of the gestures here:
-The average length of gestures is 39 frames, the minimum frame number for a gesture is 16  and the maximum frame number is 104.
-
-This dataset is challenging because the ``user independent" setting and some of gestures differ primarily in hand pose but not the overall arm motions as illustrated in Fig.~\ref{fig:chalearnclasses}
-In terms of data, three modalities are provided with the input videos: the sequence of skeleton joints, and the RGB and depth images
-(including a segmentation of the person performing the gesture).
-%For the input sequences, there are three modalities provided, \emph{i.e.} skeleton, RGB and depth images (with user segmentation).
-% This dataset  is on ``multiple instance, user independent learning and continuous gesture spotting"~\cite{ICMI} of gestures.
-% In the 3 track, there are more than 14,000 gestures.
-
- %\begin{table}[t]
-%   \centering
-%        \begin{tabular}{|l|c|c|}\hline
-%            { Gesture }  &\makebox[5em]{ Length}   &\makebox[5em]{ MAP} \\\hline\hline
-%            {\small 1.vattene }            &  38.0   & 0.882  \\\hline
-%            {\small 2.vieniqui }           &  36.1   & 0.902  \\\hline
-%            {\small 3.perfetto }           &  36.7   & 0.877  \\\hline
-%            {\small 4.furbo }              &  40.1   & 0.945  \\\hline
-%            {\small 5.cheduepalle }        &  36.9   & 0.949  \\\hline
-%            {\small 6.chevuoi }            &  35.9   & 0.926  \\\hline
-%            {\small 7.daccordo }           &  40.2   & 0.982  \\\hline
-%            {\small 8.seipazzo }           &  43.5   & 0.963  \\\hline
-%            {\small 9.combinato }          &  45.6   & 0.956  \\\hline
-%            {\small 10.freganiente }        &  37.8   & 0.852  \\\hline
-%            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%            {\small 11.ok }                 &  30.8   & 0.778   \\\hline
-%            {\small 12.cosatifarei }        &  41.9   & 0.942   \\\hline
-%            {\small 13.basta }              &  35.7   & 0.924   \\\hline
-%            {\small 14.prendere }           &  37.9   & 0.892   \\\hline
-%            {\small 15.noncenepiu }         &  37.5   & 0.774   \\\hline
-%            {\small 16.fame }               &  41.3   & 0.958   \\\hline
-%            {\small 17.tantotempo }         &  39.1   & 0.955   \\\hline
-%            {\small 18.buonissimo }         &  43.5   & 0.905   \\\hline
-%            {\small 19.messidaccordo }      &  44.5   & 0.951  \\\hline
-%            {\small 20.sonostufo }          &  39.9   & 0.926   \\\hline
-%        \end{tabular}
-%\vspace*{-2mm}
-%    \caption{\dwucomline{Average length of a gesture, this table won't be included in the final version, but just to show to JMO.}
-%          }
-%          \label{Table_score_fusion}
-%\end{table}
-
-
-\subsection{Experimental protocol}
-
 \subsubsection{Training and evaluation protocol}
 
 We follow the ChaLearn experimental protocol, in which the input sequences are split into 700 videos for training, and 240 sequences for testing and reporting results.
@@ -326,36 +327,11 @@ by considering gesture segments of less than 20 frames as noise and discarding t
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
- \begin{table}[rt]
-   \centering
-        \begin{tabular}{|ll||*{2}{c|}}\hline
-            %\backslashbox{Module}{Evaluation Set}
-             &  \% &  \makebox[3.5em]{Validation}&\makebox[3.5em]{Test}       \\\hline\hline
-            \multirow{2}{*}{Skeleton - DBDN}       & \eventaccuracy                & 86.3     & 83.6 \\
-                                            &  \eventconfused           & 11.4     & 12.3 \\
-                                            &  \eventmissed           &  2.3     &   4.1 \\\hline\hline
-            \multirow{2}{*}{RGB-D - 3DCNN}    & \eventaccuracy              & 78.7     & 75.8  \\
-                                            &  \eventconfused           & 5.2     &  4.5 \\
-                                            &  \eventmissed           & 16.1     & 19.7  \\\hline\hline
-
-            \multirow{2}{*}{Multimodal Late Fusion}   &  \eventaccuracy    & 87.9     & 86.4 \\
-                                                      &  \eventconfused    & 9.1     & 8.7 \\
-                                                      &  \eventmissed      & 3.0      & 4.9 \\\hline
-           \multirow{2}{*}{Multimodal Early Fusion}   &  \eventaccuracy    & 86.5     & 85.5\\
-                                                      &  \eventconfused    & 7.3      & 6.8 \\
-                                                      &  \eventmissed      & 6.2      & 7.7 \\\hline
-        \end{tabular}
-\vspace*{-2mm}
-    \caption{
-       Gesture classification performance at the event level, in percentage of the number of ground truth gestures.
-%\mycomline{table to be finished as for the skeleton}
-          }
-          \label{tab:eventperformance}
-\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Results}\label{sec:results}
+
 
 %\mycomline{Confusion matrices are fine. However, would it be possible to know the classifiction accuracy of the different classes, for each modality? (i.e the diagonal elements of the confusion matrix? i.e. for instance to look at lowest/highest results? and it improves with fusion?}
 
@@ -384,7 +360,32 @@ as shown by the recognition rate increase and the smaller drop in the generaliza
 %, both at the \jaccardindex and event level
 (for instance the decrease of the \eventaccuracy rate is lower than for the skeleton data alone).
 
+ \begin{table}[rt]
+   \centering
+        \begin{tabular}{|ll||*{2}{c|}}\hline
+            %\backslashbox{Module}{Evaluation Set}
+             &  \% &  \makebox[3.5em]{Validation}&\makebox[3.5em]{Test}       \\\hline\hline
+            \multirow{2}{*}{Skeleton - DBDN}       & \eventaccuracy                & 86.3     & 83.6 \\
+                                            &  \eventconfused           & 11.4     & 12.3 \\
+                                            &  \eventmissed           &  2.3     &   4.1 \\\hline\hline
+            \multirow{2}{*}{RGB-D - 3DCNN}    & \eventaccuracy              & 78.7     & 75.8  \\
+                                            &  \eventconfused           & 5.2     &  4.5 \\
+                                            &  \eventmissed           & 16.1     & 19.7  \\\hline\hline
 
+            \multirow{2}{*}{Multimodal Late Fusion}   &  \eventaccuracy    & 87.9     & 86.4 \\
+                                                      &  \eventconfused    & 9.1     & 8.7 \\
+                                                      &  \eventmissed      & 3.0      & 4.9 \\\hline
+           \multirow{2}{*}{Multimodal Early Fusion}   &  \eventaccuracy    & 86.5     & 85.5\\
+                                                      &  \eventconfused    & 7.3      & 6.8 \\
+                                                      &  \eventmissed      & 6.2      & 7.7 \\\hline
+        \end{tabular}
+\vspace*{-2mm}
+    \caption{
+       Gesture classification performance at the event level, in percentage of the number of ground truth gestures.
+%\mycomline{table to be finished as for the skeleton}
+          }
+          \label{tab:eventperformance}
+\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]

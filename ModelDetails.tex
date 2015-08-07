@@ -12,6 +12,15 @@ In all our experiments, the different modelling elements are specified as follow
 The number of states \nsig{} associated to an individual gesture has been set to 5.
 Therefore, in total, the number of states is $\tns = 20 \times 5 + 1 = 101$
 when conducting  experiments on the Chalearn dataset containing 20 classes.
+%
+Note that intuitively, 5 states represents a good granularity as
+most gestures in the Clalearn are composed of 5 phases: an onset, followed by arm motions to reach a more static pose
+(often characterized by a distinct hand posture), and the motion back to the rest place.
+%
+In the future, optimal section of this number\footnote{Experiments with 10 states led to similar performance.}
+and of different number of states per gesture could be investigated.
+%
+
 
 The training data in Chalearn is given as a set of sequences
 $\inputsequence_i=[\framefeature_{i,1}, \ldots,\framefeature_{i,t},\ldots, \framefeature_{i,T_i}]$
@@ -85,7 +94,17 @@ typically used in the  speech recognition community~\cite{mohamed2012acoustic}.
 
 \subsubsection{Modeling \randomvariableSK{} using Deep Belief Networks}
 
-
+\begin{figure}[t]
+  \centering
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.23\textwidth]{images/DBN}\\
+  \caption{
+  A \DBN is trained to predict the emission probability  $p(\observationSK_t|\hiddenstate_t)$
+  from the  skeleton input \skfeature.
+  The double arrows indicate that the intermediate weights are first trained in an unsupervised fashion using stacked RBMs.
+}
+    \label{fig:DBN}
+\end{figure}
 %We briefly introduce the building elements of the network and a more detailed introduction can be found at:
 %Boltzmann Machines (BMs) are a special structure of Markov Random Field (MRF), \emph{i.e.} the energy function is linear in term of its corresponding free parameters.
 %To empower the expressiveness of the model so as to encode complex distributions, the hidden variables are introduced to enhance the modelling capability of the Boltzmann Machinesd with a two-layer structure, has the visible binary stochastic units $v\in \{0,1\}^D$ connected to the hidden binary stochastic units $h\in \{0,1\}^F$.
@@ -120,11 +139,11 @@ typically used in the  speech recognition community~\cite{mohamed2012acoustic}.
 
 Given the input skeleton feature \skfeature, a \DBN model is used to predict the emission probability, as shown in Fig.~\ref{fig:DBN}.
 As explained in Section~\ref{sec:emissionprob}, the learning proceeds in two steps:
-in the first one, the network is considered as a stack of RBMs, and trained using a greedy, layer-by-layer 
+in the first one, the network is considered as a stack of RBMs, and trained using a greedy, layer-by-layer
 unsupervised learning algorithm \cite{hinton2006fast};
 in the second one, a softmax network layer is added on top of the RBMs to create a \DBN architecture,
-where the  weights of the first step are used to initialize the corresponding weights in the \DBN, 
-and the \DBN is further trained and fine-tuned in a supervised fashion to predict the emission probability. 
+where the  weights of the first step are used to initialize the corresponding weights in the \DBN,
+and the \DBN is further trained and fine-tuned in a supervised fashion to predict the emission probability.
 %
 The number of nodes at each layer of the \DBN are $[N_{\skfeature},2000,2000,1000,\numberhiddenstate]$.
 % where $N_f = 891$ is the observation domain dimensionality; $N_{\mathcal{H}}$ is the output target class.
@@ -132,11 +151,14 @@ We provide below further details on the model and training.
 
 \mypartitle{Gaussian-Bernoulli RBM.}
 %
-In most cases, Restriced Boltzmann machine (RBM) are considered as a network of symmetrically coupled stochastic binary units
-(called the visible and hidden units). 
+Restriced Boltzmann machine (RBM) are undirected graphical models involving visible and hidden variables,
+with symmetric connections between the hidden and visible units but no connection within hidden variables
+or visible variables.
 %
-However, in our case the visible unit in the first layer are the vector of skeleton features $\skfeature \in \mbf{R}^{N_{\skfeature}}$, which are continous. 
-To account for this situation, we thus resort to a Gaussian-Bernoulli RBM (\emph{GRBM})~\cite{salakhutdinov2009learning}, 
+In most cases, RBMs rely on binary random variables.
+%
+However, in our case the visible unit in the first layer are the vector of skeleton features $\skfeature \in \mbf{R}^{N_{\skfeature}}$, which are continous.
+To account for this situation, we thus resort to a Gaussian-Bernoulli RBM (\emph{GRBM})~\cite{salakhutdinov2009learning},
 whose main difference w.r.t. standard RBM lies in the following:
 the energy term of our first layer $\skfeature$ to the hidden binary stochastic units $\rbmh \in \{0,1\}^F$ is given by:
 \begin{equation}
@@ -151,37 +173,27 @@ The conditional distributions needed for inference and generation are given by t
     P(\rbmhel_j=1 | \skfeature) & = & g (\sum_i W_{ij} \skfeatureel_i+a_j) \\
     P(\skfeatureel_i=\skfeatureel|\rbmh) & = & \mathscr{N}( \skfeatureel |\mu_i,\sigma_i^2).
 \end{eqnarray}
-where $\mu_i=b_i+\sigma_i^2 \sum_j W_{ij}$. 
-In practice, we normalise the data (mean substraction and standard deviation division) in the preprocessing phase. 
+where $\mu_i=b_i+\sigma_i^2 \sum_j W_{ij}$.
+In practice, we normalise the data (mean substraction and standard deviation division) in the preprocessing phase.
 Hence, instead of learning $\sigma_i^2$, one typically used  $\sigma_i^2=1$ during training.
 
 We ran 100 epochs using a fixed recipe based on stochastic gradient descent with a mini-batch size of 200 training cases
-to train  the stacked RBM, in which the learning rate is fixed at 0.001 for the Gaussian-Bernoulli RBMs, 
-and at 0.01 for the following binary-binary RBMs. 
+to train  the stacked RBM, in which the learning rate is fixed at 0.001 for the Gaussian-Bernoulli RBMs,
+and at 0.01 for the following binary-binary RBMs.
 
 
 
 
-\begin{figure}[t]
-  \centering
-  % Requires \usepackage{graphicx}
-  \includegraphics[width=0.23\textwidth]{images/DBN}\\
-  \caption{
-  A \DBN is trained to predict the emission probability  $p(\observationSK_t|\hiddenstate_t)$ 
-  from the  skeleton input \skfeature. 
-  The double arrows indicate that the intermediate weights are first trained in an unsupervised fashion using stacked RBMs.
-}
-    \label{fig:DBN}
-\end{figure}
+
 
 \mypartitle{\DBN forward training.}
 %
 % In the training set, there are in total $400\,117$ frames. During the training of the \emph{DBN}, $90\%$ is used for training, $8\%$ for validation (for the purpose of early stopping) $2\%$ is used for test evaluation.
 %
-The \DBN is initialized with the result of the previous step, a method which tends to avoid suboptimal local minima and increase 
-the networks performance stability. 
+The \DBN is initialized with the result of the previous step, a method which tends to avoid suboptimal local minima and increase
+the networks performance stability.
 %
-The learning rate for the parameter fine tuning 
+The learning rate for the parameter fine tuning
 starts at 1 with 0.99999 mini-batch scaling. During the experiments, early stopping occurs around epoch 440.
 The optimisation completes with a frame based validation error rate of $16.5\%$, as shown in  Fig~\ref{sk_error_rate}.
 
@@ -204,7 +216,19 @@ The optimisation completes with a frame based validation error rate of $16.5\%$,
 
 \subsection{RGB \& Depth 3D Module} \label{sec:rgbd_modules}
 \subsubsection{Preprocessing}\label{3d_preproc}
-
+\begin{figure*}[t]
+  \centering
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=.9\textwidth]{images/3DCNN_new}
+\vspace*{-2mm}
+  \caption{3DCNN architecture. The input is $2\times2@64\ast64\ast4$, meaning 2 modalities (depth and RGB)  for the hand and body regions,
+each  being 4  consecutive 64 by 64 frames stacked together.
+%
+%Note that in H1, the Depth and RGB  response maps of the hand (and body) are summed to produce a single feature map,
+%while in H7, the hand and body part feature maps of H6 are just flattened.
+}
+\label{3dcnn_architecture}
+\end{figure*}
 Although DeepMind technology~\cite{mnih2013playing} presented the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using deep reinforcement learning, working directly with raw input Kinect recorded data frames, which are $640 \times 480$ pixel images, can be computationally demanding.
 Therefore, our first step in the preprocessing stage consists of cropping the highest hand and the upper body using the given joint information. In the Chalearn dataset, we determined that the highest hand is the most interesting. When both hands are used, they normally perform the same (mirrored) movement, and when one hand is used, it is always the highest one which is relevant.
 Furthermore, to be invariant to handedness, we always train the model with the right hand view.
@@ -230,19 +254,7 @@ The outcome is illustrated in Fig.~\ref{3dcnn_filters}.
 
 
 \subsubsection{3DCNN Architecture}
-\begin{figure*}[t]
-  \centering
-  % Requires \usepackage{graphicx}
-  \includegraphics[width=.9\textwidth]{images/3DCNN_new}
-\vspace*{-2mm}
-  \caption{3DCNN architecture. The input is $2\times2@64\ast64\ast4$, meaning 2 modalities (depth and RGB)  for the hand and body regions,
-each  being 4  consecutive 64 by 64 frames stacked together.
-%
-%Note that in H1, the Depth and RGB  response maps of the hand (and body) are summed to produce a single feature map,
-%while in H7, the hand and body part feature maps of H6 are just flattened.
-}
-\label{3dcnn_architecture}
-\end{figure*}
+
 
 This  architecture consists of a series of layers composed of either convolution, pooling or, in the last layer, fully connected layers.
 The 3D convolution itself is achieved by convolving a 3D kernel to the cuboid formed by stacking multiple contiguous frames together. We follow the nomenclature of in~\cite{ji20133d}.
@@ -295,9 +307,13 @@ Compared with the skeleton module (16.5\% validation error rate), the 3DCNN has 
 \subsubsection{Looking into the Networks: visualisation of Filter Banks}
 
 The convolutional filter weights of the first layer are depicted in Fig.~\ref{3dcnn_filters}.
-The unique characteristics from the kernels are clearly visible: as hand input images (RGB and depth) have larger homogenous areas than the body inputs, the resulting filters are smoother than their body counterpart.
+The unique characteristics from the kernels are clearly visible: as hand input images (RGB and depth) have larger homogenous areas
+than the body inputs, the resulting filters are smoother than their body counterpart.
 In addition, while being smoother overall than the grayscale filters, depth filters exhibit stronger edges,
- as also reported in~\cite{socher2012convolutional}.
+as also reported in~\cite{socher2012convolutional}.
+%
+Finally, by looking at the joint depth-image response maps, we can notice that some filters better capture segmentation like information,
+while other are more edge oriented.
 
 \begin{figure*}[t]
   \centering
@@ -335,6 +351,17 @@ As an alternative to the late fusion scheme, we can take advantage of the high-l
 to fuse the modality in an early fashion by concatenating these two layers in one layer of 2024 hidden unites
 and learning a cross-modality emission probability predictive network.
 %
+Note that this is very similar in spirit to the approach proposed in \cite{Ngiam2011multimodal}
+for audio-visual speech recognition.
+%
+An important difference is that in \cite{Ngiam2011multimodal}, the same stacked RBMs/\DBN architecture was used
+to represent both modalities before fusion, whereas in our case, a stacked RBMs/\DBN and a \ThreeDCNN are used.
+%
+Also, \cite{Ngiam2011multimodal} proposed the use of a multimodal autoencoder to handle predictions when potentially
+only one modality migth be present, a point that we do not address.
+
+
+
 The resulting architecture is trained by first initializing the weights of the deeper layers from the previously trained module,
 and then jointly fine tuning the whole network (including learning the last layer parameters)
 and stop the training when the validation error rate stops decreasing ($\sim$15 epochs).
