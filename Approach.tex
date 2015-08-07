@@ -114,8 +114,10 @@ More precisely, since the input features have a high dimensionality,
 we propose to learn them using two distinctive types of neural networks suited to the input modality,
 as summarized in the right of Fig.~\ref{fig:GM}.
 %
+Unfortunately, estimating a probability density such as an emission probability remains quite a difficult problem, especially in high dimensions. However, inference in the HMM only depends only on the ratio between emission probabilities for the different states. Since training a model to predict a density ratio is often significantly easier, we will directly predict the ratio between emission probabilities. This is similar to the approach used by Kindermans et al. to integrate transfer learning and an HMM based language model into a single probabilistic model \cite{Kindermans2012a}.
+One should think of the predicted emission probability ratio as an unnormalized version of the true emission probability. Nevertheless, to simplify the discussion of our models for readers with a basic understanding of HMMs, we will refer to the predicted emission probability ratio simply as emission probabilities since the underlying model remains unchanged. 
 
-More specifically, for  the skeletal features, we rely on a Deep-Belief Network (DBN) trained in two steps \cite{salakhutdinov2009learning}:
+For  the skeletal features, we rely on a Deep-Belief Network (DBN) trained in two steps \cite{salakhutdinov2009learning}:
 in the first step,  stacked Restricted Boltzmann Machines (RBM) is trained in an unsupervised fashion using only observation data
 to learn  high-level feature representations;
 in the second step, the model is used as a Deep-Belief Network whose weights are further fine-tuned
