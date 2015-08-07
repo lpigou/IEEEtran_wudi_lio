@@ -36,8 +36,7 @@ While gesture recognition based on 3D joint positions may seem trivial, it is ac
 A second aspect that further complicates the recognition is the segmentation of the different gestures. While in practice segmentation is as important as the recognition, it is an often neglected aspect of the current action recognition research which often assume the availability of segmented inputs~\cite{laptev2005space}~\cite{marszalek09}~\cite{Kuehne11}.
 
 In this paper we aim to address these issues by proposing a data driven system, focusing on analysis of acyclic video sequence labelling problems, \emph{i.e.} video sequences that are non-repetitive as opposed to longer repetitive activities, \textit{e.g.} jogging, walking and running. This paper is an extension of the works of~\cite{diwucvpr14},~\cite{wu2014deep} and~\cite{lio2014deep}.
-Within a temporal framework allowing the labelling of videos in a frame-by-frame fashion,
-thus making it possible for online gesture recognition, the key contributions can be summarised as follows:
+Within an HMM temporal framework allowing the online joint recognition and segmentation of gestures, the key contributions can be summarised as follows:
 \begin{itemize}
 \item A Gaussian-Bernoulli Deep Belief Network is proposed to extracts high-level skeletal joint features and the learned representation is used to estimate the emission probability needed to infer gesture sequences;
 \item A 3D Convolutional Neural Network  is proposed to extract features from multiple channel inputs such as depth and  RGB images;
