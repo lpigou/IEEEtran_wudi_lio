@@ -23,7 +23,7 @@
 \ans{We would  like to thank the associate editor's general positive comments on our paper. We also would like to thank reviewers' careful and insightful suggestions for improving the paper. Following are some common points that were mentioned by the reviewers and we list the most notable changes below. The point to point responses are provided afterwards.
 
 \begin{itemize}
-\item In the previous version for multimodal fusion, we used the late fusion scheme  $s = a * s1 + (1-a)*s2$ where $a$ is chosen by cross-validation. In this revision, we implement an early fusion scheme in Section~\ref{early_fusion} that a new-top level perceptron layer is created to combine two models' output as in Fig.~\ref{fig:fusion}. The new multimodal neural network's parameters are initialised by the previously trained individual module, taking advantage of different modules’ intrinsic properties and making the network converge much faster. The early fusion system uses pre-trained weights. The results are reported in  Section~\ref{early_fusion} and Table~\ref{Table_score_fusion}.
+\item In the previous version for multimodal fusion, we used the late fusion scheme  $s = a * s1 + (1-a)*s2$ where $a$ is chosen by cross-validation. In this revision, we implement an early fusion scheme in Section~\ref{early_fusion} that a new-top level perceptron layer is created to combine two models' output as in Fig.~\ref{fig:fusion}. The new multimodal neural network's parameters are initialised by the previously trained individual module, taking advantage of different modulesÂ’ intrinsic properties and making the network converge much faster. The early fusion system uses pre-trained weights. The results are reported in  Section~\ref{early_fusion} and Table~\ref{Table_score_fusion}.
 
 \item The Related Works section has been moved after the Introduction section. We also follow reviewers' suggestions and include discussions of related works concerning works of: 1) exploiting temporal models in the context of gesture recognition; 2) literature for \RGBD data using deep learning -
     ``Wang \emph{et al.}~\cite{wang2006hidden} introduced a discriminative hidden-state approach for the recognition of human gestures. However, their discriminative training is limited for pre-segmented gesture sequences and one layer of hidden states might not learn powerful enough high level representations for a larger corpus."
@@ -89,7 +89,7 @@ Thank you for your comments and the recognition of easy readability of the paper
 
 \ans{
 Thank you for your comments. In this revision, we implement the early fusion scheme in Section~\ref{early_fusion} that ``we adopt another layer of perceptron for cross modality learning taking the input from each individual net's penultimate layer.
-The parameters of two neural networks (for skeleton and depth) are loaded from the previously trained individual module...The results for the early fusion system are reported in Tab.~\ref{Table_score_fusion}. The fusion network is initialised by the pre-trained model and stacked with one hidden layer with 2024 hidden unites. We fine-tune the network and stop the training when the validation error rate stops decreasing ($\sim$15 epochs)...However, we can see from Tab.~\ref{Table_score_fusion} that the early fusion system does not outperform the late fusion system. The result is counter-intuitive because we expect that the early fusion  multimodal feature learning would extract semantically meaningful shared representations, outperforming individual modalities, and the early fusion scheme’s efficacy against the traditional method of late fusion~\cite{wu2014multimodal}. One possible explanation could be that one individual module has dominant effect on the learning process so as to screw the network towards learning that specific module. The mean activations of the neurons for each module in Fig.~\ref{fig:fusion} indicate the aforementioned conjecture."}
+The parameters of two neural networks (for skeleton and depth) are loaded from the previously trained individual module...The results for the early fusion system are reported in Tab.~\ref{Table_score_fusion}. The fusion network is initialised by the pre-trained model and stacked with one hidden layer with 2024 hidden unites. We fine-tune the network and stop the training when the validation error rate stops decreasing ($\sim$15 epochs)...However, we can see from Tab.~\ref{Table_score_fusion} that the early fusion system does not outperform the late fusion system. The result is counter-intuitive because we expect that the early fusion  multimodal feature learning would extract semantically meaningful shared representations, outperforming individual modalities, and the early fusion schemeÂ’s efficacy against the traditional method of late fusion~\cite{wu2014multimodal}. One possible explanation could be that one individual module has dominant effect on the learning process so as to screw the network towards learning that specific module. The mean activations of the neurons for each module in Fig.~\ref{fig:fusion} indicate the aforementioned conjecture."}
 
 \vspace{5mm}
 
@@ -332,18 +332,52 @@ In this paper, we adopt a different approach by focusing on deep feature learnin
 {\LARGE \noindent Response to Reviewer 4}\newline
 
 
+We thank the reviewer for his time and insightful comments.
+%
+Below, we provide our specific answers to his comments and to the unclear points that were raised,
+and what we have done to clarify the paper and take comments into account.
+%
+Note that in our answer, all references (Equations, Figures)
+refer to the new version unless stated otherwise.
+
+
+\rev{
+The paper purports 3 contributions.
+(1) the authors use deep learning to estimate emission probabilities for a HMM predicting gesture.
+
+(2) They use a 3d convolutional network. While the introduction makes it sound like this is for multiple-channels (e.g. RGB + Depth), sec. 3.3.2 makes it clear the 3rd dimension is time as the model processes 4 frame sub-sequences. I think, Fig. 6 could be clearer. 
+
+(3) Emission probability models are trained for both the skeletal data and depth data. They are then averaged (weighted) and used in an HMM. 
+
+Overall, I am convinced this paper solves the problem of gesture recognition with a novel combination of techniques. However, I am not convinced (1) any of the technical techniques themselves are particularly novel nor (2) that the chosen combination is the right one. Finally, (3) the results aren't particularly impressive (only matching state-of-the-art). Moreover, I have technical/philosophical objections which I'll elaborate on in the comments. 
+
+Learning to model HMM emission and transition parameters is an old idea (going back decades, 
+to at least the well known Baum-Welch algorithm) and 3D convolutional networks for video were explored by [11]. 
+
+Using RGB-D with deep learning is a common idea, explored by many concurrent works e.g. [A,B,C]. 
+[A] Dosovitskiy, A., Springenberg, J. T., Riedmiller, M., & Brox, T. (2014). Discriminative Unsupervised Feature Learning with Convolutional Neural Networks. arXiv Preprint arXiv: 1â€“13.
+
+[B] Gupta, S., Girshick, R., ArbelÃ¡ez, P., & Malik, J. (2014). Learning Rich Features from RGB-D Images for Object Detection and Segmentation. arXiv Preprint arXiv:1407.5736, 1â€“16. doi:10.1007/978-3-319-10584-0_23
+
+[C] Socher, R., Huval, B., Bhat, B., Manning, C. D., & Ng, A. Y. (2012). Convolutional-Recursive Deep Learning for 3D Object Classification. Advances in Neural Information Processing Systems 25, (i), 665â€“673.
+}
+
+
+
+
+
 \rev{Late fusion: my greatest technical concern is that two deep models are trained and then combined with a weighted average: s = a * s1 + (1-a)*s2 where a is chosen by cross-validation. Instead, the authors could combine the two models by creating a new top-level perceptron layer which takes the two models as input. Then this whole structure could be trained jointly with back-propagation. I'd expect results to be (1)at least as good and (2) more philosophically unified. }
 
 \ans{We agree with your insightful observation and continue experimenting with the early fusion scheme in this revision. Our previous paper~\cite{wu2014multimodal} utilized the early fusion scheme for audio and skeleton modules for action recognition. We followed that strategy and perform the early fusion scheme using penultimate layer in Section\ref{early_fusion}.
-``However, we can see from Table~\ref{Table_score_fusion} that the early fusion system does not outperform the late fusion system. The result is counter-intuitive because we expect that the early fusion  multimodal feature learning would extract semantically meaningful shared representations, outperforming individual modalities, and the early fusion scheme’s efficacy against the traditional method of late fusion~\cite{wu2014multimodal}. One possible explanation could be that one individual module has the dominant effect on the learning process so as to screw the network towards learning that specific module. The mean activations of the neurons for each modules in Fig.~\ref{fig:fusion} indicate the aforementioned conjecture."}
+``However, we can see from Table~\ref{Table_score_fusion} that the early fusion system does not outperform the late fusion system. The result is counter-intuitive because we expect that the early fusion  multimodal feature learning would extract semantically meaningful shared representations, outperforming individual modalities, and the early fusion schemeÂ’s efficacy against the traditional method of late fusion~\cite{wu2014multimodal}. One possible explanation could be that one individual module has the dominant effect on the learning process so as to screw the network towards learning that specific module. The mean activations of the neurons for each modules in Fig.~\ref{fig:fusion} indicate the aforementioned conjecture."}
 
 \vspace{5mm}
 
 \rev{The analysis is a bit brief. More experiments and ablative analysis could be added. Specifically, can we interpret the failure patterns of the proposed model(s) and prior work? It would be interesting to see statements like [40] fails more often on gestures of X kind because HOG erases Y useful information or [39] does worse for Z because it handles time at an earlier stage of the pipeline. Then, also giving some qualitative examples of these failures.}
 
 \ans{
-We agree that there is a lack of experiments’ analysis, especially the failure patterns and lessons learnt from the experiments. We have included more analysis in the Experiment and Analysis section as follows:
-``Examples of overall upper body movements’ influence on the system performance. Left (score: 0.94) performer almost kept a static upper body whilst performing Italian sign language. Right (score: 0.34) performer moved vehemently when performing the gestures.\ref{fig:bodydynamics}"
+We agree that there is a lack of experimentsÂ’ analysis, especially the failure patterns and lessons learnt from the experiments. We have included more analysis in the Experiment and Analysis section as follows:
+``Examples of overall upper body movementsÂ’ influence on the system performance. Left (score: 0.94) performer almost kept a static upper body whilst performing Italian sign language. Right (score: 0.34) performer moved vehemently when performing the gestures.\ref{fig:bodydynamics}"
 }
 
 \vspace{5mm}
@@ -370,9 +404,9 @@ Thank you for your detailed observation. Yes, the 3rd dimension of the input net
 
 \rev{
 Using RGB-D with deep learning is a common idea, explored by many concurrent works e.g. [A,B,C].
-[A] Dosovitskiy, A., Springenberg, J. T., Riedmiller, M., \& Brox, T. (2014). Discriminative Unsupervised Feature Learning with Convolutional Neural Networks. arXiv Preprint arXiv: 1–13.
+[A] Dosovitskiy, A., Springenberg, J. T., Riedmiller, M., \& Brox, T. (2014). Discriminative Unsupervised Feature Learning with Convolutional Neural Networks. arXiv Preprint arXiv: 1Â–13.
 \newline
-[B] Gupta, S., Girshick, R., Arbeláez, P., \& Malik, J. (2014). Learning Rich Features from RGB-D Images for Object Detection and Segmentation. arXiv Preprint arXiv:1407.5736, 1–16. doi:10.1007978-3-319-10584-0-23
+[B] Gupta, S., Girshick, R., ArbelÃ¡ez, P., \& Malik, J. (2014). Learning Rich Features from RGB-D Images for Object Detection and Segmentation. arXiv Preprint arXiv:1407.5736, 1Â–16. doi:10.1007978-3-319-10584-0-23
 \newline
 [C] Socher, R., Huval, B., Bhat, B., Manning, C. D., \& Ng, A. Y. (2012). Convolutional-Recursive Deep Learning for 3D Object Classification. Advances in Neural Information Processing Systems}
 
