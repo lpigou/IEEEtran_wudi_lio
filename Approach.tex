@@ -1,6 +1,6 @@
 
 
-\section{Model Formulation}
+\section{Model Formulation and overall approach}
 \label{sec:approach}
 
 \begin{figure}[t]
@@ -11,7 +11,8 @@
 \emissionprob{} (right) is modeled by forward-linked neural networks.
 %%
 More precisely, observations $\observation_t$ (skeletal features $\observationSK_t$, or RGB-D image features $\observationRGBD_t$)
-are first passed through appropriate deep neural nets (a Deep Belief Network -\DBN- for the skeletalon modality, and
+are first passed through appropriate deep neural nets (a Deep Belief Network -\DBN- pretrained with Gaussian-Bernouilli Restricted Boltzmann Machines 
+for the skeleton modality, and
  a 3D convolutional neural network -\ThreeDCNN- for the \RGBD  modality) to implictly extract high-level features (\highSK and \highRGBD)
 which are further fused to produce an estimate of $p(\observation_t|\hiddenstate_t)$.
 }
@@ -32,16 +33,18 @@ in Section~\ref{sec:ModelImplementation}.
 
 The proposed deep dynamic neural network \emph{(DDNN)} can be seen as an extension of~\cite{diwucvpr14}, where instead of only using the restricted Boltzmann machines to model human motion, various connectivity layers (fully connected layers, convolutional layers) are stacked together to learn higher level features justified by a variational bound~\cite{hinton2006fast} from different input modules.
 
-A continuous-observation HMM with discrete hidden states is adopted for modelling higher level temporal relationships.
+A continuous-observation HMM  is adopted for modelling higher level temporal relationships.
 At each time step $t$, we have one observed random variable $\observation_t$
-composed of the skeleton input $\observationSK_t$ and RGB-D input $\observationRGBD_t$
+composed of the skeleton input $\observationSK_t$ and RGB-D input images $\observationRGBD_t$
 as shown in the graphical representation in Fig.~\ref{fig:GM}.
 %
- The unobserved variable $\hiddenstate_t$ takes on values in a finite set  \finiteset composed of \numberhiddenstate states related to
-the different gestures. In practice,  $\hiddenstate_t$ can be interpreted as a segment of a gesture \gesturea{}.
+ The hidden state variable $\hiddenstate_t$ takes on values in a finite set  \finiteset composed of \numberhiddenstate states related to
+the different gestures. 
+ The intuition motivating the HMM model is that a gesture is composed of a sequence of poses where the relative duration of each pose may vary. 
+This variance is captured by allowing flexible forward transitions within a Markov chain.
+In practice,  $\hiddenstate_t$ can be interpreted as being in a particular phase  of a gesture \gesturea{}.
 
- The intuition motivating this construction is that a gesture is composed of a sequence of poses where the relative duration of each pose may vary. This variance is captured by allowing flexible forward transitions within the chain.
- Classically under the HMM assumption, the joint probability of observations and states is given by:
+Classically under the HMM assumption, the joint probability of observations and states is given by:
 \begin{equation}
 p(H_{1:T},X_{1:T}) = p(H_1)p(X_1 | H_1) \prod^{T}_{t=2} p(X_t | H_t ) p(H_t | H_{t-1}),
 \label{HMM_GM_1}
@@ -64,8 +67,8 @@ modelled by  deep neural networks in our case. These elements are presented belo
 \end{figure}
 
 
-\subsection{State-transition model}
-\label{sec:ProblemFormation}
+\subsection{State-transition model and inference}
+\label{sec:statemodel}
 
 
 The HMM framework can be used for simultaneous gesture segmentation and recognition.
