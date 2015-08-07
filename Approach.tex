@@ -1,6 +1,6 @@
 
 
-\section{Model Formulation and overall approach}
+\section{Model Formulation \& overall approach}
 \label{sec:approach}
 
 \begin{figure}[t]
@@ -11,7 +11,7 @@
 \emissionprob{} (right) is modeled by forward-linked neural networks.
 %%
 More precisely, observations $\observation_t$ (skeletal features $\observationSK_t$, or RGB-D image features $\observationRGBD_t$)
-are first passed through appropriate deep neural nets (a Deep Belief Network -\DBN- pretrained with Gaussian-Bernouilli Restricted Boltzmann Machines 
+are first passed through appropriate deep neural nets (a Deep Belief Network -\DBN- pretrained with Gaussian-Bernouilli Restricted Boltzmann Machines
 for the skeleton modality, and
  a 3D convolutional neural network -\ThreeDCNN- for the \RGBD  modality) to implictly extract high-level features (\highSK and \highRGBD)
 which are further fused to produce an estimate of $p(\observation_t|\hiddenstate_t)$.
@@ -39,8 +39,8 @@ composed of the skeleton input $\observationSK_t$ and RGB-D input images $\obser
 as shown in the graphical representation in Fig.~\ref{fig:GM}.
 %
  The hidden state variable $\hiddenstate_t$ takes on values in a finite set  \finiteset composed of \numberhiddenstate states related to
-the different gestures. 
- The intuition motivating the HMM model is that a gesture is composed of a sequence of poses where the relative duration of each pose may vary. 
+the different gestures.
+ The intuition motivating the HMM model is that a gesture is composed of a sequence of poses where the relative duration of each pose may vary.
 This variance is captured by allowing flexible forward transitions within a Markov chain.
 In practice,  $\hiddenstate_t$ can be interpreted as being in a particular phase  of a gesture \gesturea{}.
 

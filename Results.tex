@@ -69,59 +69,7 @@ Finally, Section~\ref{sec:ComputationalComplexity} will briefly discuss the comp
 
 
 
-\setlength{\fboxsep}{1pt}%
-\setlength{\fboxrule}{1pt}%
-\begin{figure}[t]
-       \centering
-        \begin{subfigure}[c]{0.15\textwidth}
-        \centering
-                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/3perfetto.PNG}}
-                \caption{``Perfetto"}
-        \end{subfigure}%
-        %
-        \begin{subfigure}[c]{0.15\textwidth}
-        \centering
-                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/3perfetto2.PNG}}
-                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
-                \caption{``Perfetto"}
-        \end{subfigure}
-       \begin{subfigure}[c]{0.15\textwidth}
-        \centering
-                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/18buonissimo2.PNG}}
-                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
-                \caption{``Buonissimo"}
-        \end{subfigure}
-        \\
-       \centering
-        \begin{subfigure}[c]{0.15\textwidth}
-        \centering
-                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/11ok.PNG}}
-                \caption{``OK"}
-        \end{subfigure}%
-        %
-        \begin{subfigure}[c]{0.15\textwidth}
-        \centering
-                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/15noncenepiu.PNG}}
-                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
-                \caption{``Non ce ne piu"}
-        \end{subfigure}
-       \begin{subfigure}[c]{0.15\textwidth}
-        \centering
-                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/9combinato.PNG}}
-                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
-                \caption{``Combinato"}
-        \end{subfigure}
-  \caption{
-%\mycomline{Add other examples of gestures, interesting to comment upon take them from chalearn website.
-%From the confusion matrix, i would propose: ``Basta'', buenissimo, daccordo, combinato}
-%\dwucomline{We may not show all the examples here}
-Examples of gestures in the Chalearn dataset.
-This dataset is challenging because the ``user independent" setting (a)\&(b), and some of gestures differ primarily in hand pose but not the overall arm motions (d)\&(e).
-Subtle hand movement (c) and differences in performing speed and range (f) also make recognising tasks challenging.
-%Note that some gestures primarily differ primarily in hand pose but not the arm motions, like ``OK'' \emph{vs} ``Non ce ne piu''. ``Basta" and ``Combinato" are the gestures that got mostly misclassified.
-  }
-\label{fig:chalearnclasses}
-\end{figure}
+
 
 
 %\mycomline{In this part, provide more information about the dataset: description, content, types of gestures (what are the classes), illustration of the gestures with some pictures (esp. for gestures that have impact on data -for example, expand fig 14 where yoou have the two ok and noncepiu examples with other ones, and put it earlier in the document. why is the dataset challenging ?\\
@@ -182,6 +130,79 @@ In terms of data, three modalities are provided with the input videos: the seque
 
 \subsection{Experimental protocol}
 
+\setlength{\fboxsep}{1pt}%
+\setlength{\fboxrule}{1pt}%
+\begin{figure}[t]
+       \centering
+        \begin{subfigure}[c]{0.15\textwidth}
+        \centering
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/3perfetto.PNG}}
+                \caption{``Perfetto"}
+        \end{subfigure}%
+        %
+        \begin{subfigure}[c]{0.15\textwidth}
+        \centering
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/3perfetto2.PNG}}
+                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+                \caption{``Perfetto"}
+        \end{subfigure}
+       \begin{subfigure}[c]{0.15\textwidth}
+        \centering
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/18buonissimo2.PNG}}
+                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+                \caption{``Buonissimo"}
+        \end{subfigure}
+        \\
+       \centering
+        \begin{subfigure}[c]{0.15\textwidth}
+        \centering
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/11ok.PNG}}
+                \caption{``OK"}
+        \end{subfigure}%
+        %
+        \begin{subfigure}[c]{0.15\textwidth}
+        \centering
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/15noncenepiu.PNG}}
+                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+                \caption{``Non ce ne piu"}
+        \end{subfigure}
+       \begin{subfigure}[c]{0.15\textwidth}
+        \centering
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/9combinato.PNG}}
+                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+                \caption{``Combinato"}
+        \end{subfigure}
+        \\
+            \centering
+        \begin{subfigure}[c]{0.15\textwidth}
+        \centering
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/13basta.PNG}}
+                \caption{``Basta"}
+        \end{subfigure}%
+        %
+        \begin{subfigure}[c]{0.15\textwidth}
+        \centering
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/5cheduepalle.PNG}}
+                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+                \caption{``Cheduepalle"}
+        \end{subfigure}
+       \begin{subfigure}[c]{0.15\textwidth}
+        \centering
+                \fbox{\includegraphics[width=2cm,height=2cm, clip]{images/original/7daccordo.PNG}}
+                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+                \caption{``Daccordo"}
+        \end{subfigure}
+  \caption{
+%\mycomline{Add other examples of gestures, interesting to comment upon take them from chalearn website.
+%From the confusion matrix, i would propose: ``Basta'', buenissimo, daccordo, combinato}
+%\dwucomline{We may not show all the examples here}
+Examples of gestures in the Chalearn dataset.
+This dataset is challenging because the ``user independent" setting (a)\&(b), some of gestures differ primarily in hand pose but not the overall arm motions (d)\&(e) and some gestures require both hands to perform (g,h,i).
+Subtle hand movement (c) and differences in performing speed and range (f) also make recognising tasks challenging.
+%Note that some gestures primarily differ primarily in hand pose but not the arm motions, like ``OK'' \emph{vs} ``Non ce ne piu''. ``Basta" and ``Combinato" are the gestures that got mostly misclassified.
+  }
+\label{fig:chalearnclasses}
+\end{figure}
 \subsubsection{Training and evaluation protocol}
 
 We follow the ChaLearn experimental protocol, in which the input sequences are split into 700 videos for training, and 240 sequences for testing and reporting results.
@@ -306,36 +327,11 @@ by considering gesture segments of less than 20 frames as noise and discarding t
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
- \begin{table}[rt]
-   \centering
-        \begin{tabular}{|ll||*{2}{c|}}\hline
-            %\backslashbox{Module}{Evaluation Set}
-             &  \% &  \makebox[3.5em]{Validation}&\makebox[3.5em]{Test}       \\\hline\hline
-            \multirow{2}{*}{Skeleton - DBDN}       & \eventaccuracy                & 86.3     & 83.6 \\
-                                            &  \eventconfused           & 11.4     & 12.3 \\
-                                            &  \eventmissed           &  2.3     &   4.1 \\\hline\hline
-            \multirow{2}{*}{RGB-D - 3DCNN}    & \eventaccuracy              & 78.7     & 75.8  \\
-                                            &  \eventconfused           & 5.2     &  4.5 \\
-                                            &  \eventmissed           & 16.1     & 19.7  \\\hline\hline
-
-            \multirow{2}{*}{Multimodal Late Fusion}   &  \eventaccuracy    & 87.9     & 86.4 \\
-                                                      &  \eventconfused    & 9.1     & 8.7 \\
-                                                      &  \eventmissed      & 3.0      & 4.9 \\\hline
-           \multirow{2}{*}{Multimodal Early Fusion}   &  \eventaccuracy    & 86.5     & 85.5\\
-                                                      &  \eventconfused    & 7.3      & 6.8 \\
-                                                      &  \eventmissed      & 6.2      & 7.7 \\\hline
-        \end{tabular}
-\vspace*{-2mm}
-    \caption{
-       Gesture classification performance at the event level, in percentage of the number of ground truth gestures.
-%\mycomline{table to be finished as for the skeleton}
-          }
-          \label{tab:eventperformance}
-\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Results}\label{sec:results}
+
 
 %\mycomline{Confusion matrices are fine. However, would it be possible to know the classifiction accuracy of the different classes, for each modality? (i.e the diagonal elements of the confusion matrix? i.e. for instance to look at lowest/highest results? and it improves with fusion?}
 
@@ -364,7 +360,32 @@ as shown by the recognition rate increase and the smaller drop in the generaliza
 %, both at the \jaccardindex and event level
 (for instance the decrease of the \eventaccuracy rate is lower than for the skeleton data alone).
 
+ \begin{table}[rt]
+   \centering
+        \begin{tabular}{|ll||*{2}{c|}}\hline
+            %\backslashbox{Module}{Evaluation Set}
+             &  \% &  \makebox[3.5em]{Validation}&\makebox[3.5em]{Test}       \\\hline\hline
+            \multirow{2}{*}{Skeleton - DBDN}       & \eventaccuracy                & 86.3     & 83.6 \\
+                                            &  \eventconfused           & 11.4     & 12.3 \\
+                                            &  \eventmissed           &  2.3     &   4.1 \\\hline\hline
+            \multirow{2}{*}{RGB-D - 3DCNN}    & \eventaccuracy              & 78.7     & 75.8  \\
+                                            &  \eventconfused           & 5.2     &  4.5 \\
+                                            &  \eventmissed           & 16.1     & 19.7  \\\hline\hline
 
+            \multirow{2}{*}{Multimodal Late Fusion}   &  \eventaccuracy    & 87.9     & 86.4 \\
+                                                      &  \eventconfused    & 9.1     & 8.7 \\
+                                                      &  \eventmissed      & 3.0      & 4.9 \\\hline
+           \multirow{2}{*}{Multimodal Early Fusion}   &  \eventaccuracy    & 86.5     & 85.5\\
+                                                      &  \eventconfused    & 7.3      & 6.8 \\
+                                                      &  \eventmissed      & 6.2      & 7.7 \\\hline
+        \end{tabular}
+\vspace*{-2mm}
+    \caption{
+       Gesture classification performance at the event level, in percentage of the number of ground truth gestures.
+%\mycomline{table to be finished as for the skeleton}
+          }
+          \label{tab:eventperformance}
+\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -449,11 +470,7 @@ RGB-D ConvNet's (0.57 \emph{vs.} 0.056) can be an indicator of such a bias durin
 support this conjecture, even if these mean activations are not directly comparable
 due to the neuron heterogeneity (the skeleton DBN has logistic units whereas the 3DCNN ConvNet has relu units).
 %
-Note that such heterogeneity was not present when fusing modalities  in \cite{Ngiam2011multimodal},
-where better registration and less spatial registration variability in lip images
-allowed to also resort to the same stacked RBMs for the visual modality (rather than \ThreeDCNN)  and the audio one.
-%
-More investigation on how to handle heteregeneous networks  should be conducted.
+Further investigation on how to better address this heterogeneity should be conducted.
 
 
 %\mycomline{In this comment on the results and benefit of the temporal model, as we discussed.}
@@ -506,8 +523,8 @@ The performance of recent state-of-the-art techniques is given in Table~\ref{tab
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=.7\textwidth]{images/WO_HMM_703.pdf}
-  \caption{The output probabilities are shown for a sequence fragment for the test set \#703. The dashed line represents silence and different colour represent different gestures. Without temporal modelling, the decision boundary of a gesture will be more rugged and it is more difficult to make hard decisions of where the gesture starts or ends. Because of the temporal modelling and Viterbi path decoding, the gesture boundary will have a clean jump from the ergodic state to the gesture states, resembling the behavior of the manual annotators with better accuracy.}
+  \includegraphics[width=.7\textwidth]{images/output.png}
+  \caption{The output probabilities are shown for a sequence fragment for the test set \#703. The dashed line represents silence and different colour represent different gestures. Without temporal modelling, the decision boundary of a gesture will be more rugged and it is more difficult to make hard decisions of where the gesture starts or ends. Hence, it causes miss-detection and miss-merging. Because of the temporal modelling and Viterbi path decoding, the gesture boundary will have a clean jump from the ergodic state to the gesture states, resembling the behavior of the manual annotators with better accuracy.}
     \label{fig:temporalModellingComparision}
 \end{figure*}
 
@@ -517,14 +534,14 @@ The performance of recent state-of-the-art techniques is given in Table~\ref{tab
         \centering
         \begin{subfigure}[c]{.5\textwidth}
         \centering
-                \includegraphics[width=8cm,height=2cm, clip]{images/original/original_images_gray_body_9combinato_stable.png}
+                \includegraphics[width=8cm,height=2cm, clip]{images/original806.png}
                 \caption{Sample \#806}
         \end{subfigure}%
         %
         \\
         \begin{subfigure}[c]{0.5\textwidth}
         \centering
-                \includegraphics[width=8cm,height=2cm, clip]{images/original/original_images_gray_body_9combinato_unstable.png}
+                \includegraphics[width=8cm,height=2cm, clip]{images/original702.png}
                 %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
                 \caption{Sample \#702}
         \end{subfigure}
@@ -548,8 +565,8 @@ While most performers tend to keep their upper-body static while performing the 
             \\\hline\hline
 
             {~\cite{Monnier2014multi}} {\scriptsize 3 set skeletal \& HOG, Boosted classifier}                    &  0.791     & -           & 0.822 \\\hline
-            {~\cite{Chang2014multi}}  {\scriptsize 3D skeletal pose \& HOG, MRF }            &  \textbf{0.795}& -        & 0.827\\\hline
-            {~\cite{Peng2014multi}}  {\scriptsize  Dense trajectory   }                       &  -         &\textbf{0.792}& - \\\hline
+            {~\cite{Chang2014multi}}  {\scriptsize 3D skeletal pose \& HOG, MRF }            &  0.790& -        & 0.827\\\hline
+            {~\cite{Peng2014multi}}  {\scriptsize  Dense trajectory (HOG, HOF, MBH)  }                       &  -         &0.792& - \\\hline
             {~\cite{camgoz2014gesture}} {\scriptsize Template based Random Forest Classifier} &      -     &      -       & 0.747    \\\hline
             {~\cite{evangelidis2014continuous}} {\scriptsize Fisher Vector, Dynamic Programming} &      0.745     &      -       & -  \\\hline
             {~\cite{chen2014multi}} {\scriptsize Independent Subspace Analysis, RF } &      -     &      0.649       & -    \\\hline

@@ -15,13 +15,14 @@ Furthermore, as discussed in the evaluation paper of Wang \emph{et al.}~\cite{wa
 For this reason, even though handcrafted features have dominated image recognition in previous years, there has been a growing interest in learning low-level and mid-level features, either in supervised, unsupervised, or semi-supervised settings~\cite{taylor2010convolutional,le2011learning,baccouche2005spatio}.
 %Albeit the dominant methodology for visual recognition from images and videos relies on hand-crafted features, there has been a growing interest in methods that learn low-level and mid-level features, either in supervised, unsupervised, or semi-supervised settings~\cite{taylor2010convolutional,le2011learning,baccouche2005spatio}.
 
-Due to the recent resurgence of neural networks invoked by Hinton and others~\cite{hinton2006fast}, 
+
+Due to the recent resurgence of neural networks invoked by Hinton and others~\cite{hinton2006fast},
 deep neural architectures serve as an effective solution for extracting high-level features from data.
-Deep artificial neural networks have won numerous contests in pattern recognition and representation learning. 
+Deep artificial neural networks have won numerous contests in pattern recognition and representation learning.
 Schmidhuber~\cite{schmidhuber2014deep} compiled a historical survey compactly summarising relevant works with more than 850 entries of credited works.
-From this overview we see that these models have been successfully applied to a plethora of different domains: the GPU-based cuda-convnet~\cite{krizhevsky2012imagenet} classifies 1.2 million high-resolution images into 1000 different classes; multi-column deep neural networks~\cite{ciresan2012multi} achieve near-human performance on the handwritten digits and traffic signs recognition benchmarks; 3D convolutional neural networks~\cite{3dcnn}~\cite{ji20133d} recognise human actions in surveillance videos; deep belief networks combined with hidden Markov models~\cite{mohamed2012acoustic}~\cite{diwucvpr14} for acoustic and skeletal joints modelling outperform the decade-dominating paradigm of Gaussian mixture models in conjunction with hidden Markov models. 
+From this overview we see that these models have been successfully applied to a plethora of different domains: the GPU-based cuda-convnet~\cite{krizhevsky2012imagenet} classifies 1.2 million high-resolution images into 1000 different classes; multi-column deep neural networks~\cite{ciresan2012multi} achieve near-human performance on the handwritten digits and traffic signs recognition benchmarks; 3D convolutional neural networks~\cite{3dcnn}~\cite{ji20133d} recognise human actions in surveillance videos; deep belief networks combined with hidden Markov models~\cite{mohamed2012acoustic}~\cite{diwucvpr14} for acoustic and skeletal joints modelling outperform the decade-dominating paradigm of Gaussian mixture models in conjunction with hidden Markov models.
 %
-Multimodal deep learning technique were also investigated \cite{Ngiam2011multimodal} to learn cross-modality representation, 
+Multimodal deep learning technique were also investigated \cite{Ngiam2011multimodal} to learn cross-modality representation,
 for instance in the context of audio-visual speech recognition.
 %
 And recently, Baidu research proposed a DeepSpeech system~\cite{hannun2014deepspeech} that combines a well-optimised recurrent neural network (RNN) training system, achieving the best error rate on noisy speech dataset. In these fields, deep architectures have shown great capacity to discover and extract higher level relevant features.
@@ -35,12 +36,12 @@ While gesture recognition based on 3D joint positions may seem trivial, it is ac
 A second aspect that further complicates the recognition is the segmentation of the different gestures. While in practice segmentation is as important as the recognition, it is an often neglected aspect of the current action recognition research which often assume the availability of segmented inputs~\cite{laptev2005space}~\cite{marszalek09}~\cite{Kuehne11}.
 
 In this paper we aim to address these issues by proposing a data driven system, focusing on analysis of acyclic video sequence labelling problems, \emph{i.e.} video sequences that are non-repetitive as opposed to longer repetitive activities, \textit{e.g.} jogging, walking and running. This paper is an extension of the works of~\cite{diwucvpr14},~\cite{wu2014deep} and~\cite{lio2014deep}.
-Within a temporal framework allowing the labelling of videos in a frame-by-frame fashion, 
+Within a temporal framework allowing the labelling of videos in a frame-by-frame fashion,
 thus making it possible for online gesture recognition, the key contributions can be summarised as follows:
 \begin{itemize}
 \item A Gaussian-Bernoulli Deep Belief Network is proposed to extracts high-level skeletal joint features and the learned representation is used to estimate the emission probability needed to infer gesture sequences;
 \item A 3D Convolutional Neural Network  is proposed to extract features from multiple channel inputs such as depth and  RGB images;
-\item Early and late fusion strategies are investigated within the temporal modelling. The result of both mechanisms 
+\item Early and late fusion strategies are investigated within the temporal modelling. The result of both mechanisms
 show that multiple-channel fusions outperform individual modules.
 \end{itemize}
 
