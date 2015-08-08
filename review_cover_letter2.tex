@@ -2,6 +2,8 @@
 \usepackage{url,graphicx,tabularx,array}
 \usepackage{color}
 \usepackage[margin=22mm,nohead,nofoot]{geometry}
+\usepackage{xr}
+\externaldocument{bare_jrnl_compsoc}
 \begin{document}
 
 \begin{center}
@@ -47,41 +49,30 @@ Before summarizing the main changes in the paper, we would like to recall the ma
 contributions of the paper:
 \begin{itemize}
 \item A Gaussian-Bernoulli Deep Belief Network is proposed to extracts high-level skeletal joint features and the learned representation is used to estimate the emission probability needed to infer gesture sequences;
-\item A 3D Convolutional Neural Network  is proposed to extract features from 2D multiple channel inputs 
-like  depth and RGB images stacked along the 1D temporal domain;
-\item Early and late fusion strategies are investigated within the temporal modelling. The result of both mechanisms
-show that multiple-channel fusions outperform individual modules.
+\item A learning framework is proposed to extract temporal features jointly from multiple channel inputs of RGB images and depth images. Because the features are learned from raw 2D images stacked along the 1D temporal domain, we refer our approach as 3D Convolutional Neural Network;
+\item Intermediate fusion and late fusion are investigated as different strategies to model emission probability within the temporal modeling. Both strategies show that multiple-channel fusions outperform each individual module.
 \end{itemize}
 
 
 {\noindent \em Major modifications}: We now would like to summarize the main changes done to the manuscript:
 
 \begin{itemize}
-\item In the previous version for multimodal fusion, we used the late fusion scheme  $s = a * s1 + (1-a)*s2$ where $a$ is chosen by cross-validation. In this revision, we implement an early fusion scheme in Section~\ref{early_fusion} that a new-top level perceptron layer is created to combine two models' output as in Fig.~\ref{fig:fusion}. The new multimodal neural network's parameters are initialised by the previously trained individual module, taking advantage of different modules intrinsic properties and making the network converge much faster. The early fusion system uses pre-trained weights. The results are reported in  Section~\ref{early_fusion} and Table~\ref{Table_score_fusion}.
+\item {\em Intermediate fusion:} In the previous version for multimodal fusion, we used the late fusion scheme  $s = a * s1 + (1-a)*s2$ where $a$ is chosen by cross-validation. In this revision, we implement an intermediate fusion scheme in Section~\ref{early_fusion} that a new-top level perceptron layer is created to combine two models' output as in Fig.~\ref{fig:fusion}. The new multimodal neural network's parameters are initialised by the previously trained individual module, taking advantage of different modules intrinsic properties and making the network converge much faster. The intermediate fusion system uses pre-trained weights. The results are reported in  Section~\ref{early_fusion} and Table~\ref{Table_score_fusion}.
 
-\item The Related Works section has been moved after the Introduction section. We also follow reviewers' suggestions and include discussions of related works concerning works of: 1) exploiting temporal models in the context of gesture recognition; 2) literature for \RGBD data using deep learning -
-    ``Wang \emph{et al.}~\cite{wang2006hidden} introduced a discriminative hidden-state approach for the recognition of human gestures. However, their discriminative training is limited for pre-segmented gesture sequences and one layer of hidden states might not learn powerful enough high level representations for a larger corpus."
-    ``In the field of deep learning from RGBD data, Socher \emph{et al.}~\cite{socher2012convolutional} proposed a single convolutional neural net layer for each modality as input to multiple, fixed-tree RNNs in order to compose higher order features for 3D object classification. The single convolutional neural net layer provides useful translational invariance of low level features such as edges and allows parts of an object to be deformable to some extent. The pooled filter responses are then given to a recursive neural network to learn compositional features and part interactions.
-    Gupta \emph{et al.}~\cite{gupta2014learning} proposed a geocentric embedding for depth images that encodes height above ground and angle with gravity for each pixel in addition to the horizontal disparity. The depth image was represented by three channels: horizontal disparity, height above ground and angle with gravity. This augmented representation allows the CNN to learn strong features than by using disparity (or depth) alone. "
+\item {\em Related Works section:} The Related Works section has been moved after the Introduction section. We also follow reviewers' suggestions and include discussions of related works concerning works of: 1) exploiting temporal models in the context of gesture recognition, notably a discriminative hidden-state approach for the recognition of human gestures introduced by Wang \emph{et al.}~\cite{wang2006hidden} ; 2) literature for RGBD data using deep learning, which includes the use of recurrent neural networks by Socher \emph{et al.}~\cite{socher2012convolutional} and applying convolutional neural networks on top of geocentric embedding for depth images by Gupta \emph{et al.}~\cite{gupta2014learning}
 
-\item Experimental analysis. We have included some time analysis in Section~\ref{sec:ComputationalComplexity} and visualisation of response maps after learnt filters in Fig~\ref{3dcnn_filters}.
+\item {\em Experimental analysis:} We have included some time analysis in Section~\ref{sec:ComputationalComplexity} and visualisation of response maps after learnt filters in Fig~\ref{3dcnn_filters}. We also gave qualitative remarks on these filter banks. Regarding the quantitative results, we have added more analysis on failure patterns and lessons learnt from the experiments.
 
-\item Explanation of intuition behind higher level presentation of the skeleton features. We include Section \ref{sec:ProblemFormation} to explain the intuition behind higher level representation for skeleton joint features which appeared in our previous CVPR paper but was not included in the previous submission. We think this part is one of major contributions of the paper and inclusion of this section makes the journal paper more self-contained.
+\item {\em Explanation of intuition behind higher level presentation of the skeleton features:} We include Section \ref{sec:ProblemFormation} to explain the intuition behind higher level representation  for skeleton joint features which appeared in our previous CVPR paper but was not included in the previous submission. We think this part is one of major contributions of the paper and inclusion of this section makes the journal paper more self-contained.
 \end{itemize}
 
 \noindent {\em Minor modifications}: We have addressed all reviewer's comments, most with direct modifications in the paper. We would like to
 highlight a few relevant points:
 \begin{itemize}
- \item {\em Person-invariance} (cf Rev1): We have clarified the person invariance aspect of our method within the eye image
- to gaze parameters mapping function. Therefore, we better described the contexts  in which the alignment is used,
- which do not contradict the invariance claim.
 %
- \item {\em EYEDIAP}: We clarified to Rev3 and the reader that the automatic annotation process is of high quality. Many frames are ignored because
- the visual target (ground truth) can not be determined, like when the ball target leaves the sensor  field of view. EYEDIAP consists
- of {\em non-stop} recordings, where such events are common.
+ \item {\em 3D Convolutional Neural Networks}: We clarified accordingly to Rev4 and the readers that the $3^{rd}$ dimension of the input is indeed the time axis. However, RGB and Depth data are jointly processed by the neural networks, which justifies the multiple-channel naming convention.
 %
- \item {\em RGB-D based methods} (cf Rev1): We cited and discussed the only and very recent RGB-D based gaze estimation methods.
- These rely on local features tracking from higher resolution data and were tested on less challenging conditions than in our paper.
+ \item {\em Parameters and formula interpretation} (cf Rev3): While discussing model formulation, we have added more description and intuitive explanation of unobserved variable $\ensuremath{H}\xspace_t$. We also corrected and clarified the number of frames assigned to each hidden state.
 \end{itemize}
 
 We hope that these new experiments, clarifications, and paper modifications will satisfy the reviewers as well as address your own comments. 
