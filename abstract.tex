@@ -1,9 +1,9 @@
 \begin{abstract}
 This paper describes a novel method called deep dynamic neural networks \emph{(DDNN)} for  multimodal gesture recognition.
 %
-More precisely, a semi-supervised hierarchical dynamic framework relying a Hidden Markov Model (HMM) 
-is proposed for simultaneous gesture segmentation and recognition taking skeleton joints, 
-depth and RGB images as input observations.
+More precisely, a semi-supervised hierarchical dynamic framework based on a Hidden Markov Model (HMM) 
+is proposed for simultaneous gesture segmentation and recognition where skeleton joint information, 
+depth and RGB images are the multimodal input observations.
 %
 Unlike most traditional approaches which rely on the construction of complex handcrafted features as HMM inout features, 
 our approach learns high-level spatio-temporal representations using  deep neural networks suited to the input modality: 
@@ -13,8 +13,7 @@ and a 3D convolutional neural networks (\ThreeDCNN) to manage and fuse batches o
 This achieved through the modeling and learning of the  emission probabilities of the HMM required to infer the gesture sequence.
 %The framework can be easily extended by including an ergodic state to segment and recognise video sequences by a frame-to-frame mechanism, making online segmentation and recognition possible.
 This purely data driven approach achieves a score of \textbf{\emph{0.81}} in the ChaLearn LAP gesture spotting challenge. 
-The performance is on par with a variety of the state-of-the-art hand-tuned feature approaches and other learning based methods, 
-opening the door for using deep learning techniques to further explore multimodal time series.
+The performance is on par with a variety of the state-of-the-art hand-tuned feature based approaches and other learning based methods. Thus opening the door for using deep learning techniques to further explore multimodal time series.
 \end{abstract}
 
 
