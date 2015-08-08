@@ -232,7 +232,7 @@ each  being 4  consecutive 64 by 64 frames stacked together. See text for furthe
 Although DeepMind technology~\cite{mnih2013playing} presented the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using deep reinforcement learning, working directly with raw input Kinect recorded data frames, which are $640 \times 480$ pixel images, can be computationally demanding.
 Therefore, our first step in the preprocessing stage consists of cropping the highest hand and the upper body using the given joint information. In the Chalearn dataset, we determined that the highest hand is the most interesting. When both hands are used, they normally perform the same (mirrored) movement, and when one hand is used, it is always the highest one which is relevant.
 Furthermore, to be invariant to handedness, we always train the model with the right hand view.
-That is, when the left hand is actually the performing hand, the video was mirrored.
+That is, when the left hand is actually  performing the action, the video was mirrored.
 
 
 The preprocessing results in four video samples (body and hand with grayscale and depth) of resolution $64\times64$.

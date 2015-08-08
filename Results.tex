@@ -483,8 +483,8 @@ More investigation on how to handle heteregeneous networks  should be conducted.
 
 \mypartitle{HMM benefit.}
 %
-As the emission probabilities are learned in a discrimimate fashion, one may wonder whether the HMM brings benefit beyond smoothing.
-To investigate this issue, we removed the temporal structure in the following way:
+As the emission probabilities are learned in a discrimimative manner, one could  wonder whether the HMM brings benefit beyond smoothing.
+To investigate this issue, we removed the temporal structure as follows:
 for a given gesture \gesturea, we computed its score at time $t$, $Score(\gesturea,t)$, by summing the emission
 log-probabilities $p(\observation_t|\hiddenstate_t = \hiddenstatenode)$ for all nodes associated to that gesture,
 \ie $\hiddenstatenode \in \finiteset_{\gesturea}$.
