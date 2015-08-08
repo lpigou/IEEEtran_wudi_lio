@@ -1,0 +1,122 @@
+\documentclass[12pt]{article}
+\usepackage{url,graphicx,tabularx,array}
+\usepackage{color}
+\usepackage[margin=22mm,nohead,nofoot]{geometry}
+\begin{document}
+
+\begin{center}
+\end{center}
+
+\newcommand{\rev}[1]{{\noindent {\bf Comment:} {\it #1}}~\\}
+\newcommand{\ans}[1]{{\noindent {\bf Response:} #1}~\\}
+
+
+\begin{flushleft}
+August 9th, 2015
+\end{flushleft}
+
+\vspace*{3mm}
+
+\begin{flushleft}
+To: Editor TPAMI?
+\end{flushleft}
+
+\begin{flushleft}
+Obj: \#VISI-D-14-00453 submission - {\em Deep Dynamic Neural Networks for Multimodal Gesture
+Segmentation and Recognition}.
+\end{flushleft}
+
+\vspace*{3mm}
+
+\pagestyle{empty}
+
+\noindent Dear Guest Editor,
+\newline
+
+This letter is in response to the review of our submitted manuscript referenced above on 
+multimodal gesture recognition using dynamic deep neural networks.
+%
+We would first like to thank  the reviewers and guest editor for their time and valuable comments.
+We have taken into careful consideration each one of these comments, and have prepared a detailed response
+in a separate document adjoint to this letter. 
+We have made this answer as self-contained as possible to facilitate the review process.
+%
+Furthermore, addressing these comments led to many improvements of the manuscript. 
+%
+Before summarizing the main changes in the paper, we would like to recall the main characteristics and 
+contributions of the paper:
+\begin{itemize}
+\item A Gaussian-Bernoulli Deep Belief Network is proposed to extracts high-level skeletal joint features and the learned representation is used to estimate the emission probability needed to infer gesture sequences;
+\item A 3D Convolutional Neural Network  is proposed to extract features from 2D multiple channel inputs 
+like  depth and RGB images stacked along the 1D temporal domain;
+\item Early and late fusion strategies are investigated within the temporal modelling. The result of both mechanisms
+show that multiple-channel fusions outperform individual modules.
+\end{itemize}
+
+
+{\noindent \em Major modifications}: We now would like to summarize the main changes done to the manuscript:
+
+\begin{itemize}
+\item In the previous version for multimodal fusion, we used the late fusion scheme  $s = a * s1 + (1-a)*s2$ where $a$ is chosen by cross-validation. In this revision, we implement an early fusion scheme in Section~\ref{early_fusion} that a new-top level perceptron layer is created to combine two models' output as in Fig.~\ref{fig:fusion}. The new multimodal neural network's parameters are initialised by the previously trained individual module, taking advantage of different modules intrinsic properties and making the network converge much faster. The early fusion system uses pre-trained weights. The results are reported in  Section~\ref{early_fusion} and Table~\ref{Table_score_fusion}.
+
+\item The Related Works section has been moved after the Introduction section. We also follow reviewers' suggestions and include discussions of related works concerning works of: 1) exploiting temporal models in the context of gesture recognition; 2) literature for \RGBD data using deep learning -
+    ``Wang \emph{et al.}~\cite{wang2006hidden} introduced a discriminative hidden-state approach for the recognition of human gestures. However, their discriminative training is limited for pre-segmented gesture sequences and one layer of hidden states might not learn powerful enough high level representations for a larger corpus."
+    ``In the field of deep learning from RGBD data, Socher \emph{et al.}~\cite{socher2012convolutional} proposed a single convolutional neural net layer for each modality as input to multiple, fixed-tree RNNs in order to compose higher order features for 3D object classification. The single convolutional neural net layer provides useful translational invariance of low level features such as edges and allows parts of an object to be deformable to some extent. The pooled filter responses are then given to a recursive neural network to learn compositional features and part interactions.
+    Gupta \emph{et al.}~\cite{gupta2014learning} proposed a geocentric embedding for depth images that encodes height above ground and angle with gravity for each pixel in addition to the horizontal disparity. The depth image was represented by three channels: horizontal disparity, height above ground and angle with gravity. This augmented representation allows the CNN to learn strong features than by using disparity (or depth) alone. "
+
+\item Experimental analysis. We have included some time analysis in Section~\ref{sec:ComputationalComplexity} and visualisation of response maps after learnt filters in Fig~\ref{3dcnn_filters}.
+
+\item Explanation of intuition behind higher level presentation of the skeleton features. We include Section \ref{sec:ProblemFormation} to explain the intuition behind higher level representation for skeleton joint features which appeared in our previous CVPR paper but was not included in the previous submission. We think this part is one of major contributions of the paper and inclusion of this section makes the journal paper more self-contained.
+\end{itemize}
+
+\noindent {\em Minor modifications}: We have addressed all reviewer's comments, most with direct modifications in the paper. We would like to
+highlight a few relevant points:
+\begin{itemize}
+ \item {\em Person-invariance} (cf Rev1): We have clarified the person invariance aspect of our method within the eye image
+ to gaze parameters mapping function. Therefore, we better described the contexts  in which the alignment is used,
+ which do not contradict the invariance claim.
+%
+ \item {\em EYEDIAP}: We clarified to Rev3 and the reader that the automatic annotation process is of high quality. Many frames are ignored because
+ the visual target (ground truth) can not be determined, like when the ball target leaves the sensor  field of view. EYEDIAP consists
+ of {\em non-stop} recordings, where such events are common.
+%
+ \item {\em RGB-D based methods} (cf Rev1): We cited and discussed the only and very recent RGB-D based gaze estimation methods.
+ These rely on local features tracking from higher resolution data and were tested on less challenging conditions than in our paper.
+\end{itemize}
+
+We hope that these new experiments, clarifications, and paper modifications will satisfy the reviewers as well as address your own comments. 
+
+\vspace*{2mm}
+We thank you again for your time and consideration of our manuscript.
+
+%% We would like to address your particular comment: {``\em The paper has received reviews from three experts who suggest major/minor revisions.  The authors should prepare a major revision that addresses all of the concerns below. I'd be particularly keen to see a comparison with recent landmark-based normalization as suggested by Reviewer 3, and a proper consideration of related work on 3DMMs.''}
+
+%% As mentioned previously, we made a comparison using a recent automatic landmark detection method, as you 
+%% will  find in the revised manuscript. We have also considered related works on 3DMM's, as for example, the recent work by Egger et al (2014).{\color{red} todo.. what to say here?}
+
+
+\vspace*{8mm}
+
+\noindent Sincerely,\\[3mm]
+%
+Kenneth Alberto Funes Mora and Jean-Marc Odobez
+
+
+
+\newpage
+
+
+\end{document}
+
+
+
+% \ans{Thanks to the Editor and \ldots
+% \newline
+% \newline
+% 
+% We have conducted experiments on facial landmarks and the accuracy of the head pose tracker
+% 
+% Experiment on systematic alignment deviations
+% 
+% }
+
