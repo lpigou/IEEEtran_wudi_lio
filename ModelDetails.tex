@@ -329,7 +329,7 @@ As depth images are smoother than the grayscale ones, the corresponding filter a
 
 \subsection{Multimodal Fusion}
 To combine the two modalities, two strategies can be used, as shown in Fig.~\ref{fig:fusion}:
-a late fusion approach and an early fusion approach.
+a late fusion approach and an intermediate fusion approach.
 
 
 \subsubsection{Late Fusion}
@@ -376,9 +376,9 @@ and that the joint training should adjust parameters to handle  this heterogenei
   \includegraphics[width=0.5\textwidth]{images/Fusion_combined}
 \vspace*{-2mm}
 \caption{
-Multimodal dynamic networks with late fusion scheme (left) and early fusion scheme (right).
+Multimodal dynamic networks with late fusion scheme (left) and intermediate fusion scheme (right).
 The late approach simply combines the emission probabilities from two modalities.
-In the early fusion scheme, each modality (skeleton and \RGBD) is first pre-trained separately,
+In the intermediate fusion scheme, each modality (skeleton and \RGBD) is first pre-trained separately,
 and their high-level representation \highSK and \highRGBD (the penultimate node layers of their neural networks)
 are concatenated to generate a shared representation. The resulting architecture is trained jointly.
   }\label{fig:fusion}

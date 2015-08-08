@@ -289,7 +289,7 @@ while around frame 1450, the 3DCNN module can help suppress the false positive p
 \subsubsection{Tested systems}
 
 We evaluated the recognition performance made by the HMM applied to the emission probabilities estimated from either
-the skeleton data, the RGB-D image data, the late fusion scheme, and the early fusion scheme.
+the skeleton data, the RGB-D image data, the late fusion scheme, and the intermediate fusion scheme.
 %
 Note that in all cases the HMM output was further filtered to avoid false alarms,
 by considering gesture segments of less than 20 frames as noise and discarding them.
@@ -314,7 +314,7 @@ by considering gesture segments of less than 20 frames as noise and discarding t
             {\small Skeleton -- DBDN }            &  0.783    & 0.779 \\\hline
             {\small RGB-D -- 3DCNN }      &  0.752    & 0.717 \\\hline%\hline
             {\small Multimodal Late Fusion }              &  0.817    & 0.809 \\\hline
-            {\small Multimodal Early Fusion }             &  0.800    & 0.798 \\\hline
+            {\small Multimodal Inter. Fusion }             &  0.800    & 0.798 \\\hline
         \end{tabular}
 \vspace*{-2mm}
     \caption{Results in terms of Jaccard index \jaccardindex for the different network structures and modalities modeling the emission probabilities.
@@ -375,7 +375,7 @@ as shown by the recognition rate increase and the smaller drop in the generaliza
             \multirow{2}{*}{Multimodal Late Fusion}   &  \eventaccuracy    & 87.9     & 86.4 \\
                                                       &  \eventconfused    & 9.1     & 8.7 \\
                                                       &  \eventmissed      & 3.0      & 4.9 \\\hline
-           \multirow{2}{*}{Multimodal Early Fusion}   &  \eventaccuracy    & 86.5     & 85.5\\
+           \multirow{2}{*}{Multimodal Inter. Fusion}   &  \eventaccuracy    & 86.5     & 85.5\\
                                                       &  \eventconfused    & 7.3      & 6.8 \\
                                                       &  \eventmissed      & 6.2      & 7.7 \\\hline
         \end{tabular}
@@ -452,16 +452,16 @@ like differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynami
 
 \mypartitle{Late vs. Intermediate  fusion.}
 %
-The results in Tab.~\ref{tab:jaccardperformance} and~\ref{tab:eventperformance} show that the early fusion system
+The results in Tab.~\ref{tab:jaccardperformance} and~\ref{tab:eventperformance} show that the intermediate fusion system
 improved individual modalities, but without outperforming the late fusion system.
 %
-The result is counter-intuitive, as we would have expected the cross-modality learning in the early fusion scheme
+The result is counter-intuitive, as we would have expected the cross-modality learning in the intermediate fusion scheme
 to result in better emission probability predictions, as compared to the simple score fusion in the late system.
 %
-One possible explanation is that the independance assumption of the late scheme better preserves both
+One possible explanation is that the independence assumption of the late scheme better preserves both
 the complementarity and redundancy of the different modalities, properties which are important for fusion.
 %
-Another related explanation is that in the early fusion learning process,
+Another related explanation is that in the intermediate fusion learning process,
 one modality may dominate and  skew the network towards  learning that specific module and
 lowering the importance of the other one.
 %
