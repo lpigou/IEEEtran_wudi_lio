@@ -9,15 +9,15 @@
 % -----------------------------------------------------------------------------------
 % -----------------------------------------------------------------------------------
 
-{\LARGE \noindent Response to Reviewer 1}\newline
+{\large \noindent Response to Reviewer 1}\newline
 
 
 \noindent We thank the reviewer for his time and comments.
 % and positive appreciation of the paper.
-Below, we provide our answers to his comments and to the unclear points that were raised, 
-and what we have done to clarify the paper and take comments into account. 
-Note that in our answer, all references (Equations, Figures) 
-refer to the new version unless stated otherwise. 
+Below, we provide our answers to his comments and to the unclear points that were raised,
+and what we have done to clarify the paper and take comments into account.
+Note that in our answer, all references (Equations, Figures)
+refer to the new version unless stated otherwise.
 
 \vspace*{4mm}
 
@@ -25,10 +25,10 @@ refer to the new version unless stated otherwise.
 
 The key of the proposed method is the use of the depth data. The depth information is used to obtain a 3D face model and then synthesize the frontal appearance. Therefore, the rest appearance-based gaze estimation can be done as if the head pose is stable. In addition, the paper achieves person-independent estimation by using training images from multiple subjects with an eye alignment method.}
 
-\ans{Thank you for your careful review. 
-Note that to address the particular points  you have raised for discussion, in the new version of the paper, 
-we have conducted new experiments and added several Sections (Section 6.1 -Implementation details and speed-,Section 6.2 -Head pose experiments- 
-and Section 7.1 -Tracking results; Section 9 -Discussion and future work) that we hope should answer most of them. 
+\ans{Thank you for your careful review.
+Note that to address the particular points  you have raised for discussion, in the new version of the paper,
+we have conducted new experiments and added several Sections (Section 6.1 -Implementation details and speed-,Section 6.2 -Head pose experiments-
+and Section 7.1 -Tracking results; Section 9 -Discussion and future work) that we hope should answer most of them.
 In addition, in the following link you can also find video results of the gaze coding problem:
 \newline
 \newline
@@ -41,12 +41,12 @@ In the following we will now detail our specific answer.
 }
 
 % -----------------------------------------------------------------------------------
-\rev{1)  It is unclear about the RGB-D sensor's details. How about its accuracy and performance? How will it affect the final accuracy? 
+\rev{1)  It is unclear about the RGB-D sensor's details. How about its accuracy and performance? How will it affect the final accuracy?
 This should be examined in experimental part.}
 
 \ans{
-The sensor we used is a Microsoft Kinect, 1st generation, for XBox 360. This device is well known and available in the consumer market. 
-Its specifications in terms of accuracy and performance are given by Microsoft. However, as reported in the paper describing the details of 
+The sensor we used is a Microsoft Kinect, 1st generation, for XBox 360. This device is well known and available in the consumer market.
+Its specifications in terms of accuracy and performance are given by Microsoft. However, as reported in the paper describing the details of
 the EYEDIAP database [Funes Mora et al (2014)] we further used the calibration toolbox which implements this method:
 \newline
 \newline
@@ -71,10 +71,10 @@ calibrated with the method of Herrera C. et al, (2012).
 \noindent and later, discussing the floating target condition:
 
 \PM{
-As  people were seated at a distance of $\approx 1.2m$ from the sensor, 
-the typical depth error at this distance is around 3mm (according to Herrera C. et al, (2012)), 
+As  people were seated at a distance of $\approx 1.2m$ from the sensor,
+the typical depth error at this distance is around 3mm (according to Herrera C. et al, (2012)),
 the typical eye image size is $\approx 13\times9$ pixels,
-and the gaze space is as large as $\pm 45^\circ \times \pm 40^\circ$. 
+and the gaze space is as large as $\pm 45^\circ \times \pm 40^\circ$.
 The head pose variations follow a similarly large range.
 }
 
@@ -87,21 +87,21 @@ and similar clarification were provided for the continuous screen (CS) condition
 
 We agree with the reviewer that experimental conditions can greatly affect the reported errors.
 %
-In the EYEDIAP database, we have tried to  achieve this by comparing data at two different distance conditions  
-(as it can clearly affect both the depth measurements for the tracking and rectification, as well as the eye image resolution), 
+In the EYEDIAP database, we have tried to  achieve this by comparing data at two different distance conditions
+(as it can clearly affect both the depth measurements for the tracking and rectification, as well as the eye image resolution),
 and for different tasks,
 but it does not allow for a proper evaluation of the link between the device noise and the algorithm performance, as you suggest.
-% 
-To evaluate the influence of a given sensor on the given algorithm would imply the collection of a database only for this task, 
+%
+To evaluate the influence of a given sensor on the given algorithm would imply the collection of a database only for this task,
 which we feel is beyond the scope of the current paper.
 %
-Furthermore, to our knowledge there is no database available which would allow to compare gaze estimation across RGB-D devices, 
+Furthermore, to our knowledge there is no database available which would allow to compare gaze estimation across RGB-D devices,
 as the EYEDIAP database is the only publicly dataset on gaze estimation using RGB-D data.
 %
 Nevertheless, as we rely on the well established and well disseminated Kinect sensor (we have similar results with the Primesense sensor), we believe that the conclusions
 drawn in the paper are representative of what can be achieved.
 
-\qquad 
+\qquad
 
 
 In the paper, our main objective has been to document, as detailed as possible, the sensing conditions, i.e. device type, resolution, sensing distance, etc, as shown above.
@@ -109,13 +109,13 @@ Furthermore we have made an important effort to make the EYEDIAP database public
 look at the quality of the data.
 
 
-In addition, we have added new results on head pose tracking for the BIWI database, and the 3D Head Pose ICT database, which can also show that (at least on the head pose 
+In addition, we have added new results on head pose tracking for the BIWI database, and the 3D Head Pose ICT database, which can also show that (at least on the head pose
 tracking side, which is one of the main part that depends on the depth data), we obtain similar results on other datasets.
 
 %% More than that, we can only comment qualitatively on what's the impact of the sensor's noise and specifications on different parts of the processing pipeline:
 
 %% \begin{itemize}
-%% \item {\em Depth noise}: This can influence : i) The head pose estimation: the ICP objective function minimizes the error between the template mesh 
+%% \item {\em Depth noise}: This can influence : i) The head pose estimation: the ICP objective function minimizes the error between the template mesh
 %% and the data. If the data is noisy, then the head pose estimation accuracy will degrade. However, an advantage of using model-based tracking (in this case,
 %% the personalized facial template) is that it can cope better with noise. ii) Eye image rectification: this can affect the eye image we rectify based on the DDM. The depth
 %% noise produces variations of shape along the direction of the depth camera, which is somewhat aligned to the position of the RGB camera. If the depth  rotation of the data will make the noise 3D direction to \td{continue}
@@ -124,7 +124,7 @@ tracking side, which is one of the main part that depends on the depth data), we
 %% \item {\em RGB resolution}: The RGB resolution will clearly affect the accuracy of the regression algorithm. The result will be more or less ``blurred'' rectified eye images.\td{continue}
 %% \end{itemize}
 
-%% We hope the reviewer would understand that it is not possible to do such experimental evaluation. 
+%% We hope the reviewer would understand that it is not possible to do such experimental evaluation.
 }
 
 % -----------------------------------------------------------------------------------
@@ -133,9 +133,9 @@ tracking side, which is one of the main part that depends on the depth data), we
 \ans{Thank you for pointing this out and we apologize for missing this important detail. The 3DMM we use is the {\em Basel Face Model}:
 \newline
 \newline
-P. Paysan, R. Knothe, B. Amberg, S. Romdhani, and T. Vetter. {\em A 3D Face Model for Pose and Illumination Invariant Face Recognition}. 
+P. Paysan, R. Knothe, B. Amberg, S. Romdhani, and T. Vetter. {\em A 3D Face Model for Pose and Illumination Invariant Face Recognition}.
 In Proceedings of the 6th IEEE International Conference on Advanced Video and Signal based Surveillance (AVSS),
-workshop  for Security, Safety and Monitoring in Smart Environments, Genova, Italy, 2009. 
+workshop  for Security, Safety and Monitoring in Smart Environments, Genova, Italy, 2009.
 \newline
 \newline
 \noindent which we have been using and constantly citing in our previous work. We were surprised to find we forgot to put the citation in this paper.
@@ -144,7 +144,7 @@ We have corrected this mistake in this revision. Within the new ``Implementation
 \PM{
 The 3DMM we used is the Basel Face Model (\BFM) (Paysan et al, 2009). This model contains 53490 vertices and
 has 200 deformation modes. The \BFM was learned
-from high resolution 3D scans of 200 individuals (100 male/100 female) 
+from high resolution 3D scans of 200 individuals (100 male/100 female)
 thus it span a large variety of face shapes with neutral expression.
 }
 
@@ -158,20 +158,20 @@ is necessary for every user/every time? What is the time cost? Again, how will i
 The model has to be fitted only once as it is not expected for the subject's face shape to change from session
 to session. Indeed, the EYEDIAP database includes sessions that were recorded 9 months apart for 3 people.
 %
-For these 3 persons, the face model built 9 months prior to the main database recordings was the one used to 
+For these 3 persons, the face model built 9 months prior to the main database recordings was the one used to
 perform tracking and eye alignment on the newer recordings.
 %
 So, in practice, we do not expect the re-fitting of the model at every session to improve (or degrade) the alignment or gaze accuracy.
 Refitting may be required only after months/years due to important weight variations or aging.
 %
-Notice as well that the same fitting results can be used across different sensors 
-(in our lab demonstration, we used the same model for Kinect and Primesense sensors), 
-provided they are calibrated. 
+Notice as well that the same fitting results can be used across different sensors
+(in our lab demonstration, we used the same model for Kinect and Primesense sensors),
+provided they are calibrated.
 
 \vspace*{2mm}
 
 
-To address your concern, we have clarified the above points in the new Section 6.1 (Implementation details and speed), 
+To address your concern, we have clarified the above points in the new Section 6.1 (Implementation details and speed),
 which addresses as well the time cost issue. Sample paragraphs from this Section include:
 
 
@@ -185,13 +185,13 @@ model can be reused across sessions.
 }
 
 In terms of the time cost, further optimizations could be done to our implementation. We
-used 41585 vertices, which could be heavily reduced and still maintain the fitting quality. 
+used 41585 vertices, which could be heavily reduced and still maintain the fitting quality.
 Nevertheless, we think 5 to 20 seconds for optimization per user is very much acceptable for many applications.
 %
 Further information is provided on the gaze tracking part:
 
 
-\PM{Overall, the gaze tracking takes around 100ms per frame. 
+\PM{Overall, the gaze tracking takes around 100ms per frame.
 Note however that this is a research implementation, where the most
 time-consuming elements are the data pre-processing (3D mesh creation) and the head pose tracking.
 The head pose tracking is CPU based and alone takes from 20 to 100ms (depending on the amount of head pose changes during consecutive frames).
@@ -204,7 +204,7 @@ A careful GPU-based implementation could greatly increase the speed.
 
 
 %% With respect to the impact of the 3DMM fitting, this directly affects the head pose tracking, which then indirectly affects the gaze estimation.
-%% Notice the alignment is defined per user in its head frame.  
+%% Notice the alignment is defined per user in its head frame.
 %% To quantitatively study the impact of the 3DMM fitting on the head pose tracking (and gaze estimation), and to address concerns by
 %% Reviewer 2 and 3, we have added experiments in which we evaluate the head pose tracking quality, both when using the 3DMM
 %% fitting and when using the mean facial shape (i.e.~$\MMCoefficients={\mbf 0}$) in two publicly available benchmarks: the BIWI kinect head
@@ -223,7 +223,7 @@ A careful GPU-based implementation could greatly increase the speed.
 %% \ldots Notice the alignment is intended to correct eye image cropping inconsistencies across subjects.
 %% Meaning that, for the case of person specific gaze models, the alignment is not needed, as long as the same 3DMM fitted
 %% model is employed across sessions. However, in the person invariant gaze model case, an advantage of the proposed
-%% alignment is that it can compensate for 3DMM semantic fitting errors across subjects, e.g.~if the eye corners are 
+%% alignment is that it can compensate for 3DMM semantic fitting errors across subjects, e.g.~if the eye corners are
 %% not well located and, more importantly, even if the actual eyeball
 %% position is not known, it will make the eye images  consistently aligned across subjects.\ldots
 %% }
@@ -232,47 +232,47 @@ A careful GPU-based implementation could greatly increase the speed.
 
 % -----------------------------------------------------------------------------------
 
-\rev{4) Another major concern: to do eye image alignment, several annotated samples are needed for each user. It is therefore not really calibration-free 
+\rev{4) Another major concern: to do eye image alignment, several annotated samples are needed for each user. It is therefore not really calibration-free
 or person-invariant.}
 
 \ans{We understand the reviewer concern but do believe that we do propose person-invariant and calibration-free gaze models as we try to clarify below.
 
 \vspace*{2mm}
 
-First, by person invariance we mean gaze model person invariance, i.e. where building a gaze model 
-denotes the problem of {\em mapping the eye image appearance to gaze parameters when the test subject' specific eye appearance relation to gaze is unknown to the system}. 
+First, by person invariance we mean gaze model person invariance, i.e. where building a gaze model
+denotes the problem of {\em mapping the eye image appearance to gaze parameters when the test subject' specific eye appearance relation to gaze is unknown to the system}.
 Such regression model is thus trained from a database containing as many people as possible, with appearance variations due to factors like ethnicity, specific
 eye geometry, illumination, etc. From this point of view, our proposed method is indeed person invariant.
 
 \noindent While this might not have  been clear in the paper, we want  to emphasize that the proposed alignment step can be used in  {\em two} different but related contexts:
 
 \begin{itemize}
-\item {\em Person invariant gaze model training}: we argue it is better  to  align the eye images across different subjects in the {\em training phase} 
-such that the training data is consistent prior to the training of a model. 
+\item {\em Person invariant gaze model training}: we argue it is better  to  align the eye images across different subjects in the {\em training phase}
+such that the training data is consistent prior to the training of a model.
 %
 The machine learning regression method can then learn to address further variations in geometry, illumination, eyelids shape, etc.
 %
-In the literature, this alignment has often been done by bringing the eye corners to a canonical location, 
+In the literature, this alignment has often been done by bringing the eye corners to a canonical location,
 %
-In the paper, our experiments show that eye corners based alignment even in the optimal case of manual annotations does indeed improve 
+In the paper, our experiments show that eye corners based alignment even in the optimal case of manual annotations does indeed improve
 the results, but not as much as our  alignment approach that is directly driven by gaze (and eye appearence) information.
 %
 
-\item {\em Test subject adaptation}: in this case we assume there is a person invariant eye appearance (image) to gaze parameters regression model 
+\item {\em Test subject adaptation}: in this case we assume there is a person invariant eye appearance (image) to gaze parameters regression model
 trained from a database of people.
 %
 Note that this person-invariant model can directly be exploited for a test subject to predict her gaze direction without requiring any annotation.
 %
 This is demonstrated in the gaze coding experiments, where good results are already obtained without applying a  test user eye alignment.
 %
-However what we have further proposed ({\em Alignment Procedure}, Section 5.2.2.) is that learning the person-specific alignment 
+However what we have further proposed ({\em Alignment Procedure}, Section 5.2.2.) is that learning the person-specific alignment
 parameters of the test subject from a small set of gaze annotated samples (1 to 5) can make the test data
-more coherent to the learned person-invariant gaze estimation model. 
+more coherent to the learned person-invariant gaze estimation model.
 %
-We argue this is a possibility which depends on the application, and  we would like to raise the reviewer's attention on 
+We argue this is a possibility which depends on the application, and  we would like to raise the reviewer's attention on
 the gaze coding problem from natural interactions which we have addressed in this paper.
 %
-This application clearly depicts a scenario in which it is not possible to train a gaze model for a given subject, 
+This application clearly depicts a scenario in which it is not possible to train a gaze model for a given subject,
  but where we can obtain, from additional information, a few gaze annotated samples. This extra step improves the gaze coding accuracy.
 \end{itemize}
 
@@ -286,34 +286,34 @@ Synchronized Delaunay Implicit Parametric Alignment (SDIPA).
 %
 In the paper, we have exploited it to address  two related tasks.\\[1mm]
 %
-1. Person-invariant gaze model training. In this task, the goal is to align a gaze annotated  
+1. Person-invariant gaze model training. In this task, the goal is to align a gaze annotated
 training set comprising different subjects prior to learning the gaze regression models.
-We expect that exploiting aligned data will result in more accurate models. 
+We expect that exploiting aligned data will result in more accurate models.
 This is achieved by optimizing  Eq.~9.
 %
 ~\\[1mm]
 %
 2. Eye image alignment for a test subject.
 %
-The eye gaze model learned using the above alignment method (task 1) is person-invariant, and can readily be applied to any new test subject. 
+The eye gaze model learned using the above alignment method (task 1) is person-invariant, and can readily be applied to any new test subject.
 %
-However, in some situations (see for instance the gaze coding experiments in Section~8), 
-there is the possibility to gather for a test user a few samples with gaze information 
-(e.g. a person looking at known location like another person, or simply, looking at the camera) that can be further exploited 
+However, in some situations (see for instance the gaze coding experiments in Section~8),
+there is the possibility to gather for a test user a few samples with gaze information
+(e.g. a person looking at known location like another person, or simply, looking at the camera) that can be further exploited
 to improve the result.
 %
 In this case, the same method can be used to find the eye alignment of this user with respect to the already aligned training set
 using these gaze annotated samples.
 %
-This is simply done by adapting Eq.~9 
-and conducting the optimization only w.r.t. a single subject (e.g. the parameters $\WarpParameters_j$ of subject $j$ considered 
+This is simply done by adapting Eq.~9
+and conducting the optimization only w.r.t. a single subject (e.g. the parameters $\WarpParameters_j$ of subject $j$ considered
 as our test subject) while the other  $\{\WarpParameters_i\}_{i\neq j}$ remain fixed.
 %
-This $2nd$ case can be seen as an adaptation step that is highly valuable in  an  HRI and HHI scenario, 
+This $2nd$ case can be seen as an adaptation step that is highly valuable in  an  HRI and HHI scenario,
 %
-where even if conducting a proper  gaze model training session is not possible, 
-it might still be feasible to detect in a supervised or unsupervised manner 
-instants  at which the subject is fixating a given (known) target 
+where even if conducting a proper  gaze model training session is not possible,
+it might still be feasible to detect in a supervised or unsupervised manner
+instants  at which the subject is fixating a given (known) target
 and use the few collected samples to find the test subject's alignment.
 }
 
@@ -325,27 +325,27 @@ and use the few collected samples to find the test subject's alignment.
 In L38/L50, the aligned eye images should be the same; can the alignment/transformation with $\theta$ guarantee this? How to handle the difference
 in color, shape and iris size in different people?}
 
-\ans{The warp function type can actually be of many types and include  translation, scale, rotation, or even affine parameters. 
-This is why we had purposely left it generic from the beginning of the paper, and had specified at the end of the {\em Alignment modeling}  
-section in Section 5.2.2 that we were using a translation. 
+\ans{The warp function type can actually be of many types and include  translation, scale, rotation, or even affine parameters.
+This is why we had purposely left it generic from the beginning of the paper, and had specified at the end of the {\em Alignment modeling}
+section in Section 5.2.2 that we were using a translation.
 %
 We have kept this information there and further repeated it in  the new ``Implementation Details'' section 6.1:
 
 \PM{
-The warping function $\WarpFunction$ we used in this paper is a translation 
+The warping function $\WarpFunction$ we used in this paper is a translation
 ($\WarpFunction(\PixelCoor;\WarpParameters):=\PixelCoor+\WarpParameters|\WarpParameters\in\mathbb{R}^2)$)
-which we found sufficient to (implicitly) align the eyeball position across subjects after rectification. 
+which we found sufficient to (implicitly) align the eyeball position across subjects after rectification.
 }
 
 \vspace*{2mm}
 
-We agree with the reviewer that there is no guarantee that the aligned image of a particular subject can perfectly match the aligned image of another subject, 
+We agree with the reviewer that there is no guarantee that the aligned image of a particular subject can perfectly match the aligned image of another subject,
 even for the same gaze direction,  due to variations in color, shape, etc.
 %
 Still, we expect our similarity assumption to hold  {\em on average}.
-That is,  we are not expecting Eq.~9 in the paper to reach 0, 
-but by relying on a large pool of people and gaze directions in the cost function, 
-we expect the optimal solution leading to the minimum of the objective function to properly align the eye images so that 
+That is,  we are not expecting Eq.~9 in the paper to reach 0,
+but by relying on a large pool of people and gaze directions in the cost function,
+we expect the optimal solution leading to the minimum of the objective function to properly align the eye images so that
 the main eye structures (eyelid and iris) are aligned.
 %
 The many experiments conducted in the paper relying on this alignment assumption empirically demonstrate that this is a valid assumption.
@@ -356,13 +356,13 @@ The many experiments conducted in the paper relying on this alignment assumption
 To account for this comment, we have modified the paper when describing the alignment problem formulation, which reads now:
 
 \PM{To compute the parameters $\AllWarpParameters:=\{\WarpParameters_i\}_{i=1}^\NumDatasetSubjects$,
-we make the assumption that {\em when two subjects gaze in the same direction}, 
-their aligned image (particularly the iris region) should match and their 
+we make the assumption that {\em when two subjects gaze in the same direction},
+their aligned image (particularly the iris region) should match and their
 intensity difference should be minimal.
 %
 Note that while this might not necessary hold for all gaze directions and pairs of  people,
 we expect this  assumption to be valid on average, i.e when considering a large number of people and gaze values
-to constrain the parameter estimation.  
+to constrain the parameter estimation.
 %
 }
 
@@ -378,17 +378,17 @@ to constrain the parameter estimation.
 \rev{6) There are previous methods based on RGB-D sensors. Comparisons and discussions should be added. }
 
 \ans{Do you refer to RGB-D methods for head pose tracking? or for gaze tracking?
- 
-It is true there are diverse methods in the literature for head pose estimation from RGB-D data, and even though this is 
-less relevant according to the paper contributions which are centered on gaze estimation, we have made experiments comparing 
+
+It is true there are diverse methods in the literature for head pose estimation from RGB-D data, and even though this is
+less relevant according to the paper contributions which are centered on gaze estimation, we have made experiments comparing
 our head pose tracking method with two other methods using two publicly available benchmarks.
 %
 The results are shown  in Section 7.1. These experiments
 were also interesting to validate the need for a personalized face model.
 
-W.r.t.~gaze estimation, we thank the reviewer for pointing out to this fact. 
+W.r.t.~gaze estimation, we thank the reviewer for pointing out to this fact.
 % However, if the reviewer is referring to RGB-D based gaze estimation methods, we unfortunately have to disagree.
-% 
+%
 The only ones we have found are indeed very recent RGB-D methods:
 \newline
 \newline
@@ -400,7 +400,7 @@ Ref2: X. Xiong, Q. Cai, Z. Liu, and Z. Zhang. {\em Eye Gaze Tracking Using an RG
 \newline
 \newline
 
-% 
+%
 % \td{CHECK for sure that we are not making factual mistakes, eg are both proposed methods geometric ones for instance, screen gazing.
 % By the way, which Kinect are they using ? Kinect one or Kinect 2 (esp. the microsoft guys ?).
 % Maybe one point, both for the related work paragraph and below: what use do they make of the depth info ?}
@@ -408,7 +408,7 @@ Ref2: X. Xiong, Q. Cai, Z. Liu, and Z. Zhang. {\em Eye Gaze Tracking Using an RG
 These approaches, even though very interesting, rely on geometric approaches of the problem and on the extraction of local
 features. Ref1 uses the approach by Timm and Barth (VISAPP 2011) to find the iris center through a gradient direction voting scheme,
 whereas Ref2 uses a variation of the Starburst algorithm (Li et al, CVPRW 2005) to fit an ellipse,
-and are thus suffering from the same limitations that we have described in our related work 
+and are thus suffering from the same limitations that we have described in our related work
 about geometric based methods. The usage of depth data in these methods is mainly for the head pose tracking: Ref1 uses the Microsoft
 Kinect SDK's tracker whereas Ref2 transforms 2D landmarks detection into 3D points based on depth measurements and compares it to
 a person specific 3D landmarks position model (to infer the head pose transform).
@@ -428,18 +428,18 @@ work would consist in finding a more stable and accurate
 algorithm on detecting pupil center.}''. This indeed confirms the limitations of these method, as we have discussed in the related works section.
 
 %
-% they mainly address screen gazing tasks, so that the eyes remain rather fully open and frontal; 
+% they mainly address screen gazing tasks, so that the eyes remain rather fully open and frontal;
 % the image resolution needs to be high enough (HERE EXPLAIN HOW THIS CAN BE THE CASE IN THEIR EXPERIMENTS).
 % Even under these two conditions, the paper Ref1 concludes ``.... put citation...''.
 %
-Appearance based methods, which is a main focus of this paper  were indeed proposed as an alternative methodology to address 
+Appearance based methods, which is a main focus of this paper  were indeed proposed as an alternative methodology to address
 the scenario in which using model-based, or geometric based, approaches have difficulties, as in the conditions we address. \\[1mm]
 %
 %
-In summary, these methods would have much difficulties to work under our low-resolution images, or in the floating target situation which has much greater 
-variation in terms of head poses. 
-As the data used by these author for experiments is not publicly available, a direct comparison with their approach is not possible. 
-In addition, implementing their method is beyond the scope of this paper; however, as our data and experimental protocol 
+In summary, these methods would have much difficulties to work under our low-resolution images, or in the floating target situation which has much greater
+variation in terms of head poses.
+As the data used by these author for experiments is not publicly available, a direct comparison with their approach is not possible.
+In addition, implementing their method is beyond the scope of this paper; however, as our data and experimental protocol
 is public, we hope that comparison will be possible in the future.
 
 Nevertheless, it is indeed important to cite/discuss these works, as we have now included the following parragraph within the related works section:
@@ -474,7 +474,7 @@ require high resolution and high contrast images.
 %% Appearance based methods were proposed as an alternative methodology to address the scenario in which using
 %% model-based, or geometric based, approaches is not possible; mostly due to low resolution conditions which doesn't allow
 %% to infer local features, such as the iris/pupil ellipse, glints, etc. The data used in the aforementioned papers is of much
-%% higher quality than our data, thus the authors can use geometric based methods. 
+%% higher quality than our data, thus the authors can use geometric based methods.
 
 % might nevertheless be missing a particular paper of which we are not aware. We would be very thankful if you could please specify to which
 %other previous RGB-D methods you are referring to.
@@ -489,26 +489,26 @@ I am not sure whether the authors mention this as a merit. In fact, the differen
 to know additional information such as the 3D head pose, eyeball position, camera position w.r.t.~world coordinate system, and screen pose (if relevant), etc.
 %
 While it is true that geometric methods do allow by nature to do such 3D reasoning (but they have their own limitations in terms of sensing and feature extraction),
-within the literature of appearance based methods most authors avoid such 3D manipulation and instead estimate the mapping directly 
-from the eye appearance to the point of regard whichcin most situations correspond to 2D screen coordinates: this way, they  circumventing any geometric analysis, 
+within the literature of appearance based methods most authors avoid such 3D manipulation and instead estimate the mapping directly
+from the eye appearance to the point of regard whichcin most situations correspond to 2D screen coordinates: this way, they  circumventing any geometric analysis,
 but  has the disadvantage of poor generalization and of limiting the application to such creen gazing scenarios
 
 To our knowledge, only the methods of [Lu et al BMVC 2011] and [Sugano et al CVPR 2014] have developed a 3D methodology.
-These methods  nevertheless require training data from a diversity of head poses and furthermore, the addressed range of head poses 
+These methods  nevertheless require training data from a diversity of head poses and furthermore, the addressed range of head poses
 and gaze directions is limited to a much smaller range than in our case.
 Our approach, which develops further an earlier publication of ours [Funes and Odobez at CVPRW 2012], stands out because it is able to address a much
 larger range of head pose and gaze directions combined in the 3D space. Furthermore, it allows for training from a single unrestricted head pose and generalizes well
-to the continuous range of head poses. This is validated in our experiments. 
+to the continuous range of head poses. This is validated in our experiments.
 
-Note that thanks to this 3D property, this makes our approach attractive for other types of applications besides screen gazing in HCI,  
-like Human-human interaction analysis (as our gaze coding experiment shows) or  HRI. 
+Note that thanks to this 3D property, this makes our approach attractive for other types of applications besides screen gazing in HCI,
+like Human-human interaction analysis (as our gaze coding experiment shows) or  HRI.
 We therefore believe this methodology does stand out and has merit as {\em gaze estimation in the 3D space}.
 
 To address your point and summarize the above comments, we have updated our contributions in the related work section as follows:
 
 \PM{
 As can be seen, few methods have addressed simultaneously head pose and user invariance. Moreover,
-to our knowledge, almost no previous works relying on the appearance framework 
+to our knowledge, almost no previous works relying on the appearance framework
 have addressed the problem of gaze estimation within a 3D space, which allows the natural application of gaze techniques to
 more diverse HHI or HRI scenarios besides the traditional screen gazing case.
 }
@@ -522,29 +522,29 @@ more diverse HHI or HRI scenarios besides the traditional screen gazing case.
 \ans{
 Unless we missed one important point, we were not sure about the motivation of this request.\\[2mm]
 %
-Indeed, a leave-one-out evaluation is one of the most well established methodologies used in machine learning to 
-perform evaluation in this type of settings (as far as the data used for training does not incorporate information from the test data, 
+Indeed, a leave-one-out evaluation is one of the most well established methodologies used in machine learning to
+perform evaluation in this type of settings (as far as the data used for training does not incorporate information from the test data,
 e.g. in particular here, the same user).
 %
-Furthermore, for these type of methodologies, it is expected to use as much training data as possible in order for a model to generalize well to unseen data, 
+Furthermore, for these type of methodologies, it is expected to use as much training data as possible in order for a model to generalize well to unseen data,
 and see how well the proposed system can perform in a realistic scenario.
 %
-This is particularly true in our case where we only have data from 16 people (15 for training in the leave-one-out experiment) to perform training. 
+This is particularly true in our case where we only have data from 16 people (15 for training in the leave-one-out experiment) to perform training.
 %
 In addition, conducting such experiments would be time consuming
-\footnote{To make experiment using, lets say half of the subjects, in a correct manner would imply not to be selective on which 7 of the other 15 subjects 
+\footnote{To make experiment using, lets say half of the subjects, in a correct manner would imply not to be selective on which 7 of the other 15 subjects
 to use for evaluation of a given subject, but to use all possible combinations and then compute statistics on them.
-This would imply to evaluate, per subject, all possible half subset of their corresponding training subjects 
+This would imply to evaluate, per subject, all possible half subset of their corresponding training subjects
 and for all algorithms we are considering in this paper, that is:
 \begin{equation}
 experiments = 16\times4\times\left( \begin{matrix}
 15\\
 7
 \end{matrix}\right)= 411840 ,
-\end{equation} 
+\end{equation}
 which, assuming 1 minute of execution per experiment (which optimistically far from reality), the evaluation would take 2855 days of computation.
-This is a prohibitively large amounts of experiments. We could resort to sampling, but this would nevertheless be quite high. 
-In addition, to study the the performance evolution in functions of the amount of training data, it would also be important to consider other numbers 
+This is a prohibitively large amounts of experiments. We could resort to sampling, but this would nevertheless be quite high.
+In addition, to study the the performance evolution in functions of the amount of training data, it would also be important to consider other numbers
 of training data, e.g.from the 5 to 15).
 }.
 
@@ -552,16 +552,16 @@ of training data, e.g.from the 5 to 15).
 In summary, we believe that making  such a proper  evaluation, even if possible, would mainly show as in many other problems
 that using less training data would make the accuracy of a person invariant model to degrade.
 %
-While we understand that seeing how much it degrades could be an interesting question (and in this case, we would need considering other amount of 
+While we understand that seeing how much it degrades could be an interesting question (and in this case, we would need considering other amount of
 training data, e.g. 25, 50, 75\% of the ), we have left out such a proper evaluation for future work for the sake of time.
 
 \vspace*{2mm}
 To account for this question, we have added in the new discussion section (Section 9) of the paper the following comment:
 \vspace*{2mm}
 
-\PM{In this direction, it could also be relevant to evaluate whether there is an impact of the 
-pose-rectified eye image standardized size on the performance error, taking into account the distance at which  the system is expected to operate; 
-or similarly, evaluate the impact  of the amount of training data, eg by using  less than 15 persons, 
+\PM{In this direction, it could also be relevant to evaluate whether there is an impact of the
+pose-rectified eye image standardized size on the performance error, taking into account the distance at which  the system is expected to operate;
+or similarly, evaluate the impact  of the amount of training data, eg by using  less than 15 persons,
 or by collecting more data to see at which level the method saturates.
 %
 Such studies could be facilitated and compared to our work thanks to the use of our using publicly available database.
@@ -584,7 +584,7 @@ address the situation when training from the test subject is not possible or min
 
 At test time the main element which currently require a user's input  is the 3DMM fitting but, as we mentioned when addressing this point before,
 this is quickly done, it has to be done only once per subject and it can even be done by a third person by looking at a recording.
-Please consider the example application on gaze coding to put this into context. 
+Please consider the example application on gaze coding to put this into context.
 %
 Furthermore, note that such fitting could be  made fully automatic,
 as we now discuss in the new Section 9 (``Discussion'') of the paper:
@@ -593,12 +593,12 @@ as we now discuss in the new Section 9 (``Discussion'') of the paper:
 The use of a personalized (3DMM fitted) face model
 was shown beneficial for accurate head pose tracking and consistent eye image cropping.
 The required manual landmarks annotation during training is in practice a
-simple procedure which has to be done only once per subject. 
+simple procedure which has to be done only once per subject.
 %
-Nevertheless, this step could leverage state of the art landmarks detection algorithms to make it 
+Nevertheless, this step could leverage state of the art landmarks detection algorithms to make it
 fully automatic, such as  Dantone et al (2012), Cao et al (2013) or, as used in Sec.7.4, Kazemi and Sullivan (2014).
 %
-Although such detectors may also introduce noise, keeping the more consistent landmarks results could 
+Although such detectors may also introduce noise, keeping the more consistent landmarks results could
 allow the fitting algorithm to be obtained automatically and online.
 
 }\\
@@ -606,14 +606,14 @@ allow the fitting algorithm to be obtained automatically and online.
 %% Which we didn't do in this paper simply because that is not what was done to annotate the EYEDIAP database with head pose tracks.
 %% For us consistency is of high importance, between what is done and what is reported, such that other researchers can benefit from it.
 
-The alignment at test time is optional, which means that, when it is not used, it would not require any user input, and as we show in the gaze coding experiments, the results are already very satisfying.  
+The alignment at test time is optional, which means that, when it is not used, it would not require any user input, and as we show in the gaze coding experiments, the results are already very satisfying.
 %
 If used, then only a few samples for the test subject (3-5 in our experiments, both at EYEDIAP or the gaze coding experiments)
  are sufficient to improve the gaze accuracy.
 %
-This has been validated by the many experiments we presented. 
+This has been validated by the many experiments we presented.
 Note that  this is radically different from retraining an
-eye appearance to gaze regression model, which is what is done in the ``person specific'' case. 
+eye appearance to gaze regression model, which is what is done in the ``person specific'' case.
 %
 As we included within the Discussion section, different applications could  benefit from the proposed method and of this alignment step.
 
@@ -624,11 +624,11 @@ It could be used with no cooperation from the user whatsoever, meaning the overa
 invariant gaze models are used as is, for a new test subject. Alternatively, a minimal cooperation protocol
 could be defined to obtain the needed alignment data, either explicitly, e.g.~requesting the participant to fixate
 at the camera for a few seconds (Oertel et al, 2014), or implicitly through  an agent (e.g.~a robot)
-persuading the subject to do such actions either by a direct request or by leveraging on gaze priors on 
+persuading the subject to do such actions either by a direct request or by leveraging on gaze priors on
 non verbal human behaviors in a dialogue situation.
 %
-In another direction, a third person could annotate higher level gaze semantics  (people at gazing at known targets) 
-as was shown in the previous Section. 
+In another direction, a third person could annotate higher level gaze semantics  (people at gazing at known targets)
+as was shown in the previous Section.
 }
 
 }
@@ -647,10 +647,10 @@ as was shown in the previous Section.
 
 
 \noindent We thank the reviewer for his time and positive appreciation of the paper.
-Below, we provide our answers to your comments and to the unclear points that were raised, 
-and what we have done to clarify the paper and take comments into account. 
-Note that in our answer, all references (Equations, Figures) 
-refer to the new version unless stated otherwise. 
+Below, we provide our answers to your comments and to the unclear points that were raised,
+and what we have done to clarify the paper and take comments into account.
+Note that in our answer, all references (Equations, Figures)
+refer to the new version unless stated otherwise.
 
 \vspace*{4mm}
 
@@ -662,8 +662,8 @@ texture is rectified to a front-facing head pose. The eye region is then extract
 Overall the presentation of the paper is clear, and the sections are well-ordered. The technical details are well-presented and sound, but some of the implementation details are missing. Additionally some of the design choices were never evaluated empirically. I believe the following points need to addressed:}
 
 
-\ans{Thank you for your comments and careful review.  Note that to address the particular points  you have raised for discussion, in the new version of the paper, 
-we have conducted new experiments and added several Sections (Section 6.1 -Implementation details and speed-, Section 6.2 -Head pose experiments- 
+\ans{Thank you for your comments and careful review.  Note that to address the particular points  you have raised for discussion, in the new version of the paper,
+we have conducted new experiments and added several Sections (Section 6.1 -Implementation details and speed-, Section 6.2 -Head pose experiments-
 and Section 7.1 -Tracking results; Section 9 -Discussion and future work) that we hope should answer most of them. In addition, in the following link you can also find video results of the gaze coding problem:
 \newline
 \newline
@@ -681,7 +681,7 @@ In the following we will now detail our specific answer.
 \rev{1. There was no empirical evaluation of why fitting a person-invariant template (or the mean shape $\mu$) would not be
 sufficient for gaze estimation.}
 
-\ans{This is a very good and interesting suggestion. In the new version of the paper, we have now 
+\ans{This is a very good and interesting suggestion. In the new version of the paper, we have now
 %
 added experiments which can bring clarity to this point in Section 7.1.
 We evaluated the head pose tracking accuracy in two different and publicly available benchmarks: the BIWI Kinect head pose
@@ -700,27 +700,27 @@ In the paper, the discussion on this point can be found in Section 7.1:
 
 \PM{
 Table 1 and 2 also compare
-the results using either the 3DMM-based personalized template or only the mean face shape. 
+the results using either the 3DMM-based personalized template or only the mean face shape.
 %
-Even though using the mean shape leads to good results, 
+Even though using the mean shape leads to good results,
 using a personalized template do lead to more accurate head pose estimates.
 
-Note that accurate pose estimation is important for our method, as pose estimation impacts gaze estimations in two ways. 
-First, as a direct input to the estimation of the line of sight in the 3D space (see step h) in Fig.~3). 
-In this case, an error made in the estimation almost immediately translates into an error in gaze estimation. 
+Note that accurate pose estimation is important for our method, as pose estimation impacts gaze estimations in two ways.
+First, as a direct input to the estimation of the line of sight in the 3D space (see step h) in Fig.~3).
+In this case, an error made in the estimation almost immediately translates into an error in gaze estimation.
 %
-Secondly, in the extraction of the cropped rectified eye images, which needs to be consistent over frames (which means having 
-the image projection of the eyeball center always at the same position) 
-for the same person, since a displacement error will translate into gaze estimation errors\footnote{And the global alignment strategy only correct 
+Secondly, in the extraction of the cropped rectified eye images, which needs to be consistent over frames (which means having
+the image projection of the eyeball center always at the same position)
+for the same person, since a displacement error will translate into gaze estimation errors\footnote{And the global alignment strategy only correct
 a systematic displacement bias error for a person, not per-frame errors.}.
 %
 
 To qualitatively illustrate the impact of this second point  on gaze tracking,
-we present in Fig.~7 for a representative sequence  
+we present in Fig.~7 for a representative sequence
 the eye cropping resulting from using the fitted model or the mean face shape.
 %
-As can be seen, since the mean shape do not fit well the given subject, the pose tracking results oscillate even for similar head poses, 
-generating an inconsistent frame by frame cropping of the eye image. Notice in contrast the more stable results obtained when using 
+As can be seen, since the mean shape do not fit well the given subject, the pose tracking results oscillate even for similar head poses,
+generating an inconsistent frame by frame cropping of the eye image. Notice in contrast the more stable results obtained when using
 a personalized face model.
 %
 
@@ -738,11 +738,11 @@ Thus, overall, the better tracking results validate the use of a personalized te
 The benefit of the landmarks term is for semantic consistency, as we have now explained in the revised version of the Manuscript (Section 3.2):
 
 \PM{
-The term $E_l$ is similar to the $E_d$ cost, but applies to a set of landmarks points 
-(which form a subset $L$ of the 3DMM vertices) whose position $\MMLandmark_i$ 
+The term $E_l$ is similar to the $E_d$ cost, but applies to a set of landmarks points
+(which form a subset $L$ of the 3DMM vertices) whose position $\MMLandmark_i$
 is assumed to be annotated in the data. This term foster a semantic fitting of the 3DMM
 (eye corners, eyebrows, mouth corners, etc.~) which, due to depth noise in the data,
-could be otherwise poorly localized. 
+could be otherwise poorly localized.
 }
 
 \vspace*{2mm}
@@ -751,9 +751,9 @@ could be otherwise poorly localized.
 we also report how the  $\MMLandmarksTermWeight$ value (landmarks weight) is set:
 
 \PM{
-The $\MMLandmarksTermWeight$ parameter was set as $0.5\frac{\MMNumVertices}{ Card(\MMLandmarkSet)}$, 
+The $\MMLandmarksTermWeight$ parameter was set as $0.5\frac{\MMNumVertices}{ Card(\MMLandmarkSet)}$,
 that is  such that the landmarks term has 0.5 the cost
-of the data term, taking into account the number of data points-landmarks ratio. 
+of the data term, taking into account the number of data points-landmarks ratio.
 }
 
 
@@ -762,8 +762,8 @@ of the data term, taking into account the number of data points-landmarks ratio.
 \noindent Notice as well that in this same  new Implementation details section, we emphasize the fact that this has little practical cost per subject:
 
 \PM{
-Given a few annotated frames with landmarks (typically 1 to 5 frames), the fitting algorithm takes from 5 to 20 seconds to optimize. 
-Note that since people face shape is not expected to change much, this step is 
+Given a few annotated frames with landmarks (typically 1 to 5 frames), the fitting algorithm takes from 5 to 20 seconds to optimize.
+Note that since people face shape is not expected to change much, this step is
 only performed once per subject, which means that the fitted model can be reused across sessions.
 }
 
@@ -777,19 +777,19 @@ methods. This possibility has been included within the new Discussion section (s
 The use of a personalized (3DMM fitted) face model
 was shown beneficial for accurate head pose tracking and consistent eye image cropping.
 The required manual landmarks annotation during training is in practice a
-simple procedure which has to be done only once per subject. 
+simple procedure which has to be done only once per subject.
 %
-Nevertheless, this step could leverage state of the art landmarks detection algorithms to make it 
+Nevertheless, this step could leverage state of the art landmarks detection algorithms to make it
 fully automatic, such as Dantone et al (2012), Cao et al (2013) and Kazemi and Sullivan (2014).
 %
-Although such detectors may also introduce noise, keeping the more consistent landmarks results could 
+Although such detectors may also introduce noise, keeping the more consistent landmarks results could
 allow the fitting algorithm to be obtained automatically and online.
 }
 
 \vspace*{2mm}
 
 
-\noindent  Finally, as explained in the reply to your point 4, the landmarks are also valuable for initializing 
+\noindent  Finally, as explained in the reply to your point 4, the landmarks are also valuable for initializing
 the optimization procedure.
 }
 
@@ -832,8 +832,8 @@ In Section 3.2 of the revised Manuscript, it is now explained how these values a
 
 \PM{
 The initialization ($\MMFittingVariables^0:=\{{\mbf \MMCoefficients^0},\Rotation_1^0,\Translation_1^0,\ldots,\Rotation_\MMNumInstances^0,\Translation_\MMNumInstances^0\}$)
-is given by the mean face shape ($\MMCoefficients^0={\mbf 0}$) and its -per image sample $\MMInstanceIndex$- 
-rigid transformation $(\Rotation_1^0,\Translation_1^j)$ parameters minimizing the landmarks term $E_l^\MMInstanceIndex$ alone 
+is given by the mean face shape ($\MMCoefficients^0={\mbf 0}$) and its -per image sample $\MMInstanceIndex$-
+rigid transformation $(\Rotation_1^0,\Translation_1^j)$ parameters minimizing the landmarks term $E_l^\MMInstanceIndex$ alone
 assuming $\MMCoefficients=\MMCoefficients^0={\mbf 0}$, i.e. the rigid transform that best fit the mean face shape to the annotated landmarks.
 }
 
@@ -843,7 +843,7 @@ assuming $\MMCoefficients=\MMCoefficients^0={\mbf 0}$, i.e. the rigid transform 
 \noindent With respect to how the $\MMStiffness_n$ were chosen, this is now explained within the implementation details section 7.1:
 
 \PM{
-The $\MMStiffness_0$ value was set empirically, 
+The $\MMStiffness_0$ value was set empirically,
 such that its initial value is high enough to keep the $\MMCoefficients$ parameters close to ${\mbf 0}$ ($\MMStiffness_0=0.1$ in our
 implementation) then $\MMStiffness_n = 0.5\MMStiffness_{n-1}$ within the iterative process.
 }
@@ -854,7 +854,7 @@ implementation) then $\MMStiffness_n = 0.5\MMStiffness_{n-1}$ within the iterati
 
 % -----------------------------------------------------------------------------------
 
-\rev{ 
+\rev{
 This is a well-written paper with generally sufficient experiments, but I believe the authors should fill in the missing technical and implementation details, which would also make the work easier to reproduce. I recommend a minor revision.
 
 Typos:\\
@@ -881,10 +881,10 @@ of the typos you pointed out.
 
 
 \noindent We thank the reviewer for his time and detailed read of the paper.
-Below, we provide our answers to his comments and to the unclear points that were raised, 
-and what we have done to clarify the paper and take comments into account. 
-Note that in our answer, all references (Equations, Figures) 
-refer to the new version except stated otherwise. 
+Below, we provide our answers to his comments and to the unclear points that were raised,
+and what we have done to clarify the paper and take comments into account.
+Note that in our answer, all references (Equations, Figures)
+refer to the new version except stated otherwise.
 
 \vspace*{4mm}
 
@@ -914,7 +914,7 @@ insightful items you have brought to discussion.
 
 \vspace*{1mm}
 
-Please note that we believe our paper has sufficient novelty and contributions, and very much deserves publication in IJCV. 
+Please note that we believe our paper has sufficient novelty and contributions, and very much deserves publication in IJCV.
 %
 As you have mentioned, the problem at hand is very
 important. To come up with a solution is of great benefit for areas such as HRI, HHI and HCI, which
@@ -926,19 +926,19 @@ scenarios, such as poorer data sensing quality and minimal user cooperation.
 
 
 
-In terms of the technical aspect, it is true that part of the methodology is a direct extension of previous and original work 
+In terms of the technical aspect, it is true that part of the methodology is a direct extension of previous and original work
 of ours, nevertheless there are many questions which were left unaddressed in this previous work, which needed to be explored
-more carefully and validated on a larger dataset. 
+more carefully and validated on a larger dataset.
 %
 
 For example, to what extend does the eye rectification method gives head pose invariance (quantitatively) or which
-strategy is more adequate to generate the said rectification? 
+strategy is more adequate to generate the said rectification?
 %
 Another example is the regression algorithm and features used, for both person specific and person
-invariant models. 
+invariant models.
 %
 
-Please note that in the literature it has not been a practice to compare methods on the same data (perhaps until very recently, 
+Please note that in the literature it has not been a practice to compare methods on the same data (perhaps until very recently,
 with the work of Schneider et al (2014)) and
 certainly not under the very challenging conditions which we address in this paper, motivated by the possible applications.
 We believe that this is in itself  is a contribution of interest to the community.
@@ -947,7 +947,7 @@ We believe that this is in itself  is a contribution of interest to the communit
 
 We have also raised the awareness on the eye alignment problems across subjects, which has been rather neglected in the literature.
 To address this problem, we have proposed a novel alignment algorithm which brings the data from a set of subjects to an
-implicit cross-subject aligned frame. 
+implicit cross-subject aligned frame.
 %
 This algorithm builds and extend computer vision concepts through a sound modelling strategy.
 
@@ -978,7 +978,7 @@ on Human Activity Understanding from 2D and 3D data.
 
 Before addressing the specific points you have brought to discussion, we would like to summarize some of the most important changes:
 \begin{itemize}
-\item we have conducted head pose tracking experiments on two benchmark dataset, to provide an idea of the accuracy of this step 
+\item we have conducted head pose tracking experiments on two benchmark dataset, to provide an idea of the accuracy of this step
   and motivate the use of a person specific 3DMM. These experiments are presented in Section 6.2, with results in Section 7.1.
 \item we have conducted experiments using the state of the art landmarks detection algorithm of Kazemi and Sullivan (CVPR 2014), which, as
 you suggested, is capable of handling lower resolution conditions (and it's implementation is available through Dlib). This to
@@ -1007,18 +1007,18 @@ respect to the previous version.
 }
 % -----------------------------------------------------------------------------------
 
-\rev{ 
+\rev{
 - Page 2, lines 42-44, first column: the authors write "Depth measurements provide information about the shape of a 3D scene...". I disagree: shape
 information is also present in the RGB data.
 }
 
-\ans{ 
-We agree with the reviewer that  there is indeed shape information in the RGB data. Please be assured that our intention was not to state otherwise, 
+\ans{
+We agree with the reviewer that  there is indeed shape information in the RGB data. Please be assured that our intention was not to state otherwise,
 and that the sentence was not exclusive.
 %
 In the case of designing an algorithm which uses shape information explicitly (as we do here), state-of-the-art algorithm on inferring shape
 from monocular RGB data can not  be considered as a mature and reliable technology yet. Depth-cameras on the other hand can provide this information
-more reliably. 
+more reliably.
 %% On the other hand, it's true that shape information can and is used implicitly by machine learning algorithms. However, in order to obtain
 %% better generalization it is a good practice to reduce the burden on the machine learning method by, for example, computing features
 %% invariant to different factors. Which is, in a way, what we are proposing.
@@ -1029,14 +1029,14 @@ We have thus changed the manuscript (Introduction) as follows:
 
 \PM{
 or facial expressions recognition (Weise
-et al, 2011). 
+et al, 2011).
 %
 Through depth (D) maps, these sensors provide explicit and reliable measurements of the
 scene's shape, as opposed to the implicit shape information embedded within the RGB data.
 Notice that it is still difficult and costly to infer shape information from the visual domain (RGB) alone (Barron and Malik, 2013).
 
 Therefore, depth sensing enables the use of shape information in further processing stages.
-In particular, depth data has been shown to be valuable for accurate head pose estimation 
+In particular, depth data has been shown to be valuable for accurate head pose estimation
 (Fanelli et al, 2011; Weise et al, 2011), a necessary step
 prior to determining the gaze direction. On the other
 hand, gaze itself requires
@@ -1062,11 +1062,11 @@ the faceshift founders) about the principle used for eye/gaze tracking. We can o
 \item within the training stage, the user must rotate the head such that the system is able to build a person specific face model
 from a sequence of RGB-D frames. This is a fully automatic and alternative process to that of using a 3DMM, but requires user collaboration.
 %
-\item  As it is required for the user to fixate at the sensor (established within the faceshift protocol), 
+\item  As it is required for the user to fixate at the sensor (established within the faceshift protocol),
 it seems the system undergoes a training specific to the eyeball.
 Nevertheless, it encourages, a further manual refinement of the position and size of the eyeball
 (see \url{http://doc.faceshift.com/studio/training/index.html} ). Given that this information is manipulated explicitly, we are almost certain
-a geometric based method is being used, rather than an appearance based method which is the focus of our paper. 
+a geometric based method is being used, rather than an appearance based method which is the focus of our paper.
 \end{itemize}
 
 \vspace*{1mm}
@@ -1090,7 +1090,7 @@ We hope you understand this is the best we can do given what is in the public do
 % -----------------------------------------------------------------------------------
 
 \rev{
-- A paper which I think could find its way in the related work is Egger et a., 
+- A paper which I think could find its way in the related work is Egger et a.,
 Pose Normalization for Eye Gaze Estimation, 2014, where the authors also use a 3DMM to normalize the
 eye region of the face before gaze estimation, though only using 2D images.
 }
@@ -1114,7 +1114,7 @@ model fitted to the 2D image, rather than depth data.
 }
 
 \ans{
-It is true that the isophotes curvature is mostly intended to locate the iris center in Valenti's work, rather than 
+It is true that the isophotes curvature is mostly intended to locate the iris center in Valenti's work, rather than
 doing an explicit fitting of the iris. Thank you for your observation, we have rephrased this part in the Related Works as follows:
 
 \PM{Under natural light conditions, many proposals also
@@ -1142,13 +1142,13 @@ However, you are definitely right and this is valuable information which should 
 have added the following in Section 6.1, ``Implementation details and speed'':
 
 \PM{
-{\bf Speed.} Overall, the gaze tracking takes around 100ms per frame. 
+{\bf Speed.} Overall, the gaze tracking takes around 100ms per frame.
 Note however that this is a research implementation, where the most
 time-consuming elements are the data pre-processing (3D mesh creation) and the head pose tracking.
 The head pose tracking is CPU based and alone takes from 20 to 100ms (depending on the amount of head pose changes during consecutive frames).
 A careful GPU-based implementation could greatly increase the speed.
 
-The OpenGL based rectification takes 15ms. The gaze regression computation time depends on the used algorithm. 
+The OpenGL based rectification takes 15ms. The gaze regression computation time depends on the used algorithm.
 For the particular case of using $1200$ training samples (e.g.~for an experiment from Sec.~7.2)
 the \kNN's method takes 25ms per eye, the \HSVR method takes 15ms per eye,
 whereas the \RSVR method takes 11ms per eye. \ALR's speed is heavily dependent on the training set' size, as
@@ -1175,7 +1175,7 @@ We understand your concern. In this revision we conducted experiments on both da
 As it can be seen from these experiments, the head pose tracker obtains high accuracy for the ICT 3D Head Pose Database (annotated
 using a flock of birds sensor) and it also has comparable results to the annotations of the BIWI head pose database ($1.61^\circ$ of difference
 for 20 out of 24 sessions). Notice that the annotations for the BIWI dataset were obtained from the faceshift software, which means that we are obtaining
-similar accuracy. 
+similar accuracy.
 }
 
 % -----------------------------------------------------------------------------------
@@ -1196,16 +1196,16 @@ Nevertheless, there
 are two important reasons why an additional alignment is needed: i) the depth data noise level does not allow for the 3DMM to use actual eyeball
 information; we thus agree with your statement: ``\ldots due to the inaccuracy of the 3DMM fitting in the training step\ldots''.
 This is also mentioned in the paper and, more importantly, ii) we argue the eye corners, even if perfectly localized, are not sufficient to determine the eyeball center
-(the eyeball center, although correlated, is not the mean position between the eye corners). 
+(the eyeball center, although correlated, is not the mean position between the eye corners).
 %
-It was indeed one of our motivations in this work to find parameters which attempt at matching gaze-aligned images across people, rather than to go through 
-the usage of eye corners. 
+It was indeed one of our motivations in this work to find parameters which attempt at matching gaze-aligned images across people, rather than to go through
+the usage of eye corners.
 %
 Note that this last point is validated through the experiments where our alignment performs better than
 when using eye corners obtained either through automatic methods (as we have done in this revision) and even
 when using  {\em manual} eye corners annotations to obtain said alignment.
 
-\noindent 
+\noindent
 In the paper, we have rephrased the paragraph to account for your comment.
 
 \PM{
@@ -1214,14 +1214,14 @@ same part of the eye for different users, if head pose tracking errors are not c
 %
 However, due to the uncertainty affecting the accuracy of the 3DMM fitting, or
 the natural human variations in the eyeball localization, which are not perfectly
-correlated to the position of facial features (e.g.~eye corners), 
+correlated to the position of facial features (e.g.~eye corners),
 this may not be the case, as illustrated in Fig.~12.
 %
 }
 
 \noindent
 The experiment you propose is indeed very interesting. However, it is not possible to control the resulting 3DMM fitting
-without negatively influencing the head pose tracking, making it difficult to draw conclusions based on this strategy. Note that 
+without negatively influencing the head pose tracking, making it difficult to draw conclusions based on this strategy. Note that
 accurate head pose tracking is a requirement for gaze estimation. To corroborate this point, please see Section 7.1,
 where we evaluate the accuracy of the head pose tracker while contrasting to the results obtained when using the mean face shape
 (instead of the more precise 3DMM fitting).
@@ -1230,16 +1230,16 @@ Nevertheless, there is a strong link associating the obtained alignment to the 3
 \PM{
 Note  that the coordinate transformations in the $\eyeRenderedImage$
 image domain can be directly reinterpreted within the \HCS domain. Therefore,
-the alignment transform can be seen as a the same 
+the alignment transform can be seen as a the same
 local transformation of the 3DMM fitted model itself, as a refinement step.
 %
-Indeed, when $\WarpParameters$ defines a translation and assuming the estimated head pose is not 
-affected by such 3DMM local refinement, the refined face model would generate the same eye 
-image to \eyeCroppedImage, in particular the   \DDM case  
+Indeed, when $\WarpParameters$ defines a translation and assuming the estimated head pose is not
+affected by such 3DMM local refinement, the refined face model would generate the same eye
+image to \eyeCroppedImage, in particular the   \DDM case
 }
 
 \noindent
-This means that the alignment is actually correcting 3DMM fitting semantic errors. 
+This means that the alignment is actually correcting 3DMM fitting semantic errors.
 Again, from the experiments based on automatic and
 manual landmarks detection, it has been demonstrated our alignment strategy goes even one step further than that,
 as it provides more accurate results on gaze estimation than landmarks.
@@ -1269,15 +1269,15 @@ the eye regions vary between only 13x9 and 19x14 pixels. Why choosing such a lar
 Indeed, this might be larger than needed for the EYEDIAP database. However, this was merely a conservative decision on our side, with the purpose
 of not losing information when rectifying the image.  As this image is obtained for a canonical head viewpoint it has the
 property that the size in pixels of the eyeball is constant (for the same subject) no matter the original image
-resolution or subject distance. Therefore, $55\times35$ was simply a ``good'' size which would fit diverse conditions such as faces 
-closer to the sensor, higher resolution sensors (eg Kinect 2), or diverse head poses without losing information, 
+resolution or subject distance. Therefore, $55\times35$ was simply a ``good'' size which would fit diverse conditions such as faces
+closer to the sensor, higher resolution sensors (eg Kinect 2), or diverse head poses without losing information,
 with the side consequence of being an up-sampled version of the original image (for most of the cases).
 
 To clarify this point, we have modified the footnote as:
 
 \PM{
-{\bf footnote}\{Note that in all methods $\eyeCroppedImage$ 
-is a gray-scale image of size $55 \times 35$. This is a conservative choice, since in our experiments eye image sizes 
+{\bf footnote}\{Note that in all methods $\eyeCroppedImage$
+is a gray-scale image of size $55 \times 35$. This is a conservative choice, since in our experiments eye image sizes
 almost neither go beyond $20\times 15$. It should however not be harmful in principle.\}
 }
 
@@ -1286,15 +1286,15 @@ almost neither go beyond $20\times 15$. It should however not be harmful in prin
 
 As described within the Implementation details section, the gaze estimation step
 is not the most costly element in terms of speed (for most conditions), thus we do not think that reducing the size this would have an important impact.
-In addition, the \ALR and \HSVR features have a fixed size which are independent of the image size. 
+In addition, the \ALR and \HSVR features have a fixed size which are independent of the image size.
 %
 Although this is an interesting point, conducting this experiment would be  time consuming, and might not bring much in terms of the contributions.
 As this is an interesting point for future work, we therefore included it in the Discussions section, where you can find the following:
 
 \PM{
-In this direction, it could also be relevant to evaluate whether there is an impact of the 
-pose-rectified eye image  size on the performance error, taking into account the distance at which  the system is expected to operate; 
-or similarly, evaluate the impact on accuracy of the amount of training data, eg by using  less than 15 persons, 
+In this direction, it could also be relevant to evaluate whether there is an impact of the
+pose-rectified eye image  size on the performance error, taking into account the distance at which  the system is expected to operate;
+or similarly, evaluate the impact on accuracy of the amount of training data, eg by using  less than 15 persons,
 or by collecting more data to see at which level the method saturates.
 %
 Such studies could be facilitated and compared to our work thanks to the use of our  publicly available database.
@@ -1312,29 +1312,29 @@ information in the color channels which is being discarded?
 We agree that there might be valuable information in the color channels.
 However, we have been  consistent with the literature, as there
 are no previous works exploiting color information (to our knowledge), except from a recent work of ours with takes a completely
-different direction (Funes Mora and Odobez, CVPR 2014). 
+different direction (Funes Mora and Odobez, CVPR 2014).
 %
 Furthermore, it is not necessarily trivial to exploit  this information (e.g. which color representation, which channel, possible saturation, fusion, etc...).
 %
-Adding such feature would mean performing again the experiments for all conditions, which is still time consuming given all the cross-validation. 
+Adding such feature would mean performing again the experiments for all conditions, which is still time consuming given all the cross-validation.
 %
 Even though this could indeed be interesting, we believe it it not so much in line with the paper contributions, and have left this as future work.
 
 In Section 9 (Discussion and future work) or the manuscript, the following was added:
 
 \PM{
-An exhaustive comparison in terms of features and regression algorithms has 
-not been conducted in this paper, as our  purpose was but to validate our contributions using the best and 
+An exhaustive comparison in terms of features and regression algorithms has
+not been conducted in this paper, as our  purpose was but to validate our contributions using the best and
 representative features and algorithms found in the literature, as motivated in Section~4.
 %
-This leaves room for future studies evaluating whether in our framework and scenarios, 
-other types of features such as local binary patterns, %\citep{citeulike:8254898}, 
-the possible exploitation of color information, 
+This leaves room for future studies evaluating whether in our framework and scenarios,
+other types of features such as local binary patterns, %\citep{citeulike:8254898},
+the possible exploitation of color information,
 or combination of features (as done by Schneider et al, 2014 for instance),
 could improve the results.
 }\\
 
-It is important to mention that one of our objectives by releasing the EYEDIAP database is to allow direct 
+It is important to mention that one of our objectives by releasing the EYEDIAP database is to allow direct
 comparisons in  the future, either by us or by other researchers which would like to explore these possibilities.
 }
 
@@ -1347,22 +1347,22 @@ where a constant value is found using a leave-one-out experiment on the training
 }
 
 \ans{
-Quoting (Lu et al 2011): ``{\em the optimal value of $\epsilon$ should be determined when the minimized $||{\mathbf w}||_1$ just converges to 1}'', 
+Quoting (Lu et al 2011): ``{\em the optimal value of $\epsilon$ should be determined when the minimized $||{\mathbf w}||_1$ just converges to 1}'',
 this being done per test sample. Their decision of an $\epsilon$ value obtained from leave-one-out cross validation was merely
 due to computational reasons. We indeed tried the approach proposed by Lu et al, but we found the solution
 of Eq. 7 to be the empty set $\emptyset$ in many cases when evaluated in our data/experiments (using CVXOPT for solving Eq. 7).
 %
 Note that $\epsilon$ is a {\em strict bound} on a reconstruction error. So, in the presence of large variations due to, for example,
 head motions, illumination changes, or when the training data does not even correspond to the same subject, the $\epsilon$ found through cross
-validation might be too restrictive. 
+validation might be too restrictive.
 %
 Note that our data drastically differs from the conditions evaluated in Lu et al 2011, where the data is of higher resolution,
 from the same subject, using a chin rest, no illumination changes and carefully aligned images.
 %
-Note as well that increasing $\epsilon$ to avoid the empty set situations led to accuracy degradation in pilot experiments. 
+Note as well that increasing $\epsilon$ to avoid the empty set situations led to accuracy degradation in pilot experiments.
 
 
-We therefore decided to stick to the original claim by Lu et al and find (through grid search) the $\epsilon$ for which the optimum 
+We therefore decided to stick to the original claim by Lu et al and find (through grid search) the $\epsilon$ for which the optimum
 $||{\mathbf w}||_1$ is as close to 1 as possible,
 at the expense of larger computational time.
 
@@ -1370,14 +1370,14 @@ We have modified the Manuscript to make this clearer:
 
 
 \PM{
-In the above formulation, the parameter $\ALRepsilon$ plays an important role. 
+In the above formulation, the parameter $\ALRepsilon$ plays an important role.
 Lu et al, 2011a recommended to obtain it from cross validation on the training set but,
 in our much noisier data, which drastically differ from the well controlled conditions used by Lu et al, 2011a,
 the resulting value usually happened to be too restrictive at test time.
 %
-We therefore resorted to the original proposition by the same authors, where the optimal value of $\ALRepsilon$ should be determined when 
-the minimized $\| \ALRweights\|_1$ is equal to 1. In practice, we evaluated this using seven predefined values of $\ALRepsilon$, 
-at the cost of longer computation time. 
+We therefore resorted to the original proposition by the same authors, where the optimal value of $\ALRepsilon$ should be determined when
+the minimized $\| \ALRweights\|_1$ is equal to 1. In practice, we evaluated this using seven predefined values of $\ALRepsilon$,
+at the cost of longer computation time.
 }
 }
 
@@ -1415,7 +1415,7 @@ the reason why we proposed this strategy, such that it can be done for a very sm
 and then execute ALR with the selected subjects on the rest of the data at faster speed.
 %
 Nevertheless, clearly this is too limiting for real-time applications.
- 
+
 To clarify this point, we modified the Manuscript in Section 7.4 (before commenting about the alignment methods) as follows:
 
 \PM{
@@ -1436,11 +1436,11 @@ One Millisecond Face Alignment with an Ensemble of Regression Trees, CVPR'14, et
 \ans{
 Actually, we were not discarding these methods. On the contrary, the experiments on alignment parameters estimation based on {\em manual}
 eye corner annotations are intended to be representative of such methods and other variants, as these experiments would represent the best
-case scenario. 
+case scenario.
 %
 
 Nevertheless, this is indeed a very interesting point which we took even further.
-%as it would help us to address a request from the editor. 
+%as it would help us to address a request from the editor.
 Due to its good performance, handling of low resolution data and accessibility through the dlib library (\url{http://dlib.net/}), we
 now conducted experiments using the method of Kazemi and Sullivan (CVPR 2014) as an alternative strategy to infer the person
 specific alignment.
@@ -1454,17 +1454,17 @@ to an alignment based on manually annotated eye corners\ldots
 \ldots
 The first tested method is \AEC. In this case we applied the facial landmarks detection method of Kazemi and Sullivan (2014) on
 the pose-rectified facial images, as shown in Fig.~12;
-although in practice this method showed good stability on this type of images, 
+although in practice this method showed good stability on this type of images,
 we obtained the eye corners position for over 100 frames and computed their average to account for minor variations.
-Considering future improvements on automatic landmarks localization algorithms, we also 
+Considering future improvements on automatic landmarks localization algorithms, we also
 evaluated the \EC case, which means that 10 to 15 eye image samples were annotated {\em manually} with the eye corners \{{\bf footnote:}Doing
-such annotation was not so easy in practice. Given our image resolution, determining visually the location of 
+such annotation was not so easy in practice. Given our image resolution, determining visually the location of
  an eye corner is difficult, thus the need for multiple annotations.\}.
 In both cases this was used to register the eye images in a canonical view from the average eye corners position.
 %
 }
 
-Indeed, the automatic landmark detection provided lower accuracy than the manual eye corner annotations, 
+Indeed, the automatic landmark detection provided lower accuracy than the manual eye corner annotations,
 as expected, and it is now mentioned in the manuscript:
 
 \PM{
@@ -1480,18 +1480,18 @@ within the {\em discussion and future works} section:
 The use of a personalized (3DMM fitted) face model
 was shown beneficial for accurate head pose tracking and consistent eye image cropping.
 The required manual landmarks annotation at training is in practice a
-simple procedure which has to be done only once per subject. 
+simple procedure which has to be done only once per subject.
 %
-Nevertheless, this step could leverage state of the art landmarks detection algorithms to make it 
+Nevertheless, this step could leverage state of the art landmarks detection algorithms to make it
 fully automatic, such as  Dantone et al (2012), Cao et al
 (2013) or, as used in Sec.~7.4, Kazemi and Sullivan (2014).
 %
-Although such detectors may also introduce noise, keeping the more consistent landmarks results could 
+Although such detectors may also introduce noise, keeping the more consistent landmarks results could
 allow the fitting to be obtained automatically and online.
 
 Furthermore, during head pose tracking, the same facial landmarks estimates could further constrain the ICP
-cost function to improve the tracking accuracy, esp. in near frontal poses. Fusion algorithms and experiments would then 
-be needed to  evaluate whether the landmark extraction is robust and precise  
+cost function to improve the tracking accuracy, esp. in near frontal poses. Fusion algorithms and experiments would then
+be needed to  evaluate whether the landmark extraction is robust and precise
 enough and can lead to the reduction of the gaze tracking errors.
 }
 
@@ -1512,47 +1512,47 @@ eye was not fully visible''; what do the authors mean? That when even only one e
 \ans{
 We understand your concern, and the text was missing some information regarding this aspect.
 %
-Please note that we do not say 2400 is the number of frames obtained after removing ``wrongly'' annotated frames. 
+Please note that we do not say 2400 is the number of frames obtained after removing ``wrongly'' annotated frames.
 %
 This number also takes into account the amount of frames for which the ground truth {\em can not} be determined,
-either due to some immediate sensing issue (e.g. the ball target is not in the field of view), or due 
+either due to some immediate sensing issue (e.g. the ball target is not in the field of view), or due
 to some conservative measures to keep very high the certainty that people look at the target (eg in case of gaze shifts).
-% 
+%
 
 
-The detailed reasons are now explained in Section 6.2 (also the selection of valid frames is indeed done separately for each eye) 
+The detailed reasons are now explained in Section 6.2 (also the selection of valid frames is indeed done separately for each eye)
 where we have now:
 
 \PM{
-For each session a file provides the frames that can be considered as valid. 
-In brief, this was obtained by automatically,  semi-automatically, or manually, excluding  frames to account for the following: 
+For each session a file provides the frames that can be considered as valid.
+In brief, this was obtained by automatically,  semi-automatically, or manually, excluding  frames to account for the following:
 %
-i)  it is important to note that {\em not all} frames in a session are annotated with $\gazeVectorGT$ as the 
+i)  it is important to note that {\em not all} frames in a session are annotated with $\gazeVectorGT$ as the
 EYEDIAP dataset consists of non stop video recordings.  There were moments in the \FT case where the GT could not be determined,
 like  when the ball's position could not be retrieved as it was either out of the sensor's field of view,
-or so close that the sensor does not output depth data (needed to determined its 3D position). 
+or so close that the sensor does not output depth data (needed to determined its 3D position).
 %
-ii) for the \CS case, each time $\PoRWCS$ {\em randomly} starts a new trajectory (i.e. a new dot is displayed on the screen), 
-a set of frames were systematically removed from the annotation to allow sufficient time for the gaze shift and 
+ii) for the \CS case, each time $\PoRWCS$ {\em randomly} starts a new trajectory (i.e. a new dot is displayed on the screen),
+a set of frames were systematically removed from the annotation to allow sufficient time for the gaze shift and
 ensure that the participant is fixating at the target.
 %
-iii) self-occlusion situation. In sessions with head pose variations, 
-frames where the eye was not fully visible and occluded by the nose (as estimated from the head pose) were removed. 
+iii) self-occlusion situation. In sessions with head pose variations,
+frames where the eye was not fully visible and occluded by the nose (as estimated from the head pose) were removed.
 %a self-occlusion was likely  (eye not visible from the camera)
 % in which we expect a self occlusion due to extreme head yaw. We thus filter according
-% to head pose. 
+% to head pose.
 iv) extreme gazes. Frames were removed in
 % We removed samples in which the ground truth gaze direction goes over extreme angles.
-%This corresponded to 
-situations with head pose and $\PoRWCS$ measurements, 
-but with a $\gazeVectorGT$ almost impossible anatomically (yaw beyond 45 degrees), 
-making it unlikely that the person was actually gazing at the target. 
+%This corresponded to
+situations with head pose and $\PoRWCS$ measurements,
+but with a $\gazeVectorGT$ almost impossible anatomically (yaw beyond 45 degrees),
+making it unlikely that the person was actually gazing at the target.
 %
 v) finally, manuel inspection was conducted to eliminate frames with blinks and obvious distractions (the participant is not fixating at the visual target).
 %
-Note that  the criteria iii and iv were applied to each eye separately, meaning that in 
+Note that  the criteria iii and iv were applied to each eye separately, meaning that in
 a given frame one eye annotation can be considered as valid while the other is not.
-%We leave the problem of self occlusions for future work; 
+%We leave the problem of self occlusions for future work;
 
 As a result of these validity checks,  the average number of valid frames per session is around 2400.
 }\\
@@ -1564,7 +1564,7 @@ The automatic elements used for annotation (such as the ball tracking) are very 
 As explained in the EYEDIAP documentation, its position was determined by color detection followed by ICP fitting.
 There are no false positives, except for a few frames in one of the 94 sessions, which were not detected
 at the time of release. By visual comparison of the 3D rendering of the ball's 3D model (used for ICP) on the data we found it to be
-consistently a very good fit. 
+consistently a very good fit.
 %
 The 5mm estimate is a qualitative but confident estimation (it is not possible to obtain quantitatively)
 
@@ -1572,16 +1572,16 @@ To account for this, we have clarified the origin of our estimation:
 
 
 \PM{
-As an indication, the location errors were estimated to be around $5mm$ on average\footnote{This is an educated estimation. 
-Location errors for the ball target or the screen dot center is considered as 0, but we needed to add the depth uncertainties 
+As an indication, the location errors were estimated to be around $5mm$ on average\footnote{This is an educated estimation.
+Location errors for the ball target or the screen dot center is considered as 0, but we needed to add the depth uncertainties
 or calibration errors.
 %
-For the eyeball center, we evaluated the error by comparing in a few frames 
-the manual annotation of the eyeball center with the projection of $\eyeballCenterWCS$.} 
+For the eyeball center, we evaluated the error by comparing in a few frames
+the manual annotation of the eyeball center with the projection of $\eyeballCenterWCS$.}
 leading to an estimated accuracy of the gaze direction of around $0.25^o$.
 }
 
-Note that, when describing the two situations  in Section 6.3,  we have also provided  the depth uncertainties 
+Note that, when describing the two situations  in Section 6.3,  we have also provided  the depth uncertainties
 (between 1.5mm and 3mm for the \CS and \FT conditions) as reported by the authors of the calibration software we are using.
 
 
@@ -1603,8 +1603,8 @@ The eye image pose rectification plays a role as well in our approach, esp. when
 The \TDM template method would profit from a 3DMM model with a tighter fit in the eye region.
 %
 Local non-rigid registration methods, or unsupervised frame matching and averaging could be used there.
-As the depth noise level makes this challenging, RGB information could be exploited as well. 
-Also, depth information could help handling self occlusion by the noose. 
+As the depth noise level makes this challenging, RGB information could be exploited as well.
+Also, depth information could help handling self occlusion by the noose.
 %
 The \DDM depth driven method could alternatively make use of depth filling methods and depth smoothing, to maximize the
 region with texture information in the pose rectified image, and to reduce artifacts (see Fig.~6).
@@ -1616,7 +1616,7 @@ Note here that the \TDM approach implicitly has this function.
 % -----------------------------------------------------------------------------------
 
 \rev{
-- Page 11, first column, at the bottom: the authors write about an additional selection of the test data, 
+- Page 11, first column, at the bottom: the authors write about an additional selection of the test data,
 done by removing the frames falling outside the convex hull of the
 training annotations, the motivation is not clearly explained though. A mismatch is mentioned for some subjects in the CS setting, but such mismatch is not well explained
 nor could I find the percentage of test frames which were excluded in the CS case (this number - 5 - is only mentioned for the FT sessions, where there had been no mismatch).
@@ -1626,12 +1626,12 @@ nor could I find the percentage of test frames which were excluded in the CS cas
 This is a decision we have made to report errors that are meaning full in terms of algorithm performance.
 %
 Note that this happens mainly in the \CS setting with a single user, where we train from gaze data recorded with a static pose (not necessarily frontal),
- and test on data with a moving head. 
+ and test on data with a moving head.
 %
-So, for instance, for the yaw, in the training set we may observe gaze directions (in the head coordinate system) only in the range (-5, 15), 
-while in the test data, due to the large head poses  taken by users, we typically  have yaws ranging in (-30, 30). 
+So, for instance, for the yaw, in the training set we may observe gaze directions (in the head coordinate system) only in the range (-5, 15),
+while in the test data, due to the large head poses  taken by users, we typically  have yaws ranging in (-30, 30).
 %
-Then, making predictions on test samples belonging to the ranges (-30;-5) or (15,30) would be difficult, and errors of these samples would overwhelm 
+Then, making predictions on test samples belonging to the ranges (-30;-5) or (15,30) would be difficult, and errors of these samples would overwhelm
 the reported errors without allowing us to really understand what is going on, and draw conclusions.
 %
 
@@ -1641,31 +1641,31 @@ This is why we mention in the footnote that ``In a given application, training d
 In order to further clarifiy this point, we have rephrases the paragraph as follows:
 
 \PM{
-During evaluation, valid frames were further filtered to exclude 
-the test samples in which the gaze ground truth was not within the convex hull 
-of the training data (in terms of gaze angles defined w.r.t.~the \HCS). 
+During evaluation, valid frames were further filtered to exclude
+the test samples in which the gaze ground truth was not within the convex hull
+of the training data (in terms of gaze angles defined w.r.t.~the \HCS).
 %
 This was motivated by the fact that in the head pose invariance tests with the screen (\CS case), there was a mismatch
 between the gaze training and test data for some participants.
 %
-Since it is known a priori that the regression methods in appearance based apporoaches can not handle well 
-extrapolation to unseen data\footnote{In a given application, training data would need to be collected appropriately.}, 
-consider samples out of the convex-hull of the training data would introduce much (random) 'noise' in the evaluation, 
-deflecting the reported errors to convey the actual performance achieved by the different algorithms. 
+Since it is known a priori that the regression methods in appearance based apporoaches can not handle well
+extrapolation to unseen data\footnote{In a given application, training data would need to be collected appropriately.},
+consider samples out of the convex-hull of the training data would introduce much (random) 'noise' in the evaluation,
+deflecting the reported errors to convey the actual performance achieved by the different algorithms.
 %
 In the (\CS) case, as the screen is a small object (within the larger 3D space),
 the training samples collected using a static head pose only cover a small region of the gaze space,
-whereas sessions with head pose variations induced a larger coverage as the 
+whereas sessions with head pose variations induced a larger coverage as the
 screen region would move within this space following the head movements, causing the data mismatch.
 
 For head pose invariance experiments in the \CS case, this could discard up to 40\% of the
 test samples. Nevertheless, the remaining samples are still diverse in terms of head pose and
 gaze direction combinations.
 %
-Note that (i) in the other experiments (\FT target, person invariance), 
+Note that (i) in the other experiments (\FT target, person invariance),
 excluded frames represented less than 5\% of the  test frames and (ii), in all cases,
-as the training and test samples are the same across different gaze regressions methods, 
-results between methods are directly comparable. 
+as the training and test samples are the same across different gaze regressions methods,
+results between methods are directly comparable.
 }
 
 }
@@ -1704,9 +1704,9 @@ Manuscript.
 That is indeed an interesting observation. The Manuscript has been updated as:
 
 \PM{
-The plots show that errors are well distributed over the large range of gaze values. 
+The plots show that errors are well distributed over the large range of gaze values.
 Interestingly, we can note that \kNN has a flatter error distribution w.r.t. head pose.
-In particular, it has the lowest errors at large angles, 
+In particular, it has the lowest errors at large angles,
 followed by \RSVR.
 }
 }
@@ -1731,18 +1731,18 @@ increases, a comparison of the different algorithms in terms of processing speed
 }
 
 \ans{
-The amount of samples can be inferred from the protocol used for each experiment. 
+The amount of samples can be inferred from the protocol used for each experiment.
 We have made the following modifications to make this information explicit now:
 
 For the static pose and person specific conditions:
 
 \PM{
-In this section we compare the regression methods assuming the model is 
+In this section we compare the regression methods assuming the model is
 trained and tested for the same person and under minimal head pose variations.
 There are 19 sessions for the \FT target,  14 sessions for the \CS target.
-In each session, the algorithm was trained using the first -temporal- half, while the evaluation was done in the second 
+In each session, the algorithm was trained using the first -temporal- half, while the evaluation was done in the second
 half. This  means that on average,  around 1200 samples are used for training\footnote{Note that for \ALR, the number of training
-samples was limited to 150. Otherwise the test time is prohibitively large (it is 3,5secs per sample when using 150 training samples).} 
+samples was limited to 150. Otherwise the test time is prohibitively large (it is 3,5secs per sample when using 150 training samples).}
 and around 1200 are used for testing.
 }\\
 
@@ -1754,7 +1754,7 @@ Note that  for each of the 19 (\FT) or 14 sessions (\CS) used in Section 7.2,
 there is an equivalent recording session (same person and visual target) involving head pose variations rather than a static pose.
 %
 Therefore, for each of the person, we used as training set the session involving a static head pose
-and as evaluation set the equivalent session with head pose variations, 
+and as evaluation set the equivalent session with head pose variations,
 each of them comprising 2400 valid samples on average.
 %
 }\\
@@ -1762,12 +1762,12 @@ each of them comprising 2400 valid samples on average.
 For the static head pose, person invariance experiments:
 
 \PM{
-To evaluate the person invariance case, we conducted  a leave-one-person-out cross-validation on the sessions 
-involving minimal head pose variations (\SP data). 
+To evaluate the person invariance case, we conducted  a leave-one-person-out cross-validation on the sessions
+involving minimal head pose variations (\SP data).
 %
 This means that in each of the $N$ experiments (where is N is the number of session for the \FT or \CS case),
 there are around $2400 \times (N-1)$ samples available for training\footnote{For the \SVR methods we
-limited the training set to 1200 samples as using the full set was prohibitively slow.} 
+limited the training set to 1200 samples as using the full set was prohibitively slow.}
 and around $2400$ for testing.
 }\\
 
@@ -1781,7 +1781,7 @@ With respect to the processing speed of the other methods, we have now included 
 Details section. Where you can find the following:
 
 \PM{
-The gaze regression computation time depends on the used algorithm. 
+The gaze regression computation time depends on the used algorithm.
 For the particular case of using $1200$ training samples (e.g.~for an experiment from Sec. 7.2)
 the \kNN's method takes 25ms per eye, the \HSVR method 15ms,
 whereas the \RSVR method takes 11ms per eye. \ALR's speed is heavily dependent on the training set size, as
@@ -1826,10 +1826,10 @@ At certain head poses, self occlusion can occur, for example one side of the nos
 efficient way to detect this (not 100\% accurate) that we experimented on was to monitor when the surface normal vector (per vertex)
 goes away from the camera. When this occurred we treated the points as occluded and thus become equivalent to the
 missing data in the \DDM approach. The Basel Face Model (which we used in the paper) is however detailed enough to cause a few points around the eyelids
-or eye corners to match this criteria, even when close to frontal head poses. 
+or eye corners to match this criteria, even when close to frontal head poses.
 This is what produced this minor ``artifact'' in Fig.6.
 %
-In practice this effect is very negligible and we prefer not to mention it in the paper. 
+In practice this effect is very negligible and we prefer not to mention it in the paper.
 
 }
 
@@ -1845,7 +1845,7 @@ Thank you for the suggestions, we have modified the Manuscript as follows:
 
 \PM{
 The results for \FT and \CS are reported under the \SP-\PInv columns from Table 3 and 4 respectively,
-and differ on which alignment strategy was used, if any. The obtained results can be compared to the person-specific case on the same data (\SP-\PSpec)\footnote{With the slight difference that the 
+and differ on which alignment strategy was used, if any. The obtained results can be compared to the person-specific case on the same data (\SP-\PSpec)\footnote{With the slight difference that the
 evaluation is conducted on all samples of the test subject's session, instead of only the second half in the person-specific case.}.
 
 Notice we evaluate four types of alignment: ``\AEC'' correspond to an alignment based on an automatic
@@ -1860,11 +1860,11 @@ Later, we further explain the eye corners based alignments as follows:
 \PM{
 The first tested method is \AEC. In this case we applied the facial landmarks detection method of Kazemi and Sullivan (2014) on
 the pose-rectified facial images, as shown in Fig.~12;
-although in practice this method showed good stability on this type of images, 
+although in practice this method showed good stability on this type of images,
 we obtained the eye corners position for over 100 frames and computed their average to account for minor variations,
-Considering future improvements on automatic landmarks localization algorithms, we also 
+Considering future improvements on automatic landmarks localization algorithms, we also
 evaluated the \EC case, which means that 10 to 15 eye image samples were annotated {\em manually} with the eye corners\footnote{Doing
-such annotation was not so easy in practice. Given our image resolution, determining visually the location of 
+such annotation was not so easy in practice. Given our image resolution, determining visually the location of
  an eye corner is difficult, thus the need for multiple annotations.}.
 In both cases this was used to register the eye images in a canonical view from the average eye corners position.
 }
@@ -1874,38 +1874,38 @@ In both cases this was used to register the eye images in a canonical view from 
 % -----------------------------------------------------------------------------------
 
 \rev{
-- In Table 1, a difference between A and A5 should be an increased processing speed, 
+- In Table 1, a difference between A and A5 should be an increased processing speed,
 so a comparison in such terms is really needed to justify the proposal of the A5 method.
 }
 
 \ans{
-The motivation to compare \SDIPA and \SDIPAFive is not to reduce processing speed since once the eye alignment translation is estimated, 
+The motivation to compare \SDIPA and \SDIPAFive is not to reduce processing speed since once the eye alignment translation is estimated,
 both methods have the same processing speed at test time (the same image warping step is applied).
 
-Indeed the motivation is to evaluate whether using few annotated samples in the alignment step can still 
-lead to performance improvement, as compared to not having any alignment for a test subject (both the EYEDIAP and gaze coding experiments 
-show it is the case). 
-Or more precisely concerning your comment, comparing \SDIPA and \SDIPAFive evaluates how much we loose when using only 5 samples 
+Indeed the motivation is to evaluate whether using few annotated samples in the alignment step can still
+lead to performance improvement, as compared to not having any alignment for a test subject (both the EYEDIAP and gaze coding experiments
+show it is the case).
+Or more precisely concerning your comment, comparing \SDIPA and \SDIPAFive evaluates how much we loose when using only 5 samples
 for alignment.
 %
-This is important in practice, as the need for less annotated samples sets lower requirements in a given application 
+This is important in practice, as the need for less annotated samples sets lower requirements in a given application
 like the gaze coding in natural dyadic interactions we present.
 
 
-%% The motivation is application driven: in many scenarios where gaze sensing is required, 
+%% The motivation is application driven: in many scenarios where gaze sensing is required,
 %% it is usually not possible to obtain gaze annotated samples to build a person specific
-%% gaze appearance model. However, a few gaze annotated samples can be obtained from other mechanisms and be exploited to do the alignment. 
+%% gaze appearance model. However, a few gaze annotated samples can be obtained from other mechanisms and be exploited to do the alignment.
 
-%% The automatic  we presented  is a representative example. 
+%% The automatic  we presented  is a representative example.
 %% There, the subjects do not collaborate with the system.
 %% %
-%% Nevertheless, by relying on high level semantics (is person A looking at B?), a third person can annotate a few gaze 
+%% Nevertheless, by relying on high level semantics (is person A looking at B?), a third person can annotate a few gaze
 %% samples which can then be used to infer the alignment.
 %% %
-%% The \SDIPA vs  \SDIPAFive simply evaluate whether there is a degration in performance when using fewer samples for alignment. 
-%% using fewer samples can   One question is: the  how many samples need to be annotated to obtain 
+%% The \SDIPA vs  \SDIPAFive simply evaluate whether there is a degration in performance when using fewer samples for alignment.
+%% using fewer samples can   One question is: the  how many samples need to be annotated to obtain
 
-%% We demonstrated our proposed alignment is indeed helpful to increase the gaze coding accuracy. 
+%% We demonstrated our proposed alignment is indeed helpful to increase the gaze coding accuracy.
 
 To further clarify this we modified the Manuscript as follows:
 
@@ -1913,10 +1913,10 @@ To further clarify this we modified the Manuscript as follows:
 ``\SDIPAFive'' is the same approach but using only 5 samples for the alignment of the {\em test} subject.
 \ldots
 
-Notice the \SDIPA vs.~\SDIPAFive comparison is motivated by possible applications where we want to reduce the load 
-for annotation. In this context ``\SDIPA'' can be interpreted as the best case scenario 
+Notice the \SDIPA vs.~\SDIPAFive comparison is motivated by possible applications where we want to reduce the load
+for annotation. In this context ``\SDIPA'' can be interpreted as the best case scenario
 whereas ``\SDIPAFive'' is representative of a conservative scenario where only a few gaze annotated samples
-can be obtained for the test subject.  Please see the gaze coding experiments in Section 8 for an example. 
+can be obtained for the test subject.  Please see the gaze coding experiments in Section 8 for an example.
 }
 
 
@@ -1926,15 +1926,15 @@ can be obtained for the test subject.  Please see the gaze coding experiments in
 
 \rev{
  Smaller comments/errors:
- 
+
  Eq 4., the target point $u_i$ is never explained.
- 
+
  Page 9, line 29, second column: why use the word "simplex", when triangle is appropriate (and easier to understand) for the 2D case at hand?
- 
+
  Page 8, line 55, I would not include the case when there is *little* training data available as part of a "person-invariant problem".
- 
+
  Fig 14 should be better explained in the text.
- 
+
  Section 7.2, gaze accuracy, table 2 is mentioned when table 1 is actually meant.
 }
 
@@ -1943,9 +1943,9 @@ Thank you for the observations, we have taken care of each one of these comments
 }
 
 % -----------------------------------------------------------------------------------
- 
- 
- 
+
+
+
 
 
 

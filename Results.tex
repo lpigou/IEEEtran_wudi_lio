@@ -390,7 +390,7 @@ as shown by the recognition rate increase and the smaller drop in the generaliza
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
         \centering
-        \begin{subfigure}[c]{.4\textwidth}
+        \begin{subfigure}[c]{.35\textwidth}
                 \includegraphics[width=\textwidth]{images/cm/cm_sk}
 \vspace*{-3mm}
                 \caption{\small{Skeleton - DBN}}
@@ -399,7 +399,7 @@ as shown by the recognition rate increase and the smaller drop in the generaliza
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
 
-        \begin{subfigure}[c]{0.4\textwidth}
+        \begin{subfigure}[c]{0.35\textwidth}
                 \includegraphics[width=\textwidth]{images/cm/cm_cnn}
 \vspace*{-3mm}
                 \caption{\small{RGB-D - 3DCNN}}
@@ -408,7 +408,7 @@ as shown by the recognition rate increase and the smaller drop in the generaliza
 
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[c]{0.4\textwidth}
+        \begin{subfigure}[c]{0.35\textwidth}
                 \includegraphics[width=\textwidth]{images/cm/cm_combination}
 \vspace*{-3mm}
                 \caption{\small{Multimodal Late Fusion}}
@@ -451,6 +451,7 @@ However, the modalities by themselves have more difficulties to correct the reco
 like differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynamics}).
 
 \mypartitle{Late vs. Intermediate  fusion.}
+\label{LateIntermediateFusion}
 %
 The results in Tab.~\ref{tab:jaccardperformance} and~\ref{tab:eventperformance} show that the intermediate fusion system
 improved individual modalities, but without outperforming the late fusion system.
@@ -483,7 +484,7 @@ More investigation on how to handle heteregeneous networks  should be conducted.
 
 \mypartitle{HMM benefit.}
 %
-As the emission probabilities are learned in a discrimimative manner, one could  wonder whether the HMM brings benefit beyond smoothing.
+As the emission probabilities are learned in a discriminative manner, one could  wonder whether the HMM brings benefit beyond smoothing.
 To investigate this issue, we removed the temporal structure as follows:
 for a given gesture \gesturea, we computed its score at time $t$, $Score(\gesturea,t)$, by summing the emission
 log-probabilities $p(\observation_t|\hiddenstate_t = \hiddenstatenode)$ for all nodes associated to that gesture,

@@ -116,6 +116,19 @@ The authors would like to thank Sander Dieleman for his guidance in building, tr
 
 \bibliographystyle{IEEEtran}
 \bibliography{tPAMI2015}
+% biography section
+%
+% If you have an EPS/PDF photo (graphicx package needed) extra braces are
+% needed around the contents of the optional argument to biography to prevent
+% the LaTeX parser from getting confused when it sees the complicated
+% \includegraphics command within an optional argument. (You could create
+% your own custom macro containing the \includegraphics command to make things
+% simpler here.)
+%\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
+% or if you just want to reserve a space for a photo:
+
+\input{Biography}
+
 
 \newpage
 

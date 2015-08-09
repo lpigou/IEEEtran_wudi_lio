@@ -92,7 +92,7 @@ The transitional matrix \transitionmatrix{} was learned by simply  collecting th
                 %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
         \end{subfigure}
   \caption{
-\small{ Left: A point cloud projection of a depth image and the 3D positional features. 
+\small{ Left: A point cloud projection of a depth image and the 3D positional features.
   Right: A \DBN is trained to predict the emission probability  $p(\observationSK_t|\hiddenstate_t)$
   from the  skeleton input $\skfeature_t$.
   The double arrows indicate that the intermediate weights are first trained in an unsupervised fashion using stacked RBMs.
@@ -282,7 +282,7 @@ The outcome is illustrated in Fig.~\ref{3dcnn_filters}.
 
 
 \subsubsection{3DCNN Architecture}
-
+\label{sec:3dcnnArchitecture}
 
 This  architecture consists of a series of layers composed of either convolution, pooling or, in the last layer, fully connected layers.
 The 3D convolution itself is achieved by convolving a 3D kernel to the cuboid formed by stacking multiple contiguous frames together.
