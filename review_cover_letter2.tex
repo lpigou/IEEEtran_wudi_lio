@@ -1,0 +1,113 @@
+\documentclass[12pt]{article}
+\usepackage{url,graphicx,tabularx,array}
+\usepackage{color}
+\usepackage[margin=22mm,nohead,nofoot]{geometry}
+\usepackage{xr}
+\externaldocument{bare_jrnl_compsoc}
+\begin{document}
+
+\begin{center}
+\end{center}
+
+\newcommand{\rev}[1]{{\noindent {\bf Comment:} {\it #1}}~\\}
+\newcommand{\ans}[1]{{\noindent {\bf Response:} #1}~\\}
+
+
+\begin{flushleft}
+August 9th, 2015
+\end{flushleft}
+
+\vspace*{3mm}
+
+\begin{flushleft}
+To: Editor TPAMI?
+\end{flushleft}
+
+\begin{flushleft}
+Obj: \#VISI-D-14-00453 submission - {\em Deep Dynamic Neural Networks for Multimodal Gesture
+Segmentation and Recognition}.
+\end{flushleft}
+
+\vspace*{3mm}
+
+\pagestyle{empty}
+
+\noindent Dear Guest Editor,
+\newline
+
+This letter is in response to the review of our submitted manuscript referenced above on 
+multimodal gesture recognition using dynamic deep neural networks.
+%
+We would first like to thank  the reviewers and guest editor for their time and valuable comments.
+We have taken into careful consideration each one of these comments, and have prepared a detailed response
+in a separate document adjoint to this letter. 
+We have made this answer as self-contained as possible to facilitate the review process.
+%
+Furthermore, addressing these comments led to many improvements of the manuscript. 
+%
+Before summarizing the main changes in the paper, we would like to recall the main characteristics and 
+contributions of the paper:
+\begin{itemize}
+\item A Gaussian-Bernoulli Deep Belief Network is proposed to extracts high-level skeletal joint features and the learned representation is used to estimate the emission probability needed to infer gesture sequences;
+\item A learning framework is proposed to extract temporal features jointly from multiple channel inputs of RGB images and depth images. Because the features are learned from raw 2D images stacked along the 1D temporal domain, we refer our approach as 3D Convolutional Neural Network;
+\item Intermediate fusion and late fusion are investigated as different strategies to model emission probability within the temporal modeling. Both strategies show that multiple-channel fusions outperform each individual module.
+\end{itemize}
+
+
+{\noindent \em Major modifications}: We now would like to summarize the main changes done to the manuscript:
+
+\begin{itemize}
+\item {\em Intermediate fusion:} In the previous version for multimodal fusion, we used the late fusion scheme  $s = a * s1 + (1-a)*s2$ where $a$ is chosen by cross-validation. In this revision, we implement an intermediate fusion scheme in Section~\ref{early_fusion} that a new-top level perceptron layer is created to combine two models' output as in Fig.~\ref{fig:fusion}. The new multimodal neural network's parameters are initialised by the previously trained individual module, taking advantage of different modules intrinsic properties and making the network converge much faster. The intermediate fusion system uses pre-trained weights. The results are reported in  Section~\ref{early_fusion} and Table~\ref{Table_score_fusion}.
+
+\item {\em Related Works section:} The Related Works section has been moved after the Introduction section. We also follow reviewers' suggestions and include discussions of related works concerning works of: 1) exploiting temporal models in the context of gesture recognition, notably a discriminative hidden-state approach for the recognition of human gestures introduced by Wang \emph{et al.}~\cite{wang2006hidden} ; 2) literature for RGBD data using deep learning, which includes the use of recurrent neural networks by Socher \emph{et al.}~\cite{socher2012convolutional} and applying convolutional neural networks on top of geocentric embedding for depth images by Gupta \emph{et al.}~\cite{gupta2014learning}
+
+\item {\em Experimental analysis:} We have included some time analysis in Section~\ref{sec:ComputationalComplexity} and visualisation of response maps after learnt filters in Fig~\ref{3dcnn_filters}. We also gave qualitative remarks on these filter banks. Regarding the quantitative results, we have added more analysis on failure patterns and lessons learnt from the experiments.
+
+\item {\em Explanation of intuition behind higher level presentation of the skeleton features:} We include Section \ref{sec:ProblemFormation} to explain the intuition behind higher level representation  for skeleton joint features which appeared in our previous CVPR paper but was not included in the previous submission. We think this part is one of major contributions of the paper and inclusion of this section makes the journal paper more self-contained.
+\end{itemize}
+
+\noindent {\em Minor modifications}: We have addressed all reviewer's comments, most with direct modifications in the paper. We would like to
+highlight a few relevant points:
+\begin{itemize}
+%
+ \item {\em 3D Convolutional Neural Networks}: We clarified accordingly to Rev4 and the readers that the $3^{rd}$ dimension of the input is indeed the time axis. However, RGB and Depth data are jointly processed by the neural networks, which justifies the multiple-channel naming convention.
+%
+ \item {\em Parameters and formula interpretation} (cf Rev3): While discussing model formulation, we have added more description and intuitive explanation of unobserved variable $\ensuremath{H}\xspace_t$. We also corrected and clarified the number of frames assigned to each hidden state.
+\end{itemize}
+
+We hope that these new experiments, clarifications, and paper modifications will satisfy the reviewers as well as address your own comments. 
+
+\vspace*{2mm}
+We thank you again for your time and consideration of our manuscript.
+
+%% We would like to address your particular comment: {``\em The paper has received reviews from three experts who suggest major/minor revisions.  The authors should prepare a major revision that addresses all of the concerns below. I'd be particularly keen to see a comparison with recent landmark-based normalization as suggested by Reviewer 3, and a proper consideration of related work on 3DMMs.''}
+
+%% As mentioned previously, we made a comparison using a recent automatic landmark detection method, as you 
+%% will  find in the revised manuscript. We have also considered related works on 3DMM's, as for example, the recent work by Egger et al (2014).{\color{red} todo.. what to say here?}
+
+
+\vspace*{8mm}
+
+\noindent Sincerely,\\[3mm]
+%
+Kenneth Alberto Funes Mora and Jean-Marc Odobez
+
+
+
+\newpage
+
+
+\end{document}
+
+
+
+% \ans{Thanks to the Editor and \ldots
+% \newline
+% \newline
+% 
+% We have conducted experiments on facial landmarks and the accuracy of the head pose tracker
+% 
+% Experiment on systematic alignment deviations
+% 
+% }
+

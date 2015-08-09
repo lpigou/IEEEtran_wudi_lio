@@ -232,7 +232,7 @@ each  being 4  consecutive 64 by 64 frames stacked together. See text for furthe
 Although DeepMind technology~\cite{mnih2013playing} presented the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using deep reinforcement learning, working directly with raw input Kinect recorded data frames, which are $640 \times 480$ pixel images, can be computationally demanding.
 Therefore, our first step in the preprocessing stage consists of cropping the highest hand and the upper body using the given joint information. In the Chalearn dataset, we determined that the highest hand is the most interesting. When both hands are used, they normally perform the same (mirrored) movement, and when one hand is used, it is always the highest one which is relevant.
 Furthermore, to be invariant to handedness, we always train the model with the right hand view.
-That is, when the left hand is actually the performing hand, the video was mirrored.
+That is, when the left hand is actually  performing the action, the video was mirrored.
 
 
 The preprocessing results in four video samples (body and hand with grayscale and depth) of resolution $64\times64$.
@@ -329,7 +329,7 @@ As depth images are smoother than the grayscale ones, the corresponding filter a
 
 \subsection{Multimodal Fusion}
 To combine the two modalities, two strategies can be used, as shown in Fig.~\ref{fig:fusion}:
-a late fusion approach and an early fusion approach.
+a late fusion approach and an intermediate fusion approach.
 
 
 \subsubsection{Late Fusion}
@@ -376,9 +376,9 @@ and that the joint training should adjust parameters to handle  this heterogenei
   \includegraphics[width=0.5\textwidth]{images/Fusion_combined}
 \vspace*{-2mm}
 \caption{
-Multimodal dynamic networks with late fusion scheme (left) and early fusion scheme (right).
+Multimodal dynamic networks with late fusion scheme (left) and intermediate fusion scheme (right).
 The late approach simply combines the emission probabilities from two modalities.
-In the early fusion scheme, each modality (skeleton and \RGBD) is first pre-trained separately,
+In the intermediate fusion scheme, each modality (skeleton and \RGBD) is first pre-trained separately,
 and their high-level representation \highSK and \highRGBD (the penultimate node layers of their neural networks)
 are concatenated to generate a shared representation. The resulting architecture is trained jointly.
   }\label{fig:fusion}

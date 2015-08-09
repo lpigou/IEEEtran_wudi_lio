@@ -16,7 +16,7 @@ For this reason, even though handcrafted features have dominated image recogniti
 %Albeit the dominant methodology for visual recognition from images and videos relies on hand-crafted features, there has been a growing interest in methods that learn low-level and mid-level features, either in supervised, unsupervised, or semi-supervised settings~\cite{taylor2010convolutional,le2011learning,baccouche2005spatio}.
 
 
-Due to the recent resurgence of neural networks invoked by Hinton and others~\cite{hinton2006fast},
+Since the recent resurgence of neural networks invoked by Hinton and others~\cite{hinton2006fast},
 deep neural architectures serve as an effective solution for extracting high-level features from data.
 Deep artificial neural networks have won numerous contests in pattern recognition and representation learning.
 Schmidhuber~\cite{schmidhuber2014deep} compiled a historical survey compactly summarising relevant works with more than 850 entries of credited works.
@@ -36,16 +36,16 @@ While gesture recognition based on 3D joint positions may seem trivial, it is ac
 A second aspect that further complicates the recognition is the segmentation of the different gestures. While in practice segmentation is as important as the recognition, it is an often neglected aspect of the current action recognition research which often assume the availability of segmented inputs~\cite{laptev2005space}~\cite{marszalek09}~\cite{Kuehne11}.
 
 In this paper we aim to address these issues by proposing a data driven system, focusing on analysis of acyclic video sequence labelling problems, \emph{i.e.} video sequences that are non-repetitive as opposed to longer repetitive activities, \textit{e.g.} jogging, walking and running. This paper is an extension of the works of~\cite{diwucvpr14},~\cite{wu2014deep} and~\cite{lio2014deep}.
-Within an HMM temporal framework allowing the online joint recognition and segmentation of gestures, the key contributions can be summarised as follows:
+Our work is integrated within an HMM temporal framework allowing the online joint recognition and segmentation of gestures, the key contributions can be summarised as follows:
 \begin{itemize}
-\item A Gaussian-Bernoulli Deep Belief Network is proposed to extracts high-level skeletal joint features and the learned representation is used to estimate the emission probability needed to infer gesture sequences;
+\item A Gaussian-Bernoulli Deep Belief Network is proposed to extract high-level skeletal joint features and the learned representation is used to estimate the emission probability needed to infer gesture sequences;
 \item A 3D Convolutional Neural Network  is proposed to extract features from 2D multiple channel inputs 
 like  depth and RGB images stacked along the 1D temporal domain;
-\item Early and late fusion strategies are investigated within the temporal modelling. The result of both mechanisms
+\item Intermediate and late fusion strategies are investigated within the temporal modelling. The result of both mechanisms
 show that multiple-channel fusions outperform individual modules.
 \end{itemize}
 
-The remainder of this paper is organised as follows. Section II reviews related works for gesture recognition with various temporal models and recent deep learning works for RGB-D data. Section III introduces the formulation of our Deep Dynamic Neural Network model and the intuition behind the high level feature extraction. Section IV details the model implementation. Section V conducts the experimental analysis and Section VI concludes the paper with discussions related to future works.
+The remainder of this paper is organised as follows. Section II reviews related works for gesture recognition with various temporal models and recent deep learning work on RGB-D data. Section III introduces the formulation of our Deep Dynamic Neural Network model and the intuition behind the high level feature extraction. Section IV details the model implementation. Section V details the experimental analysis and Section VI concludes the paper with discussions related to future works.
 
 
 \endinput
