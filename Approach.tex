@@ -6,8 +6,9 @@
 \begin{figure}[t]
   \centering
   % Requires \usepackage{graphicx}
-  \includegraphics[width=0.48\textwidth]{images/GraphicalModel_new2}\\
-  \caption{Gesture recognition model: the temporal model is a HMM (left), whose emission probability
+  \includegraphics[width=0.45\textwidth]{images/GraphicalModel_new2}\\
+  \caption{
+ \small{ Gesture recognition model: the temporal model is a HMM (left), whose emission probability
 \emissionprob{} (right) is modeled by forward-linked neural networks.
 %%
 More precisely, observations $\observation_t$ (skeletal features $\observationSK_t$, or RGB-D image features $\observationRGBD_t$)
@@ -15,7 +16,7 @@ are first passed through appropriate deep neural nets (a Deep Belief Network -\D
 for the skeleton modality, and
  a 3D convolutional neural network -\ThreeDCNN- for the \RGBD  modality) to implictly extract high-level features (\highSK and \highRGBD)
 which are further fused to produce an estimate of $p(\observation_t|\hiddenstate_t)$.
-}
+}}
 \label{fig:GM}
 \end{figure}
 
@@ -60,9 +61,9 @@ modelled by  deep neural networks in our case. These elements are presented belo
 \begin{figure}[t]
   \centering
   % Requires \usepackage{graphicx}
-  \includegraphics[width=0.48\textwidth]{images/HMM_2_new}\\
+  \includegraphics[width=0.45\textwidth]{images/HMM_2_new}\\
   \caption{
-    State diagram of the \emph{ES-HMM} model for low-latency gesture segmentation and recognition. An ergodic state (\emph{$\mathcal{ES}$}) is used to model the resting position between gesture sequences. Each node represents a single state and each row represents a single gesture model. The arrows indicate possible transitions between states.}
+   \small{ State diagram of the \emph{ES-HMM} model for low-latency gesture segmentation and recognition. An ergodic state (\emph{$\mathcal{ES}$}) is used to model the resting position between gesture sequences. Each node represents a single state and each row represents a single gesture model. The arrows indicate possible transitions between states.}}
     \label{HMM_ES}
 \end{figure}
 
@@ -114,12 +115,17 @@ More precisely, since the input features have a high dimensionality,
 we propose to learn them using two distinctive types of neural networks suited to the input modality,
 as summarized in the right of Fig.~\ref{fig:GM}.
 %
+<<<<<<< HEAD
 Unfortunately, estimating a probability density such as an emission probability remains quite a difficult problem, especially in high dimensions. 
 %
 Theoretically, discriminative neural networks estimate posterior probabilities $p(\hiddenstate_t | \observation_t)$. We should divide posteriors by priors to get the scaled likelihoods which are required by the HMM for decoding. However, using scaled likelihood may not be beneficial if estimated priors do not match the priors in the test set \cite{morris2001multi}. Therefore, we employ the posteriors directly without dividing by the priors. This is equivalent to assuming that all priors are equal.
 %
 or, in other words, inference in the HMM only depends only on the ratio between emission probabilities for the different states. One can interpret that the models are trained to directly predict the ratio between emission probabilities. This is similar to the approach used by Kindermans et al. to integrate transfer learning and an HMM based language model into a single probabilistic model \cite{Kindermans2012a}.
 One should think of the predicted emission probability ratio as an unnormalized version of the true emission probability. Nevertheless, to simplify the discussion of our models for readers with a basic understanding of HMMs, we will refer to the predicted emission probability ratio simply as emission probabilities since the underlying model remains unchanged. 
+=======
+Unfortunately, estimating a probability density such as an emission probability remains quite a difficult problem, especially in high dimensions. However, inference in the HMM only depends only on the ratio between emission probabilities for the different states. Since training a model to predict a density ratio is often significantly easier, we will directly predict the ratio between emission probabilities. This is similar to the approach used by Kindermans et al. to integrate transfer learning and an HMM based language model into a single probabilistic model \cite{Kindermans2012a}.
+One should think of the predicted emission probability ratio as an unnormalized version of the true emission probability. Nevertheless, to simplify the discussion of our models for readers with a basic understanding of HMMs, we will refer to the predicted emission probability ratio simply as emission probabilities since the underlying model remains unchanged.
+>>>>>>> 2d30eb449856416ac37220a2d25c49619c6d8258
 
 For  the skeletal features, we rely on a Deep-Belief Network (DBN) trained in two steps \cite{salakhutdinov2009learning}:
 in the first step,  stacked Restricted Boltzmann Machines (RBM) is trained in an unsupervised fashion using only observation data

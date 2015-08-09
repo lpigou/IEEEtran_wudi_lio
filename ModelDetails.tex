@@ -53,13 +53,51 @@ The transitional matrix \transitionmatrix{} was learned by simply  collecting th
 \label{sec:skeleton_module}
 
 
+%\begin{figure}[t]
+%  \centering
+%  % Requires \usepackage{graphicx}
+%  \includegraphics[width=0.3\textwidth]{images/point_cloud}\\
+%  \caption{
+%    A point cloud projection of a depth image and the 3D positional features.}
+%    \label{point_cloud}
+%\end{figure}
+%
+%
+%\begin{figure}[t]
+%  \centering
+%  % Requires \usepackage{graphicx}
+%  \includegraphics[width=0.23\textwidth]{images/DBN}\\
+%  \caption{
+%  A \DBN is trained to predict the emission probability  $p(\observationSK_t|\hiddenstate_t)$
+%  from the  skeleton input \skfeature.
+%  The double arrows indicate that the intermediate weights are first trained in an unsupervised fashion using stacked RBMs.
+%}
+%    \label{fig:DBN}
+%\end{figure}
+
+
+%\setlength{\fboxsep}{1pt}%
+%\setlength{\fboxrule}{1pt}%
 \begin{figure}[t]
-  \centering
-  % Requires \usepackage{graphicx}
-  \includegraphics[width=0.3\textwidth]{images/point_cloud}\\
+       \centering
+        \begin{subfigure}[c]{0.2\textwidth}
+        \centering
+                \includegraphics[width=4.5cm,height=5cm, clip]{images/point_cloud}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[c]{0.2\textwidth}
+        \centering
+                \includegraphics[width=4cm,height=5cm, clip]{images/DBN}
+                %\includegraphics[width=0.2\textwidth]{images/DBN}
+                %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+        \end{subfigure}
   \caption{
-    A point cloud projection of a depth image and the 3D positional features.}
-    \label{point_cloud}
+\small{ Left: A point cloud projection of a depth image and the 3D positional features. 
+  Right: A \DBN is trained to predict the emission probability  $p(\observationSK_t|\hiddenstate_t)$
+  from the  skeleton input $\skfeature_t$.
+  The double arrows indicate that the intermediate weights are first trained in an unsupervised fashion using stacked RBMs.
+  }}
+  \label{fig:DBN}\label{point_cloud}
 \end{figure}
 
 
@@ -76,7 +114,7 @@ Hence, here we do not use these offset features.}:
 \begin{align}
 f^{cc}_t&=\{x_t^{s,i}-x_t^{s,j} | i,j=1,2,\ldots, N_j; i\neq j\} \label{sk_features_1}\\
 f^{cp}_t&=\{x_{t+1}^{s,i}-x_t^{s,i} |  i=1,2,\ldots, N_j\} \label{sk_features_2}\\
-f^{ca}_t&=\{x_{t+1}^{s,i} - 2 \times x_t^{s,i} + x_t^{s,i} | i=1,2,\ldots, N_j  \} \label{sk_features_3}
+f^{ca}_t&=\{x_{t+1}^{s,i} - 2 \times x_t^{s,i} + x_{t-1}^{s,i} | i=1,2,\ldots, N_j  \} \label{sk_features_3}
 \end{align}
 %
 This results in an input feature vector $\skfeature_t=[f^{cc}_t, f^{cp}_t, f^{ca}_t]$ of dimension $N_{\skfeature}=N_j \times( \frac{ N_j}{2} + N_j + N_j)*\mathit{3}=891$.
@@ -94,17 +132,7 @@ typically used in the  speech recognition community~\cite{mohamed2012acoustic}.
 
 \subsubsection{Modeling \randomvariableSK{} using Deep Belief Networks}
 
-\begin{figure}[t]
-  \centering
-  % Requires \usepackage{graphicx}
-  \includegraphics[width=0.23\textwidth]{images/DBN}\\
-  \caption{
-  A \DBN is trained to predict the emission probability  $p(\observationSK_t|\hiddenstate_t)$
-  from the  skeleton input \skfeature.
-  The double arrows indicate that the intermediate weights are first trained in an unsupervised fashion using stacked RBMs.
-}
-    \label{fig:DBN}
-\end{figure}
+
 %We briefly introduce the building elements of the network and a more detailed introduction can be found at:
 %Boltzmann Machines (BMs) are a special structure of Markov Random Field (MRF), \emph{i.e.} the energy function is linear in term of its corresponding free parameters.
 %To empower the expressiveness of the model so as to encode complex distributions, the hidden variables are introduced to enhance the modelling capability of the Boltzmann Machinesd with a two-layer structure, has the visible binary stochastic units $v\in \{0,1\}^D$ connected to the hidden binary stochastic units $h\in \{0,1\}^F$.
@@ -195,7 +223,7 @@ the networks performance stability.
 %
 The learning rate for the parameter fine tuning
 starts at 1 with 0.99999 mini-batch scaling. During the experiments, early stopping occurs around epoch 440.
-The optimisation completes with a frame based validation error rate of $16.5\%$, as shown in  Fig~\ref{sk_error_rate}.
+The optimisation completes with a frame based validation error rate of $16.5\%$.%, as shown in  Fig~\ref{sk_error_rate}.
 
 % Although that further optimising the network architecture would lead to more competitive results, in order not to overfit, ``as algorithms over time become too adapted to the data set, essentially memorising all its idiosyncrasies, and losing ability to generalise"~\cite{torralba2011unbiased}, we would like to treat the model as the aforementioned more generic approach.
 % Since a completely new approach will initially have a hard time competing against established, carefully fine-tuned methods.
@@ -203,16 +231,16 @@ The optimisation completes with a frame based validation error rate of $16.5\%$,
 %This way, fundamentally new approaches will not be forced to compete for top performance right away, but will have a chance to develop and mature.
 %The performance of the skeleton module is shown in Tab.~\ref{Table_score_fusion}.
 
-\begin{figure}[t]
-  \centering
-  % Requires \usepackage{graphicx}
-  \includegraphics[width=0.4\textwidth]{images/sk_training_error}\\
-  \caption{
-    Deep Belief Network frame based validation error rate for the skeleton modality.
-%    The 0.05 frame error rate indicates the good generalisation property of the DBN skeleton module.
-    }
-    \label{sk_error_rate}
-\end{figure}
+%\begin{figure}[t]
+%  \centering
+%  % Requires \usepackage{graphicx}
+%  \includegraphics[width=0.4\textwidth]{images/sk_training_error}\\
+%  \caption{
+%    \small{Deep Belief Network frame based validation error rate for the skeleton modality.}
+%%    The 0.05 frame error rate indicates the good generalisation property of the DBN skeleton module.
+%    }
+%    \label{sk_error_rate}
+%\end{figure}
 
 \subsection{RGB \& Depth 3D Module} \label{sec:rgbd_modules}
 \subsubsection{Preprocessing}\label{3d_preproc}
@@ -232,7 +260,7 @@ each  being 4  consecutive 64 by 64 frames stacked together. See text for furthe
 Although DeepMind technology~\cite{mnih2013playing} presented the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using deep reinforcement learning, working directly with raw input Kinect recorded data frames, which are $640 \times 480$ pixel images, can be computationally demanding.
 Therefore, our first step in the preprocessing stage consists of cropping the highest hand and the upper body using the given joint information. In the Chalearn dataset, we determined that the highest hand is the most interesting. When both hands are used, they normally perform the same (mirrored) movement, and when one hand is used, it is always the highest one which is relevant.
 Furthermore, to be invariant to handedness, we always train the model with the right hand view.
-That is, when the left hand is actually  performing the action, the video was mirrored.
+That is, when the left hand is actually the performing hand, the video was mirrored.
 
 
 The preprocessing results in four video samples (body and hand with grayscale and depth) of resolution $64\times64$.
@@ -257,9 +285,9 @@ The outcome is illustrated in Fig.~\ref{3dcnn_filters}.
 
 
 This  architecture consists of a series of layers composed of either convolution, pooling or, in the last layer, fully connected layers.
-The 3D convolution itself is achieved by convolving a 3D kernel to the cuboid formed by stacking multiple contiguous frames together. 
+The 3D convolution itself is achieved by convolving a 3D kernel to the cuboid formed by stacking multiple contiguous frames together.
 We follow the nomenclature of in~\cite{ji20133d}.
-However, instead of using $tanh$ units~\cite{ji20133d},  Rectified Linear Units (\emph{ReLUs})~\cite{krizhevsky2012imagenet} 
+However, instead of using $tanh$ units~\cite{ji20133d},  Rectified Linear Units (\emph{ReLUs})~\cite{krizhevsky2012imagenet}
 were used in order to speed up training.
 Formally, the value of a unit at position $(x, y, z)$ ($z$ here corresponds to the time-axis) in the $j$-th feature map in the $i$-th layer, denoted as $v^{xyz}_{ij}$, is given by:
 \begin{equation}
@@ -292,19 +320,20 @@ Finally, the output layer has \numberhiddenstate values, the number of states in
 During training, dropout \cite{hinton2012improving} is used as main regularisation approach to reduce overfitting.
 Nesterovs accelerated gradient descent (NAG) \cite{sutskever2013importance} with a fixed momentum-coefficient of 0.9 and mini-batches of size 64 are also used.
 The learning rate is initialised at 0.003 with a 5\% decrease after each epoch. The weights of the 3DCNNs are randomly initialised with a normal distribution with $\mu = 0$ and $\sigma = 0.04$.
-The frame based validation error rate is $39.06\%$ after 40 epochs as shown in Fig.~\ref{fig:RGBErrorRate}.
+The frame based validation error rate is $39.06\%$ after 40 epochs.% as shown in Fig.~\ref{fig:RGBErrorRate}.
 Compared with the skeleton module (16.5\% validation error rate), the 3DCNN has a notable higher frame based error rate.
 
 
-\begin{figure}[t]
-  \centering
-  % Requires \usepackage{graphicx}
-  \includegraphics[width=.4\textwidth]{images/3dcnn_filters/training_error}
-  \caption{Frame based error rate of the 3DCNN.
- The error rates are much higher than when using the skeleton module (see Fig.~\ref{sk_error_rate})
- indicating that  learning from images is more difficult. }
-\label{fig:RGBErrorRate}
-\end{figure}
+%\begin{figure}[t]
+%  \centering
+%  % Requires \usepackage{graphicx}
+%  \includegraphics[width=.4\textwidth]{images/3dcnn_filters/training_error}
+%  \caption{
+%  \small{Frame based error rate of the 3DCNN.
+% The error rates are much higher than when using the skeleton module (see Fig.~\ref{sk_error_rate})
+% indicating that  learning from images is more difficult. }}
+%\label{fig:RGBErrorRate}
+%\end{figure}
 
 \subsubsection{Looking into the Networks: visualisation of Filter Banks}
 
@@ -321,8 +350,9 @@ while other are more edge oriented.
   \centering
   % Requires \usepackage{graphicx}
   \includegraphics[width=0.85\textwidth]{images/CNN_filters}
-  \caption{Visualisation of input frames, first convolutional layer $5\times5$ filters, and corresponding response maps.
-As depth images are smoother than the grayscale ones, the corresponding filter are smoother as well.
+  \caption{
+  \small{Visualisation of input frames, first convolutional layer $5\times5$ filters, and corresponding response maps.
+As depth images are smoother than the grayscale ones, the corresponding filter are smoother as well.}
 }\label{3dcnn_filters}
 \end{figure*}
 
@@ -376,11 +406,12 @@ and that the joint training should adjust parameters to handle  this heterogenei
   \includegraphics[width=0.5\textwidth]{images/Fusion_combined}
 \vspace*{-2mm}
 \caption{
+\small{
 Multimodal dynamic networks with late fusion scheme (left) and intermediate fusion scheme (right).
 The late approach simply combines the emission probabilities from two modalities.
 In the intermediate fusion scheme, each modality (skeleton and \RGBD) is first pre-trained separately,
 and their high-level representation \highSK and \highRGBD (the penultimate node layers of their neural networks)
-are concatenated to generate a shared representation. The resulting architecture is trained jointly.
+are concatenated to generate a shared representation. The resulting architecture is trained jointly.}
   }\label{fig:fusion}
 \end{figure}
 
