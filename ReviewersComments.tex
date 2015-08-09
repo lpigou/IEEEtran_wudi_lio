@@ -488,6 +488,19 @@ This augmented representation allows CNN to learn stronger features than when us
 
 \mycomline{we agree, HMM is not novel - we need to add one or two reference and some text about that (Nam)}
 
+Regarding your concern about the novelty of each individual technique, we agree that the hybrid combination of HMM and ANN can be traced back to earlier works in continuous speech recognition~\cite{bourlard1994connectionist}~\cite{renals1994connectionist}. However, it is important to point out that the problem we addressed includes not only learning emission probability but also learning features from raw multi-stream of inputs which do not share the same characteristics. To our best knowledge, this problem has not been explored before in the context of gesture recognition. This can be further argued by comparing with other state-of-the-art works which rely on hand-crafted features to some degree~\cite{neverova2014moddrop}~\cite{Monnier2014multi}.
+
+In response to your question if we have chosen the right combination, it is true that there are several techniques appropriate for each model, some of which are presented in Related Works. Nonetheless, given the limited scope of the paper we focus on the combination which has the most potential. For each module, we can justify our choice of techniques as following:
+%
+First, at the feature learning stage, we have to deal with 3 input streams: skeleton input, RGB images, and depth images. RGB images and depth images share correlated spatial information. We believe it is the right choice to learn features jointly by combining these two streams as a single 2-channel input. By expanding the CNN into temporal domain, the learnt features extracted by 3DCNN not only describe high level visual but also dynamic information about movements.
+%
+On another hand, skeleton input appears to be sparser but contains more robust information. DBN architecture initialsed with Gaussian-Bernoulli RBM can exploit high level correlation among the set of upper body joints and the learnt features also can be compatible with features learnt from 3DCNN.
+%
+Secondly, at the temporal modeling stage, HMM is a clearly a strong candidate given its pros in simultaneous segmentation and inference. Therefore, we followed the previous works in speech recognition and embedded our dynamic deep neural networks in HMM.
+%
+With the points noted out, we believe our paper has sufficient novelty and contributions, and very much deserves
+publication in TPAMI.
+
 \mycomline{clarify 3rd dimension in intro (JMO), + figure 6 (now xx) should be clear}
 
 
