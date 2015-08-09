@@ -9,113 +9,6 @@
 ``{\em #1}''
 }
 
-%% \begin{flushleft}
-%% TPAMISI-2015-01-0002 submission - {\em Deep Dynamic Neural Networks for Multimodal Gesture
-%% Segmentation and Recognition}.
-%% \end{flushleft}
-
-%% \vspace*{3mm}
-
-%% \pagestyle{empty}
-
-%% \noindent Dear Guest Editors,
-%% \newline
-
-%% This letter is in response to the review of our submitted manuscript referenced above on
-%% ``Deep Dynamic Neural Networks for Multimodal Gesture Segmentation and Recognition".
-%% %multimodal gesture recognition using dynamic deep neural networks.
-%% %
-%% We would first like to thank  the reviewers and guest editor for their time and valuable comments.
-%% We have taken into careful consideration each one of these comments, and have prepared a detailed response
-%% in a separate document adjoint to this letter.
-%% We have made this answer as self-contained as possible to facilitate the review process.
-%% %
-%% Furthermore, addressing these comments led to many improvements of the manuscript.
-%% %
-%% Before summarizing the main changes in the paper, we would like to recall the main characteristics and
-%% contributions of the paper. Within an HMM framework allowing for the simulatenous gesture recognition and segmentation, we propose:
-%% \begin{itemize}
-%% \item A Gaussian-Bernoulli Deep Belief Network is proposed to extracts high-level skeletal joint features and the learned representation is used to estimate the emission probability needed to infer gesture sequences;
-%% \item A learning framework is proposed to extract temporal features jointly from multiple channel inputs of RGB images and depth images. Because the features are learned from raw 2D images stacked along the 1D temporal domain, we refer our approach as 3D Convolutional Neural Network;
-%% \item Intermediate fusion and late fusion are investigated as different strategies to model emission probability within the temporal modeling. Both strategies show that multiple-channel fusions outperform each individual module.
-%% \end{itemize}
-
-
-%% {\noindent \em Major modifications}: We now would like to summarize the main changes done to the manuscript:
-
-%% \begin{itemize}
-%% \item {\em Intermediate fusion:} In the previous version for multimodal fusion, we used the late fusion scheme  $s = a * s1 + (1-a)*s2$, where $a$ is chosen by cross-validation. In this revision, as requested and suggested by reviewer 3 and 4, we implemented an intermediate fusion scheme (described in Section~\ref{early_fusion})
-%% where a new-top level perceptron layer is created to combine the high-level outputs of the skeleton and RGBD networks, 
-%% resulting in a unified  multimodal network mode as shown in Fig.~\ref{fig:fusion}. 
-%% %
-%% This intermediate fusion system uses pre-trained weights, 
-%% in the sense that the new multimodal neural network's parameters 
-%% are initialised using the parameters of the  previously trained individual module, 
-%% taking advantage of their different  intrinsic properties and making the network converge much faster. 
-%% The results are reported in  Section~\ref{early_fusion} and Table~\ref{Table_score_fusion}.
-
-%% \item {\em Related Works section:} The Related Works section has been moved after the Introduction section. We also follow reviewers' comments by  including discussions of suggested related works, amongst others: 1) exploiting temporal models in the context of gesture recognition, notably a discriminative hidden-state approach for the recognition of human gestures introduced by Wang \emph{et al.}~\cite{wang2006hidden} ; 2) literature for RGBD data using deep learning, which includes the use of recurrent neural networks by Socher \emph{et al.}~\cite{socher2012convolutional} and applying convolutional neural networks on top of geocentric embedding for depth images by Gupta \emph{et al.}~\cite{gupta2014learning}
-
-%% \item {\em Experimental analysis:} We have included further analysis of the temporal aspect of the model 
-%% in Section~\ref{sec:ComputationalComplexity}, and visualisation of response maps after learnt filters in Fig~\ref{3dcnn_filters}. We also gave qualitative remarks on these filter banks. Regarding the quantitative results, we have added more analysis on failure patterns and lessons learnt from the experiments.
-
-%% \item {\em Explanation of intuition behind higher level presentation of the skeleton features:} We include Section \ref{sec:ProblemFormation} to explain the intuition behind higher level representation  for skeleton joint features which appeared in our previous CVPR paper but was not included in the previous submission. We think this part is one of major contributions of the paper and inclusion of this section makes the journal paper more self-contained.
-%% \end{itemize}
-
-%% \noindent {\em Minor modifications}: We have addressed all reviewer's comments, most with direct modifications in the paper. We would like to
-%% highlight a few relevant points:
-%% \begin{itemize}
-%% %
-%%  \item {\em 3D Convolutional Neural Networks}: We clarified accordingly to Rev4 and the readers that the $3^{rd}$ dimension of the input is indeed the time axis. However, RGB and Depth data are jointly processed by the neural networks, which justifies the multiple-channel naming convention.
-%% %
-%%  \item {\em Parameters and formula interpretation} (cf Rev3): While discussing model formulation, we have added more description and intuitive explanation of unobserved variable $\ensuremath{H}\xspace_t$. We also corrected and clarified the number of frames assigned to each hidden state.
-%% \end{itemize}
-%% We hope that these new experiments, clarifications, and paper modifications will satisfy the reviewers as well as address your own comments. We thank you again for your time and consideration of our manuscript.
-
-%% %% We would like to address your particular comment: {``\em The paper has received reviews from three experts who suggest major/minor revisions.  The authors should prepare a major revision that addresses all of the concerns below. I'd be particularly keen to see a comparison with recent landmark-based normalization as suggested by Reviewer 3, and a proper consideration of related work on 3DMMs.''}
-
-%% %% As mentioned previously, we made a comparison using a recent automatic landmark detection method, as you
-%% %% will  find in the revised manuscript. We have also considered related works on 3DMM's, as for example, the recent work by Egger et al (2014).{\color{red} todo.. what to say here?}
-
-
-%% %\vspace*{8mm}
-%% %
-%% \noindent Sincerely,\\[3mm]
-%% %%
-%% Di Wu, Lionel Pigou, Pieter-Jan Kindermans, Nam Le, Ling Shao, Joni Dambre, and Jean-Marc Odobez
-%% %
-
-
-%% \newpage
-
-
-
-%% \newpage
-%% % -----------------------------------------------------------------------------------
-%% % -----------------------------------------------------------------------------------
-%% \newpage
-%{\LARGE \noindent Response to Associate Editor}\newline
-%
-%
-%
-%\rev{Reviews of the paper have been received. In general comments are positive. Still one reviewer suggests some interesting extra analyses of the proposed method. Please carefully address all reviewers comments for a second review round of the paper.}
-%
-%\ans{We would  like to thank the associate editor's general positive comments on our paper. We also would like to thank reviewers' careful and insightful suggestions for improving the paper. Following are some common points that were mentioned by the reviewers and we list the most notable changes below. The point to point responses are provided afterwards.
-%
-%\begin{itemize}
-%\item In the previous version for multimodal fusion, we used the late fusion scheme  $s = a * s1 + (1-a)*s2$ where $a$ is chosen by cross-validation. In this revision, we implement an intermediate fusion scheme in Section~\ref{early_fusion} that a new-top level perceptron layer is created to combine two models' output as in Fig.~\ref{fig:fusion}. The new multimodal neural network's parameters are initialised by the previously trained individual module, taking advantage of different modulesÂ’ intrinsic properties and making the network converge much faster. The intermediate fusion system uses pre-trained weights. The results are reported in  Section~\ref{early_fusion} and Table~\ref{Table_score_fusion}.
-%
-%\item The Related Works section has been moved after the Introduction section. We also follow reviewers' suggestions and include discussions of related works concerning works of: 1) exploiting temporal models in the context of gesture recognition; 2) literature for \RGBD data using deep learning -
-%    ``Wang \emph{et al.}~\cite{wang2006hidden} introduced a discriminative hidden-state approach for the recognition of human gestures. However, their discriminative training is limited for pre-segmented gesture sequences and one layer of hidden states might not learn powerful enough high level representations for a larger corpus."
-%    ``In the field of deep learning from RGBD data, Socher \emph{et al.}~\cite{socher2012convolutional} proposed a single convolutional neural net layer for each modality as input to multiple, fixed-tree RNNs in order to compose higher order features for 3D object classification. The single convolutional neural net layer provides useful translational invariance of low level features such as edges and allows parts of an object to be deformable to some extent. The pooled filter responses are then given to a recursive neural network to learn compositional features and part interactions.
-%    Gupta \emph{et al.}~\cite{gupta2014learning} proposed a geocentric embedding for depth images that encodes height above ground and angle with gravity for each pixel in addition to the horizontal disparity. The depth image was represented by three channels: horizontal disparity, height above ground and angle with gravity. This augmented representation allows the CNN to learn strong features than by using disparity (or depth) alone. "
-%
-%\item Experimental analysis. We have included some time analysis in Section~\ref{sec:ComputationalComplexity} and visualisation of response maps after learnt filters in Fig~\ref{3dcnn_filters}.
-%
-%\item Explanation of intuition behind higher level presentation of the skeleton features. We include Section \ref{sec:ProblemFormation} to explain the intuition behind higher level representation for skeleton joint features which appeared in our previous CVPR paper but was not included in the previous submission. We think this part is one of major contributions of the paper and inclusion of this section makes the journal paper more self-contained.
-%\end{itemize}
-%}
-
 % -----------------------------------------------------------------------------------
 \newpage
 {\LARGE \noindent Response to Reviewer 1}\newline
@@ -161,7 +54,9 @@ refer to the new version unless stated otherwise.
 
 
 \ans{Thank you for your comments and the recognition of easy readability of the paper.
-We agree that in this journal version of the paper, some self-contained information had been omitted from the conference paper, and that there were unclear points. We have moved the related work section after the introduction section. Moreover, we have included the discussions of literature that utilise temporal models, e.g.``Wang \emph{et al.}~\cite{wang2006hidden} introduced a discriminative hidden-state approach for the recognition of human gestures. However, their discriminative training is limited for pre-segmented gesture sequences and one layer of hidden states might not learn powerful enough high level representations for a larger corpus". We also include more literatures discussing the benefits of deep learning using RGB-D data for object detection or classification tasks such as:``~\cite{socher2012convolutional} proposed a single convolutional neural net layer for each modality as input to multiple, fixed-tree RNNs in order to compose higher order features for 3D object classification."
+We agree that in this journal version of the paper, some self-contained information had been omitted from the conference paper, and that there were unclear points. We have moved the related work section after the introduction section. Moreover, we have included the discussions of literature that utilise temporal models, e.g.``Wang \emph{et al.}~\cite{wang2006hidden} introduced a more elaborated discriminative hidden-state approach for the recognition of human gestures. However, relying on only one layer of hidden states, their model alone might not  be powerful enough to learn a higher level representation of the data and take advantage of very large corpus. In this paper, we adopt a different approach by focusing on deep feature learning within a temporal model." We also include more literatures discussing the benefits of deep learning using RGB-D data for object detection or classification tasks such as:``Socher \emph{et al.}~\cite{socher2012convolutional} proposed a single convolutional neural net layer for each modality as inputs to multiple, fixed-tree RNNs in order to compose higher order features for 3D object classification. The single convolutional neural net layer provides useful translational invariance of low level features such as edges and allows parts of an object to be deformable to some extent."
+Regarding your concern about the novelty of each individual technique, we agree that the hybrid combination of HMM and ANN can be traced back to earlier works in continuous speech recognition~\cite{bourlard1994connectionist}~\cite{renals1994connectionist}. However, it is important to point out that the problem we addressed includes not only learning emission probability but also learning features from raw multi-stream of inputs which do not share the same characteristics. To our best knowledge, this problem has not been explored before in the context of gesture recognition. This can be further argued by comparing with other state-of-the-art works which rely on hand-crafted features to some degree~\cite{neverova2014moddrop}~\cite{Monnier2014multi}.
+
 We have significantly reworked the paper and improved its structure to both improve clarity and account for the reviewer's comment.
 \begin{compactitem}
 \item Section~\ref{sec:approach} now describe the method overview, both in terms of HMM modeling with more intuition about the temporal modeling(Section~\ref{sec:DDNN} and~\ref{sec:statemodel}), and in terms of Neural network modeling (Section~\ref{sec:ProblemFormation}), including with new figures;
@@ -181,7 +76,10 @@ We hope and believe that this revision  is now much more self-contained and will
 
 \ans{
 Thank you for your comments. In this revision, we implement the intermediate fusion scheme in Section~\ref{early_fusion} that we adopt another layer of perceptron for cross modality learning taking the input from each individual net's penultimate layer.
-The parameters of two neural networks (for skeleton and depth) are loaded from the previously trained individual module...The results for the intermediate fusion system are reported in Tab.~\ref{Table_score_fusion}. The fusion network is initialised by the pre-trained model and stacked with one hidden layer with 2024 hidden unites. We fine-tune the network and stop the training when the validation error rate stops decreasing ($\sim$15 epochs)...However, we can see from Tab.~\ref{Table_score_fusion} that the intermediate fusion system does not outperform the late fusion system. The result is counter-intuitive because we expect that the intermediate fusion  multimodal feature learning would extract semantically meaningful shared representations, outperforming individual modalities, and the intermediate fusion scheme’s efficacy against the traditional method of late fusion~\cite{wu2014multimodal}. One possible explanation could be that one individual module has dominant effect on the learning process so as to skew the network towards learning that specific module. The mean activations of the neurons for each module in Fig.~\ref{fig:fusion} indicate the aforementioned conjecture.}
+The parameters of two neural networks (for skeleton and depth) are loaded from the previously trained individual module.The results for the intermediate fusion system are reported in Tab.~\ref{Table_score_fusion}. The fusion network is initialised by the pre-trained model and stacked with one hidden layer with 2024 hidden unites. We fine-tune the network and stop the training when the validation error rate stops decreasing ($\sim$15 epochs). However, we can see from Tab.~\ref{Table_score_fusion} that the intermediate fusion system does not outperform the late fusion system. The result is counter-intuitive because we expect that the intermediate fusion  multimodal feature learning would extract semantically meaningful shared representations, outperforming individual modalities, and the intermediate fusion scheme’s efficacy against the traditional method of late fusion~\cite{wu2014multimodal}. One possible explanation could be that one individual module has dominant effect on the learning process so as to skew the network towards learning that specific module. The mean activations of the neurons for each module in Fig.~\ref{fig:fusion} indicate the aforementioned conjecture: the large difference between the mean activations of the  skeleton module neurons which are predominantly larger than those of the RGB-D ConvNet's (0.57 \emph{vs.} 0.056) can be an indicator of such a bias during the multimodal fine-tuning phase and support this conjecture, even if these mean activations are not directly comparable
+due to the neuron heterogeneity (the skeleton DBN has logistic units whereas the 3DCNN ConvNet has relu units).
+Note that such heterogeneity was not present when fusing modalities  in \cite{Ngiam2011multimodal},where better registration and less spatial registration variability in lip images allowed to also resort to the same stacked RBMs for the visual modality (rather than \ThreeDCNN)  and the audio one.
+More investigation on how to handle heterogeneous networks  should be conducted.}
 
 \vspace{5mm}
 
@@ -198,10 +96,25 @@ Thank you for your detailed comments. We have amended the results table accordin
 \rev{
 Visualization of the filter banks (section 3.3.4) in its current state is unnecessary as it does not provide any interesting insights on the interpretation of the learned features. Instead, the poorly formed filters rather indicate undertraining, or lack of training data given the model complexity, or suboptimality of training procedure.}
 
-\ans{
-We  include the response maps after filtering for both body and hand parts as in Fig.~\ref{3dcnn_filters}. We observe some interesting properties from the visualisation of the filter banks as in~\cite{socher2012convolutional} that ``Depth images have sharper edges and generally are smoother than the grayscale filters, though the distinctions are less obvious compared with the body versus hand filters."}
+%\ans{
+%We include the response maps after filtering for both body and hand parts as in Fig.~\ref{3dcnn_filters}. We observe some interesting properties from the visualisation of the filter banks as in~\cite{socher2012convolutional} that ``Depth images have sharper edges and generally are smoother than the grayscale filters, though the distinctions are less obvious compared with the body versus hand filters."}
 
+\ans{In the revision, we include the response maps after filtering for both body and hand parts as in Fig.~\ref{3dcnn_filters}. Because our filter size is $5\times5$ (smaller filter sizes tend to generalize better, ~\cite{simonyan2014very} used $3\times3$ convolution filters),
+their interpretation is indeed harder to visualise, although one can notice that depth filters capture smooth depth transitions, and the combined image and depth filter
+(see architecture description in Section~\ref{sec:3dcnnArchitecture} and Fig.~\ref{3dcnn_filters}) can represent two types of information: segmentation, and edge.
+We have modified the text to provide better insight as follows:
 
+\PM{
+The convolutional filter weights of the first layer are depicted in Fig.~\ref{3dcnn_filters}.
+The unique characteristics from the kernels are clearly visible: as hand input images (RGB and depth) have larger homogenous areas
+than the body inputs, the resulting filters are smoother than their body counterpart.
+In addition, while being smoother overall than the grayscale filters, depth filters exhibit stronger edges,
+as also reported in~\cite{socher2012convolutional}.
+%
+Finally, by looking at the joint depth-image response maps, we can notice that some filters better capture segmentation like information,
+while other are more edge oriented.
+}
+}
 
 % -----------------------------------------------------------------------------------
 \newpage
