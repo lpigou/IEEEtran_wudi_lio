@@ -487,7 +487,7 @@ More investigation on how to handle heteregeneous networks  should be conducted.
 As the emission probabilities are learned in a discriminative manner, one could  wonder whether the HMM brings benefit beyond smoothing.
 To investigate this issue, we removed the temporal structure as follows:
 for a given gesture \gesturea, we computed its score at time $t$, $Score(\gesturea,t)$, by summing the emission
-log-probabilities $p(\observation_t|\hiddenstate_t = \hiddenstatenode)$ for all nodes associated to that gesture,
+probabilities $p(\observation_t|\hiddenstate_t = \hiddenstatenode)$ for all nodes associated to that gesture,
 \ie $\hiddenstatenode \in \finiteset_{\gesturea}$.
 %
 This score is then smoothed in the temporal domain (using a window of 5 frames) to obtain $\widehat{Score}(\gesturea,t)$.
@@ -497,18 +497,22 @@ first finding gesture segments by thresholding the score of the ergodic state;
 then, for each resulting gesture segment, the recognized gesture is defined as the one whose average score within the segment is the highest.
 %
 Fig.~\ref{fig:temporalModellingComparision} illustrates this process along with the DDNN and ground-truth.
-%\mycomline{The figure should show the procedure described above, that you used. It should also illustrate why the jaccard index is so low.}
-%\mycomline{``Without temporal modelling, the decision boundary of a gesture will be more rugged and it is
-%more difficult to make hard decisions of where the gesture starts or ends.'': is the very low jaccard index just a problem of
-%having errors on the event boudary? that sounds strange to me (and would not be a so strong argument;
-%in that case the event measure should be computed to check this.}
 %
-%\dwucomline{No temporal modelling:
+In general, we could observe that better decisions on the presence of gestures and on 
+the boundaries where a gesture starts and ends are achieved with the proposed \emph{DDNN} 
+thanks to  the use of the state-diagram defined in Fig.~\ref{HMM_ES}, as compared to the above method, 
+where deciding on a gesture detection threshold is rather unstable and quite sequence dependent.
 %
-%To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set. Fig.~\ref{fig:temporalModellingComparision} illustrates the effect of temporal modelling.
-The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}. And the overall performance in terms of  Jaccard index is reduced to $0.660$ for test set.
-The \emph{Recognized}, \emph{Confused} and \emph{Missed} correspond to Table~\ref{tab:eventperformance} for test set are  $76.6$ , $5.3$ and $18.1$. The increased miss detection rate reinforces the importance of temporal modelling for better deciding gesture boundary.
- Note that, this representation learning template matching method using only 5 frames still outperforms the Jaccard index $0.413$ using 5 frames template matching system in~\cite{camgoz2014gesture} where all the features are handcrafted.
+Indeed, the overall performance of the above scheme without the HMM temporal sequencing  is reduced to $\jaccardindex= 0.66$, 
+while the \eventaccuracy, \eventconfused and \eventmissed corresponding 
+to Table~\ref{tab:eventperformance} for the test set are  $76.6$ , $5.3$ and $18.1$. 
+%
+%The increased miss detection rate reinforces the importance of temporal modelling for better deciding gesture boundary.
+%
+However, note  that the above method relying on only the gesture probability learned
+using neural networks on  5 frame inputs still outperforms the Jaccard index of $0.413$ 
+obtained by~\cite{camgoz2014gesture} when using a 5 frames template matching system 
+where all the features are handcrafted.
 
 %% To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set. Fig.~\ref{fig:temporalModellingComparision} illustrates the effect of temporal modelling. The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}.
 %% %
@@ -520,7 +524,7 @@ The \emph{Recognized}, \emph{Confused} and \emph{Missed} correspond to Table~\re
 
 
 \mypartitle{Comparison with the state-of-the-art.}
-The performance of recent state-of-the-art techniques is given in Table~\ref{tab:soa}. The first half of the table resort to hand crafted feature approaches and then usually a second stage classifier. Our proposed system performs on par with the top two methods. However, hand crafted feature methods' performance is saturated regardless of the increase training data. The representation learning methods in the second half of the Table perform comparably with the best hand crafted feature approaches and the top representation method achieves the best Jaccard index score. Given more training data, it's expected the networks will be able to be more adapted to this ``user independent" setting and learn user invariant features in a transfer learning fashion. It also worths noting that our proposed system is the only method that incorporates the temporal modelling element rather than sliding window approach. We believe this is an interesting research direction that can be more adapted to various lengths of gestures and relevant temporal factors.
+The performance of recent state-of-the-art techniques is given in Table~\ref{tab:soa}. The first half of the table resort to hand crafted feature approaches and then usually a second stage classifier. Our proposed system performs on par with the top two methods. However, hand crafted feature methods' performance are saturated regardless of the increase training data. The representation learning methods in the second half of the Table perform comparably with the best hand crafted feature approaches and the top representation method achieves the best Jaccard index score. Given more training data, it is expected that the networks will be able to be more adapted to the ``user independent" setting. It also worths noting that our proposed system is the only method that incorporates the temporal modelling element rather than sliding window approach. We believe this is an interesting research direction that can be more adapted to various lengths of gestures and relevant temporal factors.
 
 %\mypartitle{Comparison with the state-of-the-art. In particular, add discussion that other temporal module could be used,
 %including those that could lead to the training of a full deep-neural network.  }
@@ -531,7 +535,23 @@ The performance of recent state-of-the-art techniques is given in Table~\ref{tab
   \centering
   \includegraphics[width=.7\textwidth]{images/output.png}
   \caption{
-  \small{The output probabilities are shown for a sequence fragment for the test set \#703. The dashed line represents silence and different colour represent different gestures. Without temporal modelling, the decision boundary of a gesture will be more rugged and it is more difficult to make hard decisions of where the gesture starts or ends. Hence, it causes miss-detection and miss-merging. Because of the temporal modelling and Viterbi path decoding, the gesture boundary will have a clean jump from the ergodic state to the gesture states, resembling the behavior of the manual annotators with better accuracy.}}
+  \small{HMM temporal contribution. 
+First row: output emission probabilities for each gesture as given by the late fusion scheme (see text) for the test set \#703. 
+The dashed line represents the probability of the Resting/Other gesture state, 
+while other colour represent different gestures. 
+Second row: resulting recognized gestures, without HMM modeling.
+Third row: HMM output.
+Fourth row: ground truth segmentation.
+%
+Without temporal modelling, the decision boundary of a gesture will be more rugged and it is more difficult to make 
+hard decisions of where the gesture starts or ends. Hence, in general, 
+it causes miss-detection and miss-merging. 
+%
+Thanks to the HMM temporal modelling and Viterbi path decoding, gesture boundaries 
+are usually cleaner defined from the Resting state to the gesture states, 
+resembling the behavior of the manual annotators with better accuracy.
+}
+}
     \label{fig:temporalModellingComparision}
 \end{figure*}
 
@@ -542,6 +562,7 @@ The performance of recent state-of-the-art techniques is given in Table~\ref{tab
         \begin{subfigure}[c]{.5\textwidth}
         \centering
                 \includegraphics[width=8cm,height=2cm, clip]{images/original806.png}
+\vspace*{-2mm}
                 \caption{\small{Sample \#806}}
         \end{subfigure}%
         %
@@ -550,14 +571,20 @@ The performance of recent state-of-the-art techniques is given in Table~\ref{tab
         \centering
                 \includegraphics[width=8cm,height=2cm, clip]{images/original702.png}
                 %\includegraphics[width=2cm,height=3cm, trim=120 100 100 50, clip]{images/3dcnn_filters/original_images_depth_body_ok}
+\vspace*{-2mm}
                 \caption{\small{Sample \#702}}
         \end{subfigure}
-
+\vspace*{-3mm}
   \caption{
 \small{Examples of performer variations in the  upper body dynamic.
-Using \emph{DDNN} (late fusion), Jaccard index of top is 0.95 while bottom is only 0.61.
-While most performers tend to keep their upper-body static while performing the gesture, leading to good recognition performance. Vehemently moving of the body when doing the gestures, could make the gestures harder to be recognised.}
-  }
+ Most performers tend to keep their upper-body static while performing the gesture, 
+leading to good recognition performance (Jaccard index of person on the top is 0.95 for the late fusion system).
+%
+Some persons are more involved  and move more vehemently (person at the bootom, Jaccard index 
+of 0.61), which can affect the recognition algorithm itself (bottom left samples) or even the skeleton tracking 
+(bottom right; note that normally cropped images are centered vertically on the head position).
+}
+}
 \label{fig:bodydynamics}
 \end{figure}
 
