@@ -2,7 +2,7 @@
 \section{Related Work}
 \label{sec:relatedwork}
 
-Gesture recognition has drawn increasing attention of researchers, primarily due to its growing potential in areas such as robotics, human-computer interaction and user interface design. Different temporal models have been proposed.
+Gesture recognition has drawn increasing attention from researchers, primarily due to its growing potential in areas such as robotics, human-computer interaction and user interface design. Different temporal models have been proposed.
 Nowozin and Shotton~\cite{nowozin2012action} proposed the notion of ``action points" to serve as natural temporal anchors of simple human actions using a Hidden Markov Model.
 Wang \emph{et al.}~\cite{wang2006hidden} introduced a more elaborated discriminative hidden-state approach for the recognition of human gestures.
 However, relying on only one layer of hidden states,
@@ -15,7 +15,7 @@ action recognition could also further improve the performance.
 However, the advent of  Kinect-like sensors has put more emphasis on RGB-D data for gesture recognition, but not only.
 For instance, the benefits of deep learning using RGB-D data have been explored for object detection or classification tasks.
 %
-Dosovistskiy \emph{et al.}~\cite{DosovitskiySRB14} presented a generic feature learning for training a convolutional network using only unlabeled data. In contrast to supervised network training, the resulting feature representation is not class specific and are advantageous on geometric matching problems, outperforming the SIFT descriptor.
+Dosovistskiy \emph{et al.}~\cite{DosovitskiySRB14} presented generic feature learning for training a convolutional network using only unlabeled data. In contrast to supervised network training, the resulting feature representation is not class specific and is advantageous on geometric matching problems, outperforming the SIFT descriptor.
 Socher \emph{et al.}~\cite{socher2012convolutional} proposed a single convolutional neural net layer for each modality as inputs to multiple, fixed-tree RNNs in order to compose higher order features for 3D object classification. The single convolutional neural net layer provides useful translational invariance of low level features such as edges and allows parts of an object to be deformable to some extent.
 % The pooled filter responses are then give to a recursive neural network to learn compositional features and part interactions.
 To address object detection, Gupta \emph{et al.}~\cite{gupta2014learning} proposed a geocentric embedding for depth images that encodes height above ground and angle with gravity for each pixel in addition to the horizontal disparity.

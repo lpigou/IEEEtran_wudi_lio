@@ -30,7 +30,7 @@ As only a single gesture label is provided for each sequence, we need to define
 $\labelsequence_i=[\framelabel_{i,1}, \ldots,\framelabel_{i,t},\ldots, \framelabel_{i,T_i}]$,
 the sequence of state labels $\framelabel_{i,t}$ associated to each frame.
 %
-To do so, a force alignment is used which means that if the $i^{th}$ sequence is a gesture \gesturea{}, then the first $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to state $\hiddenstatenode_\gesturea^1$ (the first state of gesture \gesturea{}),
+To do so, a forced alignment is used which means that if the $i^{th}$ sequence is a gesture \gesturea{}, then the first $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to state $\hiddenstatenode_\gesturea^1$ (the first state of gesture \gesturea{}),
 the following $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to $\hiddenstatenode_\gesturea^2$, and so forth.
 
 Note that each gesture sequence comes with the video frames preceeding and following the gesture.
@@ -320,7 +320,7 @@ Finally, the output layer has \numberhiddenstate values, the number of states in
 During training, dropout \cite{hinton2012improving} is used as main regularisation approach to reduce overfitting.
 Nesterovs accelerated gradient descent (NAG) \cite{sutskever2013importance} with a fixed momentum-coefficient of 0.9 and mini-batches of size 64 are also used.
 The learning rate is initialised at 0.003 with a 5\% decrease after each epoch. The weights of the 3DCNNs are randomly initialised with a normal distribution with $\mu = 0$ and $\sigma = 0.04$.
-The frame based validation error rate is $39.06\%$ after 40 epochs.% as shown in Fig.~\ref{fig:RGBErrorRate}.
+The frame based validation error rate is $39.06\%$ after 40 epochs. % as shown in Fig.~\ref{fig:RGBErrorRate}.
 Compared with the skeleton module (16.5\% validation error rate), the 3DCNN has a notable higher frame based error rate.
 
 
@@ -393,8 +393,8 @@ Also, \cite{Ngiam2011multimodal} proposed the use of a multimodal autoencoder to
 only one modality migth be present, a point that we do not address.
 
 The resulting architecture is trained by first initializing the weights of the deeper layers from the previously trained module,
-and then jointly fine tuning the whole network (including learning the last layer parameters)
-and stop the training when the validation error rate stops decreasing ($\sim$15 epochs).
+and then jointly fine tuning the whole network (including learning the last layer parameters).
+The training is stopped when the validation error rate stops decreasing ($\sim$15 epochs).
 %
 We argue that using the ``pre-trained" parameters is important due to the heterogeneity of the inputs of the system,
 and that the joint training should adjust parameters to handle  this heterogeneity and produce the final estimates.

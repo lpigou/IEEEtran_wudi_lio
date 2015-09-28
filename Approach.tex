@@ -82,7 +82,7 @@ From this state we can move to the first three nodes of any gesture class, and f
 Hence, the hidden variable \hiddenvariable{} can take values within the finite set
  $\mathcal{H}=(\bigcup _{a \in \mathcal{A}} \mathcal{H}_a) \bigcup \{\mathcal{ES}\}$.
 
-Overall, we refer to the model as the ergodic states hidden Markov model (\emph{ES-HMM}) for simultaneously gesture segmentation and recognition. It  differs from the firing hidden Markov model of~\cite{nowozin2012action} in that we strictly follow a left-right HMM structure without allowing backward transition, forbidding inter-states transverse, assuming that the considered gestures do not undergo cyclic repetitions as in walking for instance.
+Overall, we refer to the model as the ergodic states hidden Markov model (\emph{ES-HMM}) for simultaneous gesture segmentation and recognition. It  differs from the firing hidden Markov model of~\cite{nowozin2012action} in that we strictly follow a left-right HMM structure without allowing backward transition, forbidding inter-states transverse, assuming that the considered gestures do not undergo cyclic repetitions as in walking for instance.
 
 
 %The emission probability is represented as a matrix of size $N_{\mathcal{TC}} \times N_{\mathcal{F}}$ where $N_{\mathcal{F}}$ is the number of frames and output target class $N_{\mathcal{TC}}=N_{\mathcal{A}} \times N_{\mathcal{H}_a}+1$ where $N_{\mathcal{A}}$ is the number of gesture classes and $N_{\mathcal{H}_a}$ is the number of states associated to an individual gesture $a$ and one $\mathcal{ES}$ state (\emph{c.f.} Fig. \ref{Sample0700_comparison}: x-axis as $N_{\mathcal{F}}$ and y-axis as $N_{\mathcal{TC}} $ with $\mathcal{ES}$ as the bottom y-axis 101).
@@ -112,7 +112,7 @@ Traditionally, emission probabilities for activity recognition have been trained
 %
 Alternatively, in this work we propose to model this term in a discriminative fashion.
 More precisely, since the input features have a high dimensionality,
-we propose to learn them using two distinctive types of neural networks suited to the input modality,
+we propose to learn them using two distinctive types of neural networks each suited to the input modality,
 as summarized in the right of Fig.~\ref{fig:GM}.
 %
 
@@ -125,7 +125,7 @@ One should think of the predicted emission probability ratio as an unnormalized 
 
 
 For  the skeletal features, we rely on a Deep-Belief Network (DBN) trained in two steps \cite{salakhutdinov2009learning}:
-in the first step,  stacked Restricted Boltzmann Machines (RBM) is trained in an unsupervised fashion using only observation data
+in the first step,  stacked Restricted Boltzmann Machines (RBM) are trained in an unsupervised fashion using only observation data
 to learn  high-level feature representations;
 in the second step, the model is used as a Deep-Belief Network whose weights are further fine-tuned
 for learning the emission probability.
@@ -177,11 +177,11 @@ time a  parametric prior of human pose is learned.
 %
 %In the recent work of~\cite{6751269} a non-parametric bayesian network is adopted for human pose prior estimation, whereas in our framework, the parametric networks are incorporated.
 %
-In our case, using the pair wise joints features as raw input, the data-driven approach network will be able to extract relational
-multi-joints features which are relevant to the target classes.
+In our case, using the pairwise joints features as raw input, the data-driven approach network will be able to extract relational
+multi-joint features which are relevant to the target classes.
 For instance, from  the ``toss" action data, a wrist joints rotating around shoulder joints feature is expected to
 be extracted from the backpropagation  learning, and be the equivalent of those task specific \emph{ad hoc} hard wired sets
-of joints configurations defined in~\cite{chaudhry2013bio}~\cite{muller2006motion}\cite{nowozin2012action}~\cite{ofli2013sequence}.
+of joint configurations defined in~\cite{chaudhry2013bio}~\cite{muller2006motion}\cite{nowozin2012action}~\cite{ofli2013sequence}.
 
 The benefit of such a learning approach is even more important when large amount of unlabelled data (e.g. skeleton data
  inferred from depth images of people performing unknown gestures) is available in addition to the labeled ones
@@ -199,7 +199,7 @@ In this view, it is important to notice that each weight in a neural network is 
 the training samples than each parameter in a GMM, a point that has been masked by other differences in training.
 In particular,  neural networks have traditionally been training discriminatively, whereas GMMs are typically trained as generative models,
 %(even if discriminative training is performed later in the training procedure).
-which given their parametric  nature  partially compensate the fact that each mixture
+which given their parametric  nature  partially compensates the fact that each mixture
 of a large GMM is usually trained on a very small fraction of the data.
 
 In summary, the feed forward neural networks offer several potential advantages over GMMs:

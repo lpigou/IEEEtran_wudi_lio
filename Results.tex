@@ -447,7 +447,7 @@ can be observed from the whiter confusion matrix than in the skeleton case (less
 and much less under-detection than in the RGB-D case (better upper-body pose discrimination thanks to skeleton input).
 %
 
-However, the modalities by themselves have more difficulties to correct the recognition errors which are due to variations coming from the performer,
+However, the modalities by themselves have more difficulties in correcting the recognition errors which are due to variations coming from the performer,
 like differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynamics}).
 
 \mypartitle{Late vs. Intermediate  fusion.}
@@ -524,7 +524,7 @@ where all the features are handcrafted.
 
 
 \mypartitle{Comparison with the state-of-the-art.}
-The performance of recent state-of-the-art techniques is given in Table~\ref{tab:soa}. The first half of the table resort to hand crafted feature approaches and then usually a second stage classifier. Our proposed system performs on par with the top two methods. However, hand crafted feature methods' performance are saturated regardless of the increase training data. The representation learning methods in the second half of the Table perform comparably with the best hand crafted feature approaches and the top representation method achieves the best Jaccard index score. Given more training data, it is expected that the networks will be able to be more adapted to the ``user independent" setting. It also worths noting that our proposed system is the only method that incorporates the temporal modelling element rather than sliding window approach. We believe this is an interesting research direction that can be more adapted to various lengths of gestures and relevant temporal factors.
+The performance of recent state-of-the-art techniques is given in Table~\ref{tab:soa}. The first half of the table resorts to hand crafted feature approaches and then usually a second stage classifier. Our proposed system performs on par with the top two methods. However, hand crafted feature methods' performance are saturated regardless of the increase training data. The representation learning methods in the second half of the Table perform comparably with the best hand crafted feature approaches and the top representation method achieves the best Jaccard index score. Given more training data, it is expected that the networks will be able to be more adapted to the ``user independent" setting. It also worths noting that our proposed system is the only method that incorporates the temporal modelling element rather than sliding window approach. We believe this is an interesting research direction that can be more adapted to various lengths of gestures and relevant temporal factors.
 
 %\mypartitle{Comparison with the state-of-the-art. In particular, add discussion that other temporal module could be used,
 %including those that could lead to the training of a full deep-neural network.  }
