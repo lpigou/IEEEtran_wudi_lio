@@ -246,35 +246,11 @@ which are further averaged over test sequences for reporting.
 
 
 \begin{figure*}[t]
-        \centering
-        \begin{subfigure}[c]{.85\textwidth}
-                \includegraphics[width=\textwidth]{images/path/Sample0700_sk}
-%\vspace*{-3mm}
-                \caption{\small{Viterbi decoding from skeleton input.}}
-                \label{Sample0700_sk}
-        \end{subfigure}%
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-
-        \begin{subfigure}[c]{0.85\textwidth}
-                \includegraphics[width=\textwidth]{images/path/Sample0700_cnn}
-%\vspace*{-3mm}
-                \caption{\small{Viterbi decoding from RGB-D input.}}
-                \label{Sample0700_cnn}
-        \end{subfigure}
-
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[c]{0.85\textwidth}
-                \includegraphics[width=\textwidth]{images/path/Sample0700_combined}
-%\vspace*{-3mm}
-                \caption{\small{Viterbi decoding from the late fusion of skeleton and RGB-D input.}}
-                \label{Sample0700_combined}
-        \end{subfigure}
-\vspace*{-3mm}
+\centering
+    \includegraphics[width=.8\textwidth]{images/path/labelled_path.PNG}
   \caption{
   \small{Viterbi decoding of sample sequence \#700, using skeleton (top), RGB-D (middle) and late fusion system (bottom).
-The x-axis represents time and the y-axis represents the hidden states of all classes and of the ergodic state (state $101$).
+The x-axis represents time and the y-axis represents the hidden states of all classes and of the ergodic state (state $101$) constituting the finite set \finiteset.
 The cyan lines represent the viterbi shortest path, while red lines denote the ground truth labels,
 and the yellow segments  are the predicted labels.
 %Two modules exhibit complementary behaviors and generally the skeletal module outperforms the depth module.
@@ -498,20 +474,20 @@ then, for each resulting gesture segment, the recognized gesture is defined as t
 %
 Fig.~\ref{fig:temporalModellingComparision} illustrates this process along with the DDNN and ground-truth.
 %
-In general, we could observe that better decisions on the presence of gestures and on 
-the boundaries where a gesture starts and ends are achieved with the proposed \emph{DDNN} 
-thanks to  the use of the state-diagram defined in Fig.~\ref{HMM_ES}, as compared to the above method, 
+In general, we could observe that better decisions on the presence of gestures and on
+the boundaries where a gesture starts and ends are achieved with the proposed \emph{DDNN}
+thanks to  the use of the state-diagram defined in Fig.~\ref{HMM_ES}, as compared to the above method,
 where deciding on a gesture detection threshold is rather unstable and quite sequence dependent.
 %
-Indeed, the overall performance of the above scheme without the HMM temporal sequencing  is reduced to $\jaccardindex= 0.66$, 
-while the \eventaccuracy, \eventconfused and \eventmissed corresponding 
-to Table~\ref{tab:eventperformance} for the test set are  $76.6$ , $5.3$ and $18.1$. 
+Indeed, the overall performance of the above scheme without the HMM temporal sequencing  is reduced to $\jaccardindex= 0.66$,
+while the \eventaccuracy, \eventconfused and \eventmissed corresponding
+to Table~\ref{tab:eventperformance} for the test set are  $76.6$ , $5.3$ and $18.1$.
 %
 %The increased miss detection rate reinforces the importance of temporal modelling for better deciding gesture boundary.
 %
 However, note  that the above method relying on only the gesture probability learned
-using neural networks on  5 frame inputs still outperforms the Jaccard index of $0.413$ 
-obtained by~\cite{camgoz2014gesture} when using a 5 frames template matching system 
+using neural networks on  5 frame inputs still outperforms the Jaccard index of $0.413$
+obtained by~\cite{camgoz2014gesture} when using a 5 frames template matching system
 where all the features are handcrafted.
 
 %% To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set. Fig.~\ref{fig:temporalModellingComparision} illustrates the effect of temporal modelling. The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}.
@@ -535,20 +511,20 @@ The performance of recent state-of-the-art techniques is given in Table~\ref{tab
   \centering
   \includegraphics[width=.7\textwidth]{images/output.png}
   \caption{
-  \small{HMM temporal contribution. 
-First row: output emission probabilities for each gesture as given by the late fusion scheme (see text) for the test set \#703. 
-The dashed line represents the probability of the Resting/Other gesture state, 
-while other colour represent different gestures. 
+  \small{HMM temporal contribution.
+First row: output emission probabilities for each gesture as given by the late fusion scheme (see text) for the test set \#703.
+The dashed line represents the probability of the Resting/Other gesture state,
+while other colour represent different gestures.
 Second row: resulting recognized gestures, without HMM modeling.
 Third row: HMM output.
 Fourth row: ground truth segmentation.
 %
-Without temporal modelling, the decision boundary of a gesture will be more rugged and it is more difficult to make 
-hard decisions of where the gesture starts or ends. Hence, in general, 
-it causes miss-detection and miss-merging. 
+Without temporal modelling, the decision boundary of a gesture will be more rugged and it is more difficult to make
+hard decisions of where the gesture starts or ends. Hence, in general,
+it causes miss-detection and miss-merging.
 %
-Thanks to the HMM temporal modelling and Viterbi path decoding, gesture boundaries 
-are usually cleaner defined from the Resting state to the gesture states, 
+Thanks to the HMM temporal modelling and Viterbi path decoding, gesture boundaries
+are usually cleaner defined from the Resting state to the gesture states,
 resembling the behavior of the manual annotators with better accuracy.
 }
 }
@@ -577,11 +553,11 @@ resembling the behavior of the manual annotators with better accuracy.
 \vspace*{-3mm}
   \caption{
 \small{Examples of performer variations in the  upper body dynamic.
- Most performers tend to keep their upper-body static while performing the gesture, 
+ Most performers tend to keep their upper-body static while performing the gesture,
 leading to good recognition performance (Jaccard index of person on the top is 0.95 for the late fusion system).
 %
-Some persons are more involved  and move more vehemently (person at the bootom, Jaccard index 
-of 0.61), which can affect the recognition algorithm itself (bottom left samples) or even the skeleton tracking 
+Some persons are more involved  and move more vehemently (person at the bootom, Jaccard index
+of 0.61), which can affect the recognition algorithm itself (bottom left samples) or even the skeleton tracking
 (bottom right; note that normally cropped images are centered vertically on the head position).
 }
 }
