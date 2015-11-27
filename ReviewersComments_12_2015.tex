@@ -1,0 +1,93 @@
+\newcommand{\rev}[1]{{\noindent {\bf Comment:} {\it #1}}~\\[-2mm]}
+\newcommand{\ans}[1]{{\noindent {\bf Response:} #1}~\\[-2mm]}
+\newcommand{\td}[1]{{\noindent {\bf TODO:} #1}~\\}
+
+
+\newcommand{\PM}[1]{
+~\\[-4mm]
+%``\dots{\em #1}\ldots''
+``{\em #1}''
+}
+
+
+% -----------------------------------------------------------------------------------
+\newpage
+{\LARGE \noindent Response to Reviewer 1}\newline
+
+\rev{After reading the responses and revised paper, I am happy to say that my
+confusions and criticisms are rebutted. I think the authors for their
+diligence in indulging my requests for clarification and additional
+experiments. I believe the paper is much improved and should be
+accepted.
+
+Specifically:
+	- The additional discussion convinced me of sufficient
+	contribution (jointly learning features and emission
+	probabilities from heterogeneous input streams for gesture
+	recognition).
+	- I agree with the authors that "More investigation on how to
+	handle heterogeneous networks should be conducted". The
+	additional experiments have identified important problems
+	(e.g. differences in mean activation) 
+	for future work, which is a contribution in itself.
+	- The qualitative analysis is greatly improved, giving insight.  
+	- I am happy to see intermediate fusion and fine tuning have
+	been considered.
+
+Below I enumerate my few remaining concerns, which I believe the authors
+should consider in a minor revision:  
+
+A few minor substantive points:
+4.1: You might consider a latent variable model for the state labels
+$y_{i,t}$ instead of 'force alignment'. It might help to briefly justify
+why you think forced assignment is good enough. 
+
+Figure 8: Label the y-axis on the figure. The information is in the
+caption, but readers are lazy. 
+
+5.3, Late vs. Intermediate fusion: If done right, the intermediate
+fusion should work at-least-as-well as the late fusion? But, as the
+authors discuss, it is not trivial to 'do it right'. I think they have
+done their due-diligence here and, importantly, exposed a problem. 
+
+A few minor grammatical problems:
+
+The authors jointly learn features and emission probabilities from
+*heterogeneous input streams* for dynamic gesture recognition. After reading the
+rebuttal and spending some time searching the literature I agree the
+work is new and interesting. The authors identify problems and
+challenges for future work. It isn't a revolutionary paper, but it
+seems an important and valid milestone which contributes understanding
+to our community.}
+
+% -----------------------------------------------------------------------------------
+\newpage
+{\LARGE \noindent Response to Reviewer 2}\newline
+
+\rev{The authors made an excellent effort to improve the paper based on all the reviewers' comments. I recommend acceptance. I recommend the authors to make an additional pass to correct typos e.g. combinatin => combination. 
+
+The paper proposes the fusion of the output from a Gaussian-Bernoulli Deep Belief network operating on skeletal features and the output of a Convolutional Neural Network operating on RGBD data to perform gesture segmentation and recognition.  The paper advances the field of gesture recognition by using both data sources and deep learning architectures within a Hidden Markov Model chain. The results are improved compared to using either architecture independently.
+
+The revised version of the paper includes another fusion scheme: instead of averaging the outputs of the two networks (called "late fusion"), the paper proposes to concatenate the high-level representations produced by their penultimate layers and process them through another classification layer to get the emission probabilities (called "intermediate fusion"). Unfortunately, this type of fusion, which made more sense to me, performs slightly worse. I suspect that the reason is that different types of units (ReLU vs sigmoid units) are used in the two networks causing incompatible scales in the outputs of the penultimate layers, as the authors indicate. In any case, this add-on is useful and can inspire future investigation on this topic and better implementations.}
+
+% -----------------------------------------------------------------------------------
+\newpage
+{\LARGE \noindent Response to Reviewer 3}\newline
+
+\rev{In this second revision, readability and organization of the manuscript have been significantly improved. Additional experiments have been conducted, and interesting insights and discussions have been added, including comparison of intermediate vs late fusion and temporal modeling vs aggregation of per-frame predictions by voting. Finally, more consistent and complete overview of related work is included. 
+There are no changes in the method though: it remains interesting from a practical point of view, but not particularly novel.
+
+In section II, please note that a year earlier, ChaLearn 2013 competition was dominated by exploiting HMMs (also RNNs) for the same task and on the same dataset.
+http://gesture.chalearn.org/2013-multi-modal-challenge/workshop-2013-challenge
+Some works are published:
+[HMM] Fusing multi-modal features for gesture recognition, ICMI workshop, 2013
+[HMM] Nandakumar et al., A Multi-modal Gesture Recognition System Using Audio, Video, and Skeletal Joint Data, ICMI workshop, 2013
+[RNN] Neverova et al., A multi-scale approach to gesture detection and recognition, ICCV workshop, 2013
+
+Some sections of the manuscript require additional proof reading: please check for typos (they are many, especially in section III), verb endings and spelling of names in your references.
+
+In terms of performance, the described DBN for treating raw skeleton data looks promising (16.5% validation error), while 3D Convnets on depth and intensity images perform, unfortunately, poorly (39% validation error), especially taking into account that two kinds of input (hands and full body) are combined. Why not get some insights from existing state of the art architectures (from [57], for example), and further improve them by adding full body processing and better modeling of temporal dependencies?
+
+The authors propose a deep learning framework for multi-modal gesture recognition based on color, depth and skeleton streams provided by the Kinect sensor. One of the key contributions is combining feature learning with HMM-based temporal modeling. Although exploring the deep learning approaches in the given context is certainly promising, the proposed implementation is rather straightforward and the reported results are clearly behind the state-of-the-art.}
+
+\endinput
