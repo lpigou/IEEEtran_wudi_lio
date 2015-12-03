@@ -15,7 +15,7 @@
 {\LARGE \noindent Response to Reviewer 1}\newline
 
 \rev{
-After reading the responses and revised paper, I am happy to say that my confusions and criticisms are rebutted. I thank the authors for their diligence in indulging my requests for clarification and additional experiments. I believe the paper is much improved and should be accepted. 
+After reading the responses and revised paper, I am happy to say that my confusions and criticisms are rebutted. I thank the authors for their diligence in indulging my requests for clarification and additional experiments. I believe the paper is much improved and should be accepted.
 
 Specifically:
 
@@ -45,7 +45,9 @@ A few minor substantive points:
 }
 
 \ans{
-\td{...}
+\td{}
+Thank you for your insightful comments. We did encounter similar thoughts when implementing the system as previously some speech processing researchers have done. 
+[\td{We have incorporated a brief discussion in Sec....}] However, with the re-alignment of the label boundary could potentially improve the result, we didn't digress to this route as another potential contribution of the paper.
 }
 
 \rev{
@@ -103,25 +105,33 @@ There are no changes in the method though: it remains interesting from a practic
 
 
 \ans{
-\td{}
+Thank you for reviewer's recognition of the improvement of the readability and organisation of the paper. The reviewing process also helps us to better understand, analysis the proposed model. 
+From the reviewing process and the experiments conducting for intermediate fusion, we investigate the difference of mean activations in intermediate fusion due to different activation functions is analysed which is a contribution itself so as to spur further investigation to effectively fuse multi-model, various activations.
 }
 
 \rev{
 In section II, please note that a year earlier, ChaLearn 2013 competition was dominated by exploiting HMMs (also RNNs) for the same task and on the same dataset.
 http://gesture.chalearn.org/2013-multi-modal-challenge/workshop-2013-challenge
 Some works are published:
-[HMM] Fusing multi-modal features for gesture recognition, ICMI workshop, 2013
-[HMM] Nandakumar et al., A Multi-modal Gesture Recognition System Using Audio, Video, and Skeletal Joint Data, ICMI workshop, 2013
-[RNN] Neverova et al., A multi-scale approach to gesture detection and recognition, ICCV workshop, 2013
+\begin{itemize}
+\item HMM:Fusing multi-modal features for gesture recognition, ICMI workshop, 2013
+\item HMM:Nandakumar et al., A Multi-modal Gesture Recognition System Using Audio, Video, and Skeletal Joint Data, ICMI workshop, 2013
+\item RNN:Neverova et al., A multi-scale approach to gesture detection and recognition, ICCV workshop, 2013
+\end{itemize}
 }
 
+
+\ans{
+Thank you for the suggested related works. They are very relevant to the paper and the problem that the proposed system is trying to solve. We have included the discussions of the suggested works in the Section: ``Nandakumar \emph{et al.}~\cite{nandakumar2013multi} applied the MFCC+HMM paradigm for audio input, Space-Time-Interest-Point (STIP), Bag-of-Words (BoW) and SVM pipeline for RGB videos and a covariance descriptor with SVM for skeleton module prediction. The 1st ranked team by Wu \emph{et al.}~\cite{wu2013fusing} used HMM model as audio feature classifier and Dynamic Time Warping as the classifier for skeleton feature.  The Recurrent Neural Network (RNN) was deployed in~\cite{neverova2013multi} to model large-scale temporal dependencies, data fusion and gesture classification.  Interestingly, the system in~\cite{neverova2013multi} decomposed the gestures into a large-scale body motion and local subtle movements."
+The key differences between the aforementioned papers and the proposed approach is that we use HMM for modelling hidden stats of gesture over the joint feature space whilst their HMM models are purely for audio input~\cite{nandakumar2013multi,wu2013fusing}. Our proposed system uses DBN with pre-training to learn the skeleton features instead of the hand crafted features~\cite{neverova2013multi}. Moreover, we explore the late and intermediate fusion scheme instead of the weighted likelihood that is adopted by~\cite{nandakumar2013multi}. Albeit the intermediate fusion scheme does not outperform late fusion, the discrepancy is a contribution in itself.
+}
 
 \rev{
 Some sections of the manuscript require additional proof reading: please check for typos (they are many, especially in section III), verb endings and spelling of names in your references.
 }
 
 \ans{
-\td{}
+Thank you for your careful review. We have proof read the paper and corrected the grammatical mistakes accordingly.
 }
 
 \rev{
