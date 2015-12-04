@@ -9,20 +9,20 @@
   \includegraphics[width=0.45\textwidth]{images/GraphicalModel_new2}\\
   \caption{
  \small{ Gesture recognition model: the temporal model is a HMM (left), whose emission probability
-\emissionprob{} (right) is modeled by forward-linked neural networks.
+\emissionprob{} (right) is modeled by feed-forward neural networks.
 %%
-More precisely, observations $\observation_t$ (skeletal features $\observationSK_t$, or RGB-D image features $\observationRGBD_t$)
-are first passed through appropriate deep neural nets (a Deep Belief Network -\DBN- pretrained with Gaussian-Bernouilli Restricted Boltzmann Machines
+Observations $\observation_t$ (skeletal features $\observationSK_t$, or RGB-D image features $\observationRGBD_t$)
+are first passed through the appropriate deep neural nets (a Deep Belief Network -\DBN- pretrained with Gaussian-Bernouilli Restricted Boltzmann Machines
 for the skeleton modality, and
- a 3D convolutional neural network -\ThreeDCNN- for the \RGBD  modality) to implictly extract high-level features (\highSK and \highRGBD)
-which are further fused to produce an estimate of $p(\observation_t|\hiddenstate_t)$.
+ a 3D convolutional neural network -\ThreeDCNN- for the \RGBD  modality) to extract high-level features (\highSK and \highRGBD)
+. These are subsequently combined to produce an estimate of $p(\observation_t|\hiddenstate_t)$.
 }}
 \label{fig:GM}
 \end{figure}
 
-Inspired by the framework successfully applied to speech recognition~\cite{mohamed2012acoustic}, the proposed model is a data driven learning system. This results in an integrated model, where the amount of prior knowledge and engineering is minimised. On top of that, this approach works without the need for additional complicated preprocessing and dimensionality reduction methods as it is naturally embedded in the framework.
+Inspired by the framework successfully applied to speech recognition~\cite{mohamed2012acoustic}, the proposed model is a data driven learning system. This results in an integrated model, where the amount of prior knowledge and engineering is minimised. On top of that, this approach works without the need for additional complicated preprocessing and dimensionality reduction methods as that is naturally embedded in the framework.
 
-The proposed approach relies on a Hidden Markov Model (HMM) for the temporal part,
+The proposed approach relies on a Hidden Markov Model (HMM) for the temporal aspect
 and neural networks to model the emission probabilities.
  In the remainder of this section, we will first present our temporal model and then introduce its main component.
 The details of the two distinct neural networks and fusion mechanisms along with post-processing will be provided
@@ -108,19 +108,19 @@ Fig.\ref{HMM_ES} and from which we can easily infer the class of the gesture as 
 \label{sec:ProblemFormation}
 \label{sec:emissionprob}
 
-Traditionally, emission probabilities for activity recognition have been trained with Gaussian Mixture Models (GMM), one per state.
+Traditionally, emission probabilities for activity recognition are learned by Gaussian Mixture Models (GMM).
 %
 Alternatively, in this work we propose to model this term in a discriminative fashion.
-More precisely, since the input features have a high dimensionality,
+Since the input features have a high dimensionality,
 we propose to learn them using two distinctive types of neural networks each suited to the input modality,
 as summarized in the right of Fig.~\ref{fig:GM}.
 %
 
 Unfortunately, estimating a probability density such as an emission probability remains quite a difficult problem, especially in high dimensions.
 %
-Theoretically, discriminative neural networks estimate posterior probabilities $p(\hiddenstate_t | \observation_t)$. We should divide posteriors by priors to get the scaled likelihoods which are required by the HMM for decoding. However, using scaled likelihood may not be beneficial if estimated priors do not match the priors in the test set \cite{morris2001multi}. Therefore, we employ the posteriors directly without dividing by the priors. This is equivalent to assuming that all priors are equal.
+Strictly speaking, discriminative neural networks estimate posterior probabilities $p(\hiddenstate_t | \observation_t)$. Hense to We should divide posteriors by priors  $p(\hiddenstate_t$ to obtain the emission probabilities $p(\observation_t|\hiddenstate_t )$  required by the HMM for decoding. However, using scaled likelihood may not be beneficial if estimated priors do not match the priors in the test set \cite{morris2001multi}. Therefore, we employ the posteriors directly without dividing by the priors. This is equivalent to assuming that all priors are equal.
 %
-or, in other words, inference in the HMM only depends only on the ratio between emission probabilities for the different states. One can interpret that the models are trained to directly predict the ratio between emission probabilities. This is similar to the approach used by Kindermans et al. to integrate transfer learning and an HMM based language model into a single probabilistic model \cite{Kindermans2012a}.
+Using this approach inference in the HMM only depends only on the ratio between emission probabilities for the different states. One can interpret that the models are trained to directly predict the ratio between emission probabilities. This is similar to the approach used by Kindermans et al. to integrate transfer learning and an HMM based language model into a single probabilistic model \cite{Kindermans2012a}.
 One should think of the predicted emission probability ratio as an unnormalized version of the true emission probability. Nevertheless, to simplify the discussion of our models for readers with a basic understanding of HMMs, we will refer to the predicted emission probability ratio simply as emission probabilities since the underlying model remains unchanged.
 
 
@@ -133,7 +133,7 @@ for learning the emission probability.
 For the RGB and depth (RGB-D) video data, we rely on a 3D (2D for space and 1D for time)
 convolutional neural networks (3DCNN) to model the emission probabilities.
 %
-Finally, a fusion method combines in an intermediate or in a late stage the contributions of both modalities.
+Finally, a fusion method combines the contributions of both modalities, this fusion can be done in an intermediate (hidden) layer or at a later stage at the output layer.
 %
 In all cases (including the fusion), the supervised training is conducted by learning to
 predict the state label (an element of \finiteset) associated to each training or testing frame.
@@ -144,7 +144,7 @@ Such an approach present several advantages over the traditional GMM paradigm.
 %Traditionally, GMMs and HMMs co-evolved as a way of doing speech recognition when computers were too slow to explore more computationally intensive approaches.
 First, while  GMMs are easy to fit when they have diagonal covariance matrices and, with enough components,
 can model any distribution, they have been shown to statistically inefficient at modeling high-dimensional features
-with many componential structure as explained in~\cite{mohamed2012acoustic}.
+with a complicated structure as explained in~\cite{mohamed2012acoustic}.
 %
 For instance, assume that the components of the input feature space can be separated into two subspaces
 characterized by  $N$  and $M$ significantly different  patterns in the training data, respectively, and that the occurences
@@ -153,15 +153,13 @@ like left/right arm or torso features.}.
 %
 A GMM will requires $N*M$ components to model this structure because each component must generate all the input features.
 %
-On the other hand, a stacked RBMs model that can explains the data using multiple causes only requires $N+M$ components
-(in the ideal fully independent case), each of which is specific to a particular subspace.
+On the other hand, a stacked RBMs model that  explains the data only requires $N+M$ components, each of which is specific to a particular subspace.
 %
-This exponential inefficiency of GMMs at modeling factorial structures leads to GMM+HMM systems having
-a very large number of Gaussians, most of which must be estimated from a very small fraction of the data.
+This inefficiency of GMMs at modeling a structure that can be factorised leads to GMM+HMM systems having
+a very large number of mixture components,where each must be estimated from a very small fraction of the data.
 
 
-Secondly, the approach for training the skeleton DBN model, first using variational learning to train stacked RBMs with unlabeled data, then in a discriminative fashion
-\cite{salakhutdinov2009learning} has been shown to have several advantages.
+The approach for training the skeleton DBN model, starting with variational learning to train stacked RBMs with unlabeled data, followeed by discriminative finetuning \cite{salakhutdinov2009learning} has been shown to have several advantages.
 %
 It has been observed that  variational learning~\cite{hinton2006fast},
 which tries to optimize the data-likelihood while minizing the Kullback-Leibler divergence between
@@ -177,8 +175,7 @@ time a  parametric prior of human pose is learned.
 %
 %In the recent work of~\cite{6751269} a non-parametric bayesian network is adopted for human pose prior estimation, whereas in our framework, the parametric networks are incorporated.
 %
-In our case, using the pairwise joints features as raw input, the data-driven approach network will be able to extract relational
-multi-joint features which are relevant to the target classes.
+In our case, using the pairwise joints features as raw input, the data-driven approach network will be able to extract multi-joint features relevant to the target classes.
 For instance, from  the ``toss" action data, a wrist joints rotating around shoulder joints feature is expected to
 be extracted from the backpropagation  learning, and be the equivalent of those task specific \emph{ad hoc} hard wired sets
 of joint configurations defined in~\cite{chaudhry2013bio}~\cite{muller2006motion}\cite{nowozin2012action}~\cite{ofli2013sequence}.
