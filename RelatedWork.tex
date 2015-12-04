@@ -6,14 +6,14 @@ Gesture recognition has drawn increasing attention from researchers, primarily d
 Nowozin and Shotton~\cite{nowozin2012action} proposed the notion of ``action points" to serve as natural temporal anchors of simple human actions using a Hidden Markov Model.
 Wang \emph{et al.}~\cite{wang2006hidden} introduced a more elaborated discriminative hidden-state approach for the recognition of human gestures.
 However, relying on only one layer of hidden states,
-their model alone might not  be powerful enough to learn a higher level representation of the data and take advantage of very large corpus. In this paper, we adopt a different approach by focusing on deep feature learning within a temporal model.
+their model alone might not  be powerful enough to learn a higher level representation of the data and take advantage of very large corpora. In this paper, we adopt a different approach by focusing on deep feature learning within a temporal model.
 
 There have been a few works exploring deep learning for action recognition in videos. For instance, Ji \emph{et al.}\cite{ji20133d} proposed using 3D convolutional neural network for automated recognition of human actions in surveillance videos. Their model extracts features from both the spatial and the temporal dimensions by performing 3D convolutions, thereby capturing the motion information encoded in multiple adjacent frames. To further boost the performance, they proposed regularising the outputs with high-level features and combining the predictions of a variety of different models. Taylor \emph{et al.}~\cite{taylor2010convolutional}  also explored 3D convolutional networks for learning spatio-temporal features for videos. The experiments in~\cite{wu2014deep} show that multiple network averaging works better than a single individual network and larger nets  will generally perform better than smaller nets.
 Providing there is enough data, averaging multi-column nets~\cite{ciresan2012multi} applied to
 action recognition could also further improve the performance.
 
-However, the advent of  Kinect-like sensors has put more emphasis on RGB-D data for gesture recognition, but not only.
-For instance, the benefits of deep learning using RGB-D data have been explored for object detection or classification tasks.
+The introduction of  Kinect-like sensors has put more emphasis on RGB-D data for gesture recognition but has also influenced other video-based recognition tasks.
+For example, the benefits of deep learning using RGB-D data have been explored for object detection or classification tasks.
 %
 Dosovistskiy \emph{et al.}~\cite{DosovitskiySRB14} presented generic feature learning for training a convolutional network using only unlabeled data. In contrast to supervised network training, the resulting feature representation is not class specific and is advantageous on geometric matching problems, outperforming the SIFT descriptor.
 Socher \emph{et al.}~\cite{socher2012convolutional} proposed a single convolutional neural net layer for each modality as inputs to multiple, fixed-tree RNNs in order to compose higher order features for 3D object classification. The single convolutional neural net layer provides useful translational invariance of low level features such as edges and allows parts of an object to be deformable to some extent.
@@ -22,8 +22,8 @@ To address object detection, Gupta \emph{et al.}~\cite{gupta2014learning} propos
 %The depth image was represented by three channels: horizontal disparity, height above ground and angle with gravity.
 This augmented representation allows CNN to learn stronger features than when using disparity (or depth) alone.
 
-Recently, the gesture recognition domain itself has been stimulated by the collection of large public corpus.
-In particular, the ChaLearn 2013 competition was populated by the exploitation of the HMM models:
+Recently, the gesture recognition domain has been stimulated by the collection of large public corpora.
+For the ChaLearn 2013 competition, HMM models were studied intensely:
 Nandakumar \emph{et al.}~\cite{nandakumar2013multi} applied the MFCC+HMM paradigm for audio input, Space-Time-Interest-Point (STIP), Bag-of-Words (BoW) and SVM pipeline for RGB videos and a covariance descriptor with SVM for skeleton module prediction. The 1st ranked team by Wu \emph{et al.}~\cite{wu2013fusing} used HMM model as audio feature classifier and Dynamic Time Warping as the classifier for skeleton feature.  The Recurrent Neural Network (RNN) was deployed in~\cite{neverova2013multi} to model large-scale temporal dependencies, data fusion and gesture classification.  Interestingly, the system in ~\cite{neverova2013multi} decomposed the gestures into a large-scale body motion and local subtle movements.
 
 The ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge has collected around 14,000 gestures drawn from a vocabulary of 20 Italian sign gesture categories. The emphasis is on multi-modal automatic learning gestures performed by several different users, with the aim of performing user independent continuous gesture spotting.
