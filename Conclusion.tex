@@ -2,40 +2,20 @@
 \section{Conclusion and future work}
 \label{sec:conclusion}
 
-Hand-engineered, task-specific features are often time-consuming to design but they are limited to some certain tasks. % Less adaptive than what? I changed this because there is no direct comparison
-This difficulty is even more pronounced with multimodal data as we would like the features
-to relate to multiple data sources.
+% (Horrible not needed sentence!) Hand-engineered, task-specific features are time-consuming to design and limited to some certain tasks. % Less adaptive than what? I changed this because there is no direct comparison This difficulty is even more pronounced with multimodal data as we would like the features to relate to multiple data sources.
 %
-In this paper, we presented a novel deep dynamic neural network (DDNN)
-%that relied on  deep belief networks
-%and 3D convolutional neural networks
-for learning contextual frame-level representations and modelling emission probabilities in the framework of an HMM temporal model.
-%
-Different feature learning methods (DBN and 3DCNN) suited to the heterogeneous inputs from skeletal joints, RGB images, and depth images
-were proposed, as well as different fusion schemes.
-%
-Experimental results on bi-modal gesture time series  show that the multimodal DDNN framework can learn
-good models of the joint space of multiple sensory inputs, improving over  unimodal input.
+In this paper, we presented a novel deep dynamic neural network (DDNN) for continuous gesture recognition on multimodal data comprising image and depth (RGB-D) data and skeletal features. % I chose this formulation because of the similarity to continuous speech recognition.
+In contrast to previous state-of-the-art methods, we do not rely on hand-crafted features, instead we utilise deep learning methods to automatically extract the relevant information from the data. 
+Because the input data is multimodal, our model integrates two distinct feature learning methods, (1) Deep Belief Networks (DBN) for the processing of skeletal features and (2) 3D Convolutional Neural Networks (3DCNN) for RGB-D data. On top of that, we  extended our feature learning model with an HMM to incorporate temporal dependencies.
+This compound model  jointly segments and classifies the multimodal datastream. This contrasts with most prior work, where the segmentation was assumed to be known a priori. 
 
+We evaluated this model on the Chalearn LAP dataset and have shown the following.  First, multimodal fusion of the different inputs results in a clear improvement over unimodal approaches. Moreover, this performance improvement is due to the complementary nature of the different input modalities. Skeletal features are very good for segmentation but make more mistakes during recognition, RGB-D features on the other hand allow for reliable recognition but are not as good for segmentation.
+Second, the integration of a more complex temporal model (the HMM) outperforms averaging of the outputs, hereby demonstrating that the temporal structure of the data can be exploited well. Third, 
+Our experimental validation on the Chalearn LAP dataset has indicated that our method performs at the same level as other state-of-the-art methods. 
 
+There are several directions for future work. With the increase in availability of dedicated processing units such as GPUs, feature learning models will only become more prevalent. For this reason, the study of multimodal approaches that extract complementary representations from heterogeneous inputs, as done in~\cite{neverova2014moddrop}, needs more exploration.
+Furthermore, the integration of the HMM in our model is only a first way to take the temporal structure into account. Therefore, it would be interesting to verify whether the performance can be improved further by the integration of other probabilistic models such as conditional random fields or even more advanced variants \cite{wang2006hidden}. A second promising research path would be to build a unified neural network to make better use of the temporal component of the problem. For example by using Recurrent Neural Networks, possibly with Long Short Term Memory~\cite{graves2009novel} nodes.
 
-There are several directions for future work.
-%
-Our results with those of other recent works suggest that learning features directly from data is a very important research direction
-and that with more and more data and flops-free  computational power, learning-based methods are not only more generalisable to many domains,
-but also are powerful in combination  with other well-studied probabilistic graphical models
-for dynamical modelling and reasoning.
-%
-In this view, the learning of  better shared and complementary representation among multimodal  and heterogeneous  inputs,
-as done in~\cite{neverova2014moddrop}, requires more exploration.
-%
-In addition, while the proposed HMM provided a good basis for the temporal modeling of gestures,
-other more discriminant temporal approaches such as Conditional Random Field or further and better variants
-\cite{wang2006hidden} could be directly exploited at their advantage in conjuction with our deep neural network  learning approach.
-%
-Ultimately, in a logical way, these two research directions converge into the investigation of
-a single and unified deep learning framework fusing heterogeneous modalities
-by using recent Recurrent Neural Networks such as Long Short Term Memory~\cite{graves2009novel} for modelling the temporal component of the problem.
 
 %\mycomline{I would cite papers providing neural temporal models, rather than the one already applied to the gesture task}
 %such as the work of ~\cite{DBLP:journals/corr/PigouODHD15}.
