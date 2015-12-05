@@ -1,19 +1,19 @@
 \begin{abstract}
-This paper describes a novel method called deep dynamic neural networks \emph{(DDNN)} for  multimodal gesture recognition.
+This paper describes a novel method called Deep Dynamic Neural Networks \emph{(DDNN)} for  multimodal gesture recognition.
 %
 More precisely, a semi-supervised hierarchical dynamic framework based on a Hidden Markov Model (HMM) 
 is proposed for simultaneous gesture segmentation and recognition where skeleton joint information, 
 depth and RGB images are the multimodal input observations.
 %
-Unlike most traditional approaches which rely on the construction of complex handcrafted features as HMM input features, 
+Unlike most traditional approaches which rely on the construction of complex handcrafted features, 
 our approach learns high-level spatio-temporal representations using  deep neural networks suited to the input modality: 
-a Gaussian-Bernouilli deep belief networks (\DBN)  to handle skeletal dynamics, 
-and a 3D convolutional neural networks (\ThreeDCNN) to manage and fuse batches of  depth and RGB images.
+a Gaussian-Bernouilli Deep Belief Network (\DBN)  to handle skeletal dynamics, 
+and a 3D Convolutional Neural Network (\ThreeDCNN) to manage and fuse batches of  depth and RGB images.
 %
-This achieved through the modeling and learning of the  emission probabilities of the HMM required to infer the gesture sequence.
-%The framework can be easily extended by including an ergodic state to segment and recognise video sequences by a frame-to-frame mechanism, making online segmentation and recognition possible.
-This purely data driven approach achieves a score of \textbf{\emph{0.81}} in the ChaLearn LAP gesture spotting challenge. 
-The performance is on par with a variety of the state-of-the-art hand-tuned feature based approaches and other learning based methods. Thus opening the door for using deep learning techniques to further explore multimodal time series.
+This is achieved through the modeling and learning of the  emission probabilities of the HMM required to infer the gesture sequence.
+%The framework can be easily extended by including an ergodic state to segment and recognize video sequences by a frame-to-frame mechanism, making online segmentation and recognition possible.
+This purely data driven approach achieves a Jaccard index score of \textbf{\emph{0.81}} in the ChaLearn LAP gesture spotting challenge. 
+The performance is on par with a variety of state-of-the-art hand-tuned feature-based approaches and other learning-based methods, therefore opening the door on using deep learning techniques to further explore multimodal time series.
 \end{abstract}
 
 
@@ -28,10 +28,10 @@ The performance is on par with a variety of the state-of-the-art hand-tuned feat
 
 %% PREVIOUS VERSION
 \begin{abstract}
-This paper describes a novel method called deep dynamic neural networks \emph{(DDNN)} for  multimodal gesture recognition.
+This paper describes a novel method called deep Dynamic Neural Networks \emph{(DDNN)} for  multimodal gesture recognition.
 A semi-supervised hierarchical dynamic framework is proposed for simultaneous gesture segmentation and recognition taking skeleton, depth and RGB images as input observations.
-Unlike the traditional construction of complex handcrafted features, all inputs are learnt by deep neural networks: the skeletal module is modelled by deep belief networks \emph{(DBN)}; the depth and RGB module are modelled by 3D convolutional neural networks \emph{(3DCNN)} to extract high-level spatio-temporal features.
-The learned representations are then used for estimating emission probabilities of the hidden Markov models to infer a gesture sequence.
-The framework can be easily extended by including an ergodic state to segment and recognise video sequences by a frame-to-frame mechanism, making online segmentation and recognition possible.
-This purely data driven approach achieves a score of \textbf{\emph{0.81}} in the ChaLearn LAP gesture spotting challenge. The performance is on par with a variety of the state-of-the-art hand-tuned feature approaches and other learning based methods, opening the doors for using deep learning techniques to explore multimodal time series.
+Unlike the traditional construction of complex handcrafted features, all inputs are learnt by deep neural networks: the skeletal module is modeled by Deep Belief Networks \emph{(DBN)}; the depth and RGB module are modeled by 3D Convolutional Neural Networks \emph{(3DCNN)} to extract high-level spatio-temporal features.
+The learned representations are then used for estimating emission probabilities of the Hidden Markov Models to infer a gesture sequence.
+The framework can be easily extended by including an ergodic state to segment and recognize video sequences by a frame-to-frame mechanism, making online segmentation and recognition possible.
+This purely data driven approach achieves a score of \textbf{\emph{0.81}} in the ChaLearn LAP gesture spotting challenge. The performance is on par with a variety of the state-of-the-art hand-tuned feature approaches and other learning-based methods, opening the doors for using deep learning techniques to explore multimodal time series.
 \end{abstract}

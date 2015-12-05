@@ -75,7 +75,7 @@ Thank you for the careful review. We have corrected some grammatical problems du
 {\LARGE \noindent Response to Reviewer 2}\newline
 
 \rev{
-The authors made an excellent effort to improve the paper based on all the reviewers' comments. The paper proposes the fusion of the output from a Gaussian-Bernoulli Deep Belief network operating on skeletal features and the output of a Convolutional Neural Network operating on RGBD data to perform gesture segmentation and recognition.  The paper advances the field of gesture recognition by using both data sources and deep learning architectures within a Hidden Markov Model chain. The results are improved compared to using either architecture independently.
+The authors made an excellent effort to improve the paper based on all the reviewers' comments. The paper proposes the fusion of the output from a Gaussian-Bernoulli Deep Belief Network operating on skeletal features and the output of a Convolutional Neural Network operating on RGBD data to perform gesture segmentation and recognition.  The paper advances the field of gesture recognition by using both data sources and deep learning architectures within a Hidden Markov Model chain. The results are improved compared to using either architecture independently.
 
 The revised version of the paper includes another fusion scheme: instead of averaging the outputs of the two networks (called ``late fusion"), the paper proposes to concatenate the high-level representations produced by their penultimate layers and process them through another classification layer to get the emission probabilities (called ``intermediate fusion"). Unfortunately, this type of fusion, which made more sense to me, performs slightly worse. I suspect that the reason is that different types of units (\emph{ReLU} vs sigmoid units) are used in the two networks causing incompatible scales in the outputs of the penultimate layers, as the authors indicate. In any case, this add-on is useful and can inspire future investigation on this topic and better implementations.
 I recommend acceptance.
@@ -106,7 +106,7 @@ There are no changes in the method though: it remains interesting from a practic
 
 \ans{
 Thank you for reviewer's recognition of the improvement of the readability and organisation of the paper. The reviewing process also helps us to better understand, analysis the proposed model. 
-From the reviewing process and the experiments conducting for intermediate fusion, we investigate the difference of mean activations in intermediate fusion due to different activation functions is analysed which is a contribution itself so as to spur further investigation to effectively fuse multi-model, various activations.
+From the reviewing process and the experiments conducting for intermediate fusion, we investigate the difference of mean activations in intermediate fusion due to different activation functions is analyzed which is a contribution itself so as to spur further investigation to effectively fuse multi-model, various activations.
 }
 
 \rev{
@@ -123,7 +123,7 @@ Some works are published:
 
 \ans{
 Thank you for the suggested related works. They are very relevant to the paper and the problem that the proposed system is trying to solve. We have included the discussions of the suggested works in the Section: ``Nandakumar \emph{et al.}~\cite{nandakumar2013multi} applied the MFCC+HMM paradigm for audio input, Space-Time-Interest-Point (STIP), Bag-of-Words (BoW) and SVM pipeline for RGB videos and a covariance descriptor with SVM for skeleton module prediction. The 1st ranked team by Wu \emph{et al.}~\cite{wu2013fusing} used HMM model as audio feature classifier and Dynamic Time Warping as the classifier for skeleton feature.  The Recurrent Neural Network (RNN) was deployed in~\cite{neverova2013multi} to model large-scale temporal dependencies, data fusion and gesture classification.  Interestingly, the system in~\cite{neverova2013multi} decomposed the gestures into a large-scale body motion and local subtle movements."
-The key differences between the aforementioned papers and the proposed approach is that we use HMM for modelling hidden stats of gesture over the joint feature space whilst their HMM models are purely for audio input~\cite{nandakumar2013multi,wu2013fusing}. Our proposed system uses DBN with pre-training to learn the skeleton features instead of the hand crafted features~\cite{neverova2013multi}. Moreover, we explore the late and intermediate fusion scheme instead of the weighted likelihood that is adopted by~\cite{nandakumar2013multi}. Albeit the intermediate fusion scheme does not outperform late fusion, the discrepancy is a contribution in itself.
+The key differences between the aforementioned papers and the proposed approach is that we use HMM for modeling hidden stats of gesture over the joint feature space whilst their HMM models are purely for audio input~\cite{nandakumar2013multi,wu2013fusing}. Our proposed system uses DBN with pretraining to learn the skeleton features instead of the hand crafted features~\cite{neverova2013multi}. Moreover, we explore the late and intermediate fusion scheme instead of the weighted likelihood that is adopted by~\cite{nandakumar2013multi}. Albeit the intermediate fusion scheme does not outperform late fusion, the discrepancy is a contribution in itself.
 }
 
 \rev{

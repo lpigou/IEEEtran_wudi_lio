@@ -194,7 +194,7 @@ Further information is provided on the gaze tracking part:
 \PM{Overall, the gaze tracking takes around 100ms per frame.
 Note however that this is a research implementation, where the most
 time-consuming elements are the data pre-processing (3D mesh creation) and the head pose tracking.
-The head pose tracking is CPU based and alone takes from 20 to 100ms (depending on the amount of head pose changes during consecutive frames).
+The head pose tracking is CPU-based and alone takes from 20 to 100ms (depending on the amount of head pose changes during consecutive frames).
 A careful GPU-based implementation could greatly increase the speed.
 }
 
@@ -409,7 +409,7 @@ These approaches, even though very interesting, rely on geometric approaches of 
 features. Ref1 uses the approach by Timm and Barth (VISAPP 2011) to find the iris center through a gradient direction voting scheme,
 whereas Ref2 uses a variation of the Starburst algorithm (Li et al, CVPRW 2005) to fit an ellipse,
 and are thus suffering from the same limitations that we have described in our related work
-about geometric based methods. The usage of depth data in these methods is mainly for the head pose tracking: Ref1 uses the Microsoft
+about geometric-based methods. The usage of depth data in these methods is mainly for the head pose tracking: Ref1 uses the Microsoft
 Kinect SDK's tracker whereas Ref2 transforms 2D landmarks detection into 3D points based on depth measurements and compares it to
 a person specific 3D landmarks position model (to infer the head pose transform).
 
@@ -432,8 +432,8 @@ algorithm on detecting pupil center.}''. This indeed confirms the limitations of
 % the image resolution needs to be high enough (HERE EXPLAIN HOW THIS CAN BE THE CASE IN THEIR EXPERIMENTS).
 % Even under these two conditions, the paper Ref1 concludes ``.... put citation...''.
 %
-Appearance based methods, which is a main focus of this paper  were indeed proposed as an alternative methodology to address
-the scenario in which using model-based, or geometric based, approaches have difficulties, as in the conditions we address. \\[1mm]
+Appearance-based methods, which is a main focus of this paper  were indeed proposed as an alternative methodology to address
+the scenario in which using model-based, or geometric-based, approaches have difficulties, as in the conditions we address. \\[1mm]
 %
 %
 In summary, these methods would have much difficulties to work under our low-resolution images, or in the floating target situation which has much greater
@@ -470,11 +470,11 @@ require high resolution and high contrast images.
 }
 
 
-%% These approaches, even though very interesting, are not in the context of appearance based methods, which is the focus of this paper.
-%% Appearance based methods were proposed as an alternative methodology to address the scenario in which using
-%% model-based, or geometric based, approaches is not possible; mostly due to low resolution conditions which doesn't allow
+%% These approaches, even though very interesting, are not in the context of appearance-based methods, which is the focus of this paper.
+%% Appearance-based methods were proposed as an alternative methodology to address the scenario in which using
+%% model-based, or geometric-based, approaches is not possible; mostly due to low resolution conditions which doesn't allow
 %% to infer local features, such as the iris/pupil ellipse, glints, etc. The data used in the aforementioned papers is of much
-%% higher quality than our data, thus the authors can use geometric based methods.
+%% higher quality than our data, thus the authors can use geometric-based methods.
 
 % might nevertheless be missing a particular paper of which we are not aware. We would be very thankful if you could please specify to which
 %other previous RGB-D methods you are referring to.
@@ -489,7 +489,7 @@ I am not sure whether the authors mention this as a merit. In fact, the differen
 to know additional information such as the 3D head pose, eyeball position, camera position w.r.t.~world coordinate system, and screen pose (if relevant), etc.
 %
 While it is true that geometric methods do allow by nature to do such 3D reasoning (but they have their own limitations in terms of sensing and feature extraction),
-within the literature of appearance based methods most authors avoid such 3D manipulation and instead estimate the mapping directly
+within the literature of appearance-based methods most authors avoid such 3D manipulation and instead estimate the mapping directly
 from the eye appearance to the point of regard whichcin most situations correspond to 2D screen coordinates: this way, they  circumventing any geometric analysis,
 but  has the disadvantage of poor generalization and of limiting the application to such creen gazing scenarios
 
@@ -686,7 +686,7 @@ sufficient for gaze estimation.}
 added experiments which can bring clarity to this point in Section 7.1.
 We evaluated the head pose tracking accuracy in two different and publicly available benchmarks: the BIWI Kinect head pose
 dataset and the ICT 3D Head Pose dataset. The main motivation is that the face model has a direct impact on the accuracy
-of the head pose tracking, and we know accurate head pose tracking is an important requirement for appearance based gaze tracking
+of the head pose tracking, and we know accurate head pose tracking is an important requirement for appearance-based gaze tracking
 
 For both benchmarks, using a person specific face model (from the 3DMM fitting) leads to higher accuracy in comparison to
 using the mean face shape. This already is a strong point in favor of using a person specific face model. However a less obvious
@@ -949,7 +949,7 @@ We have also raised the awareness on the eye alignment problems across subjects,
 To address this problem, we have proposed a novel alignment algorithm which brings the data from a set of subjects to an
 implicit cross-subject aligned frame.
 %
-This algorithm builds and extend computer vision concepts through a sound modelling strategy.
+This algorithm builds and extend computer vision concepts through a sound modeling strategy.
 
 \vspace*{1mm}
 
@@ -1066,7 +1066,7 @@ from a sequence of RGB-D frames. This is a fully automatic and alternative proce
 it seems the system undergoes a training specific to the eyeball.
 Nevertheless, it encourages, a further manual refinement of the position and size of the eyeball
 (see \url{http://doc.faceshift.com/studio/training/index.html} ). Given that this information is manipulated explicitly, we are almost certain
-a geometric based method is being used, rather than an appearance based method which is the focus of our paper.
+a geometric-based method is being used, rather than an appearance-based method which is the focus of our paper.
 \end{itemize}
 
 \vspace*{1mm}
@@ -1145,10 +1145,10 @@ have added the following in Section 6.1, ``Implementation details and speed'':
 {\bf Speed.} Overall, the gaze tracking takes around 100ms per frame.
 Note however that this is a research implementation, where the most
 time-consuming elements are the data pre-processing (3D mesh creation) and the head pose tracking.
-The head pose tracking is CPU based and alone takes from 20 to 100ms (depending on the amount of head pose changes during consecutive frames).
+The head pose tracking is CPU-based and alone takes from 20 to 100ms (depending on the amount of head pose changes during consecutive frames).
 A careful GPU-based implementation could greatly increase the speed.
 
-The OpenGL based rectification takes 15ms. The gaze regression computation time depends on the used algorithm.
+The OpenGL-based rectification takes 15ms. The gaze regression computation time depends on the used algorithm.
 For the particular case of using $1200$ training samples (e.g.~for an experiment from Sec.~7.2)
 the \kNN's method takes 25ms per eye, the \HSVR method takes 15ms per eye,
 whereas the \RSVR method takes 11ms per eye. \ALR's speed is heavily dependent on the training set' size, as
@@ -1277,7 +1277,7 @@ To clarify this point, we have modified the footnote as:
 
 \PM{
 {\bf footnote}\{Note that in all methods $\eyeCroppedImage$
-is a gray-scale image of size $55 \times 35$. This is a conservative choice, since in our experiments eye image sizes
+is a grayscale image of size $55 \times 35$. This is a conservative choice, since in our experiments eye image sizes
 almost neither go beyond $20\times 15$. It should however not be harmful in principle.\}
 }
 
@@ -1648,7 +1648,7 @@ of the training data (in terms of gaze angles defined w.r.t.~the \HCS).
 This was motivated by the fact that in the head pose invariance tests with the screen (\CS case), there was a mismatch
 between the gaze training and test data for some participants.
 %
-Since it is known a priori that the regression methods in appearance based apporoaches can not handle well
+Since it is known a priori that the regression methods in appearance-based apporoaches can not handle well
 extrapolation to unseen data\footnote{In a given application, training data would need to be collected appropriately.},
 consider samples out of the convex-hull of the training data would introduce much (random) 'noise' in the evaluation,
 deflecting the reported errors to convey the actual performance achieved by the different algorithms.
@@ -1848,9 +1848,9 @@ The results for \FT and \CS are reported under the \SP-\PInv columns from Table 
 and differ on which alignment strategy was used, if any. The obtained results can be compared to the person-specific case on the same data (\SP-\PSpec)\footnote{With the slight difference that the
 evaluation is conducted on all samples of the test subject's session, instead of only the second half in the person-specific case.}.
 
-Notice we evaluate four types of alignment: ``\AEC'' correspond to an alignment based on an automatic
+Notice we evaluate four types of alignment: ``\AEC'' correspond to an alignment-based on an automatic
 facial landmarks detection algorithm, ``\EC'' correspond to an
-alignment based on manually annotated eye corners, ``\SDIPA'' is our proposed synchronized delaunay implicit parametric alignment whereas
+alignment-based on manually annotated eye corners, ``\SDIPA'' is our proposed synchronized delaunay implicit parametric alignment whereas
 ``\SDIPAFive'' is the same approach but using only 5 samples for the alignment of the {\em test} subject.
 \NA correspond to no alignment.
 }
