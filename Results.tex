@@ -2,7 +2,7 @@
 
 \section{Experiments and Analysis}
 
-This Section reports the experiments performed to validate our model.
+This section reports the experiments performed to validate our model.
 First, we will introduce the ChaLearn dataset, and then present the experimental protocol we followed.
 In Section~\ref{sec:results}, we will present and analyse the obtained results, including a discussion
 on the modeling elements.
@@ -76,19 +76,19 @@ Finally, Section~\ref{sec:ComputationalComplexity} will briefly discuss the comp
 %Also, provide some statistics about the dataset:
 % rough duration of the gestures (average, min max). How many person are performing the gestures, how many occurrences per class, is the dataset balanced}
 
-The dataset used in this work is provided by the ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge\footnote{\href{http://gesture.chalearn.org/2014-looking-at-people-challenge/data-2014-challenge}{http://gesture.chalearn.org/2014-looking-at-people-challenge/data-2014-challenge}}.
+The dataset used in this work was made public for the ChaLearn LAP \cite{chalearnLAP} gesture spotting challenge\footnote{\href{http://gesture.chalearn.org/2014-looking-at-people-challenge/data-2014-challenge}{http://gesture.chalearn.org/2014-looking-at-people-challenge/data-2014-challenge}}.
 %
-The focus  is on ``multiple instance, user independent spotting" of gestures, which means learning to recognize gestures from several instances for each category performed by different users, drawn from a gesture vocabulary of 20 Italian cultural/anthropological signs.
-A gesture vocabulary is a set of unique gestures, generally related to a particular task.
+The focus  is on ``multiple instance, user independent spotting" of gestures, which means learning to recognize gestures from several instances for each category performed by different users. The gestures contained in this dataset are 20 Italian cultural/anthropological signs.
+%A gesture vocabulary is a set of unique gestures, generally related to a particular task.
 
-The challenge dataset contains 940 videos sequences, each performed by a single person and composed of 10 to 20 gesture instances for a total of around $14,000$ gestures.
+The challenge dataset contains 940 videos sequences, each performed by a single person and composed of 10 to 20 gesture instances, totalling about $14,000$ individual gestures.
 %
 There are 20 gesture classes, \emph{i.e.} \emph{vattene, vieniqui, perfetto, furbo, cheduepalle, chevuoi, daccordo, seipazzo, combinato, freganiente
     , ok, cosatifarei, basta, prendere, noncenepiu, fame, tantotempo, buonissimo, messidaccordo, sonostufo}, with a number a samples well balanced between classes.
 % statistics of the gestures here:
 The average length of gestures is 39 frames, the minimum frame number for a gesture is 16  and the maximum frame number is 104.
 
-This dataset is challenging because the ``user independent" setting and some of gestures differ primarily in hand pose but not the overall arm motions as illustrated in Fig.~\ref{fig:chalearnclasses}
+This dataset is challenging because of the ``user independent" setting. Some of gestures differ primarily in hand pose but the overall arm motions can be quite similar as illustrated in Fig.~\ref{fig:chalearnclasses}.
 In terms of data, three modalities are provided with the input videos: the sequence of skeleton joints, and the RGB and depth images
 (including a segmentation of the person performing the gesture).
 %For the input sequences, there are three modalities provided, \emph{i.e.} skeleton, RGB and depth images (with user segmentation).
@@ -197,20 +197,20 @@ In terms of data, three modalities are provided with the input videos: the seque
 %From the confusion matrix, i would propose: ``Basta'', buenissimo, daccordo, combinato}
 %\dwucomline{We may not show all the examples here}
 \small{Examples of gestures in the Chalearn dataset.
-This dataset is challenging because the ``user independent" setting (a)\&(b), some of gestures differ primarily in hand pose but not the overall arm motions (d)\&(e) and some gestures require both hands to perform (g,h,i).
-Subtle hand movement (c) and differences in performing speed and range (f) also make recognising tasks challenging.
+This dataset is challenging because of the ``user independent" setting (a)\&(b), some of gestures differ primarily in hand pose but not in the arm movement (d)\&(e). Some gestures require both hands to perform (g,h,i).
+Subtle hand movement (c) and differences in execution speed and range (f) also make this recognition task challenging.
 %Note that some gestures primarily differ primarily in hand pose but not the arm motions, like ``OK'' \emph{vs} ``Non ce ne piu''. ``Basta" and ``Combinato" are the gestures that got mostly misclassified.
   }}
 \label{fig:chalearnclasses}
 \end{figure}
 \subsubsection{Training and evaluation protocol}
 
-We follow the ChaLearn experimental protocol, in which the input sequences are split into 700 videos for training, and 240 sequences for testing and reporting results.
+We follow the ChaLearn experimental protocol, in which the input sequences are split into 700 videos for training, and 240 sequences for testing.
 Note that the   test sequences  are not segmented a priori and the gestures must be detected within a continuous data stream
 which, in addition to the targeted gestures, also contains noisy and out-of-vocabulary gestures.
 %
-Furthermore, in the experiments, we split the training videos into 650 videos for learning the actual neural network model parameters, and 50 videos
-used as validation data for monitoring the training performance or selecting hyper-parameters.
+Furthermore, in the experiments, we split the training videos into 650 videos for training the neural network parameters, and 50 videos
+are used as validation for monitoring the training performance and the optimisation of the hyper-parameters.
 
 
 \subsubsection{Performance measures}
@@ -226,23 +226,22 @@ of the video is defined as:
 \mbox{and } \jaccardindex_i = \frac{1}{|{\cal G}_i)|} \sum_{g \in {\cal G}_i} \jaccardindex_i(GT_i, R_i,g)
 \end{align}
 
-where $N_s(GT_i, R_i, g)$ denotes the number of frames where the ground truth and result agree on the gesture class $g$,
-and $N_u(GT_i, R_i, g)$ denotes the number of frames labeled as a gesture frame $g$ by  either the ground truth or the algorithm,
-and ${{\cal G}_i}$ denotes the set of gestures either in the ground truth or detected by the algorithm in sequence $i$\footnote{Note that 'non gesture' frames are thus excluded from the counts.}. The average of the $\jaccardindex_i$ over all test videos is reported as performance measure.
+where $N_s(GT_i, R_i, g)$ denotes the number of frames where the ground truth and the prediction agree on the gesture class $g$. The quantity
+$N_u(GT_i, R_i, g)$ reflects the number of frames labelled as a gesture $g$ by  either the ground truth or the prediction,
+and ${{\cal G}_i}$ denotes the set of gestures either in the ground truth or detected by the algorithm in sequence $i$\footnote{Note that 'non gesture' frames are excluded from the counts.}. The average of the $\jaccardindex_i$ over all test videos is reported as the final performance measure.
 %
-Note that experimentally, this measure tends to favours having more false positives than missing true positives, in order to increase the numerator.
+Note that experimentally, this measure tends to penalise false positives less than missing true positives.
 %Effective ways to detect false positives should be an interesting aspect of future work.
 
 Being defined at the frame level, the Jaccard index can vary due to variations of the segmentation (both in the ground truth and recognition)
 at gesture boundaries, which can be irrelevant from an application viewpoint.
 %
-Thus, we also defined performance at the gesture event level by following the commonly used PASCAL challenge intersection over union criterion.
-More precisely, if for a gesture segment $G$, we have $\frac{G \cap R}{G \cup R} >  0.5$, where R denotes a recognized gesture
-segment of the same class, then the  gesture is said to be recognized.
+For this reason, we also used the performance at the gesture event level by following the commonly used PASCAL challenge intersection over union criterion.
+If for a gesture segment $G$, we have $\frac{G \cap R}{G \cup R} >  0.5$, where R denotes a recognized gesture segment of the same class, then the  gesture is said to be recognized.
 %
-If the same relation holds but with a gesture segment of another class, the prediction is incorrect.
-Otherwise the gesture is rated as undetected. This allows us to define the \eventaccuracy, \eventconfused and \eventmissed performance measures at the video level,
-which are further averaged over test sequences for reporting.
+However, if this also holds for a gesture segment of another class, the prediction is said to be incorrect.
+Otherwise the gesture is rated as undetected. This allows us to define the \eventaccuracy, \eventconfused and \eventmissed performance measures at the video level. 
+These quantities are then averaged over the test sequences for reporting.
 
 
 \begin{figure*}[t]
@@ -293,7 +292,7 @@ by considering gesture segments of less than 20 frames as noise and discarding t
         \end{tabular}
 \vspace*{-2mm}
     \caption{
-    \small{Results in terms of Jaccard index \jaccardindex for the different network structures and modalities modeling the emission probabilities.}
+    \small{Results in terms of Jaccard index \jaccardindex for the different network structures and modalities modelling the emission probabilities.}
           }
           \label{Table_score_fusion}
           \label{tab:jaccardperformance}
@@ -313,11 +312,11 @@ by considering gesture segments of less than 20 frames as noise and discarding t
 
 \mypartitle{Overall results.}
 %
-The overal performance of the algorithms are given in Tables~\ref{Table_score_fusion} and~\ref{tab:eventperformance}.
+The performance measurements  of the algorithms are given in Tables~\ref{Table_score_fusion} and~\ref{tab:eventperformance}.
 %
 As can be observed from both performance measures, the skeleton module usually  performs better than the RGB-D module.
 In addition, its generalization capability  is better than that of the RGB-D module,
-especially when measured with the Jaccard index where there is almost no drop of performance between the validation and test data.
+especially when measured with the Jaccard index where there is almost no drop of performance between the validation and the test data.
 %
 One possible explanation is that the information in the skeleton data is more robust, as it benefited from training using huge and highly
 varied data~\cite{shotton2011real}: around on million images from both realistic and synthetic depth images were used to train
@@ -332,7 +331,7 @@ Another interesting conclusion that can be drawn from Table~\ref{tab:eventperfor
 
 
 Finally, the results also demonstrate  that the combination of both modalities is more robust,
-as shown by the recognition rate increase and the smaller drop in the generalization performance
+as shown by increase in the recognition rate and the reduced drop in the generalization capability
 %, both at the \jaccardindex and event level
 (for instance the decrease of the \eventaccuracy rate is lower than for the skeleton data alone).
 
@@ -357,7 +356,7 @@ as shown by the recognition rate increase and the smaller drop in the generaliza
         \end{tabular}
 \vspace*{-2mm}
     \caption{
-      \small{ Gesture classification performance at the event level, in percentage of the number of ground truth gestures.}
+      \small{ Gesture classification performance at the event level, as a percentage of the number of gestures.}
 %\mycomline{table to be finished as for the skeleton}
           }
           \label{tab:eventperformance}
@@ -391,7 +390,7 @@ as shown by the recognition rate increase and the smaller drop in the generaliza
                 \label{fusion_cm}
         \end{subfigure}
 
-  \caption{\small{Confusion Matrices (log-norm)  for the different modalities.}}
+  \caption{\small{Confusion Matrices (log-form)  for the different modalities.}}
 \label{fig:confusion_matrix}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -399,46 +398,42 @@ as shown by the recognition rate increase and the smaller drop in the generaliza
 \mypartitle{Confusion matrices.}
 %
 The confusion matrices (in log-form)
- in Fig.~\ref{fig:confusion_matrix} better illustrate the complementarity of the behaviors of the two modalities.
+ in Fig.~\ref{fig:confusion_matrix} better illustrate the complementarity of the behaviours of the two modalities.
 %
-The higher underdetection of RGB-D is clearly visible (whiter matrix, except last 'undetected' column).
+The higher under-detection rate of RGB-D is immediately apparent (whiter matrix, except last 'undetected' column).
 %
-We can also notice that some gestures are more easily recognized than others,
-or catch the difficult instances of other gestures.
+We can also notice that some gestures are more easily recognized than others.
+%or catch the difficult instances of other gestures.
 This is the case  of the ``Basta" gesture,
 whose arms motion  resembles the  start and end of the arm motion of many other gesture (see Fig.~\ref{fig:chalearnclasses}).
-Whatever the modality, its model thus tends to recognize few instance of all other gesture classes, whenever their
-likelihood are low when being evaluated using the HMM states associated with their true label
-due to too much variability.
+Regardless the modality, the model tends to recognize only a few instance of the other gesture classes, whenever their likelihoods are low when being evaluated using the HMM states associated with their true label. This is probably due to too much variability in the execution of the gesture.
 %
-Similarly, the hand movement and pose of the ``Buenissimo" gesture is present in several other gesture classes,
-whose instances are then often confused with ``Buenissimo" when relying on the skeleton information alone.
+Similarly, the hand movement and pose of the ``Buenissimo" gesture is present in several other gesture classes. As a result, their instances are often confused with ``Buenissimo" when relying solely on the skeleton information.
 %
-However, as these gestures differ primarily in their hand pose, such confusion is much more reduced using the RGB-D domain,
-or when fusing  the skeleton and RGB-D modules.
+However, as these gestures differ primarily in their hand pose, this confusion is reduced by using the RGB-D domain, or by fusing  the skeleton and RGB-D modules.
 %
-The complementary properties of the two modalities is also illustrated from the Viterbi path decoding plot in Fig.~\ref{fig:Sample0700_comparison}.
-In general, the benefit of this complementarity between arm pose/gesture and hand pose
+The complementary properties of the two modalities are also illustrated by the Viterbi path decoding plot in Fig.~\ref{fig:Sample0700_comparison}.
+In general, the benefit of the complementarity between arm pose/gesture and hand pose
 can be observed from the whiter confusion matrix than in the skeleton case (less confusion due to hand pose information from RGB-D)
-and much less under-detection than in the RGB-D case (better upper-body pose discrimination thanks to skeleton input).
+and much less under-detection than for the pure RGB-D model (thanks to an improved upper-body pose discrimination thanks to skeleton input).
 %
 
-However, the modalities by themselves have more difficulties in correcting the recognition errors which are due to variations coming from the performer,
-like differentiating  people that gesticulate more (see Fig.~\ref{fig:bodydynamics}).
+However, the single modalities  have more difficulties in correcting the recognition errors which are due to variations coming from the performer,
+like differentiating  gestures from people that gesticulate more (see Fig.~\ref{fig:bodydynamics}).
 
 \mypartitle{Late vs. Intermediate  fusion.}
 \label{LateIntermediateFusion}
 %
 The results in Tab.~\ref{tab:jaccardperformance} and~\ref{tab:eventperformance} show that the intermediate fusion system
-improved individual modalities, but without outperforming the late fusion system.
+improved individual modalities, but without outperforming the late fusion strategy.
 %
 The result is counter-intuitive, as we would have expected the cross-modality learning in the intermediate fusion scheme
-to result in better emission probability predictions, as compared to the simple score fusion in the late system.
+to result in better emission probability predictions, compared to the simple score fusion in the late system.
 %
 One possible explanation is that the independence assumption of the late scheme better preserves both
 the complementarity and redundancy of the different modalities, properties which are important for fusion.
 %
-Another related explanation is that in the intermediate fusion learning process,
+Another possible explanation is that in the intermediate fusion learning process,
 one modality may dominate and  skew the network towards  learning that specific module and
 lowering the importance of the other one.
 %
@@ -449,9 +444,9 @@ due to the neuron heterogeneity (the skeleton DBN has logistic units whereas the
 %
 Note that such heterogeneity was not present when fusing modalities  in \cite{Ngiam2011multimodal},
 where better registration and less spatial registration variability in lip images
-allowed to also resort to the same stacked RBMs for the visual modality (rather than \ThreeDCNN)  and the audio one.
+allowed the authors to resort to the stacked RBMs for both the visual and auditory modality.
 %
-More investigation on how to handle heterogeneous networks  should be conducted.
+Based on these observations we argue that more investigation on how to handle heterogeneous networks and the fusion of multimodal data should be conducted.
 
 
 
@@ -460,35 +455,33 @@ More investigation on how to handle heterogeneous networks  should be conducted.
 
 \mypartitle{HMM benefit.}
 %
-As the emission probabilities are learned in a discriminative manner, one could  wonder whether the HMM brings benefit beyond smoothing.
-To investigate this issue, we removed the temporal structure as follows:
+As the emission probabilities are learned in a discriminative manner, one could  wonder whether the HMM brings any benefit beyond smoothing.
+To investigate this, we removed the HMM model and performed the smoothing as follows:
 for a given gesture \gesturea, we computed its score at time $t$, $Score(\gesturea,t)$, by summing the emission
 probabilities $p(\observation_t|\hiddenstate_t = \hiddenstatenode)$ for all nodes associated to that gesture,
 \ie $\hiddenstatenode \in \finiteset_{\gesturea}$.
 %
 This score is then smoothed in the temporal domain (using a window of 5 frames) to obtain $\widehat{Score}(\gesturea,t)$.
 %
-Finally, following \cite{neverova2014moddrop}, the gesture recognition proceeds in two steps:
+Finally, following \cite{neverova2014moddrop}, the gesture recognition is performed in two steps:
 first finding gesture segments by thresholding the score of the ergodic state;
-then, for each resulting gesture segment, the recognized gesture is defined as the one whose average score within the segment is the highest.
+then, for each resulting gesture segment, the recognized gesture is defined as the one whose average score within the segment is maximal.
 %
-Fig.~\ref{fig:temporalModellingComparision} illustrates this process along with the DDNN and ground-truth.
+Fig.~\ref{fig:temporalModellingComparision} visualises the predictions for the different temporal smoothing strategies.
+
+In general, we could observe that better decisions on the presence of gestures and improved localisation of the gesture boundaries are obtained with the proposed \emph{DDNN}.
+This is due to the use of the temporal model defined in Fig.~\ref{HMM_ES}. On the other hand, the gesture detection based on a simple threshold is rather unstable and much more  sequence dependent.
 %
-In general, we could observe that better decisions on the presence of gestures and on
-the boundaries where a gesture starts and ends are achieved with the proposed \emph{DDNN}
-thanks to  the use of the state-diagram defined in Fig.~\ref{HMM_ES}, as compared to the above method,
-where deciding on a gesture detection threshold is rather unstable and quite sequence dependent.
-%
-Indeed, the overall performance of the above scheme without the HMM temporal sequencing  is reduced to $\jaccardindex= 0.66$,
+As a result, the overall performance of the simplified decoding scheme without the HMM temporal reduces the performance to $\jaccardindex= 0.66$,
 while the \eventaccuracy, \eventconfused and \eventmissed corresponding
 to Table~\ref{tab:eventperformance} for the test set are  $76.6$ , $5.3$ and $18.1$.
 %
 %The increased miss detection rate reinforces the importance of temporal modelling for better deciding gesture boundary.
 %
-However, note  that the above method relying on only the gesture probability learned
-using neural networks on  5 frame inputs still outperforms the Jaccard index of $0.413$
+However, note  that the this simple method relying on just the gesture probabilities predicted by the
+neural networks on  5 frame inputs still outperforms the Jaccard index of $0.413$
 obtained by~\cite{camgoz2014gesture} when using a 5 frames template matching system
-where all the features are handcrafted.
+using handcrafted features.
 
 %% To investigate the benefit of temporal modelling of the proposed system, we compare the model that discards temporal modelling. Specially, once, we collect the emission probability \emissionprob{}, we average the hidden states for each gesture class and obtain the frame based gesture class prediction \gestureEmissionProb where \gesturehiddenstateFrame denotes the gesture variables. After temporal smoothing for each frame, a threshold for cutting the begin and end of active gesture is chosen by a validation set. Fig.~\ref{fig:temporalModellingComparision} illustrates the effect of temporal modelling. The decision boundary of where the gesture starts and ends in the proposed \emph{DDNN} is clean-cut due to the state-diagram defined in Fig.~\ref{HMM_ES}.
 %% %
@@ -500,7 +493,7 @@ where all the features are handcrafted.
 
 
 \mypartitle{Comparison with the state-of-the-art.}
-The performance of recent state-of-the-art techniques is given in Table~\ref{tab:soa}. The first half of the table resorts to hand crafted feature approaches and then usually a second stage classifier. Our proposed system performs on par with the top two methods. However, hand crafted feature methods' performance are saturated regardless of the increase training data. The representation learning methods in the second half of the Table perform comparably with the best hand crafted feature approaches and the top representation method achieves the best Jaccard index score. Given more training data, it is expected that the networks will be able to be more adapted to the ``user independent" setting. It also worths noting that our proposed system is the only method that incorporates the temporal modelling element rather than sliding window approach. We believe this is an interesting research direction that can be more adapted to various lengths of gestures and relevant temporal factors.
+The performance of other state-of-the-art techniques is given in Table~\ref{tab:soa}. The first half of the table uses hand crafted feature representations that are subsequently classified. Our proposed system performs on par with the top two methods. However, hand crafted feature methods' performance are unlikely to improve much as more training data becomes available. The representation learning methods in the second half of the Table perform comparably with the best hand crafted feature approaches and the top representation method achieves the best Jaccard index score. Given more training data, it is expected that these networks will be able become even better suited to the ``user independent" setting. It also worth noting that our proposed system is the only method that incorporates more structured temporal modelling. The other approaches resort to a more basic sliding window approach. We believe this is an interesting research direction because an HMM-like approach can be adapted to various lengths of gestures and exploit temporal structure better.
 
 %\mypartitle{Comparison with the state-of-the-art. In particular, add discussion that other temporal module could be used,
 %including those that could lead to the training of a full deep-neural network.  }
@@ -601,36 +594,33 @@ of 0.61), which can affect the recognition algorithm itself (bottom left samples
 \subsection{Computational Complexity}
 \label{sec:ComputationalComplexity}
 
-We can distinguish between two complexities: the training one, and the test one.
+We can distinguish between two complexities: the training complexity, and the test complexity.
 
 \mypartitle{Complexity at training time.}
 %
 Although training deep neural network using stochastic gradient descent is computationally intensive,
-the reuse of pre-trained network parameters as done in our case can help with  better initialisation and lead  to faster convergence.
+the reuse of pre-trained network parameters, as done in our case, can help to speed up the learning process because the improved initialisation leads to faster convergence.
 %
-We can observe different training time in function of the modality (and architecture).
+We can observe differences in training time as a function of the modality (and architecture).
 %
-Specifically, using a modern GPU (GeForece GTX TITAN Black) and conv op. by Theano~\cite{Bastien-Theano-2012},
-the training time of each epoch of the DBN skeleton module is less than 300 seconds and allows training the required 500 epochs within 2 days.
+Specifically, using a modern GPU (GeForce GTX TITAN Black) and the conv op. implemented by Theano~\cite{Bastien-Theano-2012},
+the training time per epoch of the DBN skeleton module is less than 300 seconds. This allows us to complete the 500 training epochs in just 2 days.
 %
-The training time of each epoch of the 3DCNN \RGBD  module is much more  expensive,
-taking more than 10,000 seconds.
-Hence, 40 epochs takes around 5 days to train.
-%
-The fusion network being initialised with the individual module parameters, its training time is half that of the 3DCNN.
+The training time of each epoch of the 3DCNN \RGBD  module is much longer.
+Each epoch requires more than 10,000 seconds, which results in a total training time of about 5 days for 40 epochs.
+Because the multimodal network is being initialised with the individual subnetwork parameters, its training time is only half that of the stand-alone 3DCNN.
 
 
 \mypartitle{Complexity at test time.}
 %
-Given the learned models, our framework with the above GPU can perform real-time video sequence labelling with a low inference cost.
+Given the trained models, our framework can perform real-time video sequence labelling on the GPU, thanks to the low cost of inference.
 %
-More specifically, a single feed forward neural network incurs linear computational time ($\mathcal{O}(T)$),
-and is efficient because it requires only matrix products and convolution operations.
-The complexity of the Viterbi algorithm is itself of $\mathcal{O} (T* |S|^2)$, where
-$T$ is the number of frames and $|S|$ the number of states, and thus performs real-time given our state-space.
+More specifically, a single feed forward neural network incurs linear computational time ($\mathcal{O}(T)$). Furthermore, it can be implemented very efficiently on the GPU because because it requires mainly matrix products and convolutional operations.
+The computational complexity of the Viterbi algorithm is $\mathcal{O} (T* |S|^2)$, where
+$T$ is the number of frames and $|S|$ the number of states, and can be executed in real-time given our state-space.
 In practice, our multimodal neural network can be deployed at 90 FPS.
-The preprocessing part takes most of the time and our un-optimized version runs at 25 FPS, while the
- Viterbi decoding  runs at 90 FPS. Hence, the overall system can achieve faster than real-time performance.
+Remarkably. the preprocessing steps take most of the time and an un-optimized version runs already at 25 FPS, while the
+ Viterbi decoding  runs at 90 FPS. Hence, with further optimisations the complete system can achieve faster than real-time performance.
 
 
 \endinput
