@@ -33,7 +33,7 @@ the sequence of state labels $\framelabel_{i,t}$ associated to each frame.
 To do so, a forced alignment is used which means that if the $i^{th}$ sequence is a gesture \gesturea{}, then the first $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to state $\hiddenstatenode_\gesturea^1$ (the first state of gesture \gesturea{}),
 the following $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to $\hiddenstatenode_\gesturea^2$, and so forth.
 
-Note that each gesture sequence comes with the video frames preceeding and following the gesture.
+Note that each gesture sequence comes with the video frames preceding and following the gesture.
 In practice, we extracted 5 frames before and after each gesture sequence and labelled them
 %this shot sequence
 with the ergodic state (\ergodicstate) label.

@@ -5,7 +5,7 @@
 % (Horrible not needed sentence!) Hand-engineered, task-specific features are time-consuming to design and limited to some certain tasks. % Less adaptive than what? I changed this because there is no direct comparison This difficulty is even more pronounced with multimodal data as we would like the features to relate to multiple data sources.
 %
 In this paper, we presented a novel deep dynamic neural network (DDNN) for continuous gesture recognition on multimodal data comprising image and depth (RGB-D) data and skeletal features. % I chose this formulation because of the similarity to continuous speech recognition.
-In contrast to previous state-of-the-art methods, we do not rely on hand-crafted features, instead we utilise deep learning methods to automatically extract the relevant information from the data. 
+In contrast to previous state-of-the-art methods, we do not rely on hand-crafted features that are time-consuming to engineer, especially when this has to be done for each input modality independently. Instead we utilise deep learning methods to automatically extract the relevant information from the data. 
 Because the input data is multimodal, our model integrates two distinct feature learning methods, (1) Deep Belief Networks (DBN) for the processing of skeletal features and (2) 3D Convolutional Neural Networks (3DCNN) for RGB-D data. On top of that, we  extended our feature learning model with an HMM to incorporate temporal dependencies.
 This compound model  jointly segments and classifies the multimodal datastream. This contrasts with most prior work, where the segmentation was assumed to be known a priori. 
 
