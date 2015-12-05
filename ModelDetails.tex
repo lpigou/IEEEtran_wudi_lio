@@ -10,27 +10,25 @@ In this section, we detail the different component of the proposed Deep Dynamic 
 In all our experiments, the different modelling elements are specified as follows.
 
 The number of states \nsig{} associated to an individual gesture has been set to 5.
-Therefore, in total, the number of states is $\tns = 20 \times 5 + 1 = 101$
+In total, the number of states is $\tns = 20 \times 5 + 1 = 101$
 when conducting  experiments on the Chalearn dataset containing 20 classes.
 %
 Note that intuitively, 5 states represents a good granularity as
-most gestures in the Clalearn are composed of 5 phases: an onset, followed by arm motions to reach a more static pose
-(often characterized by a distinct hand posture), and the motion back to the rest place.
+most gestures in the dataset are composed of 5 phases: an onset, followed by arm motions to reach a more or less static pose (often characterized by a distinct hand posture), and the motion back to the resting position.
 %
-In the future, optimal selection of this number\footnote{Experiments with 10 states led to similar performance.}
-and of different number of states per gesture could be investigated.
+In future work, the optimisation of the number of states\footnote{Experiments with 10 states led to similar performance.} and even a different number of states per gesture could be investigated.
 %
 
 
-The training data in Chalearn is given as a set of sequences
+The training data of the Chalearn competition is given as a set of sequences
 $\inputsequence_i=[\framefeature_{i,1}, \ldots,\framefeature_{i,t},\ldots, \framefeature_{i,T_i}]$
-where $\framefeature_{i,t}=[\framefeature_{i,t}^s, \framefeature_{i,t}^r]$ corresponds to the skeleton and RGB-D input.
+where $\framefeature_{i,t}=[\framefeature_{i,t}^s, \framefeature_{i,t}^r]$. Here,  $\framefeature_{i,t}^s$ corresponds to the skeleton and $\framefeature_{i,t}^r]$ denotes the RGB-D input.
 %
 As only a single gesture label is provided for each sequence, we need to define
 $\labelsequence_i=[\framelabel_{i,1}, \ldots,\framelabel_{i,t},\ldots, \framelabel_{i,T_i}]$,
 the sequence of state labels $\framelabel_{i,t}$ associated to each frame.
 %
-To do so, a forced alignment is used which means that if the $i^{th}$ sequence is a gesture \gesturea{}, then the first $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to state $\hiddenstatenode_\gesturea^1$ (the first state of gesture \gesturea{}),
+To do so, a forced alignment is used. This means that if the $i^{th}$ sequence is a gesture \gesturea{}, then the first $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to state $\hiddenstatenode_\gesturea^1$ (the first state of gesture \gesturea{}),
 the following $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to $\hiddenstatenode_\gesturea^2$, and so forth.
 
 Note that each gesture sequence comes with the video frames preceding and following the gesture.
@@ -108,9 +106,9 @@ considered, namely \emph{``ElbowLeft, WristLeft, ShoulderLeft, HandLeft, ElbowRi
 %
 The raw skeleton features of time $t$ are defined as $\skrawfeature_t=[\framefeature_t^{s,1}, \ldots, \framefeature_t^{s, \numberofjoints}]$.
 To capture the gesture dynamics, rather than using $\skrawfeature_t$ as raw input to our data driven approach,
-we follow the approach of~\cite{diwucvpr14} and compute the 3D positional pairwise differences of joints as well as temporal derivatives, defined as (as shown in Fig.~\ref{point_cloud}) \footnote{Note that the offset features used in~\cite{diwucvpr14} depend on the first frame.
+we follow the approach of~\cite{diwucvpr14} and compute the 3D positional pairwise differences of joints, as well as temporal derivatives, defined as (shown in Fig.~\ref{point_cloud}) \footnote{Note that the offset features used in~\cite{diwucvpr14} depend on the first frame.
 Thus if the initialisation fails which is a very common scenario, the feature descriptor will be generally very noisy.
-Hence, here we do not use these offset features.}:
+Hence, we do not use these offset features here.}:
 \begin{align}
 f^{cc}_t&=\{x_t^{s,i}-x_t^{s,j} | i,j=1,2,\ldots, N_j; i\neq j\} \label{sk_features_1}\\
 f^{cp}_t&=\{x_{t+1}^{s,i}-x_t^{s,i} |  i=1,2,\ldots, N_j\} \label{sk_features_2}\\
@@ -166,48 +164,47 @@ typically used in the  speech recognition community~\cite{mohamed2012acoustic}.
 %where $\alpha$ is the learning rate and $P_T$ is the distribution obtained by running a Gibbs chain, initialized with the visible units given by the data, for $T$ full steps.
 
 Given the input skeleton feature \skfeature, a \DBN model is used to predict the emission probability, as shown in Fig.~\ref{fig:DBN}.
-As explained in Section~\ref{sec:emissionprob}, the learning proceeds in two steps:
-in the first one, the network is considered as a stack of RBMs, and trained using a greedy, layer-by-layer
+ The learning proceeds in two steps which we briefly mentioned in Section~\ref{sec:emissionprob}:
+in the first step, the network is considered to be a stack of RBMs, and trained using a greedy, layer-by-layer
 unsupervised learning algorithm \cite{hinton2006fast};
-in the second one, a softmax network layer is added on top of the RBMs to create a \DBN architecture,
-where the  weights of the first step are used to initialize the corresponding weights in the \DBN,
-and the \DBN is further trained and fine-tuned in a supervised fashion to predict the emission probability.
+in the second step, a softmax network layer is added on top of the RBMs to create a \DBN architecture,
+where the  weights of the first step are used to initialize the corresponding weights in the \DBN.
+The \DBN is subsequently fine-tuned in a supervised manner to predict the emission probability.
 %
 The number of nodes at each layer of the \DBN are $[N_{\skfeature},2000,2000,1000,\numberhiddenstate]$.
 % where $N_f = 891$ is the observation domain dimensionality; $N_{\mathcal{H}}$ is the output target class.
-We provide below further details on the model and training.
+Below we give further details on the model and the training process.
 
 \mypartitle{Gaussian-Bernoulli RBM.}
 %
 Restriced Boltzmann machine (RBM) are undirected graphical models involving visible and hidden variables,
-with symmetric connections between the hidden and visible units but no connection within hidden variables
-or visible variables.
+with symmetric connections between the hidden and visible units of adjacent layers but without connections between units within the same layer.
 %
-In most cases, RBMs rely on binary random variables.
+In most cases, the units in the RBMs model binary random variables.
 %
-However, in our case the visible unit in the first layer are the vector of skeleton features $\skfeature \in \mbf{R}^{N_{\skfeature}}$, which are continous.
-To account for this situation, we thus resort to a Gaussian-Bernoulli RBM (\emph{GRBM})~\cite{salakhutdinov2009learning},
-whose main difference w.r.t. standard RBM lies in the following:
-the energy term of our first layer $\skfeature$ to the hidden binary stochastic units $\rbmh \in \{0,1\}^F$ is given by:
+However, in our case the visible unit in the first layer contains the vector of skeleton features $\skfeature \in \mbf{R}^{N_{\skfeature}}$, whose values are continuous.
+To be able to process this data, we resort to a Gaussian-Bernoulli RBM (\emph{GRBM})~\cite{salakhutdinov2009learning}.
+The main difference w.r.t. a standard RBM lies in the following:
+the energy term of the first layer $\skfeature$ to the hidden binary stochastic units $\rbmh \in \{0,1\}^F$ is given by:
 \begin{equation}
     E(\skfeature,\rbmh;\theta) =-\sum_{i} \frac{(\skfeatureel_i-b_i)^2}{2\sigma_i^2} -\sum_{i} \sum_{j} W_{ij}  \rbmhel_j \frac{\skfeatureel_i}{\sigma_i}- \sum_{j=1}a_j\rbmhel_j
 \label{GRBMenergy}
 \end{equation}
-where $\theta=\{W,b,a\}$ are the free parameters: $W_{i,j}$ serves as the symmetric synergy term between visible unit $i$ and hidden unit $j$,
-while $b_i$ and $a_j$ are the bias term of the visible and hidden units, respectively.
+where $\theta=\{W,b,a\}$ are the free parameters. Here $W_{i,j}$ serves as the symmetric synergy term between visible unit $i$ and hidden unit $j$.
+The variables $b_i$ and $a_j$ specify the bias term of the visible and hidden units, respectively.
 %
-The conditional distributions needed for inference and generation are given by the traditional logistic function $g$ for the binary hidden variable, and the normal distribution $\mathscr{N}$  for the continous variable:
+The conditional distributions needed for inference and generative modelling are given by the traditional logistic function $g$ for the binary hidden units, and the normal distribution $\mathscr{N}$  for the continuous units:
 \begin{eqnarray}
     P(\rbmhel_j=1 | \skfeature) & = & g (\sum_i W_{ij} \skfeatureel_i+a_j) \\
     P(\skfeatureel_i=\skfeatureel|\rbmh) & = & \mathscr{N}( \skfeatureel |\mu_i,\sigma_i^2).
 \end{eqnarray}
 where $\mu_i=b_i+\sigma_i^2 \sum_j W_{ij}$.
-In practice, we normalise the data (mean substraction and standard deviation division) in the preprocessing phase.
-Hence, instead of learning $\sigma_i^2$, one typically used  $\sigma_i^2=1$ during training.
+In practice, we normalise the data (mean subtraction and standard deviation division) in the preprocessing phase.
+Hence, instead of learning $\sigma_i^2$, one typically uses  $\sigma_i^2=1$ during training.
 
 We ran 100 epochs using a fixed recipe based on stochastic gradient descent with a mini-batch size of 200 training cases
-to train  the stacked RBM, in which the learning rate is fixed at 0.001 for the Gaussian-Bernoulli RBMs,
-and at 0.01 for the following binary-binary RBMs.
+to train  the stacked RBM. The learning rate is fixed to 0.001 for the Gaussian-Bernoulli RBMs,
+and to 0.01 for the higher-layer binary-binary RBMs.
 
 
 
@@ -218,9 +215,8 @@ and at 0.01 for the following binary-binary RBMs.
 %
 % In the training set, there are in total $400\,117$ frames. During the training of the \emph{DBN}, $90\%$ is used for training, $8\%$ for validation (for the purpose of early stopping) $2\%$ is used for test evaluation.
 %
-The \DBN is initialized with the result of the previous step, a method which tends to avoid suboptimal local minima and increase
-the networks performance stability.
-%
+The \DBN is initialized with the result of the previous pre-training. The goal of this initialisation is to avoid suboptimal local minima and to increase
+the network's generalisation capabilities.
 The learning rate for the parameter fine tuning
 starts at 1 with 0.99999 mini-batch scaling. During the experiments, early stopping occurs around epoch 440.
 The optimisation completes with a frame based validation error rate of $16.5\%$.%, as shown in  Fig~\ref{sk_error_rate}.
@@ -257,10 +253,10 @@ each  being 4  consecutive 64 by 64 frames stacked together. See text for furthe
 }
 \label{3dcnn_architecture}
 \end{figure*}
-Although DeepMind technology~\cite{mnih2013playing} presented the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using deep reinforcement learning, working directly with raw input Kinect recorded data frames, which are $640 \times 480$ pixel images, can be computationally demanding.
-Therefore, our first step in the preprocessing stage consists of cropping the highest hand and the upper body using the given joint information. In the Chalearn dataset, we determined that the highest hand is the most interesting. When both hands are used, they normally perform the same (mirrored) movement, and when one hand is used, it is always the highest one which is relevant.
-Furthermore, to be invariant to handedness, we always train the model with the right hand view.
-That is, when the left hand is actually the performing hand, the video was mirrored.
+DeepMind ~\cite{mnih2013playing} presented the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using deep reinforcement learning. However,  working directly with raw input Kinect recorded data frames, which are $640 \times 480$ pixel images, is computationally very demanding.
+Therefore, our first step in the preprocessing stage consists of cropping the image to the highest hand and the upper body based on the given joint information. In the Chalearn dataset, we determined that the highest hand is the most interesting. When both hands are used, they tend to perform the same (mirrored) movement, When only one hand is used, it is always the highest one which is relevant for the gesture.
+Furthermore, to be invariant to handedness, we train the model with the right hand view.
+For this reason,  the video was mirrored when the left hand is actually the performing hand.
 
 
 The preprocessing results in four video samples (body and hand with grayscale and depth) of resolution $64\times64$.
@@ -286,9 +282,9 @@ The outcome is illustrated in Fig.~\ref{3dcnn_filters}.
 
 This  architecture consists of a series of layers composed of either convolution, pooling or, in the last layer, fully connected layers.
 The 3D convolution itself is achieved by convolving a 3D kernel to the cuboid formed by stacking multiple contiguous frames together.
-We follow the nomenclature of in~\cite{ji20133d}.
+We follow the nomenclature of ~\cite{ji20133d}.
 However, instead of using $tanh$ units~\cite{ji20133d},  Rectified Linear Units (\emph{ReLUs})~\cite{krizhevsky2012imagenet}
-were used in order to speed up training.
+were used to speed up training.
 Formally, the value of a unit at position $(x, y, z)$ ($z$ here corresponds to the time-axis) in the $j$-th feature map in the $i$-th layer, denoted as $v^{xyz}_{ij}$, is given by:
 \begin{equation}
 v^{xyz}_{ij} =  max( 0,  ( b_{ij} + \sum_m \sum_{p=0}^{P_i - 1} \sum_{q=0}^{Q_i -1 } \sum_{r=0}^{R_i -1} w^{pqr}_{ijm} v^{(x+p)(y+q)(t+r)}_{(i-1)m} ))
@@ -302,7 +298,7 @@ The first layer (H1) consists of 32 feature maps produced by $5\times5$ spatial 
 followed by local contrast normalisation (LCN)~\cite{jarrett2009best}.
 %
 Note that the filter response maps of the Depth and RGB images of the hand (and body) are summed to produce a single feature map,
-thus resulting in H1 in 32 feature maps for each of the hand and for the body region.
+thus resulting in H1 32 feature maps for each of the hand and for the body region.
 %
 A 3D max pooling with strides $(2,2,2)$ is then applied.
 %
@@ -317,9 +313,9 @@ Finally, the output layer has \numberhiddenstate values, the number of states in
 
 \subsubsection{Details of Learning}
 % The first 650 batches are used for training and the remaining 50 files for validation.
-During training, dropout \cite{hinton2012improving} is used as main regularisation approach to reduce overfitting.
+During training, dropout \cite{hinton2012improving} is used as the main regularisation approach to reduce overfitting.
 Nesterovs accelerated gradient descent (NAG) \cite{sutskever2013importance} with a fixed momentum-coefficient of 0.9 and mini-batches of size 64 are also used.
-The learning rate is initialised at 0.003 with a 5\% decrease after each epoch. The weights of the 3DCNNs are randomly initialised with a normal distribution with $\mu = 0$ and $\sigma = 0.04$.
+The learning rate is initialised at 0.003 with a 5\% decrease after each epoch. The weights of the 3DCNNs are randomly initialised from a normal distribution with $\mu = 0$ and $\sigma = 0.04$.
 The frame based validation error rate is $39.06\%$ after 40 epochs. % as shown in Fig.~\ref{fig:RGBErrorRate}.
 Compared with the skeleton module (16.5\% validation error rate), the 3DCNN has a notable higher frame based error rate.
 
@@ -335,16 +331,14 @@ Compared with the skeleton module (16.5\% validation error rate), the 3DCNN has 
 %\label{fig:RGBErrorRate}
 %\end{figure}
 
-\subsubsection{Looking into the Networks: visualisation of Filter Banks}
+\subsubsection{Looking into the Networks: Visualisation of the Filter Banks}
 
 The convolutional filter weights of the first layer are depicted in Fig.~\ref{3dcnn_filters}.
 The unique characteristics from the kernels are clearly visible: as hand input images (RGB and depth) have larger homogenous areas
-than the body inputs, the resulting filters are smoother than their body counterpart.
-In addition, while being smoother overall than the grayscale filters, depth filters exhibit stronger edges,
-as also reported in~\cite{socher2012convolutional}.
+than the body inputs, the resulting filters are smoother than their body-processing counterparts.
+In addition to being smoother overall than the grayscale filters, depth filters also exhibit stronger edges. A similar finding was reported in~\cite{socher2012convolutional}.
 %
-Finally, by looking at the joint depth-image response maps, we can notice that some filters better capture segmentation like information,
-while other are more edge oriented.
+Finally, when looking at the joint depth-image response maps, we  notice that some filters better capture segmentation-like information, while others are more edge-oriented.
 
 \begin{figure*}[t]
   \centering
@@ -364,40 +358,37 @@ a late fusion approach and an intermediate fusion approach.
 
 \subsubsection{Late Fusion}
 %
-This scheme fuses the combination of the emission probabilities estimated from the different input.
-While different combination schemes exist, here we considered a simple linear combination:
+This scheme combines the emission probabilities estimated from the different input as a simple linear combination:
 
 \begin{equation}
- \emissionprob  \propto  \alpha \cdot  \emissionprobSK + (1-\alpha)\cdot \emissionprobRGBD
+ \emissionprob  \propto  \alpha \cdot  \emissionprobSK + (1-\alpha)\cdot \emissionprobRGBD .
 \end{equation}
-where the different emission probabilities are provided by the modules described in \ref{sec:skeleton_module} and \ref{sec:rgbd_modules},
-and $\alpha$ is a coefficient that controls the contributions of each source of information and which is estimated by cross validation.
-Interestingly, the best performing $\alpha$ is close to $0.5$, indicating that both modalities are equally important.
+Here, the different emission probabilities are provided by the modules described in \ref{sec:skeleton_module} and \ref{sec:rgbd_modules}.
+The coefficient $\alpha$ controls the contributions of each source  and its value is optimised through cross validation.
+Interestingly, the best performing $\alpha$ is very close to $0.5$, indicating that both modalities are equally important.
 
 
 \subsubsection{Intermediate Fusion}
 \label{early_fusion}
 
-As an alternative to the late fusion scheme, we can take advantage of the high-level representation implicitly learned by each module
-(and represented by the \highSK and \highRGBD nodes of the penultimate layer of the respective networks, before the softmax)
-to fuse the modality in an intermediate fashion by concatenating these two layers in one layer of 2024 hidden unites
-and learning a cross-modality emission probability predictive network.
+As an alternative to the late fusion scheme, we can take advantage of the high-level representation  learned by each module
+(and represented by the \highSK and \highRGBD nodes of the penultimate layer of the respective networks, i.e. the layer before the softmax output).
+To do this, we fuse the modalities in an intermediate fashion by concatenating these two layers in one layer of 2024 hidden unites. Then we learn a cross-modality emission probability directly from the resulting network.
 %
 Note that this is very similar in spirit to the approach proposed in \cite{Ngiam2011multimodal}
 for audio-visual speech recognition.
 %
 An important difference is that in \cite{Ngiam2011multimodal}, the same stacked RBMs/\DBN architecture was used
-to represent both modalities before fusion, whereas in our case, a stacked RBMs/\DBN and a \ThreeDCNN are used.
+to represent both modalities before the fusion, whereas in our case, a stacked RBMs/\DBN and a \ThreeDCNN are used.
 %
-Also, \cite{Ngiam2011multimodal} proposed the use of a multimodal autoencoder to handle predictions when potentially
-only one modality migth be present, a point that we do not address.
+% I WOULD REMOVE THE SENTENCE BELOW :)
+%Also, \cite{Ngiam2011multimodal} proposed the use of a multimodal autoencoder to handle predictions when potentially only one modality is present. We do not address this use-case.
 
-The resulting architecture is trained by first initializing the weights of the deeper layers from the previously trained module,
-and then jointly fine tuning the whole network (including learning the last layer parameters).
-The training is stopped when the validation error rate stops decreasing ($\sim$15 epochs).
+The resulting architecture is trained as follows. We start by first initializing the weights of the deeper layers from the previously trained sub-modules. 
+Afterwards, we jointly fine tune the whole network (including the last layer parameters).
+The training ends when the validation error rate stops decreasing ($\sim$15 epochs).
 %
-We argue that using the ``pre-trained" parameters is important due to the heterogeneity of the inputs of the system,
-and that the joint training should adjust parameters to handle  this heterogeneity and produce the final estimates.
+We argue that using the ``pre-trained" parameters is important due to the heterogeneity of the inputs of the system. Furthermore, the joint training is included to adjust the  parameters to be able handle  the heterogeneity and produce to produce a more reliable estimate from the multimodal data.
 
 
 \begin{figure}[t]
@@ -411,7 +402,7 @@ Multimodal dynamic networks with late fusion scheme (left) and intermediate fusi
 The late approach simply combines the emission probabilities from two modalities.
 In the intermediate fusion scheme, each modality (skeleton and \RGBD) is first pre-trained separately,
 and their high-level representation \highSK and \highRGBD (the penultimate node layers of their neural networks)
-are concatenated to generate a shared representation. The resulting architecture is trained jointly.}
+are concatenated to generate a shared representation. The two sub-modules in the resulting architecture are trained jointly.}
   }\label{fig:fusion}
 \end{figure}
 
