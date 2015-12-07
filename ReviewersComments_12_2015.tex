@@ -46,8 +46,8 @@ A few minor substantive points:
 
 \ans{
 Thank you for your insightful comments. We did encounter similar thoughts when implementing the system as speech processing researchers previously have done.
-We have incorporated a brief discussion in ``For speech recognition community~\cite{yu2012automatic}, a common approach is to adopt the trained GMM-HMM to have the force-alignment labels and use them for the DNNs. Similary we could potentially adopt the same route. However, the contribution to the quality of the label might be trivial considering the increase of the training time. Hence, we argue that the adopted force-alignment scheme will suffice."
-Therefore, we didn't digress to this route as another potential contribution of the paper.
+We have incorporated a brief discussion in ``For speech recognition community~\cite{yu2012automatic}, a common approach is to adopt the trained GMM-HMM to have the alignment labels and use them for the DNNs. Although we could potentially adopt the same route, the contribution to the quality of the labels may be trivial considering the increase of the training time. Hence, we argue that the forced alignment scheme will suffice."
+Therefore, we did not digress into this point as another potential contribution of the paper.
 }
 
 \rev{
@@ -105,8 +105,11 @@ There are no changes in the method though: it remains interesting from a practic
 
 
 \ans{
-Thank you for reviewer's recognition of the improvement of the readability and organisation of the paper. The reviewing process also helps us to better understand, analysis the proposed model.
-From the reviewing process and the experiments conducting for intermediate fusion, we investigate the difference of mean activations in intermediate fusion due to different activation functions is analysed which is a contribution itself so as to spur further investigation to effectively fuse multi-model, various activations.
+Thank you for the reviewer's recognition of the improvement of the readability and organisation of our paper. The reviewing process also helps us to better understand the proposed model.
+%
+From the feedback and the experiments conducted for intermediate fusion, we investigated the difference of mean activations in intermediate fusion corresponding to different activation functions. 
+%
+We believe this point is a contribution itself so as to spur further investigation to effectively fuse multi-model with various activations.
 }
 
 \rev{
@@ -122,8 +125,8 @@ Some works are published:
 
 
 \ans{
-Thank you for the suggested related works. They are very relevant to the paper and the problem that the proposed system is trying to solve. We have included the discussions of the suggested works in the Section: ``Nandakumar \emph{et al.}~\cite{nandakumar2013multi} applied the MFCC+HMM paradigm for audio input, Space-Time-Interest-Point (STIP), Bag-of-Words (BoW) and SVM pipeline for RGB videos and a covariance descriptor with SVM for skeleton module prediction. The 1st ranked team by Wu \emph{et al.}~\cite{wu2013fusing} used HMM model as audio feature classifier and Dynamic Time Warping as the classifier for skeleton feature.  The Recurrent Neural Network (RNN) was deployed in~\cite{neverova2013multi} to model large-scale temporal dependencies, data fusion and gesture classification.  Interestingly, the system in~\cite{neverova2013multi} decomposed the gestures into a large-scale body motion and local subtle movements."
-The key differences between the aforementioned papers and the proposed approach is that we use HMM for modelling hidden stats of gesture over the joint feature space whilst their HMM models are purely for audio input~\cite{nandakumar2013multi,wu2013fusing}. Our proposed system uses DBN with pre-training to learn the skeleton features instead of the hand crafted features~\cite{neverova2013multi}. Moreover, we explore the late and intermediate fusion scheme instead of the weighted likelihood that is adopted by~\cite{nandakumar2013multi}. Albeit the intermediate fusion scheme does not outperform late fusion, the discrepancy is a contribution in itself.
+Thank you for the suggested related works. They are very relevant to the paper and the problem that the proposed system is trying to solve. We have included the discussions of the suggested works in the Section: ``Nandakumar \emph{et al.}~\cite{nandakumar2013multi} applied the MFCC+HMM paradigm for audio input while their visual module still relied on low level features such as Space-Time-Interest-Point (STIP) or covariance descriptor to process RGB videos and skeleton models. The 1st ranked team by Wu \emph{et al.}~\cite{wu2013fusing} used HMM model as audio feature classifier and Dynamic Time Warping as the classifier for skeleton feature.  The Recurrent Neural Network (RNN) was deployed in~\cite{neverova2013multi} to model large-scale temporal dependencies, data fusion and gesture classification.  Interestingly, the system in~\cite{neverova2013multi} decomposed the gestures into a large-scale body motion and local subtle movements."
+The key differences between the aforementioned papers and the proposed approach is that we use HMM for modelling hidden states of gestures over the joint feature space whilst their HMM models are purely for audio input~\cite{nandakumar2013multi,wu2013fusing}. Our proposed system uses DBN with pre-training to learn the skeleton features instead of the hand crafted features~\cite{neverova2013multi}. Moreover, we explore the late and intermediate fusion scheme instead of the weighted likelihood that is adopted by~\cite{nandakumar2013multi}. Albeit the intermediate fusion scheme does not outperform late fusion, the discrepancy is a contribution in itself.
 }
 
 \rev{
@@ -135,8 +138,13 @@ Thank you for your careful review. We have proof read the paper and corrected th
 }
 
 \rev{
-In terms of performance, the described DBN for treating raw skeleton data looks promising (16.5\% validation error), while 3D Convnets on depth and intensity images perform, unfortunately, poorly (39\% validation error), especially taking into account that two kinds of input (hands and full body) are combined. Why not get some insights from existing state of the art architectures (from [57], for example), and further improve them by adding full body processing and better modeling of temporal dependencies?
+In terms of performance, the described DBN for treating raw skeleton data looks promising (16.5\% validation error), while 3D Convnets on depth and intensity images perform, unfortunately, poorly (39\% validation error), especially taking into account that two kinds of input (hands and full body) are combined. Why not get some insights from existing state of the art architectures (from [57], for example), and further improve them by adding full body processing and better modeling of temporal dependencies?}
 
+\ans{
+\td{}
+}
+
+\rev{
 The authors propose a deep learning framework for multi-modal gesture recognition based on color, depth and skeleton streams provided by the Kinect sensor. One of the key contributions is combining feature learning with HMM-based temporal modeling. Although exploring the deep learning approaches in the given context is certainly promising, the proposed implementation is rather straightforward and the reported results are clearly behind the state-of-the-art.}
 
 \ans{
