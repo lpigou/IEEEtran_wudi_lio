@@ -8,7 +8,7 @@
   % Requires \usepackage{graphicx}
   \includegraphics[width=0.45\textwidth]{images/GraphicalModel_new2}\\
   \caption{
- \small{ Gesture recognition model: the temporal model is a HMM (left), whose emission probability
+ \small{ Gesture recognition model: the temporal model is an HMM (left), whose emission probability
 \emissionprob{} (right) is modeled by feedforward neural networks.
 %%
 Observations $\observation_t$ (skeletal features $\observationSK_t$, or RGB-D image features $\observationRGBD_t$)
@@ -24,7 +24,7 @@ Inspired by the framework successfully applied to speech recognition~\cite{moham
 
 The proposed approach relies on a Hidden Markov Model (HMM) for the temporal aspect
 and neural networks to model the emission probabilities.
- In the remainder of this section, we will first present our temporal model and then introduce its main component.
+ In the remainder of this section, we will first present our temporal model and then introduce its main components.
 The details of the two distinct neural networks and fusion mechanisms along with post-processing will be provided
 in Section~\ref{sec:ModelImplementation}.
 
@@ -73,11 +73,11 @@ modeled by  Deep Neural Networks in our case. These elements are presented below
 
 
 The HMM framework can be used for simultaneous gesture segmentation and recognition.
-This is achieved by defining the state transition diagram as shown in Fig~\ref{HMM_ES}. For each given gesture $a \in \mathcal{A}$, a set of states $\mathcal{H}_a$ is introduced to defined a Markov model of that gesture. For example, for action sequence ``tennis serving", the action sequence can implicitly be dissected into $\hiddenstatenode_{a_1}, \hiddenstatenode_{a_2}, \hiddenstatenode_{a_3}$ as: 1) raising one arm 2) raising the racket 3) hitting the ball.
+This is achieved by defining the state transition diagram as shown in Fig.~\ref{HMM_ES}. For each given gesture $a \in \mathcal{A}$, a set of states $\mathcal{H}_a$ is introduced to define a Markov model of that gesture. For example, for action sequence ``tennis serving", the action sequence can implicitly be dissected into $\hiddenstatenode_{a_1}, \hiddenstatenode_{a_2}, \hiddenstatenode_{a_3}$ as: 1) raising one arm 2) raising the racket 3) hitting the ball.
 More precisely, since our goal is to capture the variation in speed of the performed gestures, we set the transition matrix \transitionmatrix{}  in the following way: when being in a particular node $n$ at time $t$, moving to time $t + 1$, we can either stay in the same node (slower), move to node $n + 1$, or move to node $n+2$ (faster).
 %
 Furthermore, to allow the segmentation of gestures, we add an ergodic state
-(\emph{$\mathcal{ES}$}) which resembles the silence state for speech recognition and which serve as a catch-all state.
+(\emph{$\mathcal{ES}$}) which resembles the silence state for speech recognition and serves as a catch-all state.
 From this state we can move to the first three nodes of any gesture class, and from the last three nodes of any gesture class we can move to $\mathcal{ES}$.
 Hence, the hidden variable \hiddenvariable{} can take values within the finite set
  $\mathcal{H}=(\bigcup _{a \in \mathcal{A}} \mathcal{H}_a) \bigcup \{\mathcal{ES}\}$.
@@ -100,7 +100,7 @@ Because the graph for the Hidden Markov Model is a directed tree, this problem c
 %whith the initial state $V_{1,\mathcal{H}}=P(X_1 |H_1)$.
 %From the inference results, we define the probability of a gesture $a \in \mathcal{A}$ as $p(y_t=a|x_{1:t}) =V_{T,\mathcal{H}}$.
 The result of the Viterbi algorithm is a path--sequence $\hat{\hiddenstatenode}_{t:T}$ of nodes going through the state diagram of
-Fig.\ref{HMM_ES} and from which we can easily infer the class of the gesture as illustrated in Fig.~\ref{fig:Sample0700_comparison}.
+Fig.~\ref{HMM_ES} and from which we can easily infer the class of the gesture as illustrated in Fig.~\ref{fig:Sample0700_comparison}.
 
 
 
@@ -118,9 +118,9 @@ as summarized in the right of Fig.~\ref{fig:GM}.
 
 Unfortunately, estimating a probability density such as an emission probability remains quite a difficult problem, especially in high dimensions.
 %
-Strictly speaking, discriminative neural networks estimate posterior probabilities $p(\hiddenstate_t | \observation_t)$. Hense to We should divide posteriors by priors  $p(\hiddenstate_t$ to obtain the emission probabilities $p(\observation_t|\hiddenstate_t )$  required by the HMM for decoding. However, using scaled likelihood may not be beneficial if estimated priors do not match the priors in the test set \cite{morris2001multi}. Therefore, we employ the posteriors directly without dividing by the priors. This is equivalent to assuming that all priors are equal.
+Strictly speaking, discriminative neural networks estimate posterior probabilities $p(\hiddenstate_t | \observation_t)$. Hense to We should divide posteriors by priors  $p(\hiddenstate_t$ to obtain the emission probabilities $p(\observation_t|\hiddenstate_t )$  required by the HMM for decoding. However, using scaled likelihoods may not be beneficial if estimated priors do not match the priors in the test set \cite{morris2001multi}. Therefore, we employ the posteriors directly without dividing by the priors. This is equivalent to assuming that all priors are equal.
 %
-Using this approach inference in the HMM only depends only on the ratio between emission probabilities for the different states. One can interpret that the models are trained to directly predict the ratio between emission probabilities. This is similar to the approach used by Kindermans et al. to integrate transfer learning and an HMM-based language model into a single probabilistic model \cite{Kindermans2012a}.
+Using this approach inference in the HMM depends only on the ratio between emission probabilities for the different states. One can interpret that the models are trained to directly predict the ratio between emission probabilities. This is similar to the approach used by Kindermans et al. to integrate transfer learning and an HMM-based language model into a single probabilistic model \cite{Kindermans2012a}.
 One should think of the predicted emission probability ratio as an unnormalized version of the true emission probability. Nevertheless, to simplify the discussion of our models for readers with a basic understanding of HMMs, we will refer to the predicted emission probability ratio simply as emission probabilities since the underlying model remains unchanged.
 
 
@@ -139,11 +139,11 @@ In all cases (including the fusion), the supervised training is conducted by lea
 predict the state label (an element of \finiteset) associated to each training or testing frame.
 
 
-Such an approach present several advantages over the traditional GMM paradigm.
+Such an approach presents several advantages over the traditional GMM paradigm.
 %
 %Traditionally, GMMs and HMMs co-evolved as a way of doing speech recognition when computers were too slow to explore more computationally intensive approaches.
 First, while  GMMs are easy to fit when they have diagonal covariance matrices and, with enough components,
-can model any distribution, they have been shown to statistically inefficient at modeling high-dimensional features
+can model any distribution, they have been shown to be statistically inefficient at modeling high-dimensional features
 with a complicated structure as explained in~\cite{mohamed2012acoustic}.
 %
 For instance, assume that the components of the input feature space can be factorized into two subspaces
@@ -151,9 +151,9 @@ characterized by  $N$  and $M$ significantly different  patterns in the training
 of these patterns are relatively independent\footnote{In our case, intuitively these spaces could be the  features from different body parts,
 like left/right arm or torso features.}.
 %
-A GMM will requires $N*M$ components to model this structure because each component must generate all the input features.
+A GMM requires $N*M$ components to model this structure because each component must generate all the input features.
 %
-On the other hand, a stacked RBMs model that  explains the data only requires $N+M$ components, each of which is specific to a particular subspace.
+On the other hand, a stacked RBMs model that explains the data only requires $N+M$ components, each of which is specific to a particular subspace.
 %
 This inefficiency of GMMs at modeling a structure that can be factorized leads to GMM+HMM systems having
 a very large number of mixture components,where each must be estimated from a very small fraction of the data.
