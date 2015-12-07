@@ -9,18 +9,18 @@
   \includegraphics[width=0.45\textwidth]{images/GraphicalModel_new2}\\
   \caption{
  \small{ Gesture recognition model: the temporal model is a HMM (left), whose emission probability
-\emissionprob{} (right) is modeled by feed-forward neural networks.
+\emissionprob{} (right) is modeled by feedforward neural networks.
 %%
 Observations $\observation_t$ (skeletal features $\observationSK_t$, or RGB-D image features $\observationRGBD_t$)
 are first passed through the appropriate deep neural nets (a Deep Belief Network -\DBN- pretrained with Gaussian-Bernouilli Restricted Boltzmann Machines
 for the skeleton modality, and
- a 3D convolutional neural network -\ThreeDCNN- for the \RGBD  modality) to extract high-level features (\highSK and \highRGBD)
+ a 3D Convolutional Neural Network -\ThreeDCNN- for the \RGBD  modality) to extract high-level features (\highSK and \highRGBD)
 . These are subsequently combined to produce an estimate of $p(\observation_t|\hiddenstate_t)$.
 }}
 \label{fig:GM}
 \end{figure}
 
-Inspired by the framework successfully applied to speech recognition~\cite{mohamed2012acoustic}, the proposed model is a data driven learning system. This results in an integrated model, where the amount of prior knowledge and engineering is minimised. On top of that, this approach works without the need for additional complicated preprocessing and dimensionality reduction methods as that is naturally embedded in the framework.
+Inspired by the framework successfully applied to speech recognition~\cite{mohamed2012acoustic}, the proposed model is a data driven learning system. This results in an integrated model, where the amount of prior knowledge and engineering is minimized. On top of that, this approach works without the need for additional complicated preprocessing and dimensionality reduction methods as that is naturally embedded in the framework.
 
 The proposed approach relies on a Hidden Markov Model (HMM) for the temporal aspect
 and neural networks to model the emission probabilities.
@@ -32,9 +32,9 @@ in Section~\ref{sec:ModelImplementation}.
 \subsection{Deep Dynamic Neural Networks}
 \label{sec:DDNN}
 
-The proposed deep dynamic neural network \emph{(DDNN)} can be seen as an extension of~\cite{diwucvpr14}, where instead of only using the restricted Boltzmann machines to model human motion, various connectivity layers (fully connected layers, convolutional layers) are stacked together to learn higher level features justified by a variational bound~\cite{hinton2006fast} from different input modules.
+The proposed Deep Dynamic Neural Network \emph{(DDNN)} can be seen as an extension of~\cite{diwucvpr14}, where instead of only using the restricted Boltzmann machines to model human motion, various connectivity layers (fully connected layers, convolutional layers) are stacked together to learn higher level features justified by a variational bound~\cite{hinton2006fast} from different input modules.
 
-A continuous-observation HMM  is adopted for modelling higher level temporal relationships.
+A continuous-observation HMM  is adopted for modeling higher level temporal relationships.
 At each time step $t$, we have one observed random variable $\observation_t$
 composed of the skeleton input $\observationSK_t$ and RGB-D input images $\observationRGBD_t$
 as shown in the graphical representation in Fig.~\ref{fig:GM}.
@@ -51,9 +51,9 @@ p(H_{1:T},X_{1:T}) = p(H_1)p(X_1 | H_1) \prod^{T}_{t=2} p(X_t | H_t ) p(H_t | H_
 \label{HMM_GM_1}
 \end{equation}
 where $p(\hiddenstate_1)$ is the prior on the first hidden state, $p(\hiddenstate_t|\hiddenstate_{t-1})$
-is the transition dynamics modelling the allowed state transitions and their probabilities,
+is the transition dynamics modeling the allowed state transitions and their probabilities,
  and $p(\observation_t | \hiddenstate_t )$ is the emission probability of the observation,
-modelled by  deep neural networks in our case. These elements are presented below.
+modeled by  Deep Neural Networks in our case. These elements are presented below.
 
 
 %\subsection{Ergodic States Hidden Markov Model}
@@ -73,7 +73,7 @@ modelled by  deep neural networks in our case. These elements are presented belo
 
 
 The HMM framework can be used for simultaneous gesture segmentation and recognition.
-This is achieved by defining the state transition diagram as shown in Fig~\ref{HMM_ES}. For each given gesture $a \in \mathcal{A}$, a set of states $\mathcal{H}_a$ is introduced to defined a Markov model of that gesture. For example, for action sequence ``tennis serving", the action sequence can implictly be dissected into $\hiddenstatenode_{a_1}, \hiddenstatenode_{a_2}, \hiddenstatenode_{a_3}$ as: 1) raising one arm 2) raising the racket 3) hitting the ball.
+This is achieved by defining the state transition diagram as shown in Fig~\ref{HMM_ES}. For each given gesture $a \in \mathcal{A}$, a set of states $\mathcal{H}_a$ is introduced to defined a Markov model of that gesture. For example, for action sequence ``tennis serving", the action sequence can implicitly be dissected into $\hiddenstatenode_{a_1}, \hiddenstatenode_{a_2}, \hiddenstatenode_{a_3}$ as: 1) raising one arm 2) raising the racket 3) hitting the ball.
 More precisely, since our goal is to capture the variation in speed of the performed gestures, we set the transition matrix \transitionmatrix{}  in the following way: when being in a particular node $n$ at time $t$, moving to time $t + 1$, we can either stay in the same node (slower), move to node $n + 1$, or move to node $n+2$ (faster).
 %
 Furthermore, to allow the segmentation of gestures, we add an ergodic state
@@ -82,7 +82,7 @@ From this state we can move to the first three nodes of any gesture class, and f
 Hence, the hidden variable \hiddenvariable{} can take values within the finite set
  $\mathcal{H}=(\bigcup _{a \in \mathcal{A}} \mathcal{H}_a) \bigcup \{\mathcal{ES}\}$.
 
-Overall, we refer to the model as the ergodic states hidden Markov model (\emph{ES-HMM}) for simultaneous gesture segmentation and recognition. It  differs from the firing hidden Markov model of~\cite{nowozin2012action} in that we strictly follow a left-right HMM structure without allowing backward transition, forbidding inter-states transverse, assuming that the considered gestures do not undergo cyclic repetitions as in walking for instance.
+Overall, we refer to the model as the ergodic states Hidden Markov Model (\emph{ES-HMM}) for simultaneous gesture segmentation and recognition. It  differs from the firing Hidden Markov Model of~\cite{nowozin2012action} in that we strictly follow a left-right HMM structure without allowing backward transition, forbidding inter-states transverse, assuming that the considered gestures do not undergo cyclic repetitions as in walking for instance.
 
 
 %The emission probability is represented as a matrix of size $N_{\mathcal{TC}} \times N_{\mathcal{F}}$ where $N_{\mathcal{F}}$ is the number of frames and output target class $N_{\mathcal{TC}}=N_{\mathcal{A}} \times N_{\mathcal{H}_a}+1$ where $N_{\mathcal{A}}$ is the number of gesture classes and $N_{\mathcal{H}_a}$ is the number of states associated to an individual gesture $a$ and one $\mathcal{ES}$ state (\emph{c.f.} Fig. \ref{Sample0700_comparison}: x-axis as $N_{\mathcal{F}}$ and y-axis as $N_{\mathcal{TC}} $ with $\mathcal{ES}$ as the bottom y-axis 101).
@@ -91,7 +91,7 @@ Overall, we refer to the model as the ergodic states hidden Markov model (\emph{
 Once we have the trained model, we can use standard techniques to infer online the filtering
 distribution $p(\hiddenstate_t | \observation_{1:t})$,  or offline (or with delay)
 the smoothed distribution $p(H_t | X_{1:T})$ where $T$ denotes the end of the sequence.
-Because the graph for the hidden Markov model is a directed tree, this problem can be solved exactly and efficiently using the max-sum algorithm also known as Viterbi algorithm. This algorithm searches the space of paths efficiently to find the most probable path with a computational cost that grows only linearly with the length of the chain~\cite{bishop2006pattern}.
+Because the graph for the Hidden Markov Model is a directed tree, this problem can be solved exactly and efficiently using the max-sum algorithm also known as Viterbi algorithm. This algorithm searches the space of paths efficiently to find the most probable path with a computational cost that grows only linearly with the length of the chain~\cite{bishop2006pattern}.
 %We can infer the gesture presence in a new sequence by Viterbi decoding.
 % \begin{equation}
 %    V_{t,\mathcal{H}}= \log P(X_t | H_t)+  \log(\max_{\mathcal{H} \in \mathcal{H}_a}( V_{t-1,\mathcal{H}}))
@@ -120,7 +120,7 @@ Unfortunately, estimating a probability density such as an emission probability 
 %
 Strictly speaking, discriminative neural networks estimate posterior probabilities $p(\hiddenstate_t | \observation_t)$. Hense to We should divide posteriors by priors  $p(\hiddenstate_t$ to obtain the emission probabilities $p(\observation_t|\hiddenstate_t )$  required by the HMM for decoding. However, using scaled likelihood may not be beneficial if estimated priors do not match the priors in the test set \cite{morris2001multi}. Therefore, we employ the posteriors directly without dividing by the priors. This is equivalent to assuming that all priors are equal.
 %
-Using this approach inference in the HMM only depends only on the ratio between emission probabilities for the different states. One can interpret that the models are trained to directly predict the ratio between emission probabilities. This is similar to the approach used by Kindermans et al. to integrate transfer learning and an HMM based language model into a single probabilistic model \cite{Kindermans2012a}.
+Using this approach inference in the HMM only depends only on the ratio between emission probabilities for the different states. One can interpret that the models are trained to directly predict the ratio between emission probabilities. This is similar to the approach used by Kindermans et al. to integrate transfer learning and an HMM-based language model into a single probabilistic model \cite{Kindermans2012a}.
 One should think of the predicted emission probability ratio as an unnormalized version of the true emission probability. Nevertheless, to simplify the discussion of our models for readers with a basic understanding of HMMs, we will refer to the predicted emission probability ratio simply as emission probabilities since the underlying model remains unchanged.
 
 
@@ -131,7 +131,7 @@ in the second step, the model is used as a Deep-Belief Network whose weights are
 for learning the emission probability.
 %
 For the RGB and depth (RGB-D) video data, we rely on a 3D (2D for space and 1D for time)
-convolutional neural networks (3DCNN) to model the emission probabilities.
+Convolutional Neural Networks (3DCNN) to model the emission probabilities.
 %
 Finally, a fusion method combines the contributions of both modalities, this fusion can be done in an intermediate (hidden) layer or at a later stage at the output layer.
 %
@@ -146,8 +146,8 @@ First, while  GMMs are easy to fit when they have diagonal covariance matrices a
 can model any distribution, they have been shown to statistically inefficient at modeling high-dimensional features
 with a complicated structure as explained in~\cite{mohamed2012acoustic}.
 %
-For instance, assume that the components of the input feature space can be separated into two subspaces
-characterized by  $N$  and $M$ significantly different  patterns in the training data, respectively, and that the occurences
+For instance, assume that the components of the input feature space can be factorized into two subspaces
+characterized by  $N$  and $M$ significantly different  patterns in the training data, respectively, and that the occurrences
 of these patterns are relatively independent\footnote{In our case, intuitively these spaces could be the  features from different body parts,
 like left/right arm or torso features.}.
 %
@@ -155,14 +155,14 @@ A GMM will requires $N*M$ components to model this structure because each compon
 %
 On the other hand, a stacked RBMs model that  explains the data only requires $N+M$ components, each of which is specific to a particular subspace.
 %
-This inefficiency of GMMs at modeling a structure that can be factorised leads to GMM+HMM systems having
+This inefficiency of GMMs at modeling a structure that can be factorized leads to GMM+HMM systems having
 a very large number of mixture components,where each must be estimated from a very small fraction of the data.
 
 
-The approach for training the skeleton DBN model, starting with variational learning to train stacked RBMs with unlabeled data, followeed by discriminative finetuning \cite{salakhutdinov2009learning} has been shown to have several advantages.
+The approach for training the skeleton DBN model, starting with variational learning to train stacked RBMs with unlabeled data, followed by discriminative fine-tuning \cite{salakhutdinov2009learning} has been shown to have several advantages.
 %
 It has been observed that  variational learning~\cite{hinton2006fast},
-which tries to optimize the data-likelihood while minizing the Kullback-Leibler divergence between
+which tries to optimize the data-likelihood while minimizing the Kullback-Leibler divergence between
 the true posterior distribution of the hidden state (i.e. hidden layer variables of the RBMs  in our case)
 and an approximation of this distribution, tends to produce unimodal distributions.
 %
@@ -180,7 +180,7 @@ For instance, from  the ``toss" action data, a wrist joints rotating around shou
 be extracted from the backpropagation  learning, and be the equivalent of those task specific \emph{ad hoc} hard wired sets
 of joint configurations defined in~\cite{chaudhry2013bio}~\cite{muller2006motion}\cite{nowozin2012action}~\cite{ofli2013sequence}.
 
-The benefit of such a learning approach is even more important when large amount of unlabelled data (e.g. skeleton data
+The benefit of such a learning approach is even more important when large amount of unlabeled data (e.g. skeleton data
  inferred from depth images of people performing unknown gestures) is available in addition to the labeled ones
 (this was not the case in this paper).
 %
@@ -199,7 +199,7 @@ In particular,  neural networks have traditionally been training discriminativel
 which given their parametric  nature  partially compensates the fact that each mixture
 of a large GMM is usually trained on a very small fraction of the data.
 
-In summary, the feed forward neural networks offer several potential advantages over GMMs:
+In summary, the feedforward neural networks offer several potential advantages over GMMs:
 \begin{itemize}
 \item their estimation of emission  probabilities does not require detailed assumptions about the data distribution;
 \item they allow an easy combination of diverse features, including both discrete and continuous features;
@@ -220,7 +220,7 @@ is sensitive to a large fraction of the weights.
 
 %% The intuition using deep belief networks for modeling marginal distribution \emissionprob{} in skeleton joints action recognition is that by constructing multi-layer networks, semantically meaningful high level features for skeleton configuration will be extracted whilst learning the parametric prior of human pose from mass pool of skeleton joints data. In the recent work of~\cite{6751269} a non-parametric bayesian network is adopted for human pose prior estimation, whereas in our framework, the parametric networks are incorporated.
 
-%% Using the pair wise joints features as raw input, the data-driven approach network will be able to extract relational multi-joints features which are relevant to target frame class. E.g., for ``toss" action, wrist joints is rotating around shoulder joints would be extracted from the backpropagation via target frame as those task specific, \emph{ad hoc} hard wired sets of joints configurations as in~\cite{chaudhry2013bio}~\cite{muller2006motion}\cite{nowozin2012action}~\cite{ofli2013sequence}.
+%% Using the pairwise joints features as raw input, the data-driven approach network will be able to extract relational multi-joints features which are relevant to target frame class. E.g., for ``toss" action, wrist joints is rotating around shoulder joints would be extracted from the backpropagation via target frame as those task specific, \emph{ad hoc} hard wired sets of joints configurations as in~\cite{chaudhry2013bio}~\cite{muller2006motion}\cite{nowozin2012action}~\cite{ofli2013sequence}.
 
 %% The outputs of the neural net are the hidden states learned by force alignment during the supervised training process.
 %% Once we have model, we can use the normal online or offline smoothing, inferring the hidden marginal distributions of every node (frame) of the test video.
@@ -238,7 +238,7 @@ is sensitive to a large fraction of the weights.
 %          \inputsequence=$[\framefeature_{i,1}, \ldots,\framefeature_{i,t},\ldots, \framefeature_{i,T}]$ \;
 %          $ \mathbf{X^1=\{ x^1_i\}_{i \in [1 \ldots t]}}$ - raw input (skeletal) feature \; \hspace{1cm} sequence.\;
 %          $ \mathbf{X^2=\{ x^2_i\}_{i \in [1 \ldots t]}}$ - raw input (depth) feature \; \hspace{1cm} sequence in the form of     $M_1 \times M_2 \times T$, where \; \hspace{1cm} $M_1, M_2$ are the height and width of the input \; \hspace{1cm} image and $T$  is the number of contiguous \; \hspace{1cm} frames of the spatio-temporal cuboid. \;
-%          $ \mathbf{Y=\{ y_i\}_{i \in [1 \ldots t]}}$  - frame based local label (achieved by\; \hspace{1cm} semi-supervised forced-aligment), where \;
+%          $ \mathbf{Y=\{ y_i\}_{i \in [1 \ldots t]}}$  - frame-based local label (achieved by\; \hspace{1cm} semi-supervised forced-aligment), where \;
 %          \hspace{1cm} $ \mathbf{y_i} \in \{ N_{\mathcal{A}} * N_{\mathcal{H}_a} + \textbf{\emph{1}} \} $ with $N_{\mathcal{A}}$ the number of \;
 %          %\hspace{1cm} classes, $N_{\mathcal{H}_a$ is the number of hidden states for \; \hspace{1cm} each class,
 %          \hspace{1cm} gesture classes and $N_{\mathcal{H}_a}$ is the number of \;
@@ -251,25 +251,25 @@ is sensitive to a large fraction of the weights.
 %
 %
 %        Preprocess skeletal data $ \mathbf{X^1}$ as in Eq.\ref{sk_features_1}, \ref{sk_features_2}, \ref{sk_features_3}.\;
-%        Normalise (zero mean, unit variance per dimension) the above features and feed it to Eq.\ref{GRBMenergy}. \;
+%        Normalize (zero mean, unit variance per dimension) the above features and feed it to Eq.\ref{GRBMenergy}. \;
 %        Pre-train the networks using \emph{Contrastive Divergence}. \;
 %        Supervised fine-tuning of the deep belief networks using $ \mathbf{Y}$ by standard mini-batch \emph{SGD} backpropagation.\;
 %    %}{
 %        Preprocess the depth and RGB data $ \mathbf{X^2}$ as in \ref{3d_preproc}.\;
 %        Feed the above features to Eq.\ref{ReLU}. \;
-%        Train the 3D convolutional neural networks using $ \mathbf{Y}$.\;
+%        Train the 3D Convolutional Neural Networks using $ \mathbf{Y}$.\;
 %    %}
 %%}
 %\KwResult{\;
 %        $\mathbf{GDBN}$ - a Gaussian-Bernoulli visible layer deep \;
 %                \hspace{1cm} belief network to generate the emission \;
-%                \hspace{1cm} probabilities for the hidden Markov model.\;
-%        $\mathbf{3DCNN}$ - a 3D deep convolutional neural \;
+%                \hspace{1cm} probabilities for the Hidden Markov Model.\;
+%        $\mathbf{3DCNN}$ - a 3D Deep Convolutional Neural \;
 %                    \hspace{1cm} network to generate the emission probabilities\;
-%                    \hspace{1cm} for the hidden Markov model.\;
+%                    \hspace{1cm} for the Hidden Markov Model.\;
 %        $\mathbf{p(X_t | H_t )}$ emission probability. \;
 %        $\mathbf{p(H_1)}$ - prior probability for $ \mathbf{Y}$ by accumulating and \;
-%                \hspace{1cm} normalising labels.\;
+%                \hspace{1cm} normalizing labels.\;
 %        $ \mathbf{p(H_t | H_{t-1})}$ - transition probability for $ \mathbf{Y}$,  enforcing\;
 %                \hspace{1cm} the beginning and ending of a sequence can \;
 %                \hspace{1cm} only start from the first or the last state.
@@ -288,10 +288,10 @@ is sensitive to a large fraction of the weights.
 %         $\mathbf{X^2=\{x^2_i\}_{i \in [1 \ldots t]}}$ - raw input (depth) feature \; \hspace{1cm} sequencein the form of $M_1 \times M_2 \times T$. \;
 %         $\mathbf{GDBN}$ - trained Gaussian-Bernoulli visible layer  \;
 %                \hspace{1cm} deep belief network to  generate the emission\;
-%                 \hspace{1cm} probabilities for the hidden Markov model.\;
-%         $\mathbf{3DCNN}$ - trained  3D deep convolutional neural\;
+%                 \hspace{1cm} probabilities for the Hidden Markov Model.\;
+%         $\mathbf{3DCNN}$ - trained  3D Deep Convolutional Neural\;
 %                    \hspace{1cm} network to generate the emission\;
-%                    \hspace{1cm} probabilities for the hidden Markov model.\;
+%                    \hspace{1cm} probabilities for the Hidden Markov Model.\;
 %        $\mathbf{p(H_1)}$ - prior probability for $ \mathbf{Y}$.\;
 %        $ \mathbf{p(H_t | H_{t-1})}$ - transition probability for $ \mathbf{Y}.$
 %            }
@@ -299,11 +299,11 @@ is sensitive to a large fraction of the weights.
 %%\For{$m \leftarrow 1$ to $2$}{
 %    \SetAlgoVlined
 %    %\eIf{$m$ is $1$}{
-%        Preprocessing and normalising the skeletal data $ \mathbf{X^1}$  as in Eq. \ref{sk_features_1}, \ref{sk_features_2}, \ref{sk_features_3}.\;
+%        Preprocessing and normalizing the skeletal data $ \mathbf{X^1}$  as in Eq. \ref{sk_features_1}, \ref{sk_features_2}, \ref{sk_features_3}.\;
 %        Feedforwarding network $\mathbf{GDBN}$ to generate the emission probability $\mathbf{p(X_t | H_t )}$ in Eq.\ref{HMM_GM_1}. \;
 %        Generating the score probability matrix $\mathbf{S^1 = p(H_{1:T},X_{1:T}).}$ \;
 %    %}{
-%        Preprocessing(median filtering the depth data) and normalising data RGB-D data $ \mathbf{X^2}$ .\;
+%        Preprocessing(median filtering the depth data) and normalizing data RGB-D data $ \mathbf{X^2}$ .\;
 %        Feedforwarding $\mathbf{3DCNN}$ to generate the emission probability $\mathbf{S^2 = p(X_t | H_t )}$ in Eq.\ref{HMM_GM_1}. \;
 %        Generating the score probability matrix $\mathbf{S^2 =p(H_{1:T},X_{1:T}).}$ \;
 %    %}
@@ -311,7 +311,7 @@ is sensitive to a large fraction of the weights.
 %        Fuse the score matrix $\mathbf{S = \alpha * S^1 + (1-\alpha)* S^2}$ OR the learnt joint representation.\;
 %        Finding the best path $\mathbf{V_{t,\mathcal{H}}}$ using $\mathbf{S}$ by Viterbi decoding. \;
 %\KwResult{\;
-%        $ \mathbf{Y=\{ y_i\}_{i \in [1 \ldots t]}}$  - frame based local label  \;
+%        $ \mathbf{Y=\{ y_i\}_{i \in [1 \ldots t]}}$  - frame-based local label  \;
 %        $ \mathbf{C}$ - global label, the anchor point is chosen as the\;
 %                        \hspace{1cm} middle state frame.\;
 %}
