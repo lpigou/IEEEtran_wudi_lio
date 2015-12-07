@@ -81,10 +81,9 @@ The dataset used in this work was made public for the ChaLearn LAP \cite{chalear
 The focus  is on ``multiple instance, user independent spotting" of gestures, which means learning to recognize gestures from several instances for each category performed by different users. The gestures contained in this dataset are 20 Italian cultural/anthropological signs.
 %A gesture vocabulary is a set of unique gestures, generally related to a particular task.
 
-The challenge dataset contains 940 videos sequences, each performed by a single person and composed of 10 to 20 gesture instances, totaling about $14,000$ individual gestures.
+The challenge dataset contains 940 video sequences, each performed by a single person and composed of 10 to 20 gesture instances, totaling about $14,000$ individual gestures.
 %
-There are 20 gesture classes, \emph{i.e.} \emph{vattene, vieniqui, perfetto, furbo, cheduepalle, chevuoi, daccordo, seipazzo, combinato, freganiente
-    , ok, cosatifarei, basta, prendere, noncenepiu, fame, tantotempo, buonissimo, messidaccordo, sonostufo}, with a number a samples well balanced between classes.
+There are 20 gesture classes, \emph{i.e.} \emph{vattene, vieniqui, perfetto, furbo, cheduepalle, chevuoi, daccordo, seipazzo, combinato, freganiente, ok, cosatifarei, basta, prendere, noncenepiu, fame, tantotempo, buonissimo, messidaccordo, sonostufo}, with the number of samples well balanced between classes.
 % statistics of the gestures here:
 The average length of gestures is 39 frames, the minimum frame number for a gesture is 16  and the maximum frame number is 104.
 
@@ -240,7 +239,7 @@ For this reason, we also used the performance at the gesture event level by foll
 If for a gesture segment $G$, we have $\frac{G \cap R}{G \cup R} >  0.5$, where R denotes a recognized gesture segment of the same class, then the  gesture is said to be recognized.
 %
 However, if this also holds for a gesture segment of another class, the prediction is said to be incorrect.
-Otherwise the gesture is rated as undetected. This allows us to define the \eventaccuracy, \eventconfused and \eventmissed performance measures at the video level. 
+Otherwise the gesture is rated as undetected. This allows us to define the \eventaccuracy, \eventconfused and \eventmissed performance measures at the video level.
 These quantities are then averaged over the test sequences for reporting.
 
 
@@ -322,7 +321,7 @@ One possible explanation is that the information in the skeleton data is more ro
 varied data~\cite{shotton2011real}: around on million images from both realistic and synthetic depth images were used to train
 the decision forest classifiers involved in the joints extraction.
 %
-On the over hand, as the  RGB-D module relies on  the raw data and was learned only from the ChaLearn training set, it may
+On the other hand, as the  RGB-D module relies on  the raw data and was learned only from the ChaLearn training set, it may
 suffer from some overfitting.
 %
 Another interesting conclusion that can be drawn from Table~\ref{tab:eventperformance} is that while most errors from the RGB-D module are due to under detection
@@ -398,19 +397,19 @@ as shown by increase in the recognition rate and the reduced drop in the general
 \mypartitle{Confusion matrices.}
 %
 The confusion matrices (in log-form)
- in Fig.~\ref{fig:confusion_matrix} better illustrate the complementarity of the behaviors of the two modalities.
+ in Fig.~\ref{fig:confusion_matrix} better illustrate the complementarity of the behaviours of the two modalities.
 %
-The higher under-detection rate of RGB-D is immediately apparent (whiter matrix, except last 'undetected' column).
+The higher under-detection rate of RGB-D is immediately apparent (whiter matrix, except for last 'undetected' column).
 %
 We can also notice that some gestures are more easily recognized than others.
 %or catch the difficult instances of other gestures.
 This is the case  of the ``Basta" gesture,
-whose arms motion  resembles the  start and end of the arm motion of many other gesture (see Fig.~\ref{fig:chalearnclasses}).
+whose arms motion  resembles the  start and end of the arm motion of many other gesturess (see Fig.~\ref{fig:chalearnclasses}).
 Regardless the modality, the model tends to recognize only a few instance of the other gesture classes, whenever their likelihoods are low when being evaluated using the HMM states associated with their true label. This is probably due to too much variability in the execution of the gesture.
 %
 Similarly, the hand movement and pose of the ``Buenissimo" gesture is present in several other gesture classes. As a result, their instances are often confused with ``Buenissimo" when relying solely on the skeleton information.
 %
-However, as these gestures differ primarily in their hand pose, this confusion is reduced by using the RGB-D domain, or by fusing  the skeleton and RGB-D modules.
+However, as these gestures differ primarily in their hand pose, this confusion is reduced by using the RGB-D domain, or by fusing the skeleton and RGB-D modules.
 %
 The complementary properties of the two modalities are also illustrated by the Viterbi path decoding plot in Fig.~\ref{fig:Sample0700_comparison}.
 In general, the benefit of the complementarity between arm pose/gesture and hand pose

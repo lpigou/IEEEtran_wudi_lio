@@ -13,7 +13,7 @@ The number of states \nsig{} associated to an individual gesture has been set to
 In total, the number of states is $\tns = 20 \times 5 + 1 = 101$
 when conducting  experiments on the ChaLearn dataset containing 20 classes.
 %
-Note that intuitively, 5 states represents a good granularity as
+Note that intuitively, 5 states represent a good granularity as
 most gestures in the dataset are composed of 5 phases: an onset, followed by arm motions to reach a more or less static pose (often characterized by a distinct hand posture), and the motion back to the resting position.
 %
 In future work, the optimization of the number of states\footnote{Experiments with 10 states led to similar performance.} and even a different number of states per gesture could be investigated.
@@ -30,7 +30,7 @@ the sequence of state labels $\framelabel_{i,t}$ associated to each frame.
 %
 To do so, a forced alignment is used. This means that if the $i^{th}$ sequence is a gesture \gesturea{}, then the first $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to state $\hiddenstatenode_\gesturea^1$ (the first state of gesture \gesturea{}),
 the following $\lfloor \frac{T_i}{5} \rfloor$ frames are assigned to $\hiddenstatenode_\gesturea^2$, and so forth.
-For speech recognition community~\cite{yu2012automatic}, a common approach is to adopt the trained GMM-HMM to have the force-alignment labels and use them for the DNNs. Similary we could potentially adopt the same route. However, the contribution to the quality of the label might be trivial considering the increase of the training time. Hence, we argue that the adopted force-alignment scheme will suffice.
+For speech recognition community~\cite{yu2012automatic}, a common approach is to adopt the trained GMM-HMM to revise the force-alignment labels and use them for the DNNs. Similary we could potentially adopt the same route. However, the contribution to the quality of the label might be trivial considering the increase of the training time. Hence, we argue that the adopted force-alignment scheme will suffice.
 
 Note that each gesture sequence comes with the video frames preceding and following the gesture.
 In practice, we extracted 5 frames before and after each gesture sequence and labeled them
@@ -178,10 +178,10 @@ Below we give further details on the model and the training process.
 
 \mypartitle{Gaussian-Bernoulli RBM.}
 %
-Restricted Boltzmann machine (RBM) are undirected graphical models involving visible and hidden variables,
+Restricted Boltzmann Machines (RBM) are undirected graphical models involving visible and hidden variables,
 with symmetric connections between the hidden and visible units of adjacent layers but without connections between units within the same layer.
 %
-In most cases, the units in the RBMs model binary random variables.
+In most cases, the units in the RBMs model are binary random variables.
 %
 However, in our case the visible unit in the first layer contains the vector of skeleton features $\skfeature \in \mbf{R}^{N_{\skfeature}}$, whose values are continuous.
 To be able to process this data, we resort to a Gaussian-Bernoulli RBM (\emph{GRBM})~\cite{salakhutdinov2009learning}.
@@ -264,7 +264,7 @@ The preprocessing results in four video samples (body and hand with grayscale an
 Furthermore, the noise in the depth maps is reduced by removing the background using the automatically produced
 segmentation mask provided with the data, and applying a  median filtering.
 %
-Depth images are Z-normalized (the mean is subtracted -as it is rather irrelevant to the gesture subclass-
+Depth images are Z-normalized (the mean is subtracted as it is rather irrelevant to the gesture subclass 
 and the result divided by the standard deviation), whereas
 RGB images are only normalized by the image standard deviation.
 The outcome is illustrated in Fig.~\ref{3dcnn_filters}.
@@ -281,7 +281,7 @@ The outcome is illustrated in Fig.~\ref{3dcnn_filters}.
 \subsubsection{3DCNN Architecture}
 \label{sec:3dcnnArchitecture}
 
-This  architecture consists of a series of layers composed of either convolution, pooling or, in the last layer, fully connected layers.
+This  architecture consists of a series of layers composed of either convolution, pooling or fully connected layers.
 The 3D convolution itself is achieved by convolving a 3D kernel to the cuboid formed by stacking multiple contiguous frames together.
 We follow the nomenclature of ~\cite{ji20133d}.
 However, instead of using $tanh$ units~\cite{ji20133d},  Rectified Linear Units (\emph{ReLUs})~\cite{krizhevsky2012imagenet}
@@ -347,7 +347,7 @@ Finally, when looking at the joint depth-image response maps, we  notice that so
   \includegraphics[width=0.85\textwidth]{images/CNN_filters}
   \caption{
   \small{Visualization of input frames, first convolutional layer $5\times5$ filters, and corresponding response maps.
-As depth images are smoother than the grayscale ones, the corresponding filter are smoother as well.}
+As depth images are smoother than the grayscale ones, the corresponding filters are smoother as well.}
 }\label{3dcnn_filters}
 \end{figure*}
 
