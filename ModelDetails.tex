@@ -368,7 +368,7 @@ This scheme fuses the combination of the emission probabilities estimated from t
 While different combination schemes exist, here we considered a simple linear combination:
 
 \begin{equation}
-\log \emissionprob  \propto  \alpha \cdot \log \emissionprobSK + (1-\alpha)\cdot \log \emissionprobRGBD
+\emissionprob  \propto  \alpha \cdot  \emissionprobSK + (1-\alpha)\cdot  \emissionprobRGBD
 \end{equation}
 where the different emission probabilities are provided by the modules described in \ref{sec:skeleton_module} and \ref{sec:rgbd_modules},
 and $\alpha$ is a coefficient that controls the contributions of each source of information and which is estimated by cross validation.
