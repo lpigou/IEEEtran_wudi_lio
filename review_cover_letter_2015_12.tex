@@ -1,0 +1,80 @@
+\documentclass[12pt]{article}
+\usepackage{url,graphicx,tabularx,array}
+\usepackage{color}
+\usepackage[margin=22mm,nohead,nofoot]{geometry}
+\usepackage{xr}
+\externaldocument{bare_jrnl_compsoc}
+\begin{document}
+
+\begin{center}
+\end{center}
+
+\newcommand{\rev}[1]{{\noindent {\bf Comment:} {\it #1}}~\\}
+\newcommand{\ans}[1]{{\noindent {\bf Response:} #1}~\\}
+
+
+\begin{flushleft}
+December 8th, 2015
+\end{flushleft}
+
+\vspace*{3mm}
+
+\begin{flushleft}
+To: Editor TPAMI
+\end{flushleft}
+
+\begin{flushleft}
+TPAMISI-2015-01-0002 submission - \\
+{\em Deep Dynamic Neural Networks for Multimodal Gesture Segmentation and Recognition}.
+\end{flushleft}
+
+\vspace*{3mm}
+
+\pagestyle{empty}
+
+\noindent Dear Guest Editor,
+\newline
+
+
+
+This letter is in response to the second round review of our submitted manuscript referenced above on ``Deep Dynamic Neural Networks for Multimodal Gesture Segmentation and Recognition".
+%multimodal gesture recognition using dynamic deep neural networks.
+%
+We would first like to thank the reviewers and guest editor for their time and valuable comments which help us to improve the analysis of the proposed method and overall presentation of the paper.
+We also appreciate the overall positive outlooks of the revised paper and the improvements w.r.t the first version manuscript.
+We have taken into careful consideration each one of these comments, and have prepared a detailed response
+in a separate document adjoint to this letter.
+%
+We would like to recall the main contributions of the paper as follows.
+Within an HMM framework allowing for the simultaneous gesture recognition and segmentation, we propose:
+\begin{itemize}
+\item A Gaussian-Bernoulli Deep Belief Network with pre-training is proposed to extracts high-level skeletal joint features and the learned representation is used to estimate the emission probability needed to infer gesture sequences;
+\item A learning framework is proposed to extract temporal features jointly from multiple channel inputs of RGB images and depth images. Because the features are learned from raw 2D images stacked along the 1D temporal domain, we refer our approach as 3D Convolutional Neural Network;
+\item Intermediate fusion and late fusion are investigated as different strategies to model emission probability within the temporal modeling. Both strategies show that multiple-channel fusions outperform each individual module.
+\item The difference of mean activations in intermediate fusion due to different activation functions is analyzed which is a contribution itself so as to spur further investigation to effectively fuse multi-model, various activations.
+\end{itemize}
+
+
+{\noindent \em Modifications}: We now would like to summarize the modifications of manuscript as the following points:
+
+\begin{itemize}
+\item {\em Extensive proof reading and grammatical correction:} We have corrected the typos and grammatical mistakes according to the reviewers' comments and we have thoroughly proof read the revised manuscript for this revision.
+
+\item {\em Related works section (cf Rev3):} We follow reviewers' comments by including discussions of related works, especially for ChaLearn2013, of the exploitations of HMMs (~\cite{nandakumar2013multi, wu2013fusing} and RNNs (~\cite{neverova2013multi}, ~\cite{wu2013fusing, socher2012convolutional}). We also explain the key differences between the aforementioned papers and the proposed approach is that we use HMM for modelling hidden stats of gesture over the joint feature space whilst their HMM models are purely for audio input~\cite{nandakumar2013multi,wu2013fusing}. Our proposed system uses DBN with pre-training to learn the skeleton features instead of the hand crafted features~\cite{neverova2013multi}. Moreover, we explore the late and intermediate fusion scheme instead of the weighted likelihood that is adopted by~\cite{nandakumar2013multi}. Albeit the intermediate fusion scheme does not outperform late fusion, the discrepancy is a contribution in itself.
+
+\item {\em Updates of figures:} We have updated and clarified figures in a clearer manor.
+%
+ \item {\em Fore alignment interpretation (cf Rev1): }: While discussing the model formulation, we have added more description and potential improvement of force alignment scheme in Section 4.1 from the works of speech recognition community~\cite{yu2012automatic}.
+
+\end{itemize}
+We hope that these new clarifications, and paper modifications will satisfy the reviewers as well as address your own comments. We thank you again for your time and consideration of our manuscript.
+
+\noindent Sincerely,\\[3mm]
+Di Wu, Lionel Pigou, Pieter-Jan Kindermans, Nam Le, Ling Shao, Joni Dambre, and Jean-Marc Odobez
+
+\bibliographystyle{IEEEtran}
+\bibliography{tPAMI2015}
+
+
+\end{document}
+
