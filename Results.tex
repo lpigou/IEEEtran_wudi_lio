@@ -492,7 +492,7 @@ using handcrafted features.
 
 
 \mypartitle{Comparison with the state-of-the-art.}
-The performance of other state-of-the-art techniques is given in Table~\ref{tab:soa}. The first half of the table uses hand crafted feature representations that are subsequently classified. Our proposed system performs on par with the top two methods. However, hand crafted feature methods' performance are unlikely to improve much as more training data becomes available. The representation learning methods in the second half of the Table perform comparably with the best hand crafted feature approaches and the top representation method achieves the best Jaccard index score. Given more training data, it is expected that these networks will be able become even better suited to the ``user independent" setting. It also worth noting that our proposed system is the only method that incorporates more structured temporal modeling. The other approaches resort to a more basic sliding window approach. We believe this is an interesting research direction because an HMM-like approach can be adapted to various lengths of gestures and exploit temporal structure better.
+The performance of other state-of-the-art techniques is given in Table~\ref{tab:soa}. The first half of the table uses hand crafted feature representations that are subsequently classified. Our proposed system performs on par with the top two methods. However, hand crafted feature methods' performance are unlikely to improve much as more training data becomes available. The representation learning methods in the second half of the Table perform comparably with the best hand crafted feature approaches and the top representation method achieves the best Jaccard index score. Given more training data, it is expected that these networks will be able to become even better suited to the ``user independent" setting. It also worth noting that our proposed system is the only method that incorporates more structured temporal modeling. The other approaches resort to a more basic sliding window approach. We believe this is an interesting research direction because an HMM-like approach can be adapted to various lengths of gestures and exploit temporal structure better.
 
 %\mypartitle{Comparison with the state-of-the-art. In particular, add discussion that other temporal module could be used,
 %including those that could lead to the training of a full deep neural network.  }
@@ -618,7 +618,7 @@ More specifically, a single feedforward neural network incurs linear computation
 The computational complexity of the Viterbi algorithm is $\mathcal{O} (T* |S|^2)$, where
 $T$ is the number of frames and $|S|$ the number of states, and can be executed in real-time given our state-space.
 In practice, our multimodal neural network can be deployed at 90 FPS.
-Remarkably. the preprocessing steps take most of the time and an unoptimized version runs already at 25 FPS, while the
+Remarkably, the preprocessing steps take most of the time and an unoptimized version runs already at 25 FPS, while the
  Viterbi decoding  runs at 90 FPS. Hence, with further optimizations the complete system can achieve faster than real-time performance.
 
 

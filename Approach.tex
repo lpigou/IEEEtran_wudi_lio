@@ -112,13 +112,13 @@ Traditionally, emission probabilities for activity recognition are learned by Ga
 %
 Alternatively, in this work we propose to model this term in a discriminative fashion.
 Since the input features have a high dimensionality,
-we propose to learn them using two distinctive types of neural networks each suited to the input modality,
+we propose to learn them using two distinctive types of neural networks each suited to one input modality,
 as summarized in the right of Fig.~\ref{fig:GM}.
 %
 
 Unfortunately, estimating a probability density such as an emission probability remains quite a difficult problem, especially in high dimensions.
 %
-Strictly speaking, discriminative neural networks estimate posterior probabilities $p(\hiddenstate_t | \observation_t)$. Hense to We should divide posteriors by priors  $p(\hiddenstate_t$ to obtain the emission probabilities $p(\observation_t|\hiddenstate_t )$  required by the HMM for decoding. However, using scaled likelihoods may not be beneficial if estimated priors do not match the priors in the test set \cite{morris2001multi}. Therefore, we employ the posteriors directly without dividing by the priors. This is equivalent to assuming that all priors are equal.
+Strictly speaking, discriminative neural networks estimate posterior probabilities $p(\hiddenstate_t | \observation_t)$. Hence we should divide posteriors by priors  $p(\hiddenstate_t)$ to obtain the emission probabilities $p(\observation_t|\hiddenstate_t )$  required by the HMM for decoding. However, using scaled likelihoods may not be beneficial if estimated priors do not match the priors in the test set \cite{morris2001multi}. Therefore, we employ the posteriors directly without dividing by the priors. This is equivalent to assuming that all priors are equal.
 %
 Using this approach inference in the HMM depends only on the ratio between emission probabilities for the different states. One can interpret that the models are trained to directly predict the ratio between emission probabilities. This is similar to the approach used by Kindermans et al. to integrate transfer learning and an HMM-based language model into a single probabilistic model \cite{Kindermans2012a}.
 One should think of the predicted emission probability ratio as an unnormalized version of the true emission probability. Nevertheless, to simplify the discussion of our models for readers with a basic understanding of HMMs, we will refer to the predicted emission probability ratio simply as emission probabilities since the underlying model remains unchanged.
