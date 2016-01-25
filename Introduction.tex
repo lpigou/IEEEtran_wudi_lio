@@ -27,8 +27,9 @@ for instance in the context of audio-visual speech recognition.
 %
 And recently, Baidu research proposed the DeepSpeech system~\cite{hannun2014deepspeech} that combines a well-optimised recurrent neural network (RNN) training system, achieving the lowest error rate on a noisy speech dataset. Across the aforementioned research fields, deep architectures have shown great capacity to discover and extract higher level relevant features.
 
-However, direct and unconstrained learning of these complex models remains non-trivial, since the amount of  training data required increases drastically with the complexity of the prediction model and % This is saying the same again should not be here. Does not add any information!!! (ii) training highly complex models with very general learning algorithms is extremely difficult.
-it is therefore a common practice to restrain the complexity of the model. This is generally done by operating on small patches to reduce the input dimension and diversity~\cite{baccouche2005spatio}, or by training the model in an unsupervised manner~\cite{le2011learning} such that more (unlabelled) data can be used, or by forcing the model parameters to be identical for different input locations (as in convolutional neural networks~\cite{krizhevsky2012imagenet,ciresan2012multi,3dcnn}).
+However, direct and unconstrained learning of these complex models remains non-trivial, since the amount of  training data required increases drastically with the complexity of the prediction model. % This is saying the same again should not be here. Does not add any information!!! (ii) training highly complex models with very general learning algorithms is extremely difficult.
+It is therefore a common practice to restrain the complexity of the model. This is generally done by operating on small patches to reduce the input dimension and diversity~\cite{baccouche2005spatio}, or by training the model in an unsupervised manner~\cite{le2011learning} such that more (unlabelled) data can be used, or by forcing the model parameters to be identical for different input locations (as in convolutional neural networks~\cite{krizhevsky2012imagenet,ciresan2012multi,3dcnn}).
+
 
 
 Thanks to the immense popularity of the Microsoft Kinect~\cite{shotton2011real}~\cite{lingshao2}, there has been a surge in interest in developing methods for human gesture and action recognition from 3D skeletal data and depth images.
@@ -44,6 +45,7 @@ The key contributions can be summarized as follows:
 \item A 3D Convolutional Neural Network  is proposed to extract features from 2D multiple channel inputs like depth and RGB images stacked along the 1D temporal domain;
 \item Intermediate and late fusion strategies are investigated in combination with the temporal modelling. The results of both mechanisms show that multiple-channel fusions outperform individual modules;
 \item The difference of mean activations in intermediate fusion due to different activation functions is analyzed. This is a contribution itself, and should spur further investigation into effectively fusing various multi-model activations.
+
 \end{itemize}
 
 The remainder of this paper is organised as follows. Section II reviews related work on gesture recognition using temporal models and recent deep learning work on RGB-D data. Section III introduces the formulation of our Deep Dynamic Neural Network model and the intuition behind the high level feature extraction. Section IV details the model implementation. Section V presents the experimental analysis and Section VI concludes the paper with discussions related to future work.
